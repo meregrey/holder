@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		60735617F7FE4C51A00A7BA7 /* libPods-Hook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E4130F480F622AAD23E6D8E /* libPods-Hook.a */; };
+		672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FD62771A7580075F348 /* KeychainManager.swift */; };
+		672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FD92771A7A70075F348 /* KeychainError.swift */; };
+		672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FDC2771A8080075F348 /* KeychainItem.swift */; };
 		67EDC91827717476003F646F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EDC91727717476003F646F /* AppDelegate.swift */; };
 		67EDC92127717477003F646F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92027717477003F646F /* Assets.xcassets */; };
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
@@ -16,6 +19,9 @@
 /* Begin PBXFileReference section */
 		04DE1CB86686785A1309BB23 /* Pods-Hook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hook.release.xcconfig"; path = "Target Support Files/Pods-Hook/Pods-Hook.release.xcconfig"; sourceTree = "<group>"; };
 		5E4130F480F622AAD23E6D8E /* libPods-Hook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hook.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		672B2FD62771A7580075F348 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		672B2FD92771A7A70075F348 /* KeychainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainError.swift; sourceTree = "<group>"; };
+		672B2FDC2771A8080075F348 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		67EDC91427717476003F646F /* Hook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67EDC91727717476003F646F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67EDC92027717477003F646F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -36,6 +42,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		672B2FD52771A73E0075F348 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				672B2FD62771A7580075F348 /* KeychainManager.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		672B2FD82771A7990075F348 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				672B2FD92771A7A70075F348 /* KeychainError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		672B2FDB2771A7D30075F348 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				672B2FDC2771A8080075F348 /* KeychainItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		67EDC90B27717476003F646F = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				67EDC92B277175AF003F646F /* App */,
+				672B2FDB2771A7D30075F348 /* Models */,
+				672B2FD52771A73E0075F348 /* Utils */,
+				672B2FD82771A7990075F348 /* Errors */,
 				67EDC92C277175C4003F646F /* Resources */,
 			);
 			path = Hook;
@@ -87,7 +120,6 @@
 				C95653514DC318383C46E2D0 /* Pods-Hook.debug.xcconfig */,
 				04DE1CB86686785A1309BB23 /* Pods-Hook.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -195,7 +227,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */,
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
+				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
+				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
