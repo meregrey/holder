@@ -1,0 +1,6 @@
+module RIBs {
+  umbrella header "RIBs-umbrella.h"
+
+  export *
+  module * { export * }
+}
