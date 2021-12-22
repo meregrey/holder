@@ -13,6 +13,10 @@
 		672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FDC2771A8080075F348 /* KeychainItem.swift */; };
 		672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FDF2771B6420075F348 /* CredentialRepository.swift */; };
 		672B2FE22771B6820075F348 /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FE12771B6820075F348 /* Credential.swift */; };
+		672B2FE42771CE3E0075F348 /* LoginStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FE32771CE3E0075F348 /* LoginStateStream.swift */; };
+		672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FE52771CFCF0075F348 /* LoginState.swift */; };
+		672B2FE82771D1810075F348 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FE72771D1810075F348 /* AppComponent.swift */; };
+		672B2FEA2773275C0075F348 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FE92773275C0075F348 /* Notification.swift */; };
 		67EDC91827717476003F646F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EDC91727717476003F646F /* AppDelegate.swift */; };
 		67EDC92127717477003F646F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92027717477003F646F /* Assets.xcassets */; };
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
@@ -26,6 +30,10 @@
 		672B2FDC2771A8080075F348 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		672B2FDF2771B6420075F348 /* CredentialRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialRepository.swift; sourceTree = "<group>"; };
 		672B2FE12771B6820075F348 /* Credential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credential.swift; sourceTree = "<group>"; };
+		672B2FE32771CE3E0075F348 /* LoginStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateStream.swift; sourceTree = "<group>"; };
+		672B2FE52771CFCF0075F348 /* LoginState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginState.swift; sourceTree = "<group>"; };
+		672B2FE72771D1810075F348 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		672B2FE92773275C0075F348 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		67EDC91427717476003F646F /* Hook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67EDC91727717476003F646F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67EDC92027717477003F646F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
+				672B2FE92773275C0075F348 /* Notification.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -67,6 +76,7 @@
 			children = (
 				672B2FE12771B6820075F348 /* Credential.swift */,
 				672B2FDC2771A8080075F348 /* KeychainItem.swift */,
+				672B2FE52771CFCF0075F348 /* LoginState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -114,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				67EDC91727717476003F646F /* AppDelegate.swift */,
+				672B2FE72771D1810075F348 /* AppComponent.swift */,
+				672B2FE32771CE3E0075F348 /* LoginStateStream.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -246,7 +258,11 @@
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
 				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
+				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
+				672B2FEA2773275C0075F348 /* Notification.swift in Sources */,
+				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
+				672B2FE42771CE3E0075F348 /* LoginStateStream.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
