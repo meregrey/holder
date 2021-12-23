@@ -43,12 +43,24 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        registerToReceiveNotification()
         subscribeLoginStateStream()
         validateCredential()
     }
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationDidBecomeActive),
+                                               name: NotificationName.applicationDidBecomeActive,
+                                               object: nil)
+    }
+    
+    @objc private func applicationDidBecomeActive() {
+        validateCredential()
     }
     
     private func subscribeLoginStateStream() {

@@ -23,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        NotificationCenter.default.post(name: NotificationName.applicationDidBecomeActive, object: nil)
+    }
+    
     private func launchRoot() {
         guard let window = window else { return }
         let root = RootBuilder(dependency: component).build()
