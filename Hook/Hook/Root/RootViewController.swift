@@ -11,7 +11,7 @@ import UIKit
 
 protocol RootPresentableListener: AnyObject {}
 
-final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
+final class RootViewController: UIViewController, RootPresentable, RootViewControllable, LoggedInViewControllable {
 
     weak var listener: RootPresentableListener?
 }

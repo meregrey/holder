@@ -9,7 +9,10 @@ import AuthenticationServices
 import RIBs
 import RxSwift
 
-protocol RootRouting: ViewableRouting {}
+protocol RootRouting: ViewableRouting {
+    func routeToLoggedOut()
+    func routeToLoggedIn(withCredential credential: Credential)
+}
 
 protocol RootPresentable: Presentable {
     var listener: RootPresentableListener? { get set }
@@ -40,11 +43,25 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        subscribeLoginStateStream()
         validateCredential()
     }
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    private func subscribeLoginStateStream() {
+        loginStateStream.loginState
+            .subscribe(onNext: { self.determineToRoute(withLoginState: $0) })
+            .disposeOnDeactivate(interactor: self)
+    }
+    
+    private func determineToRoute(withLoginState loginState: LoginState) {
+        switch loginState {
+        case .loggedOut: router?.routeToLoggedOut()
+        case .loggedIn(let credential): router?.routeToLoggedIn(withCredential: credential)
+        }
     }
     
     private func validateCredential() {
@@ -57,7 +74,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
             authenticateCredential(credential)
         case .failure(let error):
             loginStateStream.update(loginState: .loggedOut)
-            postNotification(with: error)
+            postNotification(withError: error)
         }
     }
     
@@ -78,11 +95,11 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         case .success(()):
             break
         case .failure(let error):
-            postNotification(with: error)
+            postNotification(withError: error)
         }
     }
     
-    private func postNotification(with error: Error) {
+    private func postNotification(withError error: Error) {
         NotificationCenter.default.post(name: NotificationName.credentialErrorDidOccur,
                                         object: nil,
                                         userInfo: [NotificationUserInfoKey.error: error])
