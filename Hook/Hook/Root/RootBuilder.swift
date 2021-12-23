@@ -9,7 +9,17 @@ import RIBs
 
 protocol RootDependency: Dependency {}
 
-final class RootComponent: Component<RootDependency> {}
+final class RootComponent: Component<RootDependency>, RootInteractorDependency {
+    
+    var credentialRepository: CredentialRepositoryType
+    var loginStateStream: MutableLoginStateStreamType
+    
+    override init(dependency: RootDependency) {
+        self.credentialRepository = CredentialRepository(keychainManager: KeychainManager())
+        self.loginStateStream = LoginStateStream()
+        super.init(dependency: dependency)
+    }
+}
 
 // MARK: - Builder
 
@@ -26,7 +36,7 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
     func build() -> LaunchRouting {
         let component = RootComponent(dependency: dependency)
         let viewController = RootViewController()
-        let interactor = RootInteractor(presenter: viewController)
+        let interactor = RootInteractor(presenter: viewController, dependency: component)
         return RootRouter(interactor: interactor, viewController: viewController)
     }
 }
