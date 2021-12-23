@@ -7,15 +7,9 @@
 
 import RIBs
 
-final class AppComponent: Component<EmptyDependency> {
+final class AppComponent: Component<EmptyDependency>, RootDependency {
     
-    let credentialRepository: CredentialRepositoryType
-    
-    var mutableLoginStateStream: MutableLoginStateStreamType { shared { LoginStateStream() } }
-    var loginStateStream: LoginStateStreamType { mutableLoginStateStream }
-    
-    init(credentialRepository: CredentialRepositoryType) {
-        self.credentialRepository = credentialRepository
+    init() {
         super.init(dependency: EmptyComponent())
     }
 }
