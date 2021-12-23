@@ -21,6 +21,14 @@
 		672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEE27749AA90075F348 /* RootBuilder.swift */; };
 		672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEF27749AA90075F348 /* RootInteractor.swift */; };
 		672B2FF52774A2CE0075F348 /* LoginStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FF42774A2CE0075F348 /* LoginStateStream.swift */; };
+		67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */; };
+		67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */; };
+		67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */; };
+		67BDEA2C2774C7E70031FEC1 /* LoggedOutInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA282774C7E70031FEC1 /* LoggedOutInteractor.swift */; };
+		67BDEA312774C81F0031FEC1 /* LoggedInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA2E2774C81F0031FEC1 /* LoggedInRouter.swift */; };
+		67BDEA322774C81F0031FEC1 /* LoggedInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA2F2774C81F0031FEC1 /* LoggedInBuilder.swift */; };
+		67BDEA332774C81F0031FEC1 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */; };
+		67BDEA352774CD210031FEC1 /* ViewControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA342774CD210031FEC1 /* ViewControllable.swift */; };
 		67EDC91827717476003F646F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EDC91727717476003F646F /* AppDelegate.swift */; };
 		67EDC92127717477003F646F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92027717477003F646F /* Assets.xcassets */; };
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
@@ -42,6 +50,14 @@
 		672B2FEE27749AA90075F348 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		672B2FEF27749AA90075F348 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		672B2FF42774A2CE0075F348 /* LoginStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateStream.swift; sourceTree = "<group>"; };
+		67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
+		67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
+		67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
+		67BDEA282774C7E70031FEC1 /* LoggedOutInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutInteractor.swift; sourceTree = "<group>"; };
+		67BDEA2E2774C81F0031FEC1 /* LoggedInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInRouter.swift; sourceTree = "<group>"; };
+		67BDEA2F2774C81F0031FEC1 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
+		67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
+		67BDEA342774CD210031FEC1 /* ViewControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllable.swift; sourceTree = "<group>"; };
 		67EDC91427717476003F646F /* Hook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67EDC91727717476003F646F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67EDC92027717477003F646F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -67,6 +83,7 @@
 			children = (
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
 				672B2FE92773275C0075F348 /* Notification.swift */,
+				67BDEA342774CD210031FEC1 /* ViewControllable.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -109,6 +126,27 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
+		67BDEA242774C7C40031FEC1 /* LoggedOut */ = {
+			isa = PBXGroup;
+			children = (
+				67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */,
+				67BDEA282774C7E70031FEC1 /* LoggedOutInteractor.swift */,
+				67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */,
+				67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */,
+			);
+			path = LoggedOut;
+			sourceTree = "<group>";
+		};
+		67BDEA2D2774C7F30031FEC1 /* LoggedIn */ = {
+			isa = PBXGroup;
+			children = (
+				67BDEA2E2774C81F0031FEC1 /* LoggedInRouter.swift */,
+				67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */,
+				67BDEA2F2774C81F0031FEC1 /* LoggedInBuilder.swift */,
+			);
+			path = LoggedIn;
+			sourceTree = "<group>";
+		};
 		67EDC90B27717476003F646F = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +170,8 @@
 			children = (
 				67EDC92B277175AF003F646F /* App */,
 				672B2FEB27749A740075F348 /* Root */,
+				67BDEA242774C7C40031FEC1 /* LoggedOut */,
+				67BDEA2D2774C7F30031FEC1 /* LoggedIn */,
 				672B2FD82771A7990075F348 /* Errors */,
 				672B2FDB2771A7D30075F348 /* Models */,
 				672B2FDE2771B5E70075F348 /* Repositories */,
@@ -274,19 +314,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */,
+				67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */,
+				67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */,
 				672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */,
+				67BDEA322774C81F0031FEC1 /* LoggedInBuilder.swift in Sources */,
+				67BDEA312774C81F0031FEC1 /* LoggedInRouter.swift in Sources */,
 				672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */,
 				672B2FF127749AA90075F348 /* RootViewController.swift in Sources */,
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
 				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
+				67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */,
 				672B2FEA2773275C0075F348 /* Notification.swift in Sources */,
 				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
 				672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */,
 				672B2FF027749AA90075F348 /* RootRouter.swift in Sources */,
+				67BDEA352774CD210031FEC1 /* ViewControllable.swift in Sources */,
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
 				672B2FF52774A2CE0075F348 /* LoginStateStream.swift in Sources */,
+				67BDEA332774C81F0031FEC1 /* LoggedInInteractor.swift in Sources */,
+				67BDEA2C2774C7E70031FEC1 /* LoggedOutInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
