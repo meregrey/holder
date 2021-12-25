@@ -19,8 +19,8 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     private let loggedOut: LoggedOutBuildable
     private let loggedIn: LoggedInBuildable
     
-    private var loggedOutRouting: LoggedOutRouting?
-    private var loggedInRouting: LoggedInRouting?
+    private var loggedOutRouting: Routing?
+    private var loggedInRouting: Routing?
     
     init(interactor: RootInteractable,
          viewController: RootViewControllable,
