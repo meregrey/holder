@@ -11,8 +11,6 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private let component = AppComponent()
-    
     private var rootRouter: LaunchRouting?
     
     var window: UIWindow?
@@ -29,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func launchRoot() {
         guard let window = window else { return }
-        let root = RootBuilder(dependency: component).build()
+        let root = RootBuilder(dependency: AppComponent()).build()
         rootRouter = root
         root.launch(from: window)
     }

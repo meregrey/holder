@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import RxSwift
 import UIKit
 
 protocol RootPresentableListener: AnyObject {}

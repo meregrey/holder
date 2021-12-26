@@ -7,7 +7,6 @@
 
 import AuthenticationServices
 import RIBs
-import RxSwift
 import UIKit
 
 protocol LoggedOutPresentableListener: AnyObject {

@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol LoggedInRouting: Routing {
     func cleanupViews()
