@@ -52,6 +52,13 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         super.willResignActive()
     }
     
+    func didSucceedLogin(withCredential credential: Credential) {
+        switch credentialRepository.save(credential) {
+        case .success(()): loginStateStream.update(loginState: .loggedIn(credential: credential))
+        case .failure(let error): postNotification(withError: error)
+        }
+    }
+    
     private func registerToReceiveNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(applicationDidBecomeActive),
