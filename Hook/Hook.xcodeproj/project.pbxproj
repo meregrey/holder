@@ -29,6 +29,9 @@
 		67BDEA322774C81F0031FEC1 /* LoggedInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA2F2774C81F0031FEC1 /* LoggedInBuilder.swift */; };
 		67BDEA332774C81F0031FEC1 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */; };
 		67BDEA352774CD210031FEC1 /* ViewControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA342774CD210031FEC1 /* ViewControllable.swift */; };
+		67BDEA37277764CA0031FEC1 /* AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA36277764CA0031FEC1 /* AutoLayout.swift */; };
+		67BDEA39277768B10031FEC1 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA38277768B10031FEC1 /* Size.swift */; };
+		67BDEA3B277786C80031FEC1 /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA3A277786C80031FEC1 /* Convertible.swift */; };
 		67EDC91827717476003F646F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EDC91727717476003F646F /* AppDelegate.swift */; };
 		67EDC92127717477003F646F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92027717477003F646F /* Assets.xcassets */; };
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
@@ -58,6 +61,10 @@
 		67BDEA2F2774C81F0031FEC1 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
 		67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
 		67BDEA342774CD210031FEC1 /* ViewControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllable.swift; sourceTree = "<group>"; };
+		67BDEA36277764CA0031FEC1 /* AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout.swift; sourceTree = "<group>"; };
+		67BDEA38277768B10031FEC1 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		67BDEA3A277786C80031FEC1 /* Convertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convertible.swift; sourceTree = "<group>"; };
+		67BDEA3C27783E960031FEC1 /* Hook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hook.entitlements; sourceTree = "<group>"; };
 		67EDC91427717476003F646F /* Hook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67EDC91727717476003F646F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67EDC92027717477003F646F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,8 +88,11 @@
 		672B2FD52771A73E0075F348 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				67BDEA36277764CA0031FEC1 /* AutoLayout.swift */,
+				67BDEA3A277786C80031FEC1 /* Convertible.swift */,
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
 				672B2FE92773275C0075F348 /* Notification.swift */,
+				67BDEA38277768B10031FEC1 /* Size.swift */,
 				67BDEA342774CD210031FEC1 /* ViewControllable.swift */,
 			);
 			path = Utils;
@@ -168,6 +178,7 @@
 		67EDC91627717476003F646F /* Hook */ = {
 			isa = PBXGroup;
 			children = (
+				67BDEA3C27783E960031FEC1 /* Hook.entitlements */,
 				67EDC92B277175AF003F646F /* App */,
 				672B2FEB27749A740075F348 /* Root */,
 				67BDEA242774C7C40031FEC1 /* LoggedOut */,
@@ -329,6 +340,9 @@
 				672B2FEA2773275C0075F348 /* Notification.swift in Sources */,
 				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
 				672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */,
+				67BDEA39277768B10031FEC1 /* Size.swift in Sources */,
+				67BDEA37277764CA0031FEC1 /* AutoLayout.swift in Sources */,
+				67BDEA3B277786C80031FEC1 /* Convertible.swift in Sources */,
 				672B2FF027749AA90075F348 /* RootRouter.swift in Sources */,
 				67BDEA352774CD210031FEC1 /* ViewControllable.swift in Sources */,
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
@@ -474,6 +488,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hook/Hook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW42B33394;
@@ -503,6 +518,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hook/Hook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW42B33394;
