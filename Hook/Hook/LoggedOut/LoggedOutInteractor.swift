@@ -14,7 +14,9 @@ protocol LoggedOutPresentable: Presentable {
     var listener: LoggedOutPresentableListener? { get set }
 }
 
-protocol LoggedOutListener: AnyObject {}
+protocol LoggedOutListener: AnyObject {
+    func didSucceedLogin(withCredential credential: Credential)
+}
 
 final class LoggedOutInteractor: PresentableInteractor<LoggedOutPresentable>, LoggedOutInteractable, LoggedOutPresentableListener {
 
@@ -32,5 +34,9 @@ final class LoggedOutInteractor: PresentableInteractor<LoggedOutPresentable>, Lo
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didSucceedLogin(withCredential credential: Credential) {
+        listener?.didSucceedLogin(withCredential: credential)
     }
 }
