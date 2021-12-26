@@ -8,8 +8,7 @@
 import Foundation
 
 enum KeychainError: Error {
-    case failedToDecode
-    case failedToEncode
+    case failedToConvert
     case invalidData
     case unhandledError(status: OSStatus)
 }

@@ -8,32 +8,32 @@
 import Foundation
 
 protocol KeychainManageable {
-    func addItem<T: Encodable>(_ value: T,
-                               itemClass: CFString,
-                               itemAttributes: [CFString: Any]) throws
+    func addItem<T: Convertible>(_ value: T,
+                                 itemClass: CFString,
+                                 itemAttributes: [CFString: Any]) throws
     
-    func searchItem<T: Decodable>(ofClass itemClass: CFString,
-                                  itemAttributes: [CFString: Any]) throws -> KeychainItem<T>?
+    func searchItem<T: Convertible>(ofClass itemClass: CFString,
+                                    itemAttributes: [CFString: Any]) throws -> KeychainItem<T>?
     
-    func deleteItem<T: Encodable>(_ value: T,
-                                  itemClass: CFString,
-                                  itemAttributes: [CFString: Any]) throws
+    func deleteItem<T: Convertible>(_ value: T,
+                                    itemClass: CFString,
+                                    itemAttributes: [CFString: Any]) throws
 }
 
 final class KeychainManager: KeychainManageable {
     
-    func addItem<T: Encodable>(_ value: T,
-                               itemClass: CFString,
-                               itemAttributes: [CFString: Any]) throws {
-        guard let data = try? JSONEncoder().encode(value) else { throw KeychainError.failedToEncode }
+    func addItem<T: Convertible>(_ value: T,
+                                 itemClass: CFString,
+                                 itemAttributes: [CFString: Any]) throws {
+        let data = value.converted()
         var query: [CFString: Any] = [kSecClass: itemClass, kSecValueData: data]
         itemAttributes.forEach { query[$0.key] = $0.value }
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
     }
     
-    func searchItem<T: Decodable>(ofClass itemClass: CFString,
-                                  itemAttributes: [CFString: Any]) throws -> KeychainItem<T>? {
+    func searchItem<T: Convertible>(ofClass itemClass: CFString,
+                                    itemAttributes: [CFString: Any]) throws -> KeychainItem<T>? {
         var query: [CFString: Any] = [kSecClass: itemClass,
                                       kSecMatchLimit: kSecMatchLimitOne,
                                       kSecReturnData: true,
@@ -46,20 +46,20 @@ final class KeychainManager: KeychainManageable {
         return try makeKeychainItem(with: item)
     }
     
-    func deleteItem<T: Encodable>(_ value: T,
-                                  itemClass: CFString,
-                                  itemAttributes: [CFString: Any]) throws {
-        guard let data = try? JSONEncoder().encode(value) else { throw KeychainError.failedToEncode }
+    func deleteItem<T: Convertible>(_ value: T,
+                                    itemClass: CFString,
+                                    itemAttributes: [CFString: Any]) throws {
+        let data = value.converted()
         var query: [CFString: Any] = [kSecClass: itemClass, kSecValueData: data]
         itemAttributes.forEach { query[$0.key] = $0.value }
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
     }
     
-    private func makeKeychainItem<T: Decodable>(with object: CFTypeRef?) throws -> KeychainItem<T> {
+    private func makeKeychainItem<T: Convertible>(with object: CFTypeRef?) throws -> KeychainItem<T> {
         guard let data = object.flatMap({ $0 as? [CFString: Any] })
                                .flatMap({ $0[kSecValueData] as? Data }) else { throw KeychainError.invalidData }
-        guard let value = try? JSONDecoder().decode(T.self, from: data) else { throw KeychainError.failedToDecode }
+        guard let value = T.converted(from: data) else { throw KeychainError.failedToConvert }
         let account = object.flatMap({ $0 as? [CFString: Any] })
                             .flatMap({ $0[kSecAttrAccount] as? String })
         return KeychainItem(value: value, account: account)

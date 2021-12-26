@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeychainItem<T: Decodable> {
+struct KeychainItem<T: Convertible> {
     let value: T
     let account: String?
 }
