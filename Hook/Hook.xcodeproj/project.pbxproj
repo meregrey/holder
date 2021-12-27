@@ -271,9 +271,9 @@
 			buildConfigurationList = 670FF4D527799B4E00F4E64D /* Build configuration list for PBXNativeTarget "HookTests" */;
 			buildPhases = (
 				0004CC2435CFF063F19EFE39 /* [CP] Check Pods Manifest.lock */,
-				670FF4C927799B4E00F4E64D /* Sources */,
-				670FF4CA27799B4E00F4E64D /* Frameworks */,
 				670FF4CB27799B4E00F4E64D /* Resources */,
+				670FF4CA27799B4E00F4E64D /* Frameworks */,
+				670FF4C927799B4E00F4E64D /* Sources */,
 			);
 			buildRules = (
 			);
@@ -290,9 +290,9 @@
 			buildConfigurationList = 67EDC92827717477003F646F /* Build configuration list for PBXNativeTarget "Hook" */;
 			buildPhases = (
 				8DC8404D3AB0BFC1505CE632 /* [CP] Check Pods Manifest.lock */,
-				67EDC91027717476003F646F /* Sources */,
-				67EDC91127717476003F646F /* Frameworks */,
 				67EDC91227717476003F646F /* Resources */,
+				67EDC91127717476003F646F /* Frameworks */,
+				67EDC91027717476003F646F /* Sources */,
 			);
 			buildRules = (
 			);
