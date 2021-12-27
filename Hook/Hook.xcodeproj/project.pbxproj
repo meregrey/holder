@@ -37,9 +37,20 @@
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		670FF4D127799B4E00F4E64D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67EDC90C27717476003F646F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67EDC91327717476003F646F;
+			remoteInfo = Hook;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		04DE1CB86686785A1309BB23 /* Pods-Hook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hook.release.xcconfig"; path = "Target Support Files/Pods-Hook/Pods-Hook.release.xcconfig"; sourceTree = "<group>"; };
 		5E4130F480F622AAD23E6D8E /* libPods-Hook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hook.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		670FF4CD27799B4E00F4E64D /* HookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		672B2FD62771A7580075F348 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		672B2FD92771A7A70075F348 /* KeychainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainError.swift; sourceTree = "<group>"; };
 		672B2FDC2771A8080075F348 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -74,6 +85,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		670FF4CA27799B4E00F4E64D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67EDC91127717476003F646F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,6 +103,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		670FF4CE27799B4E00F4E64D /* HookTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HookTests;
+			sourceTree = "<group>";
+		};
 		672B2FD52771A73E0075F348 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				67EDC91627717476003F646F /* Hook */,
+				670FF4CE27799B4E00F4E64D /* HookTests */,
 				67EDC91527717476003F646F /* Products */,
 				AADF5658CC2FB2B881155C81 /* Pods */,
 				D9737842FF022C304509FA89 /* Frameworks */,
@@ -171,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				67EDC91427717476003F646F /* Hook.app */,
+				670FF4CD27799B4E00F4E64D /* HookTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -231,6 +258,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		670FF4CC27799B4E00F4E64D /* HookTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 670FF4D527799B4E00F4E64D /* Build configuration list for PBXNativeTarget "HookTests" */;
+			buildPhases = (
+				670FF4C927799B4E00F4E64D /* Sources */,
+				670FF4CA27799B4E00F4E64D /* Frameworks */,
+				670FF4CB27799B4E00F4E64D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				670FF4D227799B4E00F4E64D /* PBXTargetDependency */,
+			);
+			name = HookTests;
+			productName = HookTests;
+			productReference = 670FF4CD27799B4E00F4E64D /* HookTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		67EDC91327717476003F646F /* Hook */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 67EDC92827717477003F646F /* Build configuration list for PBXNativeTarget "Hook" */;
@@ -259,6 +304,10 @@
 				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
+					670FF4CC27799B4E00F4E64D = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 67EDC91327717476003F646F;
+					};
 					67EDC91327717476003F646F = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -278,11 +327,19 @@
 			projectRoot = "";
 			targets = (
 				67EDC91327717476003F646F /* Hook */,
+				670FF4CC27799B4E00F4E64D /* HookTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		670FF4CB27799B4E00F4E64D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67EDC91227717476003F646F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -320,6 +377,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		670FF4C927799B4E00F4E64D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67EDC91027717476003F646F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,6 +418,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		670FF4D227799B4E00F4E64D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67EDC91327717476003F646F /* Hook */;
+			targetProxy = 670FF4D127799B4E00F4E64D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		67EDC92227717477003F646F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -366,6 +438,54 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		670FF4D327799B4E00F4E64D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LW42B33394;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meregrey.hook-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hook.app/Hook";
+			};
+			name = Debug;
+		};
+		670FF4D427799B4E00F4E64D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LW42B33394;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meregrey.hook-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hook.app/Hook";
+			};
+			name = Release;
+		};
 		67EDC92627717477003F646F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -545,6 +665,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		670FF4D527799B4E00F4E64D /* Build configuration list for PBXNativeTarget "HookTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				670FF4D327799B4E00F4E64D /* Debug */,
+				670FF4D427799B4E00F4E64D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		67EDC90F27717476003F646F /* Build configuration list for PBXProject "Hook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
