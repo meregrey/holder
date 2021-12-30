@@ -7,17 +7,16 @@
 
 import RIBs
 
-protocol RootDependency: Dependency {}
+protocol RootDependency: Dependency {
+    var loginStateStream: Stream<LoginState> { get }
+}
 
 final class RootComponent: Component<RootDependency>, RootInteractorDependency, LoggedOutDependency, LoggedInDependency {
     
-    var credentialRepository: CredentialRepositoryType
-    var loginStateStream: MutableLoginStateStreamType
     var loggedInViewController: LoggedInViewControllable
+    var loginStateStream: Stream<LoginState> { dependency.loginStateStream }
     
     init(dependency: RootDependency, loggedInViewController: LoggedInViewControllable) {
-        self.credentialRepository = CredentialRepository(keychainManager: KeychainManager())
-        self.loginStateStream = LoginStateStream()
         self.loggedInViewController = loggedInViewController
         super.init(dependency: dependency)
     }
@@ -26,7 +25,7 @@ final class RootComponent: Component<RootDependency>, RootInteractorDependency, 
 // MARK: - Builder
 
 protocol RootBuildable: Buildable {
-    func build() -> LaunchRouting
+    func build(withListener listener: RootListener) -> LaunchRouting
 }
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
@@ -35,10 +34,11 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         super.init(dependency: dependency)
     }
 
-    func build() -> LaunchRouting {
+    func build(withListener listener: RootListener) -> LaunchRouting {
         let viewController = RootViewController()
         let component = RootComponent(dependency: dependency, loggedInViewController: viewController)
         let interactor = RootInteractor(presenter: viewController, dependency: component)
+        interactor.listener = listener
         let loggedOut = LoggedOutBuilder(dependency: component)
         let loggedIn = LoggedInBuilder(dependency: component)
         return RootRouter(interactor: interactor,

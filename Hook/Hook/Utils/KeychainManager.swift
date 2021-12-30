@@ -11,20 +11,17 @@ protocol KeychainManageable {
     func addItem<T: Convertible>(_ value: T,
                                  itemClass: CFString,
                                  itemAttributes: [CFString: Any]) throws
-    
-    func searchItem<T: Convertible>(ofClass itemClass: CFString,
-                                    itemAttributes: [CFString: Any]) throws -> KeychainItem<T>?
-    
-    func deleteItem<T: Convertible>(_ value: T,
-                                    itemClass: CFString,
-                                    itemAttributes: [CFString: Any]) throws
+    func searchItem<T: Convertible>(ofClass itemClass: CFString, itemAttributes: [CFString: Any]) throws -> KeychainItem<T>?
+    func deleteItem(ofClass itemClass: CFString, itemAttributes: [CFString: Any]) throws
 }
 
 final class KeychainManager: KeychainManageable {
     
+    typealias ItemAttributes = [CFString: Any]
+    
     func addItem<T: Convertible>(_ value: T,
                                  itemClass: CFString,
-                                 itemAttributes: [CFString: Any]) throws {
+                                 itemAttributes: ItemAttributes) throws {
         let data = value.converted()
         var query: [CFString: Any] = [kSecClass: itemClass, kSecValueData: data]
         itemAttributes.forEach { query[$0.key] = $0.value }
@@ -32,8 +29,7 @@ final class KeychainManager: KeychainManageable {
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
     }
     
-    func searchItem<T: Convertible>(ofClass itemClass: CFString,
-                                    itemAttributes: [CFString: Any]) throws -> KeychainItem<T>? {
+    func searchItem<T: Convertible>(ofClass itemClass: CFString, itemAttributes: ItemAttributes) throws -> KeychainItem<T>? {
         var query: [CFString: Any] = [kSecClass: itemClass,
                                       kSecMatchLimit: kSecMatchLimitOne,
                                       kSecReturnData: true,
@@ -46,14 +42,11 @@ final class KeychainManager: KeychainManageable {
         return try makeKeychainItem(with: item)
     }
     
-    func deleteItem<T: Convertible>(_ value: T,
-                                    itemClass: CFString,
-                                    itemAttributes: [CFString: Any]) throws {
-        let data = value.converted()
-        var query: [CFString: Any] = [kSecClass: itemClass, kSecValueData: data]
+    func deleteItem(ofClass itemClass: CFString, itemAttributes: ItemAttributes) throws {
+        var query: [CFString: Any] = [kSecClass: itemClass]
         itemAttributes.forEach { query[$0.key] = $0.value }
         let status = SecItemDelete(query as CFDictionary)
-        guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+        guard status == errSecSuccess || status == errSecItemNotFound else { throw KeychainError.unhandledError(status: status) }
     }
     
     private func makeKeychainItem<T: Convertible>(with object: CFTypeRef?) throws -> KeychainItem<T> {

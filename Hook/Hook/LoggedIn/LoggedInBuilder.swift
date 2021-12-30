@@ -13,9 +13,7 @@ protocol LoggedInDependency: Dependency {
 
 final class LoggedInComponent: Component<LoggedInDependency> {
     
-    fileprivate var loggedInViewController: LoggedInViewControllable {
-        return dependency.loggedInViewController
-    }
+    fileprivate var loggedInViewController: LoggedInViewControllable { dependency.loggedInViewController }
     
     let credential: Credential
     
