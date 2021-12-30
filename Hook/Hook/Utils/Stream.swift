@@ -9,17 +9,17 @@ import RIBs
 import RxRelay
 import RxSwift
 
-fileprivate protocol StreamType: AnyObject {
+fileprivate protocol ReadOnlyStreamType: AnyObject {
     associatedtype T
     var stream: Observable<T> { get }
     func subscribe(disposedOnDeactivate interactor: Interactor, action: @escaping (T) -> Void)
 }
 
-fileprivate protocol MutableStreamType: StreamType {
+fileprivate protocol MutableStreamType: ReadOnlyStreamType {
     func update(withValue value: T)
 }
 
-class Stream<T: Equatable>: StreamType {
+class ReadOnlyStream<T: Equatable>: ReadOnlyStreamType {
 
     fileprivate let relay: BehaviorRelay<T>
 
@@ -40,7 +40,7 @@ class Stream<T: Equatable>: StreamType {
     }
 }
 
-final class MutableStream<T: Equatable>: Stream<T>, MutableStreamType {
+final class MutableStream<T: Equatable>: ReadOnlyStream<T>, MutableStreamType {
     
     func update(withValue value: T) {
         relay.accept(value)

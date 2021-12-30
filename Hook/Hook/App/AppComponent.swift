@@ -11,7 +11,7 @@ final class AppComponent: Component<EmptyDependency>, RootDependency {
     
     let credentialRepository: CredentialRepositoryType
     
-    var loginStateStream: Stream<LoginState> { credentialRepository.loginStateStream }
+    var loginStateStream: ReadOnlyStream<LoginState> { credentialRepository.loginStateStream }
     
     init(credentialRepository: CredentialRepositoryType = CredentialRepository()) {
         self.credentialRepository = credentialRepository

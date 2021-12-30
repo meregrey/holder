@@ -8,13 +8,13 @@
 import RIBs
 
 protocol RootDependency: Dependency {
-    var loginStateStream: Stream<LoginState> { get }
+    var loginStateStream: ReadOnlyStream<LoginState> { get }
 }
 
 final class RootComponent: Component<RootDependency>, RootInteractorDependency, LoggedOutDependency, LoggedInDependency {
     
     var loggedInViewController: LoggedInViewControllable
-    var loginStateStream: Stream<LoginState> { dependency.loginStateStream }
+    var loginStateStream: ReadOnlyStream<LoginState> { dependency.loginStateStream }
     
     init(dependency: RootDependency, loggedInViewController: LoggedInViewControllable) {
         self.loggedInViewController = loggedInViewController

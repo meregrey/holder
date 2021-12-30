@@ -24,14 +24,14 @@ protocol RootListener: AnyObject {
 }
 
 protocol RootInteractorDependency {
-    var loginStateStream: Stream<LoginState> { get }
+    var loginStateStream: ReadOnlyStream<LoginState> { get }
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
     
     private let dependency: RootInteractorDependency
     
-    private var loginStateStream: Stream<LoginState> { dependency.loginStateStream }
+    private var loginStateStream: ReadOnlyStream<LoginState> { dependency.loginStateStream }
 
     weak var router: RootRouting?
     weak var listener: RootListener?

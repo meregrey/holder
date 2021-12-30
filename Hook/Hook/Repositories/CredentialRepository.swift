@@ -9,7 +9,7 @@ import AuthenticationServices
 import Foundation
 
 protocol CredentialRepositoryType {
-    var loginStateStream: Stream<LoginState> { get }
+    var loginStateStream: ReadOnlyStream<LoginState> { get }
     func verify()
     func save(credential: Credential) -> Result<Void, Error>
     func delete()
@@ -21,7 +21,7 @@ final class CredentialRepository: CredentialRepositoryType {
     private let bundleIdentifier = Bundle.main.bundleIdentifier ?? ""
     private let keychainManager: KeychainManageable
     
-    var loginStateStream: Stream<LoginState> { mutableLoginStateStream }
+    var loginStateStream: ReadOnlyStream<LoginState> { mutableLoginStateStream }
     
     init(keychainManager: KeychainManageable = KeychainManager()) {
         self.keychainManager = keychainManager
