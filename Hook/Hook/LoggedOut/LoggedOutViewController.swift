@@ -35,16 +35,16 @@ final class LoggedOutViewController: UIViewController, LoggedOutPresentable, Log
         view.addSubview(stackView)
         configureLoginButton()
         NSLayoutConstraint.activate([
-            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Size.widthMultiplier),
-            stackView.heightAnchor.constraint(equalToConstant: Size.heightForLoginButton),
+            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Size.Multiplier.containerWidth),
+            stackView.heightAnchor.constraint(equalToConstant: Size.Constant.heightforLoginButton),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Size.bottomMarginForLoginButton)
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Size.Constant.bottomForLoginButton)
         ])
     }
     
     private func configureLoginButton() {
         let loginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-        loginButton.cornerRadius = Size.heightForLoginButton
+        loginButton.cornerRadius = Size.Constant.heightforLoginButton
         loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
         stackView.addArrangedSubview(loginButton)
     }
