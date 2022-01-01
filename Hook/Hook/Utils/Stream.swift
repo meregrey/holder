@@ -28,6 +28,8 @@ class ReadOnlyStream<T: Equatable>: ReadOnlyStreamType {
             .asObservable()
             .distinctUntilChanged()
     }
+    
+    var value: T { relay.value }
 
     init(initialValue: T) {
         self.relay = BehaviorRelay(value: initialValue)
