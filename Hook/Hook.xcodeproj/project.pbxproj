@@ -25,6 +25,10 @@
 		673A88A8277BF49E00A89DC7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88A7277BF49E00A89DC7 /* String.swift */; };
 		673A88AD277BF64000A89DC7 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88AC277BF64000A89DC7 /* LocalizedString.swift */; };
 		673A88B2277C05CD00A89DC7 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88B1277C05CD00A89DC7 /* Stream.swift */; };
+		673A88F2277E117F00A89DC7 /* RootInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */; };
+		673A88F5277E11D800A89DC7 /* RootMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88F4277E11D800A89DC7 /* RootMock.swift */; };
+		673A88FC277E139F00A89DC7 /* ViewableRoutingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */; };
+		67A2AFAD277F509E00D3A28D /* ViewControllableMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */; };
 		67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */; };
 		67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */; };
 		67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */; };
@@ -39,6 +43,8 @@
 		67EDC91827717476003F646F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EDC91727717476003F646F /* AppDelegate.swift */; };
 		67EDC92127717477003F646F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92027717477003F646F /* Assets.xcassets */; };
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
+		67F21B58277FE3F900C1E985 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F21B57277FE3F900C1E985 /* AppDelegateTests.swift */; };
+		67F21B5A277FFCB200C1E985 /* AppMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F21B59277FFCB200C1E985 /* AppMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +80,10 @@
 		673A88A7277BF49E00A89DC7 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		673A88AC277BF64000A89DC7 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		673A88B1277C05CD00A89DC7 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
+		673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractorTests.swift; sourceTree = "<group>"; };
+		673A88F4277E11D800A89DC7 /* RootMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootMock.swift; sourceTree = "<group>"; };
+		673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewableRoutingMock.swift; sourceTree = "<group>"; };
+		67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllableMock.swift; sourceTree = "<group>"; };
 		67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
 		67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
@@ -91,6 +101,8 @@
 		67EDC92027717477003F646F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		67EDC92327717477003F646F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		67EDC92527717477003F646F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		67F21B57277FE3F900C1E985 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
+		67F21B59277FFCB200C1E985 /* AppMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMock.swift; sourceTree = "<group>"; };
 		AC21C7F00D33770B60875905 /* Pods-HookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HookTests.release.xcconfig"; path = "Target Support Files/Pods-HookTests/Pods-HookTests.release.xcconfig"; sourceTree = "<group>"; };
 		C95653514DC318383C46E2D0 /* Pods-Hook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hook.debug.xcconfig"; path = "Target Support Files/Pods-Hook/Pods-Hook.debug.xcconfig"; sourceTree = "<group>"; };
 		F811AAEB8B93A88A09DC7BE6 /* libPods-HookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +131,9 @@
 		670FF4CE27799B4E00F4E64D /* HookTests */ = {
 			isa = PBXGroup;
 			children = (
+				67F21B56277FE3EE00C1E985 /* App */,
+				673A88EF277E117400A89DC7 /* Root */,
+				673A88F6277E130D00A89DC7 /* TestSupport */,
 			);
 			path = HookTests;
 			sourceTree = "<group>";
@@ -190,6 +205,24 @@
 				67BDEA38277768B10031FEC1 /* Size.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		673A88EF277E117400A89DC7 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */,
+				673A88F4277E11D800A89DC7 /* RootMock.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		673A88F6277E130D00A89DC7 /* TestSupport */ = {
+			isa = PBXGroup;
+			children = (
+				673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */,
+				67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */,
+			);
+			path = TestSupport;
 			sourceTree = "<group>";
 		};
 		67BDEA242774C7C40031FEC1 /* LoggedOut */ = {
@@ -268,6 +301,15 @@
 				673A88A4277BF2F100A89DC7 /* Localizable.strings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		67F21B56277FE3EE00C1E985 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				67F21B57277FE3F900C1E985 /* AppDelegateTests.swift */,
+				67F21B59277FFCB200C1E985 /* AppMock.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		AADF5658CC2FB2B881155C81 /* Pods */ = {
@@ -441,6 +483,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				673A88FC277E139F00A89DC7 /* ViewableRoutingMock.swift in Sources */,
+				67F21B58277FE3F900C1E985 /* AppDelegateTests.swift in Sources */,
+				673A88F5277E11D800A89DC7 /* RootMock.swift in Sources */,
+				67F21B5A277FFCB200C1E985 /* AppMock.swift in Sources */,
+				673A88F2277E117F00A89DC7 /* RootInteractorTests.swift in Sources */,
+				67A2AFAD277F509E00D3A28D /* ViewControllableMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,12 +11,20 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
     
-    private let component = AppComponent()
+    private let component: AppComponent
     
     private var credentialRepository: CredentialRepositoryType { component.credentialRepository }
     private var rootRouter: LaunchRouting?
     
     var window: UIWindow?
+    
+    private override init() {
+        self.component = AppComponent()
+    }
+    
+    init(component: AppComponent) {
+        self.component = component
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
