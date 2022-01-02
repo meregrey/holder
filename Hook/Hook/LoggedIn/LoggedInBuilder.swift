@@ -7,13 +7,9 @@
 
 import RIBs
 
-protocol LoggedInDependency: Dependency {
-    var loggedInViewController: LoggedInViewControllable { get }
-}
+protocol LoggedInDependency: Dependency {}
 
 final class LoggedInComponent: Component<LoggedInDependency> {
-    
-    fileprivate var loggedInViewController: LoggedInViewControllable { dependency.loggedInViewController }
     
     let credential: Credential
     
@@ -36,9 +32,9 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
     }
 
     func build(withListener listener: LoggedInListener, credential: Credential) -> LoggedInRouting {
-        let component = LoggedInComponent(dependency: dependency, credential: credential)
-        let interactor = LoggedInInteractor()
+        let viewController = LoggedInViewController()
+        let interactor = LoggedInInteractor(presenter: viewController)
         interactor.listener = listener
-        return LoggedInRouter(interactor: interactor, viewController: component.loggedInViewController)
+        return LoggedInRouter(interactor: interactor, viewController: viewController)
     }
 }

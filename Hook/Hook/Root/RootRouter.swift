@@ -62,10 +62,12 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         let router = loggedIn.build(withListener: interactor, credential: credential)
         loggedInRouting = router
         attachChild(router)
+        viewController.present(router.viewControllable)
     }
     
     private func detachLoggedIn() {
         guard let router = loggedInRouting else { return }
+        viewController.dismiss()
         detachChild(router)
         loggedInRouting = nil
     }

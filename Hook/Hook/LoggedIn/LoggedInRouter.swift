@@ -14,15 +14,10 @@ protocol LoggedInInteractable: Interactable {
 
 protocol LoggedInViewControllable: ViewControllable {}
 
-final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
+final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewControllable>, LoggedInRouting {
     
-    private let viewController: LoggedInViewControllable
-    
-    init(interactor: LoggedInInteractable, viewController: LoggedInViewControllable) {
-        self.viewController = viewController
-        super.init(interactor: interactor)
+    override init(interactor: LoggedInInteractable, viewController: LoggedInViewControllable) {
+        super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
-
-    func cleanupViews() {}
 }
