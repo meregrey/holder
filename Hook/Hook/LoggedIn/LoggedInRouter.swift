@@ -7,17 +7,52 @@
 
 import RIBs
 
-protocol LoggedInInteractable: Interactable {
+protocol LoggedInInteractable: Interactable, BrowseListener, SearchListener, FavoritesListener, AccountListener {
     var router: LoggedInRouting? { get set }
     var listener: LoggedInListener? { get set }
 }
 
-protocol LoggedInViewControllable: ViewControllable {}
+protocol LoggedInViewControllable: ViewControllable {
+    func setViewControllers(_ viewControllers: [ViewControllable])
+}
 
 final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewControllable>, LoggedInRouting {
     
-    override init(interactor: LoggedInInteractable, viewController: LoggedInViewControllable) {
+    private let browse: BrowseBuildable
+    private let search: SearchBuildable
+    private let favorites: FavoritesBuildable
+    private let account: AccountBuildable
+    
+    init(interactor: LoggedInInteractable,
+         viewController: LoggedInViewControllable,
+         browse: BrowseBuildable,
+         search: SearchBuildable,
+         favorites: FavoritesBuildable,
+         account: AccountBuildable) {
+        self.browse = browse
+        self.search = search
+        self.favorites = favorites
+        self.account = account
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachTabs() {
+        let browseRouter = browse.build(withListener: interactor)
+        let searchRouter = search.build(withListener: interactor)
+        let favoritesRouter = favorites.build(withListener: interactor)
+        let accountRouter = account.build(withListener: interactor)
+        
+        attachChild(browseRouter)
+        attachChild(searchRouter)
+        attachChild(favoritesRouter)
+        attachChild(accountRouter)
+        
+        let viewControllers = [NavigationController(root: browseRouter.viewControllable),
+                               NavigationController(root: searchRouter.viewControllable),
+                               NavigationController(root: favoritesRouter.viewControllable),
+                               NavigationController(root: accountRouter.viewControllable)]
+        
+        viewController.setViewControllers(viewControllers)
     }
 }
