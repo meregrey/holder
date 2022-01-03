@@ -7,7 +7,9 @@
 
 import RIBs
 
-protocol LoggedInRouting: ViewableRouting {}
+protocol LoggedInRouting: ViewableRouting {
+    func attachTabs()
+}
 
 protocol LoggedInPresentable: Presentable {
     var listener: LoggedInPresentableListener? { get set }
@@ -27,6 +29,7 @@ final class LoggedInInteractor: PresentableInteractor<LoggedInPresentable>, Logg
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        router?.attachTabs()
     }
 
     override func willResignActive() {
