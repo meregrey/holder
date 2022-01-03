@@ -26,6 +26,8 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.search
-        tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass"))
+        tabBarItem = UITabBarItem(title: nil,
+                                  image: UIImage(systemName: "magnifyingglass"),
+                                  selectedImage: UIImage(systemName: "magnifyingglass"))
     }
 }

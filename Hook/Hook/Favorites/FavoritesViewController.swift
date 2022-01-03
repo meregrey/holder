@@ -26,6 +26,8 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.favorites
-        tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "bookmark"), selectedImage: UIImage(systemName: "bookmark.fill"))
+        tabBarItem = UITabBarItem(title: nil,
+                                  image: UIImage(systemName: "bookmark"),
+                                  selectedImage: UIImage(systemName: "bookmark.fill"))
     }
 }

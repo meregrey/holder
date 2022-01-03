@@ -26,6 +26,8 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.browse
-        tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "rectangle.grid.1x2"), selectedImage: UIImage(systemName: "rectangle.grid.1x2.fill"))
+        tabBarItem = UITabBarItem(title: nil,
+                                  image: UIImage(systemName: "rectangle.grid.1x2"),
+                                  selectedImage: UIImage(systemName: "rectangle.grid.1x2.fill"))
     }
 }

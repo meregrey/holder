@@ -26,6 +26,8 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.account
-        tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person.crop.circle"), selectedImage: UIImage(systemName: "person.crop.circle.fill"))
+        tabBarItem = UITabBarItem(title: nil,
+                                  image: UIImage(systemName: "person.crop.circle"),
+                                  selectedImage: UIImage(systemName: "person.crop.circle.fill"))
     }
 }
