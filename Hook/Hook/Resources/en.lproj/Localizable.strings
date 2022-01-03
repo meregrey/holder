@@ -6,3 +6,9 @@
 
 /* Alert action title */
 "OK" = "OK";
+
+/* View title */
+"Browse" = "Browse";
+"Search" = "Search";
+"Favorites" = "Favorites";
+"Account" = "Account";

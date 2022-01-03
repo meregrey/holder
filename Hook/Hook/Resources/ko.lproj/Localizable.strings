@@ -6,3 +6,9 @@
 
 /* Alert action title */
 "OK" = "확인";
+
+/* View title */
+"Browse" = "둘러보기";
+"Search" = "검색";
+"Favorites" = "즐겨찾기";
+"Account" = "계정";
