@@ -10,11 +10,21 @@ import UIKit
 
 protocol LoggedInPresentableListener: AnyObject {}
 
-final class LoggedInViewController: UIViewController, LoggedInPresentable, LoggedInViewControllable {
+final class LoggedInViewController: UITabBarController, LoggedInPresentable, LoggedInViewControllable {
     
     weak var listener: LoggedInPresentableListener?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViews()
+    }
+    
+    func setViewControllers(_ viewControllers: [ViewControllable]) {
+        super.setViewControllers(viewControllers.map(\.uiviewController), animated: false)
+    }
+    
+    private func configureViews() {
+        view.backgroundColor = .white
+        tabBar.tintColor = .black
     }
 }
