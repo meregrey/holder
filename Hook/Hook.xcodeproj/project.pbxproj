@@ -26,6 +26,7 @@
 		6705B5F927815C7400793CB8 /* AccountBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B5F527815C7400793CB8 /* AccountBuilder.swift */; };
 		6705B5FA27815C7400793CB8 /* AccountInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B5F627815C7400793CB8 /* AccountInteractor.swift */; };
 		6705B61C2781DF3100793CB8 /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B61B2781DF3100793CB8 /* LoggedInViewController.swift */; };
+		6705B61E2782111D00793CB8 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B61D2782111D00793CB8 /* NavigationController.swift */; };
 		672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FD62771A7580075F348 /* KeychainManager.swift */; };
 		672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FD92771A7A70075F348 /* KeychainError.swift */; };
 		672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FDC2771A8080075F348 /* KeychainItem.swift */; };
@@ -95,6 +96,7 @@
 		6705B5F527815C7400793CB8 /* AccountBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBuilder.swift; sourceTree = "<group>"; };
 		6705B5F627815C7400793CB8 /* AccountInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInteractor.swift; sourceTree = "<group>"; };
 		6705B61B2781DF3100793CB8 /* LoggedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
+		6705B61D2782111D00793CB8 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		670FF4CD27799B4E00F4E64D /* HookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		672B2FD62771A7580075F348 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		672B2FD92771A7A70075F348 /* KeychainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainError.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				67BDEA36277764CA0031FEC1 /* AutoLayout.swift */,
 				67BDEA3A277786C80031FEC1 /* Convertible.swift */,
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
+				6705B61D2782111D00793CB8 /* NavigationController.swift */,
 				673A88B1277C05CD00A89DC7 /* Stream.swift */,
 			);
 			path = Utils;
@@ -359,9 +362,9 @@
 				6705B5D827815AE400793CB8 /* Account */,
 				672B2FDE2771B5E70075F348 /* Repositories */,
 				672B2FD52771A73E0075F348 /* Utils */,
+				67EDC92C277175C4003F646F /* Resources */,
 				672B2FDB2771A7D30075F348 /* Models */,
 				672B2FD82771A7990075F348 /* Errors */,
-				67EDC92C277175C4003F646F /* Resources */,
 			);
 			path = Hook;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
 				67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */,
+				6705B61E2782111D00793CB8 /* NavigationController.swift in Sources */,
 				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
 				673A88A8277BF49E00A89DC7 /* String.swift in Sources */,
 				6705B5E027815B3F00793CB8 /* BrowseInteractor.swift in Sources */,
@@ -841,7 +845,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -871,7 +875,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

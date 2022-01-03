@@ -19,8 +19,8 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     private let loggedOut: LoggedOutBuildable
     private let loggedIn: LoggedInBuildable
     
-    private var loggedOutRouting: Routing?
-    private var loggedInRouting: Routing?
+    private var loggedOutRouter: Routing?
+    private var loggedInRouter: Routing?
     
     init(interactor: RootInteractable,
          viewController: RootViewControllable,
@@ -43,32 +43,32 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     }
     
     private func attachLoggedOut() {
-        guard loggedOutRouting == nil else { return }
+        guard loggedOutRouter == nil else { return }
         let router = loggedOut.build(withListener: interactor)
-        loggedOutRouting = router
+        loggedOutRouter = router
         attachChild(router)
         viewController.present(router.viewControllable)
     }
     
     private func detachLoggedOut() {
-        guard let router = loggedOutRouting else { return }
+        guard let router = loggedOutRouter else { return }
         viewController.dismiss()
         detachChild(router)
-        loggedOutRouting = nil
+        loggedOutRouter = nil
     }
     
     private func attachLoggedIn(withCredential credential: Credential) {
-        guard loggedInRouting == nil else { return }
+        guard loggedInRouter == nil else { return }
         let router = loggedIn.build(withListener: interactor, credential: credential)
-        loggedInRouting = router
+        loggedInRouter = router
         attachChild(router)
         viewController.present(router.viewControllable)
     }
     
     private func detachLoggedIn() {
-        guard let router = loggedInRouting else { return }
+        guard let router = loggedInRouter else { return }
         viewController.dismiss()
         detachChild(router)
-        loggedInRouting = nil
+        loggedInRouter = nil
     }
 }
