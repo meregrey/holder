@@ -19,4 +19,11 @@ enum LocalizedString {
     enum AlertActionTitle {
         static let ok = "OK".localized
     }
+    
+    enum ViewTitle {
+        static let browse = "Browse".localized
+        static let search = "Search".localized
+        static let favorites = "Favorites".localized
+        static let account = "Account".localized
+    }
 }
