@@ -7,25 +7,32 @@
 
 import RIBs
 
-protocol LoggedInRouting: Routing {
-    func cleanupViews()
+protocol LoggedInRouting: ViewableRouting {
+    func attachTabs()
+}
+
+protocol LoggedInPresentable: Presentable {
+    var listener: LoggedInPresentableListener? { get set }
 }
 
 protocol LoggedInListener: AnyObject {}
 
-final class LoggedInInteractor: Interactor, LoggedInInteractable {
+final class LoggedInInteractor: PresentableInteractor<LoggedInPresentable>, LoggedInInteractable, LoggedInPresentableListener {
 
     weak var router: LoggedInRouting?
     weak var listener: LoggedInListener?
     
-    override init() {}
+    override init(presenter: LoggedInPresentable) {
+        super.init(presenter: presenter)
+        presenter.listener = self
+    }
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        router?.attachTabs()
     }
 
     override func willResignActive() {
         super.willResignActive()
-        router?.cleanupViews()
     }
 }

@@ -10,9 +10,13 @@ import UIKit
 
 protocol RootPresentableListener: AnyObject {}
 
-final class RootViewController: UIViewController, RootPresentable, RootViewControllable, LoggedInViewControllable {
+final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
 
     weak var listener: RootPresentableListener?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     
     func displayAlert(withTitle title: String, message: String) {
         presentAlert(withTitle: title, message: message)

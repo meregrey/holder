@@ -13,11 +13,9 @@ protocol RootDependency: Dependency {
 
 final class RootComponent: Component<RootDependency>, RootInteractorDependency, LoggedOutDependency, LoggedInDependency {
     
-    var loggedInViewController: LoggedInViewControllable
     var loginStateStream: ReadOnlyStream<LoginState> { dependency.loginStateStream }
     
-    init(dependency: RootDependency, loggedInViewController: LoggedInViewControllable) {
-        self.loggedInViewController = loggedInViewController
+    override init(dependency: RootDependency) {
         super.init(dependency: dependency)
     }
 }
@@ -36,7 +34,7 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
 
     func build(withListener listener: RootListener) -> LaunchRouting {
         let viewController = RootViewController()
-        let component = RootComponent(dependency: dependency, loggedInViewController: viewController)
+        let component = RootComponent(dependency: dependency)
         let interactor = RootInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         let loggedOut = LoggedOutBuilder(dependency: component)
