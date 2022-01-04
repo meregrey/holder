@@ -38,6 +38,7 @@
 		672B2FF127749AA90075F348 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FED27749AA90075F348 /* RootViewController.swift */; };
 		672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEE27749AA90075F348 /* RootBuilder.swift */; };
 		672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEF27749AA90075F348 /* RootInteractor.swift */; };
+		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673A889F277B7E7600A89DC7 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A889E277B7E7600A89DC7 /* NotificationName.swift */; };
 		673A88A2277BF2F100A89DC7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 673A88A4277BF2F100A89DC7 /* Localizable.strings */; };
 		673A88A8277BF49E00A89DC7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88A7277BF49E00A89DC7 /* String.swift */; };
@@ -109,6 +110,7 @@
 		672B2FED27749AA90075F348 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		672B2FEE27749AA90075F348 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		672B2FEF27749AA90075F348 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		673A889E277B7E7600A89DC7 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		673A88A3277BF2F100A89DC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		673A88A5277BF33B00A89DC7 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60735617F7FE4C51A00A7BA7 /* libPods-Hook.a in Frameworks */,
+				6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +415,7 @@
 		D9737842FF022C304509FA89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6736DE53278423BC003E7321 /* CloudKit.framework */,
 				5E4130F480F622AAD23E6D8E /* libPods-Hook.a */,
 				F811AAEB8B93A88A09DC7BE6 /* libPods-HookTests.a */,
 			);
