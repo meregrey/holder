@@ -13,7 +13,7 @@ protocol Convertible {
 }
 
 extension String: Convertible {
-    static func converted(from data: Data) -> String? {
+    static func converted(from data: Data) -> Self? {
         return String(data: data, encoding: .utf8)
     }
     
