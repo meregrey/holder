@@ -7,6 +7,9 @@
 /* Alert action title */
 "OK" = "확인";
 
+/* Tag name */
+"All" = "전체";
+
 /* View title */
 "Browse" = "둘러보기";
 "Search" = "검색";

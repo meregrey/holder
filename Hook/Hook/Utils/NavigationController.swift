@@ -8,15 +8,19 @@
 import RIBs
 import UIKit
 
-final class NavigationController: ViewControllable {
-
-    let navigationController: UINavigationController
-
-    var uiviewController: UIViewController { navigationController }
-
+final class NavigationController: UINavigationController, ViewControllable {
+    
     init(root: ViewControllable) {
-        self.navigationController = UINavigationController(rootViewController: root.uiviewController)
-        navigationController.navigationBar.backgroundColor = .white
-        navigationController.navigationBar.prefersLargeTitles = true
+        super.init(rootViewController: root.uiviewController)
+        configureViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureViews()
+    }
+    
+    private func configureViews() {
+        navigationBar.prefersLargeTitles = true
     }
 }

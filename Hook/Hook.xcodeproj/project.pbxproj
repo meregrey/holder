@@ -38,6 +38,9 @@
 		672B2FF127749AA90075F348 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FED27749AA90075F348 /* RootViewController.swift */; };
 		672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEE27749AA90075F348 /* RootBuilder.swift */; };
 		672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEF27749AA90075F348 /* RootInteractor.swift */; };
+		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
+		6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6736DE5627843B38003E7321 /* PersistenceModel.xcdatamodeld */; };
+		6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6736DE5B27843D38003E7321 /* TagEntity.swift */; };
 		673A889F277B7E7600A89DC7 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A889E277B7E7600A89DC7 /* NotificationName.swift */; };
 		673A88A2277BF2F100A89DC7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 673A88A4277BF2F100A89DC7 /* Localizable.strings */; };
 		673A88A8277BF49E00A89DC7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88A7277BF49E00A89DC7 /* String.swift */; };
@@ -46,6 +49,13 @@
 		673A88F2277E117F00A89DC7 /* RootInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */; };
 		673A88F5277E11D800A89DC7 /* RootMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88F4277E11D800A89DC7 /* RootMock.swift */; };
 		673A88FC277E139F00A89DC7 /* ViewableRoutingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */; };
+		676AC7CE2784480E0047B95F /* TagStorage+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7CC2784480E0047B95F /* TagStorage+CoreDataClass.swift */; };
+		676AC7CF2784480E0047B95F /* TagStorage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7CD2784480E0047B95F /* TagStorage+CoreDataProperties.swift */; };
+		676AC7D127856F960047B95F /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D027856F960047B95F /* PersistentContainer.swift */; };
+		676AC7D3278574AF0047B95F /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D2278574AF0047B95F /* TagRepository.swift */; };
+		676AC7D5278579A60047B95F /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D4278579A60047B95F /* Tag.swift */; };
+		676AC7DD2785E6620047B95F /* TagName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7DC2785E6620047B95F /* TagName.swift */; };
+		676AC7DF2785EEA80047B95F /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7DE2785EEA80047B95F /* Array.swift */; };
 		67A2AFAD277F509E00D3A28D /* ViewControllableMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */; };
 		67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */; };
 		67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */; };
@@ -109,6 +119,9 @@
 		672B2FED27749AA90075F348 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		672B2FEE27749AA90075F348 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		672B2FEF27749AA90075F348 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		6736DE5727843B38003E7321 /* PersistenceModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PersistenceModel.xcdatamodel; sourceTree = "<group>"; };
+		6736DE5B27843D38003E7321 /* TagEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEntity.swift; sourceTree = "<group>"; };
 		673A889E277B7E7600A89DC7 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		673A88A3277BF2F100A89DC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		673A88A5277BF33B00A89DC7 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -119,6 +132,13 @@
 		673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractorTests.swift; sourceTree = "<group>"; };
 		673A88F4277E11D800A89DC7 /* RootMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootMock.swift; sourceTree = "<group>"; };
 		673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewableRoutingMock.swift; sourceTree = "<group>"; };
+		676AC7CC2784480E0047B95F /* TagStorage+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TagStorage+CoreDataClass.swift"; path = "Hook/Persistence/ManagedObject/TagStorage+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		676AC7CD2784480E0047B95F /* TagStorage+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TagStorage+CoreDataProperties.swift"; path = "Hook/Persistence/ManagedObject/TagStorage+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		676AC7D027856F960047B95F /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
+		676AC7D2278574AF0047B95F /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
+		676AC7D4278579A60047B95F /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		676AC7DC2785E6620047B95F /* TagName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagName.swift; sourceTree = "<group>"; };
+		676AC7DE2785EEA80047B95F /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllableMock.swift; sourceTree = "<group>"; };
 		67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60735617F7FE4C51A00A7BA7 /* libPods-Hook.a in Frameworks */,
+				6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +267,7 @@
 				672B2FE12771B6820075F348 /* Credential.swift */,
 				672B2FDC2771A8080075F348 /* KeychainItem.swift */,
 				672B2FE52771CFCF0075F348 /* LoginState.swift */,
+				676AC7D4278579A60047B95F /* Tag.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -254,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				672B2FDF2771B6420075F348 /* CredentialRepository.swift */,
+				676AC7D2278574AF0047B95F /* TagRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -269,9 +292,21 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
+		6736DE5527843AF7003E7321 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				676AC7C2278447190047B95F /* ManagedObject */,
+				6736DE5627843B38003E7321 /* PersistenceModel.xcdatamodeld */,
+				676AC7D027856F960047B95F /* PersistentContainer.swift */,
+				6736DE5B27843D38003E7321 /* TagEntity.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		673A88A9277BF57A00A89DC7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				676AC7DE2785EEA80047B95F /* Array.swift */,
 				673A88A7277BF49E00A89DC7 /* String.swift */,
 				67BDEA342774CD210031FEC1 /* ViewControllable.swift */,
 			);
@@ -284,6 +319,7 @@
 				673A88AC277BF64000A89DC7 /* LocalizedString.swift */,
 				673A889E277B7E7600A89DC7 /* NotificationName.swift */,
 				67BDEA38277768B10031FEC1 /* Size.swift */,
+				676AC7DC2785E6620047B95F /* TagName.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -304,6 +340,15 @@
 				67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */,
 			);
 			path = TestSupport;
+			sourceTree = "<group>";
+		};
+		676AC7C2278447190047B95F /* ManagedObject */ = {
+			isa = PBXGroup;
+			children = (
+				676AC7CC2784480E0047B95F /* TagStorage+CoreDataClass.swift */,
+				676AC7CD2784480E0047B95F /* TagStorage+CoreDataProperties.swift */,
+			);
+			path = ManagedObject;
 			sourceTree = "<group>";
 		};
 		67BDEA242774C7C40031FEC1 /* LoggedOut */ = {
@@ -360,6 +405,7 @@
 				6705B5D627815AC800793CB8 /* Search */,
 				6705B5D727815AD700793CB8 /* Favorites */,
 				6705B5D827815AE400793CB8 /* Account */,
+				6736DE5527843AF7003E7321 /* Persistence */,
 				672B2FDE2771B5E70075F348 /* Repositories */,
 				672B2FD52771A73E0075F348 /* Utils */,
 				67EDC92C277175C4003F646F /* Resources */,
@@ -412,6 +458,7 @@
 		D9737842FF022C304509FA89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6736DE53278423BC003E7321 /* CloudKit.framework */,
 				5E4130F480F622AAD23E6D8E /* libPods-Hook.a */,
 				F811AAEB8B93A88A09DC7BE6 /* libPods-HookTests.a */,
 			);
@@ -585,29 +632,37 @@
 				6705B5EF27815C2F00793CB8 /* FavoritesRouter.swift in Sources */,
 				672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */,
 				67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */,
+				6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */,
 				67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */,
 				6705B5F727815C7400793CB8 /* AccountRouter.swift in Sources */,
+				676AC7DF2785EEA80047B95F /* Array.swift in Sources */,
 				672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */,
+				676AC7CE2784480E0047B95F /* TagStorage+CoreDataClass.swift in Sources */,
 				6705B5E527815BA300793CB8 /* SearchRouter.swift in Sources */,
 				6705B5DD27815B3F00793CB8 /* BrowseRouter.swift in Sources */,
 				67BDEA322774C81F0031FEC1 /* LoggedInBuilder.swift in Sources */,
 				67BDEA312774C81F0031FEC1 /* LoggedInRouter.swift in Sources */,
 				6705B5F227815C3000793CB8 /* FavoritesInteractor.swift in Sources */,
+				676AC7D5278579A60047B95F /* Tag.swift in Sources */,
 				6705B61C2781DF3100793CB8 /* LoggedInViewController.swift in Sources */,
 				6705B5F927815C7400793CB8 /* AccountBuilder.swift in Sources */,
 				672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */,
+				676AC7D127856F960047B95F /* PersistentContainer.swift in Sources */,
 				672B2FF127749AA90075F348 /* RootViewController.swift in Sources */,
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
 				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
 				6705B5E627815BA300793CB8 /* SearchViewController.swift in Sources */,
 				6705B5E727815BA300793CB8 /* SearchBuilder.swift in Sources */,
+				6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
 				67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */,
 				6705B61E2782111D00793CB8 /* NavigationController.swift in Sources */,
 				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
+				676AC7CF2784480E0047B95F /* TagStorage+CoreDataProperties.swift in Sources */,
 				673A88A8277BF49E00A89DC7 /* String.swift in Sources */,
 				6705B5E027815B3F00793CB8 /* BrowseInteractor.swift in Sources */,
+				676AC7DD2785E6620047B95F /* TagName.swift in Sources */,
 				6705B5DE27815B3F00793CB8 /* BrowseViewController.swift in Sources */,
 				672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */,
 				67BDEA39277768B10031FEC1 /* Size.swift in Sources */,
@@ -626,6 +681,7 @@
 				6705B5F827815C7400793CB8 /* AccountViewController.swift in Sources */,
 				67BDEA2C2774C7E70031FEC1 /* LoggedOutInteractor.swift in Sources */,
 				673A88B2277C05CD00A89DC7 /* Stream.swift in Sources */,
+				676AC7D3278574AF0047B95F /* TagRepository.swift in Sources */,
 				6705B5E827815BA300793CB8 /* SearchInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -921,6 +977,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6736DE5627843B38003E7321 /* PersistenceModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6736DE5727843B38003E7321 /* PersistenceModel.xcdatamodel */,
+			);
+			currentVersion = 6736DE5727843B38003E7321 /* PersistenceModel.xcdatamodel */;
+			path = PersistenceModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 67EDC90C27717476003F646F /* Project object */;
 }

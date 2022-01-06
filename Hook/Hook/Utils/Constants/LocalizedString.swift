@@ -20,6 +20,10 @@ enum LocalizedString {
         static let ok = "OK".localized
     }
     
+    enum TagName {
+        static let all = "All".localized
+    }
+    
     enum ViewTitle {
         static let browse = "Browse".localized
         static let search = "Search".localized
