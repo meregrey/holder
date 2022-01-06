@@ -7,6 +7,9 @@
 /* Alert action title */
 "OK" = "OK";
 
+/* Tag name */
+"All" = "All";
+
 /* View title */
 "Browse" = "Browse";
 "Search" = "Search";
