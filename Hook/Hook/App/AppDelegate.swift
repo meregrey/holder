@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
         root.launch(from: window)
     }
     
-    private func postNotification(ofName name: NSNotification.Name) {
-        NotificationCenter.default.post(name: name, object: nil)
+    private func postNotification(ofName name: NSNotification.Name, object: Any? = nil) {
+        NotificationCenter.default.post(name: name, object: object)
     }
 }
