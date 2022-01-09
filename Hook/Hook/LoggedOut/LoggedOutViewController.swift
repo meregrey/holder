@@ -22,6 +22,12 @@ final class LoggedOutViewController: UIViewController, LoggedOutPresentable, Log
         stackView.distribution = .fill
         return stackView
     }()
+    
+    private enum Metric {
+        static let loginButtonWidthMultiplier = CGFloat(0.8)
+        static let loginButtonHeight = CGFloat(50)
+        static let loginButtonBottom = CGFloat(-180)
+    }
 
     weak var listener: LoggedOutPresentableListener?
     
@@ -33,18 +39,20 @@ final class LoggedOutViewController: UIViewController, LoggedOutPresentable, Log
     private func configureViews() {
         view.backgroundColor = .white
         view.addSubview(stackView)
+        
         configureLoginButton()
+        
         NSLayoutConstraint.activate([
-            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Size.Multiplier.containerWidth),
-            stackView.heightAnchor.constraint(equalToConstant: Size.Constant.heightforLoginButton),
+            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Metric.loginButtonWidthMultiplier),
+            stackView.heightAnchor.constraint(equalToConstant: Metric.loginButtonHeight),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Size.Constant.bottomForLoginButton)
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Metric.loginButtonBottom)
         ])
     }
     
     private func configureLoginButton() {
         let loginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-        loginButton.cornerRadius = Size.Constant.heightforLoginButton
+        loginButton.cornerRadius = Metric.loginButtonHeight
         loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
         stackView.addArrangedSubview(loginButton)
     }

@@ -11,6 +11,11 @@ import UIKit
 protocol AccountPresentableListener: AnyObject {}
 
 final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable {
+    
+    private enum Image {
+        static let tabBarItem = UIImage(systemName: "person.crop.circle")
+        static let tabBarItemSelected = UIImage(systemName: "person.crop.circle.fill")
+    }
 
     weak var listener: AccountPresentableListener?
     
@@ -27,7 +32,7 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
     private func configureViews() {
         title = LocalizedString.ViewTitle.account
         tabBarItem = UITabBarItem(title: nil,
-                                  image: UIImage(systemName: "person.crop.circle"),
-                                  selectedImage: UIImage(systemName: "person.crop.circle.fill"))
+                                  image: Image.tabBarItem,
+                                  selectedImage: Image.tabBarItemSelected)
     }
 }
