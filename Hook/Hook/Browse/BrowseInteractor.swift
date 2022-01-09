@@ -7,7 +7,9 @@
 
 import RIBs
 
-protocol BrowseRouting: ViewableRouting {}
+protocol BrowseRouting: ViewableRouting {
+    func attachTag()
+}
 
 protocol BrowsePresentable: Presentable {
     var listener: BrowsePresentableListener? { get set }
@@ -27,6 +29,7 @@ final class BrowseInteractor: PresentableInteractor<BrowsePresentable>, BrowseIn
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        router?.attachTag()
     }
 
     override func willResignActive() {

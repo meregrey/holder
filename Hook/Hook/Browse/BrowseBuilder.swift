@@ -9,7 +9,15 @@ import RIBs
 
 protocol BrowseDependency: Dependency {}
 
-final class BrowseComponent: Component<BrowseDependency> {}
+final class BrowseComponent: Component<BrowseDependency>, TagDependency {
+    
+    var baseViewController: BrowseViewControllable
+    
+    init(dependency: BrowseDependency, baseViewController: BrowseViewControllable) {
+        self.baseViewController = baseViewController
+        super.init(dependency: dependency)
+    }
+}
 
 // MARK: - Builder
 
@@ -25,8 +33,12 @@ final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
 
     func build(withListener listener: BrowseListener) -> BrowseRouting {
         let viewController = BrowseViewController()
+        let component = BrowseComponent(dependency: dependency, baseViewController: viewController)
         let interactor = BrowseInteractor(presenter: viewController)
         interactor.listener = listener
-        return BrowseRouter(interactor: interactor, viewController: viewController)
+        let tag = TagBuilder(dependency: component)
+        return BrowseRouter(interactor: interactor,
+                            viewController: viewController,
+                            tag: tag)
     }
 }
