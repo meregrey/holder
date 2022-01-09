@@ -57,8 +57,8 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     }
     
     private func subscribeLoginStateStream() {
-        loginStateStream.subscribe(disposedOnDeactivate: self) {
-            self.determineToRoute(withLoginState: $0)
+        loginStateStream.subscribe(disposedOnDeactivate: self) { [weak self] in
+            self?.determineToRoute(withLoginState: $0)
         }
     }
 

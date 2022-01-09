@@ -11,6 +11,10 @@ import UIKit
 protocol SearchPresentableListener: AnyObject {}
 
 final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable {
+    
+    private enum Image {
+        static let tabBarItem = UIImage(systemName: "magnifyingglass")
+    }
 
     weak var listener: SearchPresentableListener?
     
@@ -27,7 +31,7 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
     private func configureViews() {
         title = LocalizedString.ViewTitle.search
         tabBarItem = UITabBarItem(title: nil,
-                                  image: UIImage(systemName: "magnifyingglass"),
-                                  selectedImage: UIImage(systemName: "magnifyingglass"))
+                                  image: Image.tabBarItem,
+                                  selectedImage: Image.tabBarItem)
     }
 }

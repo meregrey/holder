@@ -7,17 +7,33 @@
 
 import RIBs
 
-protocol BrowseInteractable: Interactable {
+protocol BrowseInteractable: Interactable, TagListener {
     var router: BrowseRouting? { get set }
     var listener: BrowseListener? { get set }
 }
 
-protocol BrowseViewControllable: ViewControllable {}
+protocol BrowseViewControllable: ViewControllable {
+    func addChild(_ view: ViewControllable)
+}
 
 final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControllable>, BrowseRouting {
     
-    override init(interactor: BrowseInteractable, viewController: BrowseViewControllable) {
+    private let tag: TagBuildable
+    
+    private var tagRouter: Routing?
+    
+    init(interactor: BrowseInteractable,
+         viewController: BrowseViewControllable,
+         tag: TagBuildable) {
+        self.tag = tag
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachTag() {
+        guard tagRouter == nil else { return }
+        let router = tag.build(withListener: interactor)
+        tagRouter = router
+        attachChild(router)
     }
 }

@@ -66,8 +66,18 @@
 		67BDEA332774C81F0031FEC1 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */; };
 		67BDEA352774CD210031FEC1 /* ViewControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA342774CD210031FEC1 /* ViewControllable.swift */; };
 		67BDEA37277764CA0031FEC1 /* AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA36277764CA0031FEC1 /* AutoLayout.swift */; };
-		67BDEA39277768B10031FEC1 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA38277768B10031FEC1 /* Size.swift */; };
 		67BDEA3B277786C80031FEC1 /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA3A277786C80031FEC1 /* Convertible.swift */; };
+		67CE08AF278827BC006C25C1 /* TagRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08AC278827BC006C25C1 /* TagRouter.swift */; };
+		67CE08B0278827BC006C25C1 /* TagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08AD278827BC006C25C1 /* TagBuilder.swift */; };
+		67CE08B1278827BC006C25C1 /* TagInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08AE278827BC006C25C1 /* TagInteractor.swift */; };
+		67CE08B727887303006C25C1 /* TagBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08B327887303006C25C1 /* TagBarRouter.swift */; };
+		67CE08B827887303006C25C1 /* TagBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08B427887303006C25C1 /* TagBarViewController.swift */; };
+		67CE08B927887303006C25C1 /* TagBarBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08B527887303006C25C1 /* TagBarBuilder.swift */; };
+		67CE08BA27887303006C25C1 /* TagBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08B627887303006C25C1 /* TagBarInteractor.swift */; };
+		67CE08DF2789845F006C25C1 /* TagBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08DE2789845F006C25C1 /* TagBarCollectionViewCell.swift */; };
+		67CE08E12789D152006C25C1 /* TagStorageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08E02789D152006C25C1 /* TagStorageTransformer.swift */; };
+		67CE08E52789ED7A006C25C1 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08E42789ED7A006C25C1 /* ReusableView.swift */; };
+		67CE08E72789F1C4006C25C1 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE08E62789F1C4006C25C1 /* UIView.swift */; };
 		67EDC91827717476003F646F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EDC91727717476003F646F /* AppDelegate.swift */; };
 		67EDC92127717477003F646F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92027717477003F646F /* Assets.xcassets */; };
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
@@ -149,9 +159,19 @@
 		67BDEA302774C81F0031FEC1 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
 		67BDEA342774CD210031FEC1 /* ViewControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllable.swift; sourceTree = "<group>"; };
 		67BDEA36277764CA0031FEC1 /* AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout.swift; sourceTree = "<group>"; };
-		67BDEA38277768B10031FEC1 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		67BDEA3A277786C80031FEC1 /* Convertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convertible.swift; sourceTree = "<group>"; };
 		67BDEA3C27783E960031FEC1 /* Hook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hook.entitlements; sourceTree = "<group>"; };
+		67CE08AC278827BC006C25C1 /* TagRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRouter.swift; sourceTree = "<group>"; };
+		67CE08AD278827BC006C25C1 /* TagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBuilder.swift; sourceTree = "<group>"; };
+		67CE08AE278827BC006C25C1 /* TagInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInteractor.swift; sourceTree = "<group>"; };
+		67CE08B327887303006C25C1 /* TagBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBarRouter.swift; sourceTree = "<group>"; };
+		67CE08B427887303006C25C1 /* TagBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBarViewController.swift; sourceTree = "<group>"; };
+		67CE08B527887303006C25C1 /* TagBarBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBarBuilder.swift; sourceTree = "<group>"; };
+		67CE08B627887303006C25C1 /* TagBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBarInteractor.swift; sourceTree = "<group>"; };
+		67CE08DE2789845F006C25C1 /* TagBarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBarCollectionViewCell.swift; sourceTree = "<group>"; };
+		67CE08E02789D152006C25C1 /* TagStorageTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStorageTransformer.swift; sourceTree = "<group>"; };
+		67CE08E42789ED7A006C25C1 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
+		67CE08E62789F1C4006C25C1 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		67EDC91427717476003F646F /* Hook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67EDC91727717476003F646F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67EDC92027717477003F646F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -188,6 +208,7 @@
 		6705B5D527815AB700793CB8 /* Browse */ = {
 			isa = PBXGroup;
 			children = (
+				67CE08AB2788279F006C25C1 /* Tag */,
 				6705B5D927815B3F00793CB8 /* BrowseRouter.swift */,
 				6705B5DC27815B3F00793CB8 /* BrowseInteractor.swift */,
 				6705B5DB27815B3F00793CB8 /* BrowseBuilder.swift */,
@@ -248,7 +269,9 @@
 				67BDEA3A277786C80031FEC1 /* Convertible.swift */,
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
 				6705B61D2782111D00793CB8 /* NavigationController.swift */,
+				67CE08E42789ED7A006C25C1 /* ReusableView.swift */,
 				673A88B1277C05CD00A89DC7 /* Stream.swift */,
+				67CE08E62789F1C4006C25C1 /* UIView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -299,6 +322,7 @@
 				6736DE5627843B38003E7321 /* PersistenceModel.xcdatamodeld */,
 				676AC7D027856F960047B95F /* PersistentContainer.swift */,
 				6736DE5B27843D38003E7321 /* TagEntity.swift */,
+				67CE08E02789D152006C25C1 /* TagStorageTransformer.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -318,7 +342,6 @@
 			children = (
 				673A88AC277BF64000A89DC7 /* LocalizedString.swift */,
 				673A889E277B7E7600A89DC7 /* NotificationName.swift */,
-				67BDEA38277768B10031FEC1 /* Size.swift */,
 				676AC7DC2785E6620047B95F /* TagName.swift */,
 			);
 			path = Constants;
@@ -371,6 +394,37 @@
 				6705B61B2781DF3100793CB8 /* LoggedInViewController.swift */,
 			);
 			path = LoggedIn;
+			sourceTree = "<group>";
+		};
+		67CE08AB2788279F006C25C1 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				67CE08B227885606006C25C1 /* TagBar */,
+				67CE08AC278827BC006C25C1 /* TagRouter.swift */,
+				67CE08AE278827BC006C25C1 /* TagInteractor.swift */,
+				67CE08AD278827BC006C25C1 /* TagBuilder.swift */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
+		67CE08B227885606006C25C1 /* TagBar */ = {
+			isa = PBXGroup;
+			children = (
+				67CE08DD27898428006C25C1 /* Views */,
+				67CE08B327887303006C25C1 /* TagBarRouter.swift */,
+				67CE08B627887303006C25C1 /* TagBarInteractor.swift */,
+				67CE08B527887303006C25C1 /* TagBarBuilder.swift */,
+				67CE08B427887303006C25C1 /* TagBarViewController.swift */,
+			);
+			path = TagBar;
+			sourceTree = "<group>";
+		};
+		67CE08DD27898428006C25C1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				67CE08DE2789845F006C25C1 /* TagBarCollectionViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		67EDC90B27717476003F646F = {
@@ -634,6 +688,7 @@
 				67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */,
 				6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */,
 				67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */,
+				67CE08B827887303006C25C1 /* TagBarViewController.swift in Sources */,
 				6705B5F727815C7400793CB8 /* AccountRouter.swift in Sources */,
 				676AC7DF2785EEA80047B95F /* Array.swift in Sources */,
 				672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */,
@@ -645,8 +700,11 @@
 				6705B5F227815C3000793CB8 /* FavoritesInteractor.swift in Sources */,
 				676AC7D5278579A60047B95F /* Tag.swift in Sources */,
 				6705B61C2781DF3100793CB8 /* LoggedInViewController.swift in Sources */,
+				67CE08DF2789845F006C25C1 /* TagBarCollectionViewCell.swift in Sources */,
+				67CE08B1278827BC006C25C1 /* TagInteractor.swift in Sources */,
 				6705B5F927815C7400793CB8 /* AccountBuilder.swift in Sources */,
 				672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */,
+				67CE08BA27887303006C25C1 /* TagBarInteractor.swift in Sources */,
 				676AC7D127856F960047B95F /* PersistentContainer.swift in Sources */,
 				672B2FF127749AA90075F348 /* RootViewController.swift in Sources */,
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
@@ -657,15 +715,18 @@
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
 				67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */,
+				67CE08E72789F1C4006C25C1 /* UIView.swift in Sources */,
 				6705B61E2782111D00793CB8 /* NavigationController.swift in Sources */,
 				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
+				67CE08B0278827BC006C25C1 /* TagBuilder.swift in Sources */,
 				676AC7CF2784480E0047B95F /* TagStorage+CoreDataProperties.swift in Sources */,
 				673A88A8277BF49E00A89DC7 /* String.swift in Sources */,
 				6705B5E027815B3F00793CB8 /* BrowseInteractor.swift in Sources */,
 				676AC7DD2785E6620047B95F /* TagName.swift in Sources */,
 				6705B5DE27815B3F00793CB8 /* BrowseViewController.swift in Sources */,
 				672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */,
-				67BDEA39277768B10031FEC1 /* Size.swift in Sources */,
+				67CE08AF278827BC006C25C1 /* TagRouter.swift in Sources */,
+				67CE08B727887303006C25C1 /* TagBarRouter.swift in Sources */,
 				673A88AD277BF64000A89DC7 /* LocalizedString.swift in Sources */,
 				67BDEA37277764CA0031FEC1 /* AutoLayout.swift in Sources */,
 				67BDEA3B277786C80031FEC1 /* Convertible.swift in Sources */,
@@ -674,12 +735,15 @@
 				6705B5F127815C2F00793CB8 /* FavoritesBuilder.swift in Sources */,
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
 				6705B5DF27815B3F00793CB8 /* BrowseBuilder.swift in Sources */,
+				67CE08B927887303006C25C1 /* TagBarBuilder.swift in Sources */,
 				6705B5F027815C2F00793CB8 /* FavoritesViewController.swift in Sources */,
 				67BDEA332774C81F0031FEC1 /* LoggedInInteractor.swift in Sources */,
+				67CE08E52789ED7A006C25C1 /* ReusableView.swift in Sources */,
 				673A889F277B7E7600A89DC7 /* NotificationName.swift in Sources */,
 				6705B5FA27815C7400793CB8 /* AccountInteractor.swift in Sources */,
 				6705B5F827815C7400793CB8 /* AccountViewController.swift in Sources */,
 				67BDEA2C2774C7E70031FEC1 /* LoggedOutInteractor.swift in Sources */,
+				67CE08E12789D152006C25C1 /* TagStorageTransformer.swift in Sources */,
 				673A88B2277C05CD00A89DC7 /* Stream.swift in Sources */,
 				676AC7D3278574AF0047B95F /* TagRepository.swift in Sources */,
 				6705B5E827815BA300793CB8 /* SearchInteractor.swift in Sources */,
