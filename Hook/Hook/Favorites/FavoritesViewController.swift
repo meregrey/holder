@@ -10,7 +10,7 @@ import UIKit
 
 protocol FavoritesPresentableListener: AnyObject {}
 
-final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable {
+final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable, NavigationRootViewControllable {
     
     private enum Image {
         static let tabBarItem = UIImage(systemName: "bookmark")
@@ -28,6 +28,8 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
         super.init(coder: coder)
         configureViews()
     }
+    
+    func popGestureDidRecognize() {}
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.favorites
