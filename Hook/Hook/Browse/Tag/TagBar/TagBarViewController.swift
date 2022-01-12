@@ -9,7 +9,9 @@ import RIBs
 import RxSwift
 import UIKit
 
-protocol TagBarPresentableListener: AnyObject {}
+protocol TagBarPresentableListener: AnyObject {
+    func tagSettingsButtonDidTap()
+}
 
 final class TagBarViewController: UIViewController, TagBarPresentable, TagBarViewControllable {
     
@@ -22,7 +24,7 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumInteritemSpacing = .zero
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(cellType: TagBarCollectionViewCell.self)
+        collectionView.register(TagBarCollectionViewCell.self)
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
@@ -33,12 +35,17 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         button.imageView?.contentMode = .scaleAspectFit
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
-        button.tintColor = .black
+        button.tintColor = Color.tagSettingsButton
+        button.addTarget(self, action: #selector(tagSettingsButtonDidTap), for: .touchUpInside)
         return button
     }()
     
     private enum Image {
         static let tagSettingsButton = UIImage(systemName: "ellipsis")
+    }
+    
+    private enum Color {
+        static let tagSettingsButton = UIColor.black
     }
     
     private enum Metric {
@@ -93,6 +100,10 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
             tagSettingsButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.tagSettingsButtonTrailing),
             tagSettingsButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
+    }
+    
+    @objc private func tagSettingsButtonDidTap() {
+        listener?.tagSettingsButtonDidTap()
     }
 }
 
