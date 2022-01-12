@@ -10,7 +10,7 @@ import UIKit
 
 protocol AccountPresentableListener: AnyObject {}
 
-final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable {
+final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable, NavigationRootViewControllable {
     
     private enum Image {
         static let tabBarItem = UIImage(systemName: "person.crop.circle")
@@ -28,6 +28,8 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
         super.init(coder: coder)
         configureViews()
     }
+    
+    func popGestureDidRecognize() {}
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.account

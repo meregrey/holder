@@ -10,7 +10,7 @@ import UIKit
 
 protocol SearchPresentableListener: AnyObject {}
 
-final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable {
+final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable, NavigationRootViewControllable {
     
     private enum Image {
         static let tabBarItem = UIImage(systemName: "magnifyingglass")
@@ -27,6 +27,8 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
         super.init(coder: coder)
         configureViews()
     }
+    
+    func popGestureDidRecognize() {}
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.search

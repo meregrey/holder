@@ -8,19 +8,21 @@
 import RIBs
 import UIKit
 
+protocol NavigationRootViewControllable: ViewControllable {
+    func popGestureDidRecognize()
+}
+
 final class NavigationController: UINavigationController, ViewControllable {
+    
+    private var root: NavigationRootViewControllable?
     
     private enum Font {
         static let navigationBarLargeTitle = UIFont.systemFont(ofSize: 26, weight: .bold)
     }
     
-    private let paragraphStyle: NSMutableParagraphStyle = {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = 6
-        return paragraphStyle
-    }()
-    
-    init(root: ViewControllable) {
+    init?(root: ViewControllable) {
+        guard let root = root as? NavigationRootViewControllable else { return nil }
+        self.root = root
         super.init(rootViewController: root.uiviewController)
         configureViews()
     }
@@ -31,8 +33,20 @@ final class NavigationController: UINavigationController, ViewControllable {
     }
     
     private func configureViews() {
-        navigationBar.isTranslucent = false
+        navigationBar.barTintColor = .white
+        navigationBar.tintColor = .black
         navigationBar.prefersLargeTitles = true
-        navigationBar.largeTitleTextAttributes = [.font: Font.navigationBarLargeTitle, .paragraphStyle: paragraphStyle]
+        navigationBar.largeTitleTextAttributes = [.font: Font.navigationBarLargeTitle]
+        navigationBar.shadowImage = UIImage()
+        interactivePopGestureRecognizer?.delegate = self
+        interactivePopGestureRecognizer?.addTarget(self, action: #selector(popGestureDidRecognize(_:)))
+    }
+    
+    @objc private func popGestureDidRecognize(_ gesture: UIGestureRecognizer) {
+        if gesture.state == .ended {
+            root?.popGestureDidRecognize()
+        }
     }
 }
+
+extension NavigationController: UIGestureRecognizerDelegate {}

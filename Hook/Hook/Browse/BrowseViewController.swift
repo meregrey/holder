@@ -8,9 +8,11 @@
 import RIBs
 import UIKit
 
-protocol BrowsePresentableListener: AnyObject {}
+protocol BrowsePresentableListener: AnyObject {
+    func popGestureDidRecognize()
+}
 
-final class BrowseViewController: UIViewController, BrowsePresentable, BrowseViewControllable {
+final class BrowseViewController: UIViewController, BrowsePresentable, BrowseViewControllable, NavigationRootViewControllable {
     
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -36,11 +38,28 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         configureViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     func addChild(_ view: ViewControllable) {
         let childViewController = view.uiviewController
         addChild(childViewController)
         stackView.addArrangedSubview(childViewController.view)
         childViewController.didMove(toParent: self)
+    }
+    
+    func push(_ view: ViewControllable) {
+        navigationController?.pushViewController(view.uiviewController, animated: true)
+    }
+    
+    func pop() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func popGestureDidRecognize() {
+        listener?.popGestureDidRecognize()
     }
     
     private func configureViews() {

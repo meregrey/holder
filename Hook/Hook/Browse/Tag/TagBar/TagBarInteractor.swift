@@ -15,7 +15,9 @@ protocol TagBarPresentable: Presentable {
     func update(with tags: [Tag])
 }
 
-protocol TagBarListener: AnyObject {}
+protocol TagBarListener: AnyObject {
+    func tagBarTagSettingsButtonDidTap()
+}
 
 protocol TagBarInteractorDependency {
     var tagsStream: ReadOnlyStream<[Tag]> { get }
@@ -43,6 +45,10 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func tagSettingsButtonDidTap() {
+        listener?.tagBarTagSettingsButtonDidTap()
     }
     
     private func subscribeTagsStream() {

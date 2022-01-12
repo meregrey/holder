@@ -10,10 +10,15 @@ import RxSwift
 
 protocol TagRouting: Routing {
     func attachTagBar()
+    func attachTagSettings()
+    func detachTagSettings()
+    func detachTop()
     func cleanupViews()
 }
 
-protocol TagListener: AnyObject {}
+protocol TagListener: AnyObject {
+    func setCurrentTopContent(_ content: BrowseContent?)
+}
 
 protocol TagInteractorDependency {
     var tagRepository: TagRepositoryType { get }
@@ -40,5 +45,17 @@ final class TagInteractor: Interactor, TagInteractable {
     override func willResignActive() {
         super.willResignActive()
         router?.cleanupViews()
+    }
+    
+    func tagBarTagSettingsButtonDidTap() {
+        router?.attachTagSettings()
+    }
+    
+    func tagSettingsBackButtonDidTap() {
+        router?.detachTagSettings()
+    }
+    
+    func reportCurrentTopContent(_ content: BrowseContent?) {
+        listener?.setCurrentTopContent(content)
     }
 }
