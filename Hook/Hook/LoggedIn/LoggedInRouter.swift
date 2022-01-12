@@ -48,10 +48,10 @@ final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewCon
         attachChild(favoritesRouter)
         attachChild(accountRouter)
         
-        let viewControllers = [browseRouter.viewControllable,
-                               NavigationController(root: searchRouter.viewControllable),
-                               NavigationController(root: favoritesRouter.viewControllable),
-                               NavigationController(root: accountRouter.viewControllable)]
+        let viewControllers = [NavigationController(root: browseRouter.viewControllable) ?? browseRouter.viewControllable,
+                               NavigationController(root: searchRouter.viewControllable) ?? searchRouter.viewControllable,
+                               NavigationController(root: favoritesRouter.viewControllable) ?? favoritesRouter.viewControllable,
+                               NavigationController(root: accountRouter.viewControllable) ?? accountRouter.viewControllable]
         
         viewController.setViewControllers(viewControllers)
     }
