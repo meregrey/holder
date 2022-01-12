@@ -29,5 +29,6 @@ enum LocalizedString {
         static let search = "Search".localized
         static let favorites = "Favorites".localized
         static let account = "Account".localized
+        static let tagSettings = "Tag Settings".localized
     }
 }
