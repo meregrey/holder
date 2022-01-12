@@ -14,13 +14,15 @@ protocol BrowseInteractable: Interactable, TagListener {
 
 protocol BrowseViewControllable: ViewControllable {
     func addChild(_ view: ViewControllable)
+    func push(_ view: ViewControllable)
+    func pop()
 }
 
 final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControllable>, BrowseRouting {
     
     private let tag: TagBuildable
     
-    private var tagRouter: Routing?
+    private var tagRouter: TagRouting?
     
     init(interactor: BrowseInteractable,
          viewController: BrowseViewControllable,
@@ -35,5 +37,11 @@ final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControlla
         let router = tag.build(withListener: interactor)
         tagRouter = router
         attachChild(router)
+    }
+    
+    func detachTop(for content: BrowseContent) {
+        if content == .tag {
+            tagRouter?.detachTop()
+        }
     }
 }
