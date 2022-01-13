@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol TagSettingsRouting: ViewableRouting {}
 
@@ -17,6 +16,7 @@ protocol TagSettingsPresentable: Presentable {
 
 protocol TagSettingsListener: AnyObject {
     func tagSettingsBackButtonDidTap()
+    func tagSettingsAddTagButtonDidTap()
 }
 
 protocol TagSettingsInteractorDependency {
@@ -49,6 +49,10 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     
     func backButtonDidTap() {
         listener?.tagSettingsBackButtonDidTap()
+    }
+    
+    func addTagButtonDidTap() {
+        listener?.tagSettingsAddTagButtonDidTap()
     }
     
     private func subscribeTagsStream() {

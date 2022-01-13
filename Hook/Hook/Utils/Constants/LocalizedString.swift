@@ -20,8 +20,16 @@ enum LocalizedString {
         static let ok = "OK".localized
     }
     
+    enum ButtonTitle {
+        static let save = "Save".localized
+    }
+    
     enum TagName {
         static let all = "All".localized
+    }
+    
+    enum TextFieldHeader {
+        static let tagName = "Tag name".localized
     }
     
     enum ViewTitle {
@@ -30,5 +38,6 @@ enum LocalizedString {
         static let favorites = "Favorites".localized
         static let account = "Account".localized
         static let tagSettings = "Tag Settings".localized
+        static let addTag = "Add Tag".localized
     }
 }

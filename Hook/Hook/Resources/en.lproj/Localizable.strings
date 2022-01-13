@@ -7,8 +7,14 @@
 /* Alert action title */
 "OK" = "OK";
 
+/* Button title */
+"Save" = "Save";
+
 /* Tag name */
 "All" = "All";
+
+/* Text field header */
+"Tag name" = "Tag name";
 
 /* View title */
 "Browse" = "Browse";
@@ -16,3 +22,4 @@
 "Favorites" = "Favorites";
 "Account" = "Account";
 "Tag Settings" = "Tag Settings";
+"Add Tag" = "Add Tag";
