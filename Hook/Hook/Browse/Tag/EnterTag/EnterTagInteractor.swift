@@ -15,6 +15,7 @@ protocol EnterTagPresentable: Presentable {
 
 protocol EnterTagListener: AnyObject {
     func enterTagBackButtonDidTap()
+    func enterTagSaveButtonDidTap(with tag: Tag)
 }
 
 final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, EnterTagInteractable, EnterTagPresentableListener {
@@ -37,5 +38,9 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     
     func backButtonDidTap() {
         listener?.enterTagBackButtonDidTap()
+    }
+    
+    func saveButtonDidTap(with tag: Tag) {
+        listener?.enterTagSaveButtonDidTap(with: tag)
     }
 }
