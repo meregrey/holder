@@ -49,6 +49,10 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.cleanupViews()
     }
     
+    func reportCurrentTopContent(_ content: BrowseContent?) {
+        listener?.setCurrentTopContent(content)
+    }
+    
     // MARK: - TagBar
     
     func tagBarTagSettingsButtonDidTap() {
@@ -71,7 +75,8 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.detachEnterTag()
     }
     
-    func reportCurrentTopContent(_ content: BrowseContent?) {
-        listener?.setCurrentTopContent(content)
+    func enterTagSaveButtonDidTap(with tag: Tag) {
+        tagRepository.add(tag: tag)
+        router?.detachEnterTag()
     }
 }
