@@ -37,6 +37,8 @@ final class LabeledTextField: UIView {
     
     private var countLimit: Int?
     
+    var text: String? { textField.text }
+    
     private enum Font {
         static let headerLabel = UIFont.systemFont(ofSize: 14, weight: .medium)
         static let countLabel = UIFont.systemFont(ofSize: 12)
