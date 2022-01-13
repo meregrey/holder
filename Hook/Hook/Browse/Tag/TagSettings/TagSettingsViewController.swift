@@ -6,11 +6,11 @@
 //
 
 import RIBs
-import RxSwift
 import UIKit
 
 protocol TagSettingsPresentableListener: AnyObject {
     func backButtonDidTap()
+    func addTagButtonDidTap()
 }
 
 final class TagSettingsViewController: UIViewController, TagSettingsPresentable, TagSettingsViewControllable {
@@ -85,7 +85,9 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         listener?.backButtonDidTap()
     }
     
-    @objc private func addTagButtonDidTap() {}
+    @objc private func addTagButtonDidTap() {
+        listener?.addTagButtonDidTap()
+    }
     
     @objc private func editTagsButtonDidTap() {}
 }
