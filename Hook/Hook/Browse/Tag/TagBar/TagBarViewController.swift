@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import RxSwift
 import UIKit
 
 protocol TagBarPresentableListener: AnyObject {
@@ -23,9 +22,11 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumInteritemSpacing = .zero
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(TagBarCollectionViewCell.self)
         collectionView.showsHorizontalScrollIndicator = false
+        
         return collectionView
     }()
     
@@ -50,9 +51,11 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
     
     private enum Metric {
         static let containerViewHeight = CGFloat(60)
+        
         static let tagBarCollectionViewHeight = containerViewHeight
         static let tagBarCollectionViewLeading = CGFloat(10)
         static let tagBarCollectionViewTrailing = CGFloat(-10)
+        
         static let tagSettingsButtonWidthHeight = CGFloat(26)
         static let tagSettingsButtonTrailing = CGFloat(-20)
     }
