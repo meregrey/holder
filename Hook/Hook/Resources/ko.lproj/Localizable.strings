@@ -7,8 +7,14 @@
 /* Alert action title */
 "OK" = "확인";
 
+/* Button title */
+"Save" = "저장";
+
 /* Tag name */
 "All" = "전체";
+
+/* Text field header */
+"Tag name" = "태그 이름";
 
 /* View title */
 "Browse" = "둘러보기";
@@ -16,3 +22,4 @@
 "Favorites" = "즐겨찾기";
 "Account" = "계정";
 "Tag Settings" = "태그 설정";
+"Add Tag" = "태그 추가";
