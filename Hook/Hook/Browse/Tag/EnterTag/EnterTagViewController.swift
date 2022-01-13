@@ -10,6 +10,7 @@ import UIKit
 
 protocol EnterTagPresentableListener: AnyObject {
     func backButtonDidTap()
+    func saveButtonDidTap(with tag: Tag)
 }
 
 final class EnterTagViewController: UIViewController, EnterTagPresentable, EnterTagViewControllable {
@@ -25,6 +26,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         button.setTitleColor(Color.saveButtonTitle, for: .normal)
         button.titleLabel?.font = Font.saveButton
         button.backgroundColor = Color.saveButtonBackground
+        button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -154,5 +156,11 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @objc private func backButtonDidTap() {
         listener?.backButtonDidTap()
+    }
+    
+    @objc private func saveButtonDidTap() {
+        if let tagName = labeledTextField.text, tagName.count > 0 {
+            listener?.saveButtonDidTap(with: Tag(name: tagName))
+        }
     }
 }
