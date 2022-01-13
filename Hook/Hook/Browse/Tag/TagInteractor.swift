@@ -12,6 +12,8 @@ protocol TagRouting: Routing {
     func attachTagBar()
     func attachTagSettings()
     func detachTagSettings()
+    func attachEnterTag()
+    func detachEnterTag()
     func detachTop()
     func cleanupViews()
 }
@@ -47,12 +49,26 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.cleanupViews()
     }
     
+    // MARK: - TagBar
+    
     func tagBarTagSettingsButtonDidTap() {
         router?.attachTagSettings()
     }
     
+    // MARK: - TagSettings
+    
     func tagSettingsBackButtonDidTap() {
         router?.detachTagSettings()
+    }
+    
+    func tagSettingsAddTagButtonDidTap() {
+        router?.attachEnterTag()
+    }
+    
+    // MARK: - EnterTag
+    
+    func enterTagBackButtonDidTap() {
+        router?.detachEnterTag()
     }
     
     func reportCurrentTopContent(_ content: BrowseContent?) {
