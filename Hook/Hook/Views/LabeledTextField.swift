@@ -77,6 +77,10 @@ final class LabeledTextField: UIView {
         return textField.becomeFirstResponder()
     }
     
+    func setText(_ text: String) {
+        textField.text = text
+    }
+    
     private func configure() {
         configureTextField()
         
