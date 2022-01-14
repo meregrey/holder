@@ -39,5 +39,6 @@ enum LocalizedString {
         static let account = "Account".localized
         static let tagSettings = "Tag Settings".localized
         static let addTag = "Add Tag".localized
+        static let editTag = "Edit Tag".localized
     }
 }
