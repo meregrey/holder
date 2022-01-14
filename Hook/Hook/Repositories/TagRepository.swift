@@ -54,6 +54,9 @@ final class TagRepository: TagRepositoryType {
     }
     
     func update(tag: Tag, to newTag: Tag) {
+        if tag.name == newTag.name {
+            return
+        }
         if isExisting(newTag) {
             postNotification(ofName: NotificationName.existingTag)
             return
