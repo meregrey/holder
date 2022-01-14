@@ -100,6 +100,8 @@ extension TagSettingsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TagSettingsTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+        let tag = tags[indexPath.row]
+        if tag.name == TagName.all { cell.accessoryView?.isHidden = true }
         cell.configure(with: tags[indexPath.row])
         return cell
     }

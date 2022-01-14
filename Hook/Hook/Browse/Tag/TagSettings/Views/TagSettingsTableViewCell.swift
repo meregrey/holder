@@ -48,6 +48,11 @@ final class TagSettingsTableViewCell: UITableViewCell {
         configureViews()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        accessoryView?.isHidden = false
+    }
+    
     func configure(with tag: Tag) {
         if tag.name == TagName.all {
             tagNameLabel.text = tag.name.localized
