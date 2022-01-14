@@ -9,13 +9,13 @@ import RIBs
 import RxSwift
 
 protocol TagRouting: Routing {
+    func cleanupViews()
+    func detachTop()
     func attachTagBar()
     func attachTagSettings()
     func detachTagSettings()
-    func attachEnterTag()
+    func attachEnterTag(mode: EnterTagMode)
     func detachEnterTag()
-    func detachTop()
-    func cleanupViews()
 }
 
 protocol TagListener: AnyObject {
@@ -66,7 +66,11 @@ final class TagInteractor: Interactor, TagInteractable {
     }
     
     func tagSettingsAddTagButtonDidTap() {
-        router?.attachEnterTag()
+        router?.attachEnterTag(mode: .add)
+    }
+    
+    func tagSettingsEditTagTableViewRowDidSelect(tag: Tag) {
+        router?.attachEnterTag(mode: .edit(tag: tag))
     }
     
     // MARK: - EnterTag
@@ -75,8 +79,11 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.detachEnterTag()
     }
     
-    func enterTagSaveButtonDidTap(with tag: Tag) {
-        tagRepository.add(tag: tag)
+    func enterTagSaveButtonDidTap(mode: EnterTagMode, tag: Tag) {
+        switch mode {
+        case .add: tagRepository.add(tag: tag)
+        case .edit(let existingTag): tagRepository.update(tag: existingTag, to: tag)
+        }
         router?.detachEnterTag()
     }
 }

@@ -15,15 +15,24 @@ protocol EnterTagPresentable: Presentable {
 
 protocol EnterTagListener: AnyObject {
     func enterTagBackButtonDidTap()
-    func enterTagSaveButtonDidTap(with tag: Tag)
+    func enterTagSaveButtonDidTap(mode: EnterTagMode, tag: Tag)
+}
+
+protocol EnterTagInteractorDependency {
+    var mode: EnterTagMode { get }
 }
 
 final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, EnterTagInteractable, EnterTagPresentableListener {
     
+    private let dependency: EnterTagInteractorDependency
+    
+    private var mode: EnterTagMode { dependency.mode }
+    
     weak var router: EnterTagRouting?
     weak var listener: EnterTagListener?
     
-    override init(presenter: EnterTagPresentable) {
+    init(presenter: EnterTagPresentable, dependency: EnterTagInteractorDependency) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -40,7 +49,7 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
         listener?.enterTagBackButtonDidTap()
     }
     
-    func saveButtonDidTap(with tag: Tag) {
-        listener?.enterTagSaveButtonDidTap(with: tag)
+    func saveButtonDidTap(tag: Tag) {
+        listener?.enterTagSaveButtonDidTap(mode: mode, tag: tag)
     }
 }

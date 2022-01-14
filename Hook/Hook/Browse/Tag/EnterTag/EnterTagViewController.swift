@@ -10,10 +10,12 @@ import UIKit
 
 protocol EnterTagPresentableListener: AnyObject {
     func backButtonDidTap()
-    func saveButtonDidTap(with tag: Tag)
+    func saveButtonDidTap(tag: Tag)
 }
 
 final class EnterTagViewController: UIViewController, EnterTagPresentable, EnterTagViewControllable {
+    
+    private let mode: EnterTagMode
     
     @AutoLayout private var containerView = UIView()
     
@@ -62,13 +64,15 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
 
     weak var listener: EnterTagPresentableListener?
     
-    init() {
+    init(mode: EnterTagMode) {
+        self.mode = mode
         super.init(nibName: nil, bundle: nil)
         registerToReceiveNotification()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        self.mode = .add
         super.init(coder: coder)
         registerToReceiveNotification()
         configureViews()
@@ -118,7 +122,13 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     }
     
     private func configureViews() {
-        title = LocalizedString.ViewTitle.addTag
+        switch mode {
+        case .add:
+            title = LocalizedString.ViewTitle.addTag
+        case .edit(let tag):
+            title = LocalizedString.ViewTitle.editTag
+            labeledTextField.setText(tag.name)
+        }
         
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
@@ -160,7 +170,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @objc private func saveButtonDidTap() {
         if let tagName = labeledTextField.text, tagName.count > 0 {
-            listener?.saveButtonDidTap(with: Tag(name: tagName))
+            listener?.saveButtonDidTap(tag: Tag(name: tagName))
         }
     }
 }

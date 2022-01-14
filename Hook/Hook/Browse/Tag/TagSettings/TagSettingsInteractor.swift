@@ -17,6 +17,7 @@ protocol TagSettingsPresentable: Presentable {
 protocol TagSettingsListener: AnyObject {
     func tagSettingsBackButtonDidTap()
     func tagSettingsAddTagButtonDidTap()
+    func tagSettingsEditTagTableViewRowDidSelect(tag: Tag)
 }
 
 protocol TagSettingsInteractorDependency {
@@ -53,6 +54,10 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     
     func addTagButtonDidTap() {
         listener?.tagSettingsAddTagButtonDidTap()
+    }
+    
+    func editTagTableViewRowDidSelect(tag: Tag) {
+        listener?.tagSettingsEditTagTableViewRowDidSelect(tag: tag)
     }
     
     private func subscribeTagsStream() {

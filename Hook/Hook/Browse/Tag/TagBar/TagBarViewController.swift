@@ -74,7 +74,9 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
     
     func update(with tags: [Tag]) {
         self.tags = tags
-        tagBarCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.tagBarCollectionView.reloadData()
+        }
     }
     
     private func configureViews() {

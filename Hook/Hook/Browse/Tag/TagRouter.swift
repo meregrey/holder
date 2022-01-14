@@ -37,6 +37,24 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         interactor.router = self
     }
     
+    func cleanupViews() {}
+    
+    func detachTop() {
+        guard let router = children.last else { return }
+        detachChild(router)
+        
+        if let _ = router as? TagSettingsRouting {
+            tagSettingsRouter = nil
+            interactor.reportCurrentTopContent(nil)
+        }
+        
+        if let _ = router as? EnterTagRouting {
+            enterTagRouter = nil
+        }
+    }
+    
+    // MARK: - TagBar
+    
     func attachTagBar() {
         guard tagBarRouter == nil else { return }
         let router = tagBar.build(withListener: interactor)
@@ -44,6 +62,8 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         attachChild(router)
         baseViewController.addChild(router.viewControllable)
     }
+    
+    // MARK: - TagSettings
     
     func attachTagSettings() {
         guard tagSettingsRouter == nil else { return }
@@ -62,9 +82,11 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         interactor.reportCurrentTopContent(nil)
     }
     
-    func attachEnterTag() {
+    // MARK: - EnterTag
+    
+    func attachEnterTag(mode: EnterTagMode) {
         guard enterTagRouter == nil else { return }
-        let router = enterTag.build(withListener: interactor)
+        let router = enterTag.build(withListener: interactor, mode: mode)
         enterTagRouter = router
         attachChild(router)
         baseViewController.push(router.viewControllable)
@@ -76,20 +98,4 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         detachChild(router)
         enterTagRouter = nil
     }
-    
-    func detachTop() {
-        guard let router = children.last else { return }
-        detachChild(router)
-        
-        if let _ = router as? TagSettingsRouting {
-            tagSettingsRouter = nil
-            interactor.reportCurrentTopContent(nil)
-        }
-        
-        if let _ = router as? EnterTagRouting {
-            enterTagRouter = nil
-        }
-    }
-
-    func cleanupViews() {}
 }
