@@ -64,6 +64,7 @@
 		676D139427902BB3003AA102 /* LabeledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676D139327902BB3003AA102 /* LabeledTextField.swift */; };
 		676D139627902BE0003AA102 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676D139527902BE0003AA102 /* TextField.swift */; };
 		676D1398279038BE003AA102 /* RoundedCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676D1397279038BE003AA102 /* RoundedCornerButton.swift */; };
+		676D139C27917A94003AA102 /* EnterTagMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676D139B27917A94003AA102 /* EnterTagMode.swift */; };
 		67A2AFAD277F509E00D3A28D /* ViewControllableMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */; };
 		67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */; };
 		67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */; };
@@ -170,6 +171,7 @@
 		676D139327902BB3003AA102 /* LabeledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledTextField.swift; sourceTree = "<group>"; };
 		676D139527902BE0003AA102 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		676D1397279038BE003AA102 /* RoundedCornerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerButton.swift; sourceTree = "<group>"; };
+		676D139B27917A94003AA102 /* EnterTagMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTagMode.swift; sourceTree = "<group>"; };
 		67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllableMock.swift; sourceTree = "<group>"; };
 		67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				676D1379278DA07A003AA102 /* BrowseContent.swift */,
 				672B2FE12771B6820075F348 /* Credential.swift */,
+				676D139B27917A94003AA102 /* EnterTagMode.swift */,
 				672B2FDC2771A8080075F348 /* KeychainItem.swift */,
 				672B2FE52771CFCF0075F348 /* LoginState.swift */,
 				676AC7D4278579A60047B95F /* Tag.swift */,
@@ -778,6 +781,7 @@
 				6705B61C2781DF3100793CB8 /* LoggedInViewController.swift in Sources */,
 				67CE08EE278B4B0D006C25C1 /* TagSettingsViewController.swift in Sources */,
 				67CE08DF2789845F006C25C1 /* TagBarCollectionViewCell.swift in Sources */,
+				676D139C27917A94003AA102 /* EnterTagMode.swift in Sources */,
 				67CE08B1278827BC006C25C1 /* TagInteractor.swift in Sources */,
 				6705B5F927815C7400793CB8 /* AccountBuilder.swift in Sources */,
 				672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */,
