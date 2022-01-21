@@ -21,11 +21,6 @@ final class TextField: UITextField {
         static let text = UIFont.systemFont(ofSize: 17, weight: .medium)
     }
     
-    private enum Color {
-        static let background = UIColor(red: 235.0 / 255.0, green: 240.0 / 255.0, blue: 245.0 / 255.0, alpha: 1.0)
-        static let border = UIColor(red: 235.0 / 255.0, green: 235.0 / 255.0, blue: 235.0 / 255.0, alpha: 1.0).cgColor
-    }
-    
     init(placeholder: String? = nil) {
         super.init(frame: .zero)
         self.placeholder = placeholder
@@ -58,8 +53,8 @@ final class TextField: UITextField {
         heightAnchor.constraint(equalToConstant: Metric.height).isActive = true
         font = Font.text
         clearButtonMode = .whileEditing
-        backgroundColor = Color.background
-        layer.borderColor = Color.border
+        backgroundColor = Asset.Color.upperBackgroundColor
+        layer.borderColor = Asset.Color.borderColor.cgColor
         layer.borderWidth = Metric.borderWidth
         layer.cornerRadius = Metric.cornerRadius
         layer.cornerCurve = .continuous
