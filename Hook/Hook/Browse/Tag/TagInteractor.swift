@@ -10,17 +10,16 @@ import RxSwift
 
 protocol TagRouting: Routing {
     func cleanupViews()
-    func detachTop()
     func attachTagBar()
     func attachTagSettings()
-    func detachTagSettings()
+    func detachTagSettings(includingView isIncludedView: Bool)
     func attachEnterTag(mode: EnterTagMode)
-    func detachEnterTag()
+    func detachEnterTag(includingView isIncludedView: Bool)
+    func attachEditTags()
+    func detachEditTags(includingView isIncludedView: Bool)
 }
 
-protocol TagListener: AnyObject {
-    func setCurrentTopContent(_ content: BrowseContent?)
-}
+protocol TagListener: AnyObject {}
 
 protocol TagInteractorDependency {
     var tagRepository: TagRepositoryType { get }
@@ -49,10 +48,6 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.cleanupViews()
     }
     
-    func reportCurrentTopContent(_ content: BrowseContent?) {
-        listener?.setCurrentTopContent(content)
-    }
-    
     // MARK: - TagBar
     
     func tagBarTagSettingsButtonDidTap() {
@@ -62,21 +57,29 @@ final class TagInteractor: Interactor, TagInteractable {
     // MARK: - TagSettings
     
     func tagSettingsBackButtonDidTap() {
-        router?.detachTagSettings()
+        router?.detachTagSettings(includingView: true)
     }
     
     func tagSettingsAddTagButtonDidTap() {
         router?.attachEnterTag(mode: .add)
     }
     
+    func tagSettingsEditTagsButtonDidTap() {
+        router?.attachEditTags()
+    }
+    
     func tagSettingsEditTagTableViewRowDidSelect(tag: Tag) {
         router?.attachEnterTag(mode: .edit(tag: tag))
+    }
+    
+    func tagSettingsDidRemove() {
+        router?.detachTagSettings(includingView: false)
     }
     
     // MARK: - EnterTag
     
     func enterTagBackButtonDidTap() {
-        router?.detachEnterTag()
+        router?.detachEnterTag(includingView: true)
     }
     
     func enterTagSaveButtonDidTap(mode: EnterTagMode, tag: Tag) {
@@ -84,6 +87,25 @@ final class TagInteractor: Interactor, TagInteractable {
         case .add: tagRepository.add(tag: tag)
         case .edit(let existingTag): tagRepository.update(tag: existingTag, to: tag)
         }
-        router?.detachEnterTag()
+        router?.detachEnterTag(includingView: true)
+    }
+    
+    func enterTagDidRemove() {
+        router?.detachEnterTag(includingView: false)
+    }
+    
+    // MARK: - EditTags
+    
+    func editTagsBackButtonDidTap() {
+        router?.detachEditTags(includingView: true)
+    }
+    
+    func editTagsSaveButtonDidTap(tags: [Tag]) {
+        tagRepository.update(tags: tags)
+        router?.detachEditTags(includingView: true)
+    }
+    
+    func editTagsDidRemove() {
+        router?.detachEditTags(includingView: false)
     }
 }

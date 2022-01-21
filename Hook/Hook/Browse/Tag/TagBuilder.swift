@@ -11,7 +11,7 @@ protocol TagDependency: Dependency {
     var baseViewController: BrowseViewControllable { get }
 }
 
-final class TagComponent: Component<TagDependency>, TagInteractorDependency, TagBarDependency, TagSettingsDependency, EnterTagDependency {
+final class TagComponent: Component<TagDependency>, TagInteractorDependency, TagBarDependency, TagSettingsDependency, EnterTagDependency, EditTagsDependency {
     
     fileprivate var baseViewController: BrowseViewControllable { dependency.baseViewController }
     
@@ -44,10 +44,12 @@ final class TagBuilder: Builder<TagDependency>, TagBuildable {
         let tagBar = TagBarBuilder(dependency: component)
         let tagSettings = TagSettingsBuilder(dependency: component)
         let enterTag = EnterTagBuilder(dependency: component)
+        let editTags = EditTagsBuilder(dependency: component)
         return TagRouter(interactor: interactor,
                          baseViewController: component.baseViewController,
                          tagBar: tagBar,
                          tagSettings: tagSettings,
-                         enterTag: enterTag)
+                         enterTag: enterTag,
+                         editTags: editTags)
     }
 }

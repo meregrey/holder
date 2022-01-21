@@ -7,10 +7,9 @@
 
 import RIBs
 
-protocol TagInteractable: Interactable, TagBarListener, TagSettingsListener, EnterTagListener {
+protocol TagInteractable: Interactable, TagBarListener, TagSettingsListener, EnterTagListener, EditTagsListener {
     var router: TagRouting? { get set }
     var listener: TagListener? { get set }
-    func reportCurrentTopContent(_ content: BrowseContent?)
 }
 
 final class TagRouter: Router<TagInteractable>, TagRouting {
@@ -19,39 +18,29 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
     private let tagBar: TagBarBuildable
     private let tagSettings: TagSettingsBuildable
     private let enterTag: EnterTagBuildable
+    private let editTags: EditTagsBuildable
     
     private var tagBarRouter: Routing?
     private var tagSettingsRouter: Routing?
     private var enterTagRouter: Routing?
+    private var editTagsRouter: Routing?
     
     init(interactor: TagInteractable,
          baseViewController: BrowseViewControllable,
          tagBar: TagBarBuildable,
          tagSettings: TagSettingsBuildable,
-         enterTag: EnterTagBuildable) {
+         enterTag: EnterTagBuildable,
+         editTags: EditTagsBuildable) {
         self.baseViewController = baseViewController
         self.tagBar = tagBar
         self.tagSettings = tagSettings
         self.enterTag = enterTag
+        self.editTags = editTags
         super.init(interactor: interactor)
         interactor.router = self
     }
     
     func cleanupViews() {}
-    
-    func detachTop() {
-        guard let router = children.last else { return }
-        detachChild(router)
-        
-        if let _ = router as? TagSettingsRouting {
-            tagSettingsRouter = nil
-            interactor.reportCurrentTopContent(nil)
-        }
-        
-        if let _ = router as? EnterTagRouting {
-            enterTagRouter = nil
-        }
-    }
     
     // MARK: - TagBar
     
@@ -71,15 +60,13 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         tagSettingsRouter = router
         attachChild(router)
         baseViewController.push(router.viewControllable)
-        interactor.reportCurrentTopContent(.tag)
     }
     
-    func detachTagSettings() {
+    func detachTagSettings(includingView isIncludedView: Bool) {
         guard let router = tagSettingsRouter else { return }
-        baseViewController.pop()
+        if isIncludedView { baseViewController.pop() }
         detachChild(router)
         tagSettingsRouter = nil
-        interactor.reportCurrentTopContent(nil)
     }
     
     // MARK: - EnterTag
@@ -92,10 +79,27 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachEnterTag() {
+    func detachEnterTag(includingView isIncludedView: Bool) {
         guard let router = enterTagRouter else { return }
-        baseViewController.pop()
+        if isIncludedView { baseViewController.pop() }
         detachChild(router)
         enterTagRouter = nil
+    }
+    
+    // MARK: - EditTags
+    
+    func attachEditTags() {
+        guard editTagsRouter == nil else { return }
+        let router = editTags.build(withListener: interactor)
+        editTagsRouter = router
+        attachChild(router)
+        baseViewController.push(router.viewControllable)
+    }
+    
+    func detachEditTags(includingView isIncludedView: Bool) {
+        guard let router = editTagsRouter else { return }
+        if isIncludedView { baseViewController.pop() }
+        detachChild(router)
+        editTagsRouter = nil
     }
 }
