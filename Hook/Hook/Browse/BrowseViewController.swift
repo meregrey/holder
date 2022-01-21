@@ -8,11 +8,9 @@
 import RIBs
 import UIKit
 
-protocol BrowsePresentableListener: AnyObject {
-    func popGestureDidRecognize()
-}
+protocol BrowsePresentableListener: AnyObject {}
 
-final class BrowseViewController: UIViewController, BrowsePresentable, BrowseViewControllable, NavigationRootViewControllable {
+final class BrowseViewController: UIViewController, BrowsePresentable, BrowseViewControllable {
     
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -22,8 +20,8 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     }()
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "rectangle.grid.1x2")
-        static let tabBarItemSelected = UIImage(systemName: "rectangle.grid.1x2.fill")
+        static let tabBarItem = UIImage(systemName: "rectangle.grid.1x2")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItemSelected = UIImage(systemName: "rectangle.grid.1x2.fill")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
     }
 
     weak var listener: BrowsePresentableListener?
@@ -56,10 +54,6 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     
     func pop() {
         navigationController?.popViewController(animated: true)
-    }
-    
-    func popGestureDidRecognize() {
-        listener?.popGestureDidRecognize()
     }
     
     private func configureViews() {

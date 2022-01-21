@@ -10,10 +10,11 @@ import UIKit
 
 protocol SearchPresentableListener: AnyObject {}
 
-final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable, NavigationRootViewControllable {
+final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "magnifyingglass")
+        static let tabBarItem = UIImage(systemName: "magnifyingglass")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItemSelected = UIImage(systemName: "magnifyingglass")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
     }
 
     weak var listener: SearchPresentableListener?
@@ -28,12 +29,10 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
         configureViews()
     }
     
-    func popGestureDidRecognize() {}
-    
     private func configureViews() {
         title = LocalizedString.ViewTitle.search
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
-                                  selectedImage: Image.tabBarItem)
+                                  selectedImage: Image.tabBarItemSelected)
     }
 }

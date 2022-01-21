@@ -10,11 +10,11 @@ import UIKit
 
 protocol FavoritesPresentableListener: AnyObject {}
 
-final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable, NavigationRootViewControllable {
+final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "bookmark")
-        static let tabBarItemSelected = UIImage(systemName: "bookmark.fill")
+        static let tabBarItem = UIImage(systemName: "bookmark")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItemSelected = UIImage(systemName: "bookmark.fill")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
     }
 
     weak var listener: FavoritesPresentableListener?
@@ -28,8 +28,6 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
         super.init(coder: coder)
         configureViews()
     }
-    
-    func popGestureDidRecognize() {}
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.favorites

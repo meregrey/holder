@@ -38,10 +38,4 @@ final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControlla
         tagRouter = router
         attachChild(router)
     }
-    
-    func detachTop(for content: BrowseContent) {
-        if content == .tag {
-            tagRouter?.detachTop()
-        }
-    }
 }

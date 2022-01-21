@@ -9,7 +9,6 @@ import RIBs
 
 protocol BrowseRouting: ViewableRouting {
     func attachTag()
-    func detachTop(for content: BrowseContent)
 }
 
 protocol BrowsePresentable: Presentable {
@@ -20,8 +19,6 @@ protocol BrowseListener: AnyObject {}
 
 final class BrowseInteractor: PresentableInteractor<BrowsePresentable>, BrowseInteractable, BrowsePresentableListener {
     
-    private var currentTopContent: BrowseContent?
-
     weak var router: BrowseRouting?
     weak var listener: BrowseListener?
     
@@ -37,14 +34,5 @@ final class BrowseInteractor: PresentableInteractor<BrowsePresentable>, BrowseIn
 
     override func willResignActive() {
         super.willResignActive()
-    }
-    
-    func setCurrentTopContent(_ content: BrowseContent?) {
-        currentTopContent = content
-    }
-    
-    func popGestureDidRecognize() {
-        guard let currentTopContent = currentTopContent else { return }
-        router?.detachTop(for: currentTopContent)
     }
 }
