@@ -10,11 +10,11 @@ import UIKit
 
 protocol AccountPresentableListener: AnyObject {}
 
-final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable, NavigationRootViewControllable {
+final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "person.crop.circle")
-        static let tabBarItemSelected = UIImage(systemName: "person.crop.circle.fill")
+        static let tabBarItem = UIImage(systemName: "person.crop.circle")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItemSelected = UIImage(systemName: "person.crop.circle.fill")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
     }
 
     weak var listener: AccountPresentableListener?
@@ -28,8 +28,6 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
         super.init(coder: coder)
         configureViews()
     }
-    
-    func popGestureDidRecognize() {}
     
     private func configureViews() {
         title = LocalizedString.ViewTitle.account

@@ -8,6 +8,7 @@
 "OK" = "OK";
 
 /* Button title */
+"Delete" = "Delete";
 "Save" = "Save";
 
 /* Tag name */
@@ -23,3 +24,5 @@
 "Account" = "Account";
 "Tag Settings" = "Tag Settings";
 "Add Tag" = "Add Tag";
+"Edit Tag" = "Edit Tag";
+"Edit Tags" = "Edit Tags";

@@ -12,17 +12,12 @@ final class TagBarCollectionViewCell: UICollectionViewCell {
     @AutoLayout private var tagNameLabel: UILabel = {
         let label = UILabel()
         label.font = Font.tagNameLabel
-        label.textColor = Color.tagNameLabel
+        label.textColor = Asset.Color.secondaryColor
         return label
     }()
     
     private enum Font {
         static let tagNameLabel = UIFont.systemFont(ofSize: 22, weight: .bold)
-    }
-    
-    private enum Color {
-        static let tagNameLabel = UIColor.lightGray
-        static let tagNameLabelSelected = UIColor.black
     }
     
     private enum Metric {
@@ -31,7 +26,7 @@ final class TagBarCollectionViewCell: UICollectionViewCell {
     }
     
     override var isSelected: Bool {
-        didSet { tagNameLabel.textColor = isSelected ? Color.tagNameLabelSelected : Color.tagNameLabel }
+        didSet { tagNameLabel.textColor = isSelected ? Asset.Color.primaryColor : Asset.Color.secondaryColor }
     }
     
     override init(frame: CGRect) {

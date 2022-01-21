@@ -50,10 +50,14 @@ final class TagRepository: TagRepositoryType {
             try context.save()
             guard let newTagsStreamValue = self?.tagsStream.value.appended(with: tag) else { return }
             self?.mutableTagsStream.update(withValue: newTagsStreamValue)
+            self?.postNotification(ofName: NotificationName.didSucceedToAddTag)
         }
     }
     
     func update(tag: Tag, to newTag: Tag) {
+        if tag.name == newTag.name {
+            return
+        }
         if isExisting(newTag) {
             postNotification(ofName: NotificationName.existingTag)
             return

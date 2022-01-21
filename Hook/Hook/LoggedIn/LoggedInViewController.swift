@@ -14,8 +14,13 @@ final class LoggedInViewController: UITabBarController, LoggedInPresentable, Log
     
     weak var listener: LoggedInPresentableListener?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        configureViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         configureViews()
     }
     
@@ -24,7 +29,7 @@ final class LoggedInViewController: UITabBarController, LoggedInPresentable, Log
     }
     
     private func configureViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = Asset.Color.baseBackgroundColor
         tabBar.tintColor = .black
     }
 }

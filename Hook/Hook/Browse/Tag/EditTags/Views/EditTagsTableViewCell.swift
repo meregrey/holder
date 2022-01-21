@@ -1,13 +1,13 @@
 //
-//  TagSettingsTableViewCell.swift
+//  EditTagsTableViewCell.swift
 //  Hook
 //
-//  Created by Yeojin Yoon on 2022/01/10.
+//  Created by Yeojin Yoon on 2022/01/17.
 //
 
 import UIKit
 
-final class TagSettingsTableViewCell: UITableViewCell {
+final class EditTagsTableViewCell: UITableViewCell {
     
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
@@ -23,32 +23,18 @@ final class TagSettingsTableViewCell: UITableViewCell {
         return label
     }()
     
-    @AutoLayout private var forwardImageView: UIImageView = {
-        let imageView = UIImageView(image: Image.forward)
-        imageView.tintColor = Asset.Color.secondaryColor
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     private enum Font {
         static let tagNameLabel = UIFont.systemFont(ofSize: 17, weight: .semibold)
-    }
-    
-    private enum Image {
-        static let forward = UIImage(systemName: "chevron.right", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
     }
     
     private enum Metric {
         static let containerViewTop = CGFloat(5)
         static let containerViewLeading = CGFloat(20)
-        static let containerViewTrailing = CGFloat(-20)
+        static let containerViewTrailing = CGFloat(-10)
         static let containerViewBottom = CGFloat(-5)
         
         static let tagNameLabelLeading = CGFloat(20)
-        
-        static let forwardImageViewHeight = CGFloat(15)
-        static let forwardImageViewLeading = CGFloat(20)
-        static let forwardImageViewTrailing = CGFloat(-20)
+        static let tagNameLabelTrailing = CGFloat(-20)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -61,26 +47,9 @@ final class TagSettingsTableViewCell: UITableViewCell {
         configureViews()
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        forwardImageView.isHidden = false
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        if let text = tagNameLabel.text, text == TagName.all.localized { return }
-        
-        UIView.animate(withDuration: 0.2, animations: {
-            self.containerView.backgroundColor = Asset.Color.selectedBackgroundColor
-        }, completion: { _ in
-            self.containerView.backgroundColor = Asset.Color.upperBackgroundColor
-        })
-    }
-    
     func configure(with tag: Tag) {
         if tag.name == TagName.all {
             tagNameLabel.text = tag.name.localized
-            forwardImageView.isHidden = true
         } else {
             tagNameLabel.text = tag.name
         }
@@ -88,11 +57,9 @@ final class TagSettingsTableViewCell: UITableViewCell {
     
     private func configureViews() {
         backgroundColor = .clear
-        selectionStyle = .none
         
         contentView.addSubview(containerView)
         containerView.addSubview(tagNameLabel)
-        containerView.addSubview(forwardImageView)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.containerViewTop),
@@ -101,12 +68,8 @@ final class TagSettingsTableViewCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.containerViewBottom),
             
             tagNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.tagNameLabelLeading),
-            tagNameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            
-            forwardImageView.heightAnchor.constraint(equalToConstant: Metric.forwardImageViewHeight),
-            forwardImageView.leadingAnchor.constraint(equalTo: tagNameLabel.trailingAnchor, constant: Metric.forwardImageViewLeading),
-            forwardImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.forwardImageViewTrailing),
-            forwardImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            tagNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.tagNameLabelTrailing),
+            tagNameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
     }
 }

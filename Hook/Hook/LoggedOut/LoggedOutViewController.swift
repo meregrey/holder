@@ -31,8 +31,13 @@ final class LoggedOutViewController: UIViewController, LoggedOutPresentable, Log
 
     weak var listener: LoggedOutPresentableListener?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        configureViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         configureViews()
     }
     

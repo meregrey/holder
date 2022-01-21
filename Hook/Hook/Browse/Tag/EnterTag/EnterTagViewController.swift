@@ -10,10 +10,13 @@ import UIKit
 
 protocol EnterTagPresentableListener: AnyObject {
     func backButtonDidTap()
-    func saveButtonDidTap(with tag: Tag)
+    func saveButtonDidTap(tag: Tag)
+    func didRemove()
 }
 
 final class EnterTagViewController: UIViewController, EnterTagPresentable, EnterTagViewControllable {
+    
+    private let mode: EnterTagMode
     
     @AutoLayout private var containerView = UIView()
     
@@ -23,9 +26,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     @AutoLayout private var saveButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
         button.setTitle(LocalizedString.ButtonTitle.save, for: .normal)
-        button.setTitleColor(Color.saveButtonTitle, for: .normal)
-        button.titleLabel?.font = Font.saveButton
-        button.backgroundColor = Color.saveButtonBackground
+        button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
+        button.backgroundColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         return button
     }()
@@ -34,15 +36,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     private enum Number {
         static let countLimit = 20
-    }
-    
-    private enum Color {
-        static let saveButtonTitle = UIColor.white
-        static let saveButtonBackground = UIColor.black
-    }
-    
-    private enum Font {
-        static let saveButton = UIFont.systemFont(ofSize: 17, weight: .medium)
     }
     
     private enum Image {
@@ -62,13 +55,15 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
 
     weak var listener: EnterTagPresentableListener?
     
-    init() {
+    init(mode: EnterTagMode) {
+        self.mode = mode
         super.init(nibName: nil, bundle: nil)
         registerToReceiveNotification()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        self.mode = .add
         super.init(coder: coder)
         registerToReceiveNotification()
         configureViews()
@@ -82,6 +77,11 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil { listener?.didRemove() }
     }
     
     private func registerToReceiveNotification() {
@@ -118,13 +118,17 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     }
     
     private func configureViews() {
-        title = LocalizedString.ViewTitle.addTag
+        switch mode {
+        case .add:
+            title = LocalizedString.ViewTitle.addTag
+        case .edit(let tag):
+            title = LocalizedString.ViewTitle.editTag
+            labeledTextField.setText(tag.name)
+        }
         
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
-        
-        view.backgroundColor = .white
-        
+        view.backgroundColor = Asset.Color.baseBackgroundColor
         containerViewHeightConstraint = NSLayoutConstraint(item: containerView,
                                                            attribute: .height,
                                                            relatedBy: .equal,
@@ -160,7 +164,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @objc private func saveButtonDidTap() {
         if let tagName = labeledTextField.text, tagName.count > 0 {
-            listener?.saveButtonDidTap(with: Tag(name: tagName))
+            listener?.saveButtonDidTap(tag: Tag(name: tagName))
         }
     }
 }

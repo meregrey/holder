@@ -1,15 +1,13 @@
 //
-//  RoundedCornerButton.swift
+//  RoundedCornerView.swift
 //  Hook
 //
-//  Created by Yeojin Yoon on 2022/01/13.
+//  Created by Yeojin Yoon on 2022/01/18.
 //
 
 import UIKit
 
-final class RoundedCornerButton: UIButton {
-    
-    static let height = CGFloat(55)
+final class RoundedCornerView: UIView {
     
     init() {
         super.init(frame: .zero)
@@ -22,8 +20,7 @@ final class RoundedCornerButton: UIButton {
     }
     
     private func configure() {
-        layer.cornerRadius = 10
+        layer.cornerRadius = 15
         layer.cornerCurve = .continuous
-        titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
     }
 }
