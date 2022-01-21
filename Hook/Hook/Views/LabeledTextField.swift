@@ -21,6 +21,7 @@ final class LabeledTextField: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Font.headerLabel
+        label.textColor = Asset.Color.primaryColor
         return label
     }()
     
@@ -30,7 +31,7 @@ final class LabeledTextField: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Font.countLabel
-        label.textColor = Color.countLabel
+        label.textColor = Asset.Color.secondaryColor
         label.text = "0/\(countLimit ?? 0)"
         return label
     }()
@@ -40,12 +41,8 @@ final class LabeledTextField: UIView {
     var text: String? { textField.text }
     
     private enum Font {
-        static let headerLabel = UIFont.systemFont(ofSize: 14, weight: .medium)
+        static let headerLabel = UIFont.systemFont(ofSize: 14, weight: .semibold)
         static let countLabel = UIFont.systemFont(ofSize: 12)
-    }
-    
-    private enum Color {
-        static let countLabel = UIColor.lightGray
     }
     
     private enum Metric {
@@ -79,6 +76,7 @@ final class LabeledTextField: UIView {
     
     func setText(_ text: String) {
         textField.text = text
+        countLabel.text = "\(text.count)/\(countLimit ?? 0)"
     }
     
     private func configure() {
@@ -111,8 +109,22 @@ final class LabeledTextField: UIView {
     }
     
     @objc private func textFieldDidChange() {
-        let count = textField.text?.count ?? 0
+        var count = textField.text?.count ?? 0
         let limit = countLimit ?? 0
+        
+        if count > limit {
+            let substring = textField.text?.prefix(limit) ?? Substring()
+            let string = String(substring)
+            textField.text = string
+            
+            DispatchQueue.main.async {
+                let position = self.textField.endOfDocument
+                self.textField.selectedTextRange = self.textField.textRange(from: position, to: position)
+            }
+            
+            count = limit
+        }
+        
         countLabel.text = "\(count)/\(limit)"
     }
     
