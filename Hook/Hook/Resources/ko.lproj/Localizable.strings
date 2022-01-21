@@ -8,6 +8,7 @@
 "OK" = "확인";
 
 /* Button title */
+"Delete" = "삭제";
 "Save" = "저장";
 
 /* Tag name */
@@ -24,3 +25,4 @@
 "Tag Settings" = "태그 설정";
 "Add Tag" = "태그 추가";
 "Edit Tag" = "태그 편집";
+"Edit Tags" = "태그 편집";
