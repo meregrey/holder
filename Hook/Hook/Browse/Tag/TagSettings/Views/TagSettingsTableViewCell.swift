@@ -9,33 +9,46 @@ import UIKit
 
 final class TagSettingsTableViewCell: UITableViewCell {
     
+    @AutoLayout private var containerView: RoundedCornerView = {
+        let view = RoundedCornerView()
+        view.backgroundColor = Asset.Color.upperBackgroundColor
+        return view
+    }()
+    
     @AutoLayout private var tagNameLabel: UILabel = {
         let label = UILabel()
+        label.textColor = Asset.Color.primaryColor
+        label.font = Font.tagNameLabel
         label.numberOfLines = 1
         return label
     }()
     
-    private let accessoryImageView: UIImageView = {
-        let imageView = UIImageView(image: Image.accessoryView)
-        imageView.tintColor = Color.accessoryView
+    @AutoLayout private var forwardImageView: UIImageView = {
+        let imageView = UIImageView(image: Image.forward)
+        imageView.tintColor = Asset.Color.secondaryColor
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private enum Image {
-        static let accessoryView = UIImage(systemName: "chevron.right",
-                                           withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+    private enum Font {
+        static let tagNameLabel = UIFont.systemFont(ofSize: 17, weight: .semibold)
     }
     
-    private enum Color {
-        static let accessoryView = UIColor.lightGray
+    private enum Image {
+        static let forward = UIImage(systemName: "chevron.right", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
     }
     
     private enum Metric {
-        static let accessoryView = CGRect(x: 0, y: 0, width: 12, height: 12)
-        static let tagNameLabelTop = CGFloat(20)
+        static let containerViewTop = CGFloat(5)
+        static let containerViewLeading = CGFloat(20)
+        static let containerViewTrailing = CGFloat(-20)
+        static let containerViewBottom = CGFloat(-5)
+        
         static let tagNameLabelLeading = CGFloat(20)
-        static let tagNameLabelTrailing = CGFloat(20)
-        static let tagNameLabelBottom = CGFloat(-20)
+        
+        static let forwardImageViewHeight = CGFloat(15)
+        static let forwardImageViewLeading = CGFloat(20)
+        static let forwardImageViewTrailing = CGFloat(-20)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -50,28 +63,50 @@ final class TagSettingsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        accessoryView?.isHidden = false
+        forwardImageView.isHidden = false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        if let text = tagNameLabel.text, text == TagName.all.localized { return }
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.containerView.backgroundColor = Asset.Color.selectedBackgroundColor
+        }, completion: { _ in
+            self.containerView.backgroundColor = Asset.Color.upperBackgroundColor
+        })
     }
     
     func configure(with tag: Tag) {
         if tag.name == TagName.all {
             tagNameLabel.text = tag.name.localized
+            forwardImageView.isHidden = true
         } else {
             tagNameLabel.text = tag.name
         }
     }
     
     private func configureViews() {
-        accessoryView = accessoryImageView
-        accessoryView?.bounds = Metric.accessoryView
+        backgroundColor = .clear
+        selectionStyle = .none
         
-        contentView.addSubview(tagNameLabel)
+        contentView.addSubview(containerView)
+        containerView.addSubview(tagNameLabel)
+        containerView.addSubview(forwardImageView)
         
         NSLayoutConstraint.activate([
-            tagNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.tagNameLabelTop),
-            tagNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.tagNameLabelLeading),
-            tagNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.tagNameLabelTrailing),
-            tagNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.tagNameLabelBottom)
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.containerViewTop),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.containerViewLeading),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.containerViewTrailing),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.containerViewBottom),
+            
+            tagNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.tagNameLabelLeading),
+            tagNameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            
+            forwardImageView.heightAnchor.constraint(equalToConstant: Metric.forwardImageViewHeight),
+            forwardImageView.leadingAnchor.constraint(equalTo: tagNameLabel.trailingAnchor, constant: Metric.forwardImageViewLeading),
+            forwardImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.forwardImageViewTrailing),
+            forwardImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
     }
 }

@@ -11,7 +11,9 @@ import UIKit
 protocol TagSettingsPresentableListener: AnyObject {
     func backButtonDidTap()
     func addTagButtonDidTap()
+    func editTagsButtonDidTap()
     func editTagTableViewRowDidSelect(tag: Tag)
+    func didRemove()
 }
 
 final class TagSettingsViewController: UIViewController, TagSettingsPresentable, TagSettingsViewControllable {
@@ -23,6 +25,7 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         tableView.register(TagSettingsTableViewCell.self)
         tableView.tableHeaderView = UIView()
         tableView.separatorStyle = .none
+        tableView.backgroundColor = Asset.Color.baseBackgroundColor
         return tableView
     }()
     
@@ -33,7 +36,7 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     }
     
     private enum Metric {
-        static let editTagTableViewTop = CGFloat(20)
+        static let editTagTableViewRowHeight = CGFloat(80)
     }
     
     weak var listener: TagSettingsPresentableListener?
@@ -53,10 +56,22 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil { listener?.didRemove() }
+    }
+    
     func update(with tags: [Tag]) {
         self.tags = tags
         DispatchQueue.main.async {
             self.editTagTableView.reloadData()
+        }
+    }
+    
+    func scrollToBottom() {
+        let indexPath = IndexPath(row: tags.count - 1, section: 0)
+        DispatchQueue.main.async {
+            self.editTagTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
     
@@ -65,19 +80,16 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         editTagTableView.delegate = self
         
         title = LocalizedString.ViewTitle.tagSettings
-        
-        navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: Image.ellipsis, style: .plain, target: self, action: #selector(editTagsButtonDidTap)),
                                               UIBarButtonItem(image: Image.plus, style: .plain, target: self, action: #selector(addTagButtonDidTap))]
-        
         hidesBottomBarWhenPushed = true
+        view.backgroundColor = Asset.Color.baseBackgroundColor
         
-        view.backgroundColor = .white
         view.addSubview(editTagTableView)
         
         NSLayoutConstraint.activate([
-            editTagTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Metric.editTagTableViewTop),
+            editTagTableView.topAnchor.constraint(equalTo: view.topAnchor),
             editTagTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             editTagTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             editTagTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -92,7 +104,9 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         listener?.addTagButtonDidTap()
     }
     
-    @objc private func editTagsButtonDidTap() {}
+    @objc private func editTagsButtonDidTap() {
+        listener?.editTagsButtonDidTap()
+    }
 }
 
 extension TagSettingsViewController: UITableViewDataSource {
@@ -103,14 +117,16 @@ extension TagSettingsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TagSettingsTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        let tag = tags[indexPath.row]
-        if tag.name == TagName.all { cell.accessoryView?.isHidden = true }
         cell.configure(with: tags[indexPath.row])
         return cell
     }
 }
 
 extension TagSettingsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Metric.editTagTableViewRowHeight
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tag = tags[indexPath.row]

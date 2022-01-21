@@ -12,12 +12,15 @@ protocol TagSettingsRouting: ViewableRouting {}
 protocol TagSettingsPresentable: Presentable {
     var listener: TagSettingsPresentableListener? { get set }
     func update(with tags: [Tag])
+    func scrollToBottom()
 }
 
 protocol TagSettingsListener: AnyObject {
     func tagSettingsBackButtonDidTap()
     func tagSettingsAddTagButtonDidTap()
+    func tagSettingsEditTagsButtonDidTap()
     func tagSettingsEditTagTableViewRowDidSelect(tag: Tag)
+    func tagSettingsDidRemove()
 }
 
 protocol TagSettingsInteractorDependency {
@@ -42,6 +45,7 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     override func didBecomeActive() {
         super.didBecomeActive()
         subscribeTagsStream()
+        registerToReceiveNotification()
     }
     
     override func willResignActive() {
@@ -56,13 +60,32 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
         listener?.tagSettingsAddTagButtonDidTap()
     }
     
+    func editTagsButtonDidTap() {
+        listener?.tagSettingsEditTagsButtonDidTap()
+    }
+    
     func editTagTableViewRowDidSelect(tag: Tag) {
         listener?.tagSettingsEditTagTableViewRowDidSelect(tag: tag)
+    }
+    
+    func didRemove() {
+        listener?.tagSettingsDidRemove()
     }
     
     private func subscribeTagsStream() {
         tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             self?.presenter.update(with: $0)
         }
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didSucceedToAddTag),
+                                               name: NotificationName.didSucceedToAddTag,
+                                               object: nil)
+    }
+    
+    @objc private func didSucceedToAddTag() {
+        presenter.scrollToBottom()
     }
 }
