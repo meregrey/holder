@@ -26,6 +26,7 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(TagBarCollectionViewCell.self)
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }()
@@ -36,7 +37,7 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         button.imageView?.contentMode = .scaleAspectFit
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
-        button.tintColor = Color.tagSettingsButton
+        button.tintColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(tagSettingsButtonDidTap), for: .touchUpInside)
         return button
     }()
@@ -45,16 +46,12 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         static let tagSettingsButton = UIImage(systemName: "ellipsis")
     }
     
-    private enum Color {
-        static let tagSettingsButton = UIColor.black
-    }
-    
     private enum Metric {
         static let containerViewHeight = CGFloat(60)
         
         static let tagBarCollectionViewHeight = containerViewHeight
         static let tagBarCollectionViewLeading = CGFloat(10)
-        static let tagBarCollectionViewTrailing = CGFloat(-10)
+        static let tagBarCollectionViewTrailing = CGFloat(-16)
         
         static let tagSettingsButtonWidthHeight = CGFloat(26)
         static let tagSettingsButtonTrailing = CGFloat(-20)
@@ -76,6 +73,7 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         self.tags = tags
         DispatchQueue.main.async {
             self.tagBarCollectionView.reloadData()
+            self.tagBarCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
         }
     }
     
@@ -125,7 +123,12 @@ extension TagBarViewController: UICollectionViewDataSource {
     }
 }
 
-extension TagBarViewController: UICollectionViewDelegate {}
+extension TagBarViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+    }
+}
 
 extension TagBarViewController: UICollectionViewDelegateFlowLayout {
     
