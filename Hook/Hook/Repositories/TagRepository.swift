@@ -50,6 +50,7 @@ final class TagRepository: TagRepositoryType {
             try context.save()
             guard let newTagsStreamValue = self?.tagsStream.value.appended(with: tag) else { return }
             self?.mutableTagsStream.update(withValue: newTagsStreamValue)
+            self?.postNotification(ofName: NotificationName.didSucceedToAddTag)
         }
     }
     
