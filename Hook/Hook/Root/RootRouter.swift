@@ -38,8 +38,10 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     }
     
     func routeToLoggedIn(withCredential credential: Credential) {
-        detachLoggedOut()
-        attachLoggedIn(withCredential: credential)
+        DispatchQueue.main.async {
+            self.detachLoggedOut()
+            self.attachLoggedIn(withCredential: credential)
+        }
     }
     
     private func attachLoggedOut() {
