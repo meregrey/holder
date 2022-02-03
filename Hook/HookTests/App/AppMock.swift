@@ -34,7 +34,7 @@ final class CredentialRepositoryMock: CredentialRepositoryType {
         saveCallCount += 1
         try? keychainManager.addItem("", itemClass: kSecClassGenericPassword, itemAttributes: [:])
         if shouldSaveSucceed {
-            mutableLoginStateStream.update(withValue: .loggedIn(credential: credential))
+            mutableLoginStateStream.update(with: .loggedIn(credential: credential))
             return .success(())
         } else {
             return .failure(NSError())

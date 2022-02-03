@@ -24,6 +24,6 @@ final class RoundedCornerButton: UIButton {
     private func configure() {
         layer.cornerRadius = 10
         layer.cornerCurve = .continuous
-        titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
     }
 }

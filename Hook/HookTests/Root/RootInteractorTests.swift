@@ -38,7 +38,7 @@ final class RootInteractorTests: XCTestCase {
     func testDidBecomeActive() {
         // given
         let credential = Credential(identifier: "identifier_0", name: "name_0")
-        mutableLoginStateStream.update(withValue: .loggedIn(credential: credential))
+        mutableLoginStateStream.update(with: .loggedIn(credential: credential))
         
         // when
         sut.activate()

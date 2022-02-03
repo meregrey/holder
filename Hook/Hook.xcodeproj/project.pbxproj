@@ -38,9 +38,18 @@
 		672B2FF127749AA90075F348 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FED27749AA90075F348 /* RootViewController.swift */; };
 		672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEE27749AA90075F348 /* RootBuilder.swift */; };
 		672B2FF327749AAA0075F348 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEF27749AA90075F348 /* RootInteractor.swift */; };
+		6735714627A1961800C1136B /* BookmarkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714327A1961800C1136B /* BookmarkRouter.swift */; };
+		6735714727A1961800C1136B /* BookmarkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714427A1961800C1136B /* BookmarkBuilder.swift */; };
+		6735714827A1961800C1136B /* BookmarkInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714527A1961800C1136B /* BookmarkInteractor.swift */; };
+		6735714E27A19B9F00C1136B /* BookmarkBrowserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714A27A19B9F00C1136B /* BookmarkBrowserRouter.swift */; };
+		6735714F27A19B9F00C1136B /* BookmarkBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714B27A19B9F00C1136B /* BookmarkBrowserViewController.swift */; };
+		6735715027A19B9F00C1136B /* BookmarkBrowserBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714C27A19B9F00C1136B /* BookmarkBrowserBuilder.swift */; };
+		6735715127A19B9F00C1136B /* BookmarkBrowserInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735714D27A19B9F00C1136B /* BookmarkBrowserInteractor.swift */; };
 		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6736DE5627843B38003E7321 /* PersistenceModel.xcdatamodeld */; };
 		6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6736DE5B27843D38003E7321 /* TagEntity.swift */; };
+		67390780279DB6E900742772 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6739077F279DB6E900742772 /* Bookmark.swift */; };
+		67390782279DB72900742772 /* BookmarkTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67390781279DB72900742772 /* BookmarkTag.swift */; };
 		673A889F277B7E7600A89DC7 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A889E277B7E7600A89DC7 /* NotificationName.swift */; };
 		673A88A2277BF2F100A89DC7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 673A88A4277BF2F100A89DC7 /* Localizable.strings */; };
 		673A88A8277BF49E00A89DC7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88A7277BF49E00A89DC7 /* String.swift */; };
@@ -49,8 +58,6 @@
 		673A88F2277E117F00A89DC7 /* RootInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */; };
 		673A88F5277E11D800A89DC7 /* RootMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88F4277E11D800A89DC7 /* RootMock.swift */; };
 		673A88FC277E139F00A89DC7 /* ViewableRoutingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */; };
-		676AC7CE2784480E0047B95F /* TagStorage+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7CC2784480E0047B95F /* TagStorage+CoreDataClass.swift */; };
-		676AC7CF2784480E0047B95F /* TagStorage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7CD2784480E0047B95F /* TagStorage+CoreDataProperties.swift */; };
 		676AC7D127856F960047B95F /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D027856F960047B95F /* PersistentContainer.swift */; };
 		676AC7D3278574AF0047B95F /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D2278574AF0047B95F /* TagRepository.swift */; };
 		676AC7D5278579A60047B95F /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D4278579A60047B95F /* Tag.swift */; };
@@ -72,7 +79,18 @@
 		67923BFA2795715C00B8E41E /* EditTagsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67923BF92795715C00B8E41E /* EditTagsTableViewCell.swift */; };
 		67923BFC2795C6BA00B8E41E /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67923BFB2795C6BA00B8E41E /* Asset.swift */; };
 		67923BFE2795CA4C00B8E41E /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67923BFD2795CA4C00B8E41E /* RoundedCornerView.swift */; };
+		67A2A0C627A2468E0036C361 /* EnterBookmarkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */; };
+		67A2A0C727A2468E0036C361 /* EnterBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */; };
+		67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */; };
+		67A2A0C927A2468E0036C361 /* EnterBookmarkInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C527A2468E0036C361 /* EnterBookmarkInteractor.swift */; };
+		67A2A0CF27A29D810036C361 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0CE27A29D810036C361 /* NavigationBar.swift */; };
 		67A2AFAD277F509E00D3A28D /* ViewControllableMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */; };
+		67A763CE27ABD2F8002B34F4 /* BookmarkEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763C827ABD2F7002B34F4 /* BookmarkEntity+CoreDataProperties.swift */; };
+		67A763CF27ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763C927ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataClass.swift */; };
+		67A763D027ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763CA27ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift */; };
+		67A763D127ABD2F8002B34F4 /* TagStorage+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763CB27ABD2F7002B34F4 /* TagStorage+CoreDataClass.swift */; };
+		67A763D227ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763CC27ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift */; };
+		67A763D327ABD2F8002B34F4 /* BookmarkEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763CD27ABD2F8002B34F4 /* BookmarkEntity+CoreDataClass.swift */; };
 		67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */; };
 		67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */; };
 		67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */; };
@@ -104,6 +122,7 @@
 		67EDC92427717477003F646F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67EDC92227717477003F646F /* LaunchScreen.storyboard */; };
 		67F21B58277FE3F900C1E985 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F21B57277FE3F900C1E985 /* AppDelegateTests.swift */; };
 		67F21B5A277FFCB200C1E985 /* AppMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F21B59277FFCB200C1E985 /* AppMock.swift */; };
+		67F6923C279D0BB500AFFA0B /* BookmarkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F6923B279D0BB500AFFA0B /* BookmarkRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,9 +169,18 @@
 		672B2FED27749AA90075F348 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		672B2FEE27749AA90075F348 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		672B2FEF27749AA90075F348 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		6735714327A1961800C1136B /* BookmarkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRouter.swift; sourceTree = "<group>"; };
+		6735714427A1961800C1136B /* BookmarkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkBuilder.swift; sourceTree = "<group>"; };
+		6735714527A1961800C1136B /* BookmarkInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkInteractor.swift; sourceTree = "<group>"; };
+		6735714A27A19B9F00C1136B /* BookmarkBrowserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkBrowserRouter.swift; sourceTree = "<group>"; };
+		6735714B27A19B9F00C1136B /* BookmarkBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkBrowserViewController.swift; sourceTree = "<group>"; };
+		6735714C27A19B9F00C1136B /* BookmarkBrowserBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkBrowserBuilder.swift; sourceTree = "<group>"; };
+		6735714D27A19B9F00C1136B /* BookmarkBrowserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkBrowserInteractor.swift; sourceTree = "<group>"; };
 		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6736DE5727843B38003E7321 /* PersistenceModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PersistenceModel.xcdatamodel; sourceTree = "<group>"; };
 		6736DE5B27843D38003E7321 /* TagEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEntity.swift; sourceTree = "<group>"; };
+		6739077F279DB6E900742772 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		67390781279DB72900742772 /* BookmarkTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTag.swift; sourceTree = "<group>"; };
 		673A889E277B7E7600A89DC7 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		673A88A3277BF2F100A89DC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		673A88A5277BF33B00A89DC7 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -163,8 +191,6 @@
 		673A88F0277E117F00A89DC7 /* RootInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractorTests.swift; sourceTree = "<group>"; };
 		673A88F4277E11D800A89DC7 /* RootMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootMock.swift; sourceTree = "<group>"; };
 		673A88FB277E139F00A89DC7 /* ViewableRoutingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewableRoutingMock.swift; sourceTree = "<group>"; };
-		676AC7CC2784480E0047B95F /* TagStorage+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TagStorage+CoreDataClass.swift"; path = "Hook/Persistence/ManagedObject/TagStorage+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		676AC7CD2784480E0047B95F /* TagStorage+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TagStorage+CoreDataProperties.swift"; path = "Hook/Persistence/ManagedObject/TagStorage+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		676AC7D027856F960047B95F /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		676AC7D2278574AF0047B95F /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
 		676AC7D4278579A60047B95F /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -186,7 +212,18 @@
 		67923BF92795715C00B8E41E /* EditTagsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagsTableViewCell.swift; sourceTree = "<group>"; };
 		67923BFB2795C6BA00B8E41E /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		67923BFD2795CA4C00B8E41E /* RoundedCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerView.swift; sourceTree = "<group>"; };
+		67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkRouter.swift; sourceTree = "<group>"; };
+		67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkViewController.swift; sourceTree = "<group>"; };
+		67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkBuilder.swift; sourceTree = "<group>"; };
+		67A2A0C527A2468E0036C361 /* EnterBookmarkInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkInteractor.swift; sourceTree = "<group>"; };
+		67A2A0CE27A29D810036C361 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllableMock.swift; sourceTree = "<group>"; };
+		67A763C827ABD2F7002B34F4 /* BookmarkEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		67A763C927ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkTagEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		67A763CA27ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkTagEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		67A763CB27ABD2F7002B34F4 /* TagStorage+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TagStorage+CoreDataClass.swift"; sourceTree = "<group>"; };
+		67A763CC27ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TagStorage+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		67A763CD27ABD2F8002B34F4 /* BookmarkEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		67BDEA252774C7E70031FEC1 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		67BDEA262774C7E70031FEC1 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
 		67BDEA272774C7E70031FEC1 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
@@ -221,6 +258,7 @@
 		67EDC92527717477003F646F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67F21B57277FE3F900C1E985 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		67F21B59277FFCB200C1E985 /* AppMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMock.swift; sourceTree = "<group>"; };
+		67F6923B279D0BB500AFFA0B /* BookmarkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRepository.swift; sourceTree = "<group>"; };
 		AC21C7F00D33770B60875905 /* Pods-HookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HookTests.release.xcconfig"; path = "Target Support Files/Pods-HookTests/Pods-HookTests.release.xcconfig"; sourceTree = "<group>"; };
 		C95653514DC318383C46E2D0 /* Pods-Hook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hook.debug.xcconfig"; path = "Target Support Files/Pods-Hook/Pods-Hook.debug.xcconfig"; sourceTree = "<group>"; };
 		F811AAEB8B93A88A09DC7BE6 /* libPods-HookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				67CE08AB2788279F006C25C1 /* Tag */,
+				6735714227A1959800C1136B /* Bookmark */,
 				6705B5D927815B3F00793CB8 /* BrowseRouter.swift */,
 				6705B5DC27815B3F00793CB8 /* BrowseInteractor.swift */,
 				6705B5DB27815B3F00793CB8 /* BrowseBuilder.swift */,
@@ -326,6 +365,8 @@
 		672B2FDB2771A7D30075F348 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6739077F279DB6E900742772 /* Bookmark.swift */,
+				67390781279DB72900742772 /* BookmarkTag.swift */,
 				672B2FE12771B6820075F348 /* Credential.swift */,
 				676D139B27917A94003AA102 /* EnterTagMode.swift */,
 				672B2FDC2771A8080075F348 /* KeychainItem.swift */,
@@ -338,6 +379,7 @@
 		672B2FDE2771B5E70075F348 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				67F6923B279D0BB500AFFA0B /* BookmarkRepository.swift */,
 				672B2FDF2771B6420075F348 /* CredentialRepository.swift */,
 				676AC7D2278574AF0047B95F /* TagRepository.swift */,
 			);
@@ -353,6 +395,29 @@
 				672B2FED27749AA90075F348 /* RootViewController.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		6735714227A1959800C1136B /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				6735714927A19B8A00C1136B /* BookmarkBrowser */,
+				67A2A0C127A246780036C361 /* EnterBookmark */,
+				6735714327A1961800C1136B /* BookmarkRouter.swift */,
+				6735714527A1961800C1136B /* BookmarkInteractor.swift */,
+				6735714427A1961800C1136B /* BookmarkBuilder.swift */,
+			);
+			path = Bookmark;
+			sourceTree = "<group>";
+		};
+		6735714927A19B8A00C1136B /* BookmarkBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				6735714A27A19B9F00C1136B /* BookmarkBrowserRouter.swift */,
+				6735714D27A19B9F00C1136B /* BookmarkBrowserInteractor.swift */,
+				6735714C27A19B9F00C1136B /* BookmarkBrowserBuilder.swift */,
+				6735714B27A19B9F00C1136B /* BookmarkBrowserViewController.swift */,
+			);
+			path = BookmarkBrowser;
 			sourceTree = "<group>";
 		};
 		6736DE5527843AF7003E7321 /* Persistence */ = {
@@ -412,8 +477,7 @@
 		676AC7C2278447190047B95F /* ManagedObject */ = {
 			isa = PBXGroup;
 			children = (
-				676AC7CC2784480E0047B95F /* TagStorage+CoreDataClass.swift */,
-				676AC7CD2784480E0047B95F /* TagStorage+CoreDataProperties.swift */,
+				67A763C727ABD2E4002B34F4 /* ManagedObject */,
 			);
 			path = ManagedObject;
 			sourceTree = "<group>";
@@ -433,6 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				676D139327902BB3003AA102 /* LabeledTextField.swift */,
+				67A2A0CE27A29D810036C361 /* NavigationBar.swift */,
 				676D1397279038BE003AA102 /* RoundedCornerButton.swift */,
 				67923BFD2795CA4C00B8E41E /* RoundedCornerView.swift */,
 				676D139527902BE0003AA102 /* TextField.swift */,
@@ -459,6 +524,30 @@
 				67923BF92795715C00B8E41E /* EditTagsTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		67A2A0C127A246780036C361 /* EnterBookmark */ = {
+			isa = PBXGroup;
+			children = (
+				67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */,
+				67A2A0C527A2468E0036C361 /* EnterBookmarkInteractor.swift */,
+				67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */,
+				67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */,
+			);
+			path = EnterBookmark;
+			sourceTree = "<group>";
+		};
+		67A763C727ABD2E4002B34F4 /* ManagedObject */ = {
+			isa = PBXGroup;
+			children = (
+				67A763CD27ABD2F8002B34F4 /* BookmarkEntity+CoreDataClass.swift */,
+				67A763C827ABD2F7002B34F4 /* BookmarkEntity+CoreDataProperties.swift */,
+				67A763C927ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataClass.swift */,
+				67A763CA27ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift */,
+				67A763CB27ABD2F7002B34F4 /* TagStorage+CoreDataClass.swift */,
+				67A763CC27ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift */,
+			);
+			path = ManagedObject;
 			sourceTree = "<group>";
 		};
 		67BDEA242774C7C40031FEC1 /* LoggedOut */ = {
@@ -796,6 +885,7 @@
 			files = (
 				6705B5EF27815C2F00793CB8 /* FavoritesRouter.swift in Sources */,
 				672B2FDD2771A8080075F348 /* KeychainItem.swift in Sources */,
+				67A763CF27ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataClass.swift in Sources */,
 				67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */,
 				6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */,
 				676D1398279038BE003AA102 /* RoundedCornerButton.swift in Sources */,
@@ -806,17 +896,19 @@
 				6705B5F727815C7400793CB8 /* AccountRouter.swift in Sources */,
 				676AC7DF2785EEA80047B95F /* Array.swift in Sources */,
 				672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */,
-				676AC7CE2784480E0047B95F /* TagStorage+CoreDataClass.swift in Sources */,
 				676D139627902BE0003AA102 /* TextField.swift in Sources */,
 				676D1380278EC0CE003AA102 /* EnterTagRouter.swift in Sources */,
 				6705B5E527815BA300793CB8 /* SearchRouter.swift in Sources */,
 				6705B5DD27815B3F00793CB8 /* BrowseRouter.swift in Sources */,
 				67BDEA322774C81F0031FEC1 /* LoggedInBuilder.swift in Sources */,
+				6735714F27A19B9F00C1136B /* BookmarkBrowserViewController.swift in Sources */,
 				67BDEA312774C81F0031FEC1 /* LoggedInRouter.swift in Sources */,
 				6705B5F227815C3000793CB8 /* FavoritesInteractor.swift in Sources */,
+				67A763CE27ABD2F8002B34F4 /* BookmarkEntity+CoreDataProperties.swift in Sources */,
 				676AC7D5278579A60047B95F /* Tag.swift in Sources */,
 				6705B61C2781DF3100793CB8 /* LoggedInViewController.swift in Sources */,
 				67CE08EE278B4B0D006C25C1 /* TagSettingsViewController.swift in Sources */,
+				6735714627A1961800C1136B /* BookmarkRouter.swift in Sources */,
 				67923BF82795711300B8E41E /* EditTagsTableView.swift in Sources */,
 				67CE08DF2789845F006C25C1 /* TagBarCollectionViewCell.swift in Sources */,
 				676D139C27917A94003AA102 /* EnterTagMode.swift in Sources */,
@@ -826,14 +918,19 @@
 				67CE08BA27887303006C25C1 /* TagBarInteractor.swift in Sources */,
 				676AC7D127856F960047B95F /* PersistentContainer.swift in Sources */,
 				672B2FF127749AA90075F348 /* RootViewController.swift in Sources */,
+				67390782279DB72900742772 /* BookmarkTag.swift in Sources */,
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
 				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
 				676DF8822791CDD600267103 /* EditTagsBuilder.swift in Sources */,
 				6705B5E627815BA300793CB8 /* SearchViewController.swift in Sources */,
 				6705B5E727815BA300793CB8 /* SearchBuilder.swift in Sources */,
+				6735715027A19B9F00C1136B /* BookmarkBrowserBuilder.swift in Sources */,
+				67A763D227ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift in Sources */,
+				67A2A0CF27A29D810036C361 /* NavigationBar.swift in Sources */,
 				6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				676DF8802791CDD600267103 /* EditTagsRouter.swift in Sources */,
+				67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */,
 				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
 				67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */,
 				67CE08E72789F1C4006C25C1 /* UIView.swift in Sources */,
@@ -841,17 +938,22 @@
 				672B2FE62771CFCF0075F348 /* LoginState.swift in Sources */,
 				67CE08B0278827BC006C25C1 /* TagBuilder.swift in Sources */,
 				67CE08F0278B4B0D006C25C1 /* TagSettingsInteractor.swift in Sources */,
-				676AC7CF2784480E0047B95F /* TagStorage+CoreDataProperties.swift in Sources */,
 				673A88A8277BF49E00A89DC7 /* String.swift in Sources */,
+				6735714727A1961800C1136B /* BookmarkBuilder.swift in Sources */,
 				67CE08F3278C22BC006C25C1 /* TagSettingsTableViewCell.swift in Sources */,
 				676D139427902BB3003AA102 /* LabeledTextField.swift in Sources */,
 				6705B5E027815B3F00793CB8 /* BrowseInteractor.swift in Sources */,
 				676AC7DD2785E6620047B95F /* TagName.swift in Sources */,
+				67A2A0C727A2468E0036C361 /* EnterBookmarkViewController.swift in Sources */,
 				6705B5DE27815B3F00793CB8 /* BrowseViewController.swift in Sources */,
+				67A2A0C927A2468E0036C361 /* EnterBookmarkInteractor.swift in Sources */,
 				672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */,
+				67A763D127ABD2F8002B34F4 /* TagStorage+CoreDataClass.swift in Sources */,
 				67CE08AF278827BC006C25C1 /* TagRouter.swift in Sources */,
 				67CE08B727887303006C25C1 /* TagBarRouter.swift in Sources */,
 				673A88AD277BF64000A89DC7 /* LocalizedString.swift in Sources */,
+				67390780279DB6E900742772 /* Bookmark.swift in Sources */,
+				67A763D027ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift in Sources */,
 				67BDEA37277764CA0031FEC1 /* AutoLayout.swift in Sources */,
 				67BDEA3B277786C80031FEC1 /* Convertible.swift in Sources */,
 				672B2FF027749AA90075F348 /* RootRouter.swift in Sources */,
@@ -863,16 +965,22 @@
 				67923BFE2795CA4C00B8E41E /* RoundedCornerView.swift in Sources */,
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
 				6705B5DF27815B3F00793CB8 /* BrowseBuilder.swift in Sources */,
+				67F6923C279D0BB500AFFA0B /* BookmarkRepository.swift in Sources */,
 				67CE08B927887303006C25C1 /* TagBarBuilder.swift in Sources */,
 				6705B5F027815C2F00793CB8 /* FavoritesViewController.swift in Sources */,
 				67BDEA332774C81F0031FEC1 /* LoggedInInteractor.swift in Sources */,
+				6735714E27A19B9F00C1136B /* BookmarkBrowserRouter.swift in Sources */,
 				67CE08E52789ED7A006C25C1 /* ReusableView.swift in Sources */,
+				6735714827A1961800C1136B /* BookmarkInteractor.swift in Sources */,
 				673A889F277B7E7600A89DC7 /* NotificationName.swift in Sources */,
 				6705B5FA27815C7400793CB8 /* AccountInteractor.swift in Sources */,
 				6705B5F827815C7400793CB8 /* AccountViewController.swift in Sources */,
 				67BDEA2C2774C7E70031FEC1 /* LoggedOutInteractor.swift in Sources */,
+				6735715127A19B9F00C1136B /* BookmarkBrowserInteractor.swift in Sources */,
 				67CE08E12789D152006C25C1 /* TagStorageTransformer.swift in Sources */,
 				673A88B2277C05CD00A89DC7 /* Stream.swift in Sources */,
+				67A2A0C627A2468E0036C361 /* EnterBookmarkRouter.swift in Sources */,
+				67A763D327ABD2F8002B34F4 /* BookmarkEntity+CoreDataClass.swift in Sources */,
 				67923BFA2795715C00B8E41E /* EditTagsTableViewCell.swift in Sources */,
 				67CE08EF278B4B0D006C25C1 /* TagSettingsBuilder.swift in Sources */,
 				676AC7D3278574AF0047B95F /* TagRepository.swift in Sources */,

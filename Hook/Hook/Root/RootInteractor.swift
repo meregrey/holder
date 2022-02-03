@@ -72,7 +72,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     private func registerToReceiveNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didFailToSaveCredential),
-                                               name: NotificationName.didFailToSaveCredential,
+                                               name: NotificationName.Credential.didFailToSaveCredential,
                                                object: nil)
     }
 

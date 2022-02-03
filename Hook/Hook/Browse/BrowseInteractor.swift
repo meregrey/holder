@@ -9,6 +9,7 @@ import RIBs
 
 protocol BrowseRouting: ViewableRouting {
     func attachTag()
+    func attachBookmark()
 }
 
 protocol BrowsePresentable: Presentable {
@@ -30,6 +31,7 @@ final class BrowseInteractor: PresentableInteractor<BrowsePresentable>, BrowseIn
     override func didBecomeActive() {
         super.didBecomeActive()
         router?.attachTag()
+        router?.attachBookmark()
     }
 
     override func willResignActive() {

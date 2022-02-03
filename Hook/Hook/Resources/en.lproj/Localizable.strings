@@ -8,6 +8,7 @@
 "OK" = "OK";
 
 /* Button title */
+"Add" = "Add";
 "Delete" = "Delete";
 "Save" = "Save";
 
@@ -26,3 +27,4 @@
 "Add Tag" = "Add Tag";
 "Edit Tag" = "Edit Tag";
 "Edit Tags" = "Edit Tags";
+"Add Bookmark" = "Add Bookmark";

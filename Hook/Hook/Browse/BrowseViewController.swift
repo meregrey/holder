@@ -61,12 +61,14 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
                                   image: Image.tabBarItem,
                                   selectedImage: Image.tabBarItemSelected)
         
+        view.backgroundColor = Asset.Color.baseBackgroundColor
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

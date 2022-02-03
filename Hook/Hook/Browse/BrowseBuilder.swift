@@ -9,7 +9,7 @@ import RIBs
 
 protocol BrowseDependency: Dependency {}
 
-final class BrowseComponent: Component<BrowseDependency>, TagDependency {
+final class BrowseComponent: Component<BrowseDependency>, TagDependency, BookmarkDependency {
     
     var baseViewController: BrowseViewControllable
     
@@ -37,8 +37,10 @@ final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
         let interactor = BrowseInteractor(presenter: viewController)
         interactor.listener = listener
         let tag = TagBuilder(dependency: component)
+        let bookmark = BookmarkBuilder(dependency: component)
         return BrowseRouter(interactor: interactor,
                             viewController: viewController,
-                            tag: tag)
+                            tag: tag,
+                            bookmark: bookmark)
     }
 }

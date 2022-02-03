@@ -28,29 +28,29 @@ final class TagRepository: TagRepositoryType {
     }
     
     func fetch() {
-        persistentContainer.performBackgroundTask(with: NotificationName.didFailToFetchTags) { [weak self] context in
+        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToFetchTags) { [weak self] context in
             let request = TagStorage.fetchRequest()
             guard let tags = try context.fetch(request).first?.extractTags() else {
                 self?.setUpDefaultTag()
                 return
             }
-            self?.mutableTagsStream.update(withValue: tags)
+            self?.mutableTagsStream.update(with: tags)
         }
     }
     
     func add(tag: Tag) {
         if isExisting(tag) {
-            postNotification(ofName: NotificationName.existingTag)
+            postNotification(ofName: NotificationName.Tag.existingTag)
             return
         }
-        persistentContainer.performBackgroundTask(with: NotificationName.didFailToAddTag) { [weak self] context in
+        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToAddTag) { [weak self] context in
             let request = TagStorage.fetchRequest()
             guard let tagStorage = try context.fetch(request).first else { return }
             tagStorage.tags = tagStorage.tags.appended(with: TagEntity(name: tag.name))
             try context.save()
             guard let newTagsStreamValue = self?.tagsStream.value.appended(with: tag) else { return }
-            self?.mutableTagsStream.update(withValue: newTagsStreamValue)
-            self?.postNotification(ofName: NotificationName.didSucceedToAddTag)
+            self?.mutableTagsStream.update(with: newTagsStreamValue)
+            self?.postNotification(ofName: NotificationName.Tag.didSucceedToAddTag)
         }
     }
     
@@ -59,35 +59,35 @@ final class TagRepository: TagRepositoryType {
             return
         }
         if isExisting(newTag) {
-            postNotification(ofName: NotificationName.existingTag)
+            postNotification(ofName: NotificationName.Tag.existingTag)
             return
         }
         guard let tags = makeReplacedTags(tag, with: newTag) else { return }
-        persistentContainer.performBackgroundTask(with: NotificationName.didFailToUpdateTag) { [weak self] context in
+        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToUpdateTag) { [weak self] context in
             let request = TagStorage.fetchRequest()
             guard let tagStorage = try context.fetch(request).first else { return }
             tagStorage.tags = tags.map { $0.converted() }
             try context.save()
-            self?.mutableTagsStream.update(withValue: tags)
+            self?.mutableTagsStream.update(with: tags)
         }
     }
     
     func update(tags: [Tag]) {
-        persistentContainer.performBackgroundTask(with: NotificationName.didFailToUpdateTags) { [weak self] context in
+        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToUpdateTags) { [weak self] context in
             let request = TagStorage.fetchRequest()
             guard let tagStorage = try context.fetch(request).first else { return }
             tagStorage.tags = tags.map { $0.converted() }
             try context.save()
-            self?.mutableTagsStream.update(withValue: tags)
+            self?.mutableTagsStream.update(with: tags)
         }
     }
     
     private func setUpDefaultTag() {
-        persistentContainer.performBackgroundTask(with: NotificationName.didFailToSetUpDefaultTag) { [weak self] context in
+        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToSetUpDefaultTag) { [weak self] context in
             let tagStorage = TagStorage(context: context)
             tagStorage.tags = [TagEntity(name: TagName.all)]
             try context.save()
-            self?.mutableTagsStream.update(withValue: [Tag(name: TagName.all)])
+            self?.mutableTagsStream.update(with: [Tag(name: TagName.all)])
         }
     }
     

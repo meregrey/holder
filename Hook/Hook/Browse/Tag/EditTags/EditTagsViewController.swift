@@ -127,12 +127,9 @@ extension EditTagsViewController: UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: LocalizedString.ButtonTitle.delete) { _, _, _ in
-            self.tags.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .none)
-        }
-        return UISwipeActionsConfiguration(actions: [action])
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 0 { return true }
+        return false
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -147,13 +144,16 @@ extension EditTagsViewController: UITableViewDelegate {
         return Metric.editTagsTableViewRowHeight
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == 0 { return true }
-        return false
-    }
-    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if tags[indexPath.row].name == TagName.all { return .none }
         return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: LocalizedString.ButtonTitle.delete) { _, _, _ in
+            self.tags.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .none)
+        }
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }

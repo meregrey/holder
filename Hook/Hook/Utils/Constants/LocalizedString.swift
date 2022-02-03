@@ -21,6 +21,7 @@ enum LocalizedString {
     }
     
     enum ButtonTitle {
+        static let add = "Add".localized
         static let delete = "Delete".localized
         static let save = "Save".localized
     }
@@ -42,5 +43,6 @@ enum LocalizedString {
         static let addTag = "Add Tag".localized
         static let editTag = "Edit Tag".localized
         static let editTags = "Edit Tags".localized
+        static let addBookmark = "Add Bookmark".localized
     }
 }
