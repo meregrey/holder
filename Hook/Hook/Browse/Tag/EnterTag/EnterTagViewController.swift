@@ -20,7 +20,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @AutoLayout private var containerView = UIView()
     
-    @AutoLayout private var labeledTextField = LabeledTextField(header: LocalizedString.TextFieldHeader.tagName,
+    @AutoLayout private var labeledTextField = LabeledTextField(header: LocalizedString.LabelText.tagName,
                                                                 countLimit: Number.countLimit)
     
     @AutoLayout private var saveButton: RoundedCornerButton = {
