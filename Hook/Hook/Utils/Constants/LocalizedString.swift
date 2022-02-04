@@ -26,12 +26,14 @@ enum LocalizedString {
         static let save = "Save".localized
     }
     
-    enum TagName {
-        static let all = "All".localized
+    enum LabelText {
+        static let tagName = "Tag name".localized
+        static let tags = "Tags".localized
+        static let note = "Note".localized
     }
     
-    enum TextFieldHeader {
-        static let tagName = "Tag name".localized
+    enum TagName {
+        static let all = "All".localized
     }
     
     enum ViewTitle {
