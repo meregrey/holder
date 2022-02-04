@@ -12,11 +12,13 @@
 "Delete" = "Delete";
 "Save" = "Save";
 
+/* Label text */
+"Tag name" = "Tag name";
+"Tags" = "Tags";
+"Note" = "Note";
+
 /* Tag name */
 "All" = "All";
-
-/* Text field header */
-"Tag name" = "Tag name";
 
 /* View title */
 "Browse" = "Browse";

@@ -12,11 +12,13 @@
 "Delete" = "삭제";
 "Save" = "저장";
 
+/* Label text */
+"Tag name" = "태그 이름";
+"Tags" = "태그";
+"Note" = "메모";
+
 /* Tag name */
 "All" = "전체";
-
-/* Text field header */
-"Tag name" = "태그 이름";
 
 /* View title */
 "Browse" = "둘러보기";
