@@ -85,7 +85,8 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
                                                object: nil)
     }
     
-    @objc private func didSucceedToAddTag() {
+    @objc
+    private func didSucceedToAddTag() {
         presenter.scrollToBottom()
     }
 }

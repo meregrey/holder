@@ -66,7 +66,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         ])
     }
     
-    @objc private func addBookmarkButtonDidTap() {
+    @objc
+    private func addBookmarkButtonDidTap() {
         listener?.addBookmarkButtonDidTap()
     }
 }

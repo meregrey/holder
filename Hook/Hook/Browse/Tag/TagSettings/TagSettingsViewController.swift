@@ -20,7 +20,7 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     
     private var tags: [Tag] = []
     
-    @AutoLayout private var editTagTableView: UITableView = {
+    @AutoLayout private var tagSettingsTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TagSettingsTableViewCell.self)
         tableView.tableHeaderView = UIView()
@@ -64,20 +64,20 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     func update(with tags: [Tag]) {
         self.tags = tags
         DispatchQueue.main.async {
-            self.editTagTableView.reloadData()
+            self.tagSettingsTableView.reloadData()
         }
     }
     
     func scrollToBottom() {
         let indexPath = IndexPath(row: tags.count - 1, section: 0)
         DispatchQueue.main.async {
-            self.editTagTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            self.tagSettingsTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
     
     private func configureViews() {
-        editTagTableView.dataSource = self
-        editTagTableView.delegate = self
+        tagSettingsTableView.dataSource = self
+        tagSettingsTableView.delegate = self
         
         title = LocalizedString.ViewTitle.tagSettings
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
@@ -86,25 +86,28 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
-        view.addSubview(editTagTableView)
+        view.addSubview(tagSettingsTableView)
         
         NSLayoutConstraint.activate([
-            editTagTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            editTagTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            editTagTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            editTagTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tagSettingsTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tagSettingsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tagSettingsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tagSettingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    @objc private func backButtonDidTap() {
+    @objc
+    private func backButtonDidTap() {
         listener?.backButtonDidTap()
     }
     
-    @objc private func addTagButtonDidTap() {
+    @objc
+    private func addTagButtonDidTap() {
         listener?.addTagButtonDidTap()
     }
     
-    @objc private func editTagsButtonDidTap() {
+    @objc
+    private func editTagsButtonDidTap() {
         listener?.editTagsButtonDidTap()
     }
 }

@@ -23,9 +23,9 @@
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "0xFA",
-          "green" : "0xFA",
-          "red" : "0xFA"
+          "blue" : "0xE1",
+          "green" : "0xDC",
+          "red" : "0xD7"
         }
       },
       "idiom" : "iphone"
@@ -41,9 +41,9 @@
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "0x28",
-          "green" : "0x1E",
-          "red" : "0x1E"
+          "blue" : "0x37",
+          "green" : "0x32",
+          "red" : "0x32"
         }
       },
       "idiom" : "iphone"

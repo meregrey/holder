@@ -13,7 +13,9 @@ protocol BookmarkRouting: Routing {
     func attachEnterBookmark()
 }
 
-protocol BookmarkListener: AnyObject {}
+protocol BookmarkListener: AnyObject {
+    func attachSelectTags(existingSelectedTags: [Tag])
+}
 
 protocol BookmarkInteractorDependency {
     var bookmarkRepository: BookmarkRepositoryType { get }
@@ -46,5 +48,11 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable {
     
     func bookmarkBrowserAddBookmarkButtonDidTap() {
         router?.attachEnterBookmark()
+    }
+    
+    // MARK: - EnterBookmark
+    
+    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag]) {
+        listener?.attachSelectTags(existingSelectedTags: existingSelectedTags)
     }
 }

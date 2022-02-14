@@ -56,6 +56,16 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         navigationController?.popViewController(animated: true)
     }
     
+    func presentOver(_ view: ViewControllable) {
+        let viewController = view.uiviewController
+        viewController.modalPresentationStyle = .currentContext
+        presentedViewController?.present(viewController, animated: true)
+    }
+    
+    func dismissOver() {
+        presentedViewController?.dismiss(animated: true)
+    }
+    
     private func configureViews() {
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,

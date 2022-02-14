@@ -19,7 +19,6 @@ final class EditTagsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = Asset.Color.primaryColor
         label.font = Font.tagNameLabel
-        label.numberOfLines = 1
         return label
     }()
     

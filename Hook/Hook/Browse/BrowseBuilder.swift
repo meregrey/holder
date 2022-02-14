@@ -11,6 +11,8 @@ protocol BrowseDependency: Dependency {}
 
 final class BrowseComponent: Component<BrowseDependency>, TagDependency, BookmarkDependency {
     
+    let selectedTagsStream = MutableStream<[Tag]>(initialValue: [])
+    
     var baseViewController: BrowseViewControllable
     
     init(dependency: BrowseDependency, baseViewController: BrowseViewControllable) {

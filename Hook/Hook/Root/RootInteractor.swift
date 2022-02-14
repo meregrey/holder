@@ -76,8 +76,9 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
                                                object: nil)
     }
 
-    @objc private func didFailToSaveCredential() {
+    @objc
+    private func didFailToSaveCredential() {
         presenter.displayAlert(withTitle: LocalizedString.AlertTitle.keychainErrorOccured,
-                               message: LocalizedString.AlertMessage.keychainErrorOccuredWhileSaving)
+                               message: LocalizedString.AlertMessage.keychainErrorOccured)
     }
 }

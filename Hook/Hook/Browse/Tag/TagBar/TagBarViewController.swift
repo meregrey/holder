@@ -105,7 +105,8 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         ])
     }
     
-    @objc private func tagSettingsButtonDidTap() {
+    @objc
+    private func tagSettingsButtonDidTap() {
         listener?.tagSettingsButtonDidTap()
     }
 }

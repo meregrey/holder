@@ -7,20 +7,20 @@
 
 import UIKit
 
-final class RoundedCornerView: UIView {
+class RoundedCornerView: UIView {
     
-    init() {
+    init(cornerRadius: CGFloat = 15) {
         super.init(frame: .zero)
-        configure()
+        configure(cornerRadius: cornerRadius)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        configure()
+        configure(cornerRadius: 15)
     }
     
-    private func configure() {
-        layer.cornerRadius = 15
+    private func configure(cornerRadius: CGFloat) {
+        layer.cornerRadius = cornerRadius
         layer.cornerCurve = .continuous
     }
 }

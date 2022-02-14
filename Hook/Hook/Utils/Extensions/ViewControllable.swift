@@ -23,10 +23,10 @@ extension ViewControllable {
         uiviewController.dismiss(animated: animated, completion: completion)
     }
     
-    func presentAlert(withTitle title: String, message: String, action: [UIAlertAction]? = nil) {
+    func presentAlert(withTitle title: String, message: String, actions: [UIAlertAction]? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = action ?? [UIAlertAction(title: LocalizedString.AlertActionTitle.ok, style: .default)]
-        action.forEach { alert.addAction($0) }
+        let actions = actions ?? [UIAlertAction(title: LocalizedString.AlertActionTitle.ok, style: .default)]
+        actions.forEach { alert.addAction($0) }
         uiviewController.present(alert, animated: true)
     }
 }

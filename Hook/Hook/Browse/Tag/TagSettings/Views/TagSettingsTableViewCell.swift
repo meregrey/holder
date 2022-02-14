@@ -17,9 +17,8 @@ final class TagSettingsTableViewCell: UITableViewCell {
     
     @AutoLayout private var tagNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Asset.Color.primaryColor
         label.font = Font.tagNameLabel
-        label.numberOfLines = 1
+        label.textColor = Asset.Color.primaryColor
         return label
     }()
     
@@ -45,9 +44,9 @@ final class TagSettingsTableViewCell: UITableViewCell {
         static let containerViewBottom = CGFloat(-5)
         
         static let tagNameLabelLeading = CGFloat(20)
+        static let tagNameLabelTrailing = CGFloat(-20)
         
-        static let forwardImageViewHeight = CGFloat(15)
-        static let forwardImageViewLeading = CGFloat(20)
+        static let forwardImageViewWidthHeight = CGFloat(15)
         static let forwardImageViewTrailing = CGFloat(-20)
     }
     
@@ -100,13 +99,14 @@ final class TagSettingsTableViewCell: UITableViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.containerViewTrailing),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.containerViewBottom),
             
-            tagNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.tagNameLabelLeading),
             tagNameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            tagNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.tagNameLabelLeading),
+            tagNameLabel.trailingAnchor.constraint(equalTo: forwardImageView.leadingAnchor, constant: Metric.tagNameLabelTrailing),
             
-            forwardImageView.heightAnchor.constraint(equalToConstant: Metric.forwardImageViewHeight),
-            forwardImageView.leadingAnchor.constraint(equalTo: tagNameLabel.trailingAnchor, constant: Metric.forwardImageViewLeading),
-            forwardImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.forwardImageViewTrailing),
-            forwardImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            forwardImageView.widthAnchor.constraint(equalToConstant: Metric.forwardImageViewWidthHeight),
+            forwardImageView.heightAnchor.constraint(equalToConstant: Metric.forwardImageViewWidthHeight),
+            forwardImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            forwardImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.forwardImageViewTrailing)
         ])
     }
 }

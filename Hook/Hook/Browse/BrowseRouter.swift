@@ -16,6 +16,8 @@ protocol BrowseViewControllable: ViewControllable {
     func addChild(_ view: ViewControllable)
     func push(_ view: ViewControllable)
     func pop()
+    func presentOver(_ view: ViewControllable)
+    func dismissOver()
 }
 
 final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControllable>, BrowseRouting {
@@ -23,8 +25,8 @@ final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControlla
     private let tag: TagBuildable
     private let bookmark: BookmarkBuildable
     
-    private var tagRouter: Routing?
-    private var bookmarkRouter: Routing?
+    private var tagRouter: TagRouting?
+    private var bookmarkRouter: BookmarkRouting?
     
     init(interactor: BrowseInteractable,
          viewController: BrowseViewControllable,
@@ -48,5 +50,9 @@ final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControlla
         let router = bookmark.build(withListener: interactor)
         bookmarkRouter = router
         attachChild(router)
+    }
+    
+    func attachSelectTags(existingSelectedTags: [Tag]) {
+        tagRouter?.attachSelectTags(existingSelectedTags: existingSelectedTags)
     }
 }

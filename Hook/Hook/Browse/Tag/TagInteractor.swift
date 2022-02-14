@@ -17,6 +17,10 @@ protocol TagRouting: Routing {
     func detachEnterTag(includingView isIncludedView: Bool)
     func attachEditTags()
     func detachEditTags(includingView isIncludedView: Bool)
+    func attachSelectTags(existingSelectedTags: [Tag])
+    func detachSelectTags()
+    func attachSearchTags()
+    func detachSearchTags()
 }
 
 protocol TagListener: AnyObject {}
@@ -107,5 +111,30 @@ final class TagInteractor: Interactor, TagInteractable {
     
     func editTagsDidRemove() {
         router?.detachEditTags(includingView: false)
+    }
+    
+    // MARK: - SelectTags
+    
+    func selectTagsCloseButtonDidTap() {
+        router?.detachSelectTags()
+    }
+    
+    func selectTagsSearchBarDidTap() {
+        router?.attachSearchTags()
+    }
+    
+    func selectTagsDoneButtonDidTap() {
+        router?.detachSelectTags()
+    }
+    
+    // MARK: - SearchTags
+    
+    func searchTagsCancelButtonDidTap() {
+        router?.detachSearchTags()
+    }
+    
+    func searchTagsRowDidSelect(tag: Tag, shouldAddTag: Bool) {
+        if shouldAddTag { tagRepository.add(tag: tag) }
+        router?.detachSearchTags()
     }
 }

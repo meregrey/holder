@@ -95,11 +95,13 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
         ])
     }
     
-    @objc private func backButtonDidTap() {
+    @objc
+    private func backButtonDidTap() {
         listener?.backButtonDidTap()
     }
     
-    @objc private func saveButtonDidTap() {
+    @objc
+    private func saveButtonDidTap() {
         listener?.saveButtonDidTap(tags: tags)
     }
 }

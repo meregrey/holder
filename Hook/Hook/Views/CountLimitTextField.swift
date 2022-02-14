@@ -1,5 +1,5 @@
 //
-//  LabeledTextField.swift
+//  CountLimitTextField.swift
 //  Hook
 //
 //  Created by Yeojin Yoon on 2022/01/13.
@@ -7,38 +7,32 @@
 
 import UIKit
 
-final class LabeledTextField: UIView {
+final class CountLimitTextField: UIView {
     
-    private let headerStackView: UIStackView = {
+    @AutoLayout private var headerStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
         return stackView
     }()
     
-    private let headerLabel: UILabel = {
+    @AutoLayout private var headerLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Font.headerLabel
         label.textColor = Asset.Color.primaryColor
         return label
     }()
     
-    private let textField: TextField
-    
-    private lazy var countLabel: UILabel = {
+    @AutoLayout private var countLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Font.countLabel
         label.textColor = Asset.Color.secondaryColor
-        label.text = "0/\(countLimit ?? 0)"
         return label
     }()
     
-    private var countLimit: Int?
+    @AutoLayout private var textField: TextField
     
-    var text: String? { textField.text }
+    private var countLimit: Int
     
     private enum Font {
         static let headerLabel = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -49,20 +43,22 @@ final class LabeledTextField: UIView {
         static let textFieldTop = CGFloat(10)
     }
     
-    init(header: String, countLimit: Int? = nil) {
-        self.headerLabel.text = header
+    var text: String? { textField.text }
+    
+    init(header: String, countLimit: Int) {
         self.textField = TextField(placeholder: header)
         self.countLimit = countLimit
         super.init(frame: .zero)
-        configure()
+        registerToReceiveNotification()
+        configure(with: header)
     }
     
     required init?(coder: NSCoder) {
-        self.headerLabel.text = ""
         self.textField = TextField(placeholder: "")
-        self.countLimit = nil
+        self.countLimit = 0
         super.init(coder: coder)
-        configure()
+        registerToReceiveNotification()
+        configure(with: "")
     }
     
     deinit {
@@ -71,46 +67,25 @@ final class LabeledTextField: UIView {
     
     @discardableResult
     override func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
         return textField.becomeFirstResponder()
     }
     
     func setText(_ text: String) {
         textField.text = text
-        countLabel.text = "\(text.count)/\(countLimit ?? 0)"
+        countLabel.text = "\(text.count)/\(countLimit)"
     }
     
-    private func configure() {
-        configureTextField()
-        
-        addSubview(headerStackView)
-        addSubview(textField)
-        
-        headerStackView.addArrangedSubview(headerLabel)
-        if let countLimit = countLimit, countLimit > 0 { headerStackView.addArrangedSubview(countLabel) }
-        
-        NSLayoutConstraint.activate([
-            headerStackView.topAnchor.constraint(equalTo: topAnchor),
-            headerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            headerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            textField.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: Metric.textFieldTop),
-            textField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-    }
-    
-    private func configureTextField() {
-        textField.delegate = self
+    private func registerToReceiveNotification() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(textFieldDidChange),
+                                               selector: #selector(textDidChange),
                                                name: UITextField.textDidChangeNotification,
-                                               object: textField)
+                                               object: nil)
     }
     
-    @objc private func textFieldDidChange() {
+    @objc private func textDidChange() {
         var count = textField.text?.count ?? 0
-        let limit = countLimit ?? 0
+        let limit = countLimit
         
         if count > limit {
             let substring = textField.text?.prefix(limit) ?? Substring()
@@ -126,6 +101,28 @@ final class LabeledTextField: UIView {
         }
         
         countLabel.text = "\(count)/\(limit)"
+    }
+    
+    private func configure(with header: String) {
+        headerLabel.text = header
+        countLabel.text = "0/\(countLimit)"
+        textField.delegate = self
+        
+        addSubview(headerStackView)
+        addSubview(textField)
+        headerStackView.addArrangedSubview(headerLabel)
+        headerStackView.addArrangedSubview(countLabel)
+        
+        NSLayoutConstraint.activate([
+            headerStackView.topAnchor.constraint(equalTo: topAnchor),
+            headerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            headerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            textField.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: Metric.textFieldTop),
+            textField.leadingAnchor.constraint(equalTo: leadingAnchor),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor),
+            textField.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
     
     private func animateTextField() {
@@ -155,16 +152,13 @@ final class LabeledTextField: UIView {
     }
 }
 
-extension LabeledTextField: UITextFieldDelegate {
+extension CountLimitTextField: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if countLimit == nil { return true }
-        
         let count = textField.text?.count ?? 0
-        let limit = countLimit ?? 0
         
-        if count < limit { return true }
-        if count == limit, string.count == 0 { return true }
+        if count < countLimit { return true }
+        if count == countLimit, string.count == 0 { return true }
         
         animateTextField()
         
