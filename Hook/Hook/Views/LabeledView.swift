@@ -7,10 +7,6 @@
 
 import UIKit
 
-enum ViewTheme {
-    case normal, sheet
-}
-
 class LabeledView: UIView {
     
     @AutoLayout private var stackView: UIStackView = {
@@ -32,9 +28,9 @@ class LabeledView: UIView {
         static let label = UIFont.systemFont(ofSize: 15, weight: .bold)
     }
     
-    init(title: String, theme: ViewTheme? = .normal) {
+    init(header: String, theme: ViewTheme? = .normal) {
         super.init(frame: .zero)
-        self.label.text = title
+        self.label.text = header
         if theme == .sheet { self.label.textColor = Asset.Color.sheetLabelColor }
         configureViews()
     }
