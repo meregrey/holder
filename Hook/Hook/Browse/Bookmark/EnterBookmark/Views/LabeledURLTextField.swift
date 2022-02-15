@@ -1,5 +1,5 @@
 //
-//  LabeledTextField.swift
+//  LabeledURLTextField.swift
 //  Hook
 //
 //  Created by Yeojin Yoon on 2022/02/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LabeledTextField: LabeledView {
+final class LabeledURLTextField: LabeledView {
     
     @AutoLayout private var textField: TextField
     
@@ -17,11 +17,9 @@ final class LabeledTextField: LabeledView {
     
     var text: String? { textField.text }
     
-    init(header: String,
-         keyboardType: UIKeyboardType = .default,
-         theme: ViewTheme = .normal) {
-        self.textField = TextField(placeholder: header, keyboardType: keyboardType, theme: theme)
-        super.init(header: header, theme: theme)
+    init(header: String) {
+        self.textField = TextField(placeholder: nil, keyboardType: .URL, theme: .sheet)
+        super.init(header: header, theme: .sheet)
         configure()
     }
     
