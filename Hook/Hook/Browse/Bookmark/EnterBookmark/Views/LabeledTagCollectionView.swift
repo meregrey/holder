@@ -61,8 +61,8 @@ final class LabeledTagCollectionView: LabeledView {
         didSet { tagCollectionView.delegate = delegate }
     }
     
-    init(title: String) {
-        super.init(title: title, theme: .sheet)
+    init(header: String) {
+        super.init(header: header, theme: .sheet)
         configureViews()
     }
     
