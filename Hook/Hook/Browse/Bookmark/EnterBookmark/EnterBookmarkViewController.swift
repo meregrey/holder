@@ -20,21 +20,26 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @AutoLayout private var scrollView = UIScrollView()
     
-    @AutoLayout private var urlTextField = LabeledTextField(header: "URL",
-                                                            keyboardType: .URL,
-                                                            theme: .sheet)
+    @AutoLayout private var urlTextField = LabeledURLTextField(header: "URL")
     
     @AutoLayout private var tagCollectionView = LabeledTagCollectionView(header: LocalizedString.LabelTitle.tags)
     
+    @AutoLayout private var noteTextView = LabeledNoteTextView(header: LocalizedString.LabelTitle.note)
+    
     private enum Metric {
-        static let urlTextFieldTop = CGFloat(20)
+        static let urlTextFieldTop = CGFloat(10)
         static let urlTextFieldLeading = CGFloat(20)
         static let urlTextFieldTrailing = CGFloat(-20)
         
         static let tagCollectionViewCellHeight = CGFloat(36)
-        static let tagCollectionViewTop = CGFloat(40)
+        static let tagCollectionViewTop = CGFloat(30)
         static let tagCollectionViewLeading = CGFloat(20)
         static let tagCollectionViewTrailing = CGFloat(-20)
+        
+        static let noteTextViewTop = CGFloat(30)
+        static let noteTextViewLeading = CGFloat(20)
+        static let noteTextViewTrailing = CGFloat(-20)
+        static let noteTextViewBottom = CGFloat(-20)
     }
     
     weak var listener: EnterBookmarkPresentableListener?
@@ -49,13 +54,13 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         configureViews()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         urlTextField.becomeFirstResponder()
     }
     
     func update(with tags: [Tag]) {
-        self.selectedTags = tags
+        selectedTags = tags
         tagCollectionView.reloadData()
         if selectedTags.isEmpty { tagCollectionView.resetHeight() }
     }
@@ -74,6 +79,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         
         scrollView.addSubview(urlTextField)
         scrollView.addSubview(tagCollectionView)
+        scrollView.addSubview(noteTextView)
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -96,6 +102,11 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             tagCollectionView.topAnchor.constraint(equalTo: urlTextField.bottomAnchor, constant: Metric.tagCollectionViewTop),
             tagCollectionView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Metric.tagCollectionViewLeading),
             tagCollectionView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: Metric.tagCollectionViewTrailing),
+            
+            noteTextView.topAnchor.constraint(equalTo: tagCollectionView.bottomAnchor, constant: Metric.noteTextViewTop),
+            noteTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Metric.noteTextViewLeading),
+            noteTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: Metric.noteTextViewTrailing),
+            noteTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: Metric.noteTextViewBottom)
         ])
     }
     
