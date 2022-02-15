@@ -25,13 +25,13 @@ class LabeledView: UIView {
     }()
     
     private enum Font {
-        static let label = UIFont.systemFont(ofSize: 15, weight: .bold)
+        static let label = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
     
     init(header: String, theme: ViewTheme? = .normal) {
         super.init(frame: .zero)
         self.label.text = header
-        if theme == .sheet { self.label.textColor = Asset.Color.sheetLabelColor }
+        if theme == .sheet { self.label.textColor = Asset.Color.sheetTextColor }
         configureViews()
     }
     

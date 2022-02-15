@@ -28,7 +28,7 @@ enum Asset {
         
         static let sheetBorderColor = UIColor(named: "SheetBorderColor") ?? .clear
         
-        static let sheetLabelColor = UIColor(named: "SheetLabelColor") ?? .clear
+        static let sheetTextColor = UIColor(named: "SheetTextColor") ?? .clear
         
         static let sheetSearchBackgroundColor = UIColor(named: "SheetSearchBackgroundColor") ?? .clear
         static let sheetSearchTintColor = UIColor(named: "SheetSearchTintColor") ?? .clear

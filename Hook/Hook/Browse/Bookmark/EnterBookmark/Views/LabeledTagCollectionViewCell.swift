@@ -18,7 +18,7 @@ final class LabeledTagCollectionViewCell: UICollectionViewCell {
     @AutoLayout private var tagNameLabel: UILabel = {
         let label = UILabel()
         label.font = Font.tagNameLabel
-        label.textColor = Asset.Color.sheetLabelColor
+        label.textColor = Asset.Color.sheetTextColor
         label.lineBreakMode = .byTruncatingMiddle
         return label
     }()
