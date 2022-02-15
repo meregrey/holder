@@ -61,7 +61,7 @@ final class TextField: UITextField {
         layer.cornerCurve = .continuous
         
         if theme == .sheet {
-            textColor = Asset.Color.sheetLabelColor
+            textColor = Asset.Color.sheetTextColor
             backgroundColor = Asset.Color.sheetUpperBackgroundColor
             return
         }
