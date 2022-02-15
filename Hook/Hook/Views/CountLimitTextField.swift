@@ -12,7 +12,7 @@ final class CountLimitTextField: UIView {
     @AutoLayout private var headerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
         return stackView
     }()
     
