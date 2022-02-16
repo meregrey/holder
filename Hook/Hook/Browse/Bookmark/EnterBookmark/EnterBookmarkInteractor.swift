@@ -11,7 +11,7 @@ protocol EnterBookmarkRouting: ViewableRouting {}
 
 protocol EnterBookmarkPresentable: Presentable {
     var listener: EnterBookmarkPresentableListener? { get set }
-    func update(with tags: [Tag])
+    func update(with selectedTags: [Tag])
 }
 
 protocol EnterBookmarkListener: AnyObject {

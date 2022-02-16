@@ -7,14 +7,15 @@
 
 import UIKit
 
+protocol LabeledURLTextFieldListener {
+    func textFieldDidBecomeFirstResponder()
+}
+
 final class LabeledURLTextField: LabeledView {
     
     @AutoLayout private var textField: TextField
     
-    var delegate: UITextFieldDelegate? {
-        didSet { textField.delegate = delegate }
-    }
-    
+    var listener: LabeledURLTextFieldListener?
     var text: String? { textField.text }
     
     init(header: String) {
@@ -35,13 +36,20 @@ final class LabeledURLTextField: LabeledView {
         return textField.becomeFirstResponder()
     }
     
-    @discardableResult
-    override func resignFirstResponder() -> Bool {
-        super.resignFirstResponder()
-        return textField.resignFirstResponder()
+    private func configure() {
+        textField.delegate = self
+        addSubviewUnderLabel(textField)
+    }
+}
+
+extension LabeledURLTextField: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        listener?.textFieldDidBecomeFirstResponder()
     }
     
-    private func configure() {
-        addSubviewUnderLabel(textField)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

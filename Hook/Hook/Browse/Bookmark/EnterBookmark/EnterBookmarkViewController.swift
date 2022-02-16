@@ -26,6 +26,26 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @AutoLayout private var noteTextView = LabeledNoteTextView(header: LocalizedString.LabelTitle.note)
     
+    @AutoLayout private var transparentFooterView = UIView()
+    
+    @AutoLayout private var saveButton: RoundedCornerButton = {
+        let button = RoundedCornerButton()
+        button.setTitle(LocalizedString.ButtonTitle.save, for: .normal)
+        button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
+        button.backgroundColor = Asset.Color.primaryColor
+        button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var originalViewFrame = view.frame
+    private lazy var saveButtonBottomConstraint = NSLayoutConstraint(item: saveButton,
+                                                                     attribute: .bottom,
+                                                                     relatedBy: .equal,
+                                                                     toItem: view,
+                                                                     attribute: .bottom,
+                                                                     multiplier: 1,
+                                                                     constant: Metric.saveButtonBottom)
+    
     private enum Metric {
         static let urlTextFieldTop = CGFloat(10)
         static let urlTextFieldLeading = CGFloat(20)
@@ -40,46 +60,87 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         static let noteTextViewLeading = CGFloat(20)
         static let noteTextViewTrailing = CGFloat(-20)
         static let noteTextViewBottom = CGFloat(-20)
+        
+        static let transparentFooterViewHeight = CGFloat(100)
+        
+        static let saveButtonHeight = RoundedCornerButton.height
+        static let saveButtonLeading = CGFloat(20)
+        static let saveButtonTrailing = CGFloat(-20)
+        static let saveButtonBottom = CGFloat(-40)
+        static let saveButtonBottomForKeyboard = CGFloat(-20)
     }
     
     weak var listener: EnterBookmarkPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        registerToReceiveNotification()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        registerToReceiveNotification()
         configureViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        urlTextField.becomeFirstResponder()
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
-    func update(with tags: [Tag]) {
-        selectedTags = tags
+    func update(with selectedTags: [Tag]) {
+        self.selectedTags = selectedTags
         tagCollectionView.reloadData()
         if selectedTags.isEmpty { tagCollectionView.resetHeight() }
     }
     
-    private func configureViews() {
-        urlTextField.delegate = self
+    private func registerToReceiveNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo else { return }
+        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        saveButtonBottomConstraint.constant = Metric.saveButtonBottomForKeyboard
+        view.frame = CGRect(x: originalViewFrame.origin.x, y: originalViewFrame.origin.y, width: originalViewFrame.width, height: originalViewFrame.height - keyboardFrame.height)
+        view.layoutIfNeeded()
+    }
+    
+    @objc
+    private func keyboardWillHide() {
+        saveButtonBottomConstraint.constant = Metric.saveButtonBottom
+        view.frame = CGRect(x: originalViewFrame.origin.x, y: originalViewFrame.origin.y, width: originalViewFrame.width, height: originalViewFrame.height)
+        view.layoutIfNeeded()
+    }
+    
+    private func configureViews() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tagCollectionViewDidTap(_:)))
         tagCollectionView.addGestureRecognizer(tapGestureRecognizer)
         tagCollectionView.dataSource = self
         tagCollectionView.delegate = self
         
+        scrollView.delegate = self
+        urlTextField.listener = self
+        noteTextView.listener = self
+        
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         view.addSubview(headerView)
         view.addSubview(scrollView)
+        view.addSubview(saveButton)
         
         scrollView.addSubview(urlTextField)
         scrollView.addSubview(tagCollectionView)
         scrollView.addSubview(noteTextView)
+        scrollView.addSubview(transparentFooterView)
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -106,27 +167,58 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             noteTextView.topAnchor.constraint(equalTo: tagCollectionView.bottomAnchor, constant: Metric.noteTextViewTop),
             noteTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Metric.noteTextViewLeading),
             noteTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: Metric.noteTextViewTrailing),
-            noteTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: Metric.noteTextViewBottom)
+            
+            transparentFooterView.heightAnchor.constraint(equalToConstant: Metric.transparentFooterViewHeight),
+            transparentFooterView.topAnchor.constraint(equalTo: noteTextView.bottomAnchor),
+            transparentFooterView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            transparentFooterView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            transparentFooterView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            
+            saveButton.heightAnchor.constraint(equalToConstant: Metric.saveButtonHeight),
+            saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.saveButtonLeading),
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.saveButtonTrailing),
+            saveButtonBottomConstraint
         ])
+    }
+    
+    private func scrollToTop() {
+        let offset = CGPoint(x: 0, y: 0)
+        scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    private func scrollToBottom() {
+        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
+        scrollView.setContentOffset(offset, animated: true)
     }
     
     @objc
     private func tagCollectionViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended { listener?.tagCollectionViewDidTap(existingSelectedTags: selectedTags) }
     }
+    
+    @objc
+    private func saveButtonDidTap() {}
 }
 
-// MARK: - UITextField
+// MARK: - Scroll View
 
-extension EnterBookmarkViewController: UITextFieldDelegate {
+extension EnterBookmarkViewController: UIScrollViewDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        urlTextField.resignFirstResponder()
-        return true
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }
 
-// MARK: - UICollectionView
+// MARK: - Text Field
+
+extension EnterBookmarkViewController: LabeledURLTextFieldListener {
+    
+    func textFieldDidBecomeFirstResponder() {
+        scrollToTop()
+    }
+}
+
+// MARK: - Collection View
 
 extension EnterBookmarkViewController: UICollectionViewDataSource {
     
@@ -151,3 +243,17 @@ extension EnterBookmarkViewController: UICollectionViewDelegateFlowLayout {
                                                         maximumWidth: collectionView.frame.width)
     }
 }
+
+// MARK: - Text View
+
+extension EnterBookmarkViewController: LabeledNoteTextViewListener {
+    
+    func textViewDidBecomeFirstResponder() {
+        scrollToBottom()
+    }
+    
+    func textViewHeightDidIncrease() {
+        scrollToBottom()
+    }
+}
+

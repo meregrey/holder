@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol LabeledNoteTextViewListener {
+    func textViewDidBecomeFirstResponder()
+    func textViewHeightDidIncrease()
+}
+
 final class LabeledNoteTextView: LabeledView {
     
     @AutoLayout private var containerView: RoundedCornerView = {
@@ -39,6 +44,7 @@ final class LabeledNoteTextView: LabeledView {
         return button
     }()
     
+    private lazy var existingHeight = bounds.height
     private lazy var textViewTrailingConstraint = NSLayoutConstraint(item: textView,
                                                                      attribute: .trailing,
                                                                      relatedBy: .equal,
@@ -63,6 +69,15 @@ final class LabeledNoteTextView: LabeledView {
         static let clearButtonWidthHeight = CGFloat(21)
         static let clearButtonTrailing = CGFloat(-12)
     }
+    
+    override var bounds: CGRect {
+        didSet {
+            if bounds.height > existingHeight { listener?.textViewHeightDidIncrease() }
+            existingHeight = bounds.height
+        }
+    }
+    
+    var listener: LabeledNoteTextViewListener?
     
     init(header: String) {
         super.init(header: header, theme: .sheet)
@@ -107,10 +122,19 @@ extension LabeledNoteTextView: UITextViewDelegate {
         textViewTrailingConstraint.isActive = true
         textViewTrailingConstraint.constant = -45
         clearButton.isHidden = false
+        listener?.textViewDidBecomeFirstResponder()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         clearButton.isHidden = true
         textViewTrailingConstraint.constant = -12
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
 }
