@@ -9,6 +9,7 @@ import RIBs
 import UIKit
 
 protocol EnterBookmarkPresentableListener: AnyObject {
+    func closeButtonDidTap()
     func tagCollectionViewDidTap(existingSelectedTags: [Tag])
     func saveButtonDidTap(url: URL, tags: [Tag]?, note: String?)
 }
@@ -130,6 +131,8 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     }
     
     private func configureViews() {
+        headerView.addTargetToCloseButton(self, action: #selector(closeButtonDidTap))
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tagCollectionViewDidTap(_:)))
         tagCollectionView.addGestureRecognizer(tapGestureRecognizer)
         tagCollectionView.dataSource = self
@@ -196,6 +199,11 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     private func scrollToBottom() {
         let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
         scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    @objc
+    private func closeButtonDidTap() {
+        listener?.closeButtonDidTap()
     }
     
     @objc

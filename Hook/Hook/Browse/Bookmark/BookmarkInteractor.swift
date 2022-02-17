@@ -54,6 +54,10 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable {
     
     // MARK: - EnterBookmark
     
+    func enterBookmarkCloseButtonDidTap() {
+        router?.detachEnterBookmark()
+    }
+    
     func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag]) {
         listener?.attachSelectTags(existingSelectedTags: existingSelectedTags)
     }
