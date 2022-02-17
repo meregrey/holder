@@ -33,7 +33,6 @@ final class BookmarkRepository: BookmarkRepositoryType {
             bookmarkEntity.configure(with: bookmark)
             try context.save()
             self?.mutableBookmarksStream.update(with: bookmark)
-            self?.postNotification(ofName: NotificationName.Bookmark.didSucceedToAddBookmark)
         }
     }
     
