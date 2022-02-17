@@ -12,7 +12,7 @@ protocol BookmarkRouting: Routing {
     func cleanupViews()
     func attachBookmarkBrowser()
     func attachEnterBookmark()
-    func detachEnterBookmark()
+    func detachEnterBookmark(includingView isViewIncluded: Bool)
 }
 
 protocol BookmarkListener: AnyObject {
@@ -23,17 +23,21 @@ protocol BookmarkInteractorDependency {
     var bookmarkRepository: BookmarkRepositoryType { get }
 }
 
-final class BookmarkInteractor: Interactor, BookmarkInteractable {
+final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresentationControllerDelegate {
     
     private let dependency: BookmarkInteractorDependency
     
     private var bookmarkRepository: BookmarkRepositoryType { dependency.bookmarkRepository }
+    
+    let presentationProxy = AdaptivePresentationControllerDelegateProxy()
     
     weak var router: BookmarkRouting?
     weak var listener: BookmarkListener?
     
     init(dependency: BookmarkInteractorDependency) {
         self.dependency = dependency
+        super.init()
+        self.presentationProxy.delegate = self
     }
     
     override func didBecomeActive() {
@@ -46,6 +50,10 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable {
         router?.cleanupViews()
     }
     
+    func presentationControllerDidDismiss() {
+        router?.detachEnterBookmark(includingView: false)
+    }
+    
     // MARK: - BookmarkBrowser
     
     func bookmarkBrowserAddBookmarkButtonDidTap() {
@@ -55,7 +63,7 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable {
     // MARK: - EnterBookmark
     
     func enterBookmarkCloseButtonDidTap() {
-        router?.detachEnterBookmark()
+        router?.detachEnterBookmark(includingView: true)
     }
     
     func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag]) {
@@ -63,7 +71,7 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable {
     }
     
     func enterBookmarkSaveButtonDidTap(url: URL, tags: [Tag]?, note: String?) {
-        router?.detachEnterBookmark()
+        router?.detachEnterBookmark(includingView: true)
         LPMetadataProvider().startFetchingMetadata(for: url) { metadata, error in
             let bookmarkTags = tags?.enumerated().map { BookmarkTag(name: $1.name, index: $0) }
             let bookmark = Bookmark(url: url,

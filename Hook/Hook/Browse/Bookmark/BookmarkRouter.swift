@@ -10,6 +10,7 @@ import RIBs
 protocol BookmarkInteractable: Interactable, BookmarkBrowserListener, EnterBookmarkListener {
     var router: BookmarkRouting? { get set }
     var listener: BookmarkListener? { get set }
+    var presentationProxy: AdaptivePresentationControllerDelegateProxy { get }
 }
 
 final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
@@ -51,12 +52,13 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
         let router = enterBookmark.build(withListener: interactor)
         enterBookmarkRouter = router
         attachChild(router)
+        router.viewControllable.uiviewController.presentationController?.delegate = interactor.presentationProxy
         baseViewController.present(router.viewControllable, modalPresentationStyle: .pageSheet, animated: true)
     }
     
-    func detachEnterBookmark() {
+    func detachEnterBookmark(includingView isViewIncluded: Bool) {
         guard let router = self.enterBookmarkRouter else { return }
-        baseViewController.dismiss(animated: true)
+        if isViewIncluded { baseViewController.dismiss(animated: true) }
         detachChild(router)
         enterBookmarkRouter = nil
     }

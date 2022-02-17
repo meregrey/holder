@@ -145,6 +145,7 @@
 		67F6E2B727BB33D800414E48 /* LabeledURLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F6E2B627BB33D800414E48 /* LabeledURLTextField.swift */; };
 		67F6E2BE27BB535600414E48 /* LabeledNoteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F6E2BD27BB535600414E48 /* LabeledNoteTextView.swift */; };
 		67FFB21E27BE383600D47DF7 /* MutableStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FFB21D27BE383600D47DF7 /* MutableStream.swift */; };
+		67FFB22027BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FFB21F27BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -303,6 +304,7 @@
 		67F6E2B627BB33D800414E48 /* LabeledURLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledURLTextField.swift; sourceTree = "<group>"; };
 		67F6E2BD27BB535600414E48 /* LabeledNoteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledNoteTextView.swift; sourceTree = "<group>"; };
 		67FFB21D27BE383600D47DF7 /* MutableStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutableStream.swift; sourceTree = "<group>"; };
+		67FFB21F27BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptivePresentationControllerDelegateProxy.swift; sourceTree = "<group>"; };
 		AC21C7F00D33770B60875905 /* Pods-HookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HookTests.release.xcconfig"; path = "Target Support Files/Pods-HookTests/Pods-HookTests.release.xcconfig"; sourceTree = "<group>"; };
 		C95653514DC318383C46E2D0 /* Pods-Hook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hook.debug.xcconfig"; path = "Target Support Files/Pods-Hook/Pods-Hook.debug.xcconfig"; sourceTree = "<group>"; };
 		F811AAEB8B93A88A09DC7BE6 /* libPods-HookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -390,6 +392,7 @@
 			children = (
 				673A88B0277BFBF900A89DC7 /* Constants */,
 				673A88A9277BF57A00A89DC7 /* Extensions */,
+				67FFB21F27BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift */,
 				67BDEA36277764CA0031FEC1 /* AutoLayout.swift */,
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
 				6705B61D2782111D00793CB8 /* NavigationController.swift */,
@@ -1091,6 +1094,7 @@
 				673A88AD277BF64000A89DC7 /* LocalizedString.swift in Sources */,
 				67390780279DB6E900742772 /* Bookmark.swift in Sources */,
 				67A763D027ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift in Sources */,
+				67FFB22027BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift in Sources */,
 				67BDEA37277764CA0031FEC1 /* AutoLayout.swift in Sources */,
 				672F49FA27AD6E2100DACEF5 /* SelectTagsTableViewCell.swift in Sources */,
 				67BDEA3B277786C80031FEC1 /* Convertible.swift in Sources */,
