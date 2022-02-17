@@ -10,7 +10,7 @@ import UIKit
 final class LabeledTagCollectionView: LabeledView {
     
     @AutoLayout private var containerView: RoundedCornerView = {
-        let view = RoundedCornerView()
+        let view = RoundedCornerView(cornerRadius: Metric.containerViewCornerRadius)
         view.backgroundColor = Asset.Color.sheetUpperBackgroundColor
         return view
     }()
@@ -41,6 +41,7 @@ final class LabeledTagCollectionView: LabeledView {
     }
     
     private enum Metric {
+        static let containerViewCornerRadius = CGFloat(12)
         static let containerViewMinimumHeight = CGFloat(60)
         
         static let tagCollectionViewTop = CGFloat(12)
@@ -53,11 +54,11 @@ final class LabeledTagCollectionView: LabeledView {
         static let downImageViewTrailing = CGFloat(-16)
     }
     
-    var dataSource: UICollectionViewDataSource? {
+    weak var dataSource: UICollectionViewDataSource? {
         didSet { tagCollectionView.dataSource = dataSource }
     }
     
-    var delegate: UICollectionViewDelegate? {
+    weak var delegate: UICollectionViewDelegate? {
         didSet { tagCollectionView.delegate = delegate }
     }
     

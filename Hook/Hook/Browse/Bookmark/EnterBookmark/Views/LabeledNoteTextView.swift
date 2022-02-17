@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LabeledNoteTextViewListener {
+protocol LabeledNoteTextViewListener: AnyObject {
     func textViewDidBecomeFirstResponder()
     func textViewHeightDidIncrease()
 }
@@ -17,6 +17,8 @@ final class LabeledNoteTextView: LabeledView {
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
         view.backgroundColor = Asset.Color.sheetUpperBackgroundColor
+        view.layer.cornerRadius = Metric.containerViewCornerRadius
+        view.layer.cornerCurve = .continuous
         return view
     }()
     
@@ -27,8 +29,6 @@ final class LabeledNoteTextView: LabeledView {
         textView.textContainerInset = Metric.textViewInset
         textView.isScrollEnabled = false
         textView.backgroundColor = .clear
-        textView.layer.cornerRadius = 15
-        textView.layer.cornerCurve = .continuous
         return textView
     }()
     
@@ -62,6 +62,8 @@ final class LabeledNoteTextView: LabeledView {
     }
     
     private enum Metric {
+        static let containerViewCornerRadius = CGFloat(12)
+        
         static let textViewInset = UIEdgeInsets(top: 17, left: 12, bottom: 17, right: 0)
         static let textViewMinimumWidth = UIScreen.main.bounds.width - 100
         static let textViewMinimumHeight = CGFloat(55)
@@ -77,7 +79,9 @@ final class LabeledNoteTextView: LabeledView {
         }
     }
     
-    var listener: LabeledNoteTextViewListener?
+    var text: String { textView.text }
+    
+    weak var listener: LabeledNoteTextViewListener?
     
     init(header: String) {
         super.init(header: header, theme: .sheet)

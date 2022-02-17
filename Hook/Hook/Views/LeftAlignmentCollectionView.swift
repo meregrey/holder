@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LeftAlignmentCollectionViewListener {
+protocol LeftAlignmentCollectionViewListener: AnyObject {
     func maxYDidSet(_ maxY: CGFloat)
 }
 
@@ -17,7 +17,7 @@ final class LeftAlignmentCollectionView: UICollectionView {
         didSet { listener?.maxYDidSet(maxY) }
     }
     
-    var listener: LeftAlignmentCollectionViewListener?
+    weak var listener: LeftAlignmentCollectionViewListener?
     
     init() {
         super.init(frame: .zero, collectionViewLayout: LeftAlignmentCollectionViewFlowLayout())

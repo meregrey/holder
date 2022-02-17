@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LabeledURLTextFieldListener {
+protocol LabeledURLTextFieldListener: AnyObject {
     func textFieldDidBecomeFirstResponder()
 }
 
@@ -15,8 +15,9 @@ final class LabeledURLTextField: LabeledView {
     
     @AutoLayout private var textField: TextField
     
-    var listener: LabeledURLTextFieldListener?
     var text: String? { textField.text }
+    
+    weak var listener: LabeledURLTextFieldListener?
     
     init(header: String) {
         self.textField = TextField(placeholder: nil, keyboardType: .URL, theme: .sheet)
