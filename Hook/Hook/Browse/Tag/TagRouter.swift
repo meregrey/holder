@@ -70,9 +70,9 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachTagSettings(includingView isIncludedView: Bool) {
+    func detachTagSettings(includingView isViewIncluded: Bool) {
         guard let router = tagSettingsRouter else { return }
-        if isIncludedView { baseViewController.pop() }
+        if isViewIncluded { baseViewController.pop() }
         detachChild(router)
         tagSettingsRouter = nil
     }
@@ -87,9 +87,9 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachEnterTag(includingView isIncludedView: Bool) {
+    func detachEnterTag(includingView isViewIncluded: Bool) {
         guard let router = enterTagRouter else { return }
-        if isIncludedView { baseViewController.pop() }
+        if isViewIncluded { baseViewController.pop() }
         detachChild(router)
         enterTagRouter = nil
     }
@@ -104,9 +104,9 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachEditTags(includingView isIncludedView: Bool) {
+    func detachEditTags(includingView isViewIncluded: Bool) {
         guard let router = editTagsRouter else { return }
-        if isIncludedView { baseViewController.pop() }
+        if isViewIncluded { baseViewController.pop() }
         detachChild(router)
         editTagsRouter = nil
     }
