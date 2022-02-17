@@ -5,12 +5,14 @@
 //  Created by Yeojin Yoon on 2022/01/26.
 //
 
+import LinkPresentation
 import RIBs
 
 protocol BookmarkRouting: Routing {
     func cleanupViews()
     func attachBookmarkBrowser()
     func attachEnterBookmark()
+    func detachEnterBookmark()
 }
 
 protocol BookmarkListener: AnyObject {
@@ -54,5 +56,19 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable {
     
     func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag]) {
         listener?.attachSelectTags(existingSelectedTags: existingSelectedTags)
+    }
+    
+    func enterBookmarkSaveButtonDidTap(url: URL, tags: [Tag]?, note: String?) {
+        router?.detachEnterBookmark()
+        LPMetadataProvider().startFetchingMetadata(for: url) { metadata, error in
+            let bookmarkTags = tags?.enumerated().map { BookmarkTag(name: $1.name, index: $0) }
+            let bookmark = Bookmark(url: url,
+                                    isFavorite: false,
+                                    tags: bookmarkTags,
+                                    note: note,
+                                    title: metadata?.title,
+                                    host: url.host)
+            self.bookmarkRepository.add(bookmark: bookmark)
+        }
     }
 }

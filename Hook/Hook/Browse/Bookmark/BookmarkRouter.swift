@@ -18,8 +18,8 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     private let bookmarkBrowser: BookmarkBrowserBuildable
     private let enterBookmark: EnterBookmarkBuildable
     
-    private var bookmarkBrowserRouter: Routing?
-    private var enterBookmarkRouter: Routing?
+    private var bookmarkBrowserRouter: BookmarkBrowserRouting?
+    private var enterBookmarkRouter: EnterBookmarkRouting?
     
     init(interactor: BookmarkInteractable,
          baseViewController: BrowseViewControllable,
@@ -52,5 +52,12 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
         enterBookmarkRouter = router
         attachChild(router)
         baseViewController.present(router.viewControllable, modalPresentationStyle: .pageSheet, animated: true)
+    }
+    
+    func detachEnterBookmark() {
+        guard let router = self.enterBookmarkRouter else { return }
+        baseViewController.dismiss(animated: true)
+        detachChild(router)
+        enterBookmarkRouter = nil
     }
 }

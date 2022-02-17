@@ -8,12 +8,12 @@
 import RIBs
 
 protocol EnterBookmarkDependency: Dependency {
-    var selectedTagsStream: ReadOnlyStream<[Tag]> { get }
+    var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
 final class EnterBookmarkComponent: Component<EnterBookmarkDependency>, EnterBookmarkInteractorDependency {
     
-    var selectedTagsStream: ReadOnlyStream<[Tag]> { dependency.selectedTagsStream }
+    var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
 }
 
 // MARK: - Builder

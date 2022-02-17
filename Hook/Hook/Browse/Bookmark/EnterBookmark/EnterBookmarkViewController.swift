@@ -10,6 +10,7 @@ import UIKit
 
 protocol EnterBookmarkPresentableListener: AnyObject {
     func tagCollectionViewDidTap(existingSelectedTags: [Tag])
+    func saveButtonDidTap(url: URL, tags: [Tag]?, note: String?)
 }
 
 final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresentable, EnterBookmarkViewControllable {
@@ -38,6 +39,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     }()
     
     private lazy var originalViewFrame = view.frame
+    
     private lazy var saveButtonBottomConstraint = NSLayoutConstraint(item: saveButton,
                                                                      attribute: .bottom,
                                                                      relatedBy: .equal,
@@ -86,6 +88,11 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        urlTextField.becomeFirstResponder()
     }
     
     func update(with selectedTags: [Tag]) {
@@ -197,7 +204,16 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     }
     
     @objc
-    private func saveButtonDidTap() {}
+    private func saveButtonDidTap() {
+        guard let text = urlTextField.text, let url = URL(string: text) else {
+            guard let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheURL) else { return }
+            view.endEditing(true)
+            present(alertController, animated: true)
+            return
+        }
+        let tags = selectedTags.count > 0 ? selectedTags : nil
+        listener?.saveButtonDidTap(url: url, tags: tags, note: noteTextView.text)
+    }
 }
 
 // MARK: - Scroll View

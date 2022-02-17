@@ -16,17 +16,18 @@ protocol EnterBookmarkPresentable: Presentable {
 
 protocol EnterBookmarkListener: AnyObject {
     func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag])
+    func enterBookmarkSaveButtonDidTap(url: URL, tags: [Tag]?, note: String?)
 }
 
 protocol EnterBookmarkInteractorDependency {
-    var selectedTagsStream: ReadOnlyStream<[Tag]> { get }
+    var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
 final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresentable>, EnterBookmarkInteractable, EnterBookmarkPresentableListener {
     
     private let dependency: EnterBookmarkInteractorDependency
     
-    private var selectedTagsStream: ReadOnlyStream<[Tag]> { dependency.selectedTagsStream }
+    private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     
     weak var router: EnterBookmarkRouting?
     weak var listener: EnterBookmarkListener?
@@ -48,6 +49,11 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     
     func tagCollectionViewDidTap(existingSelectedTags: [Tag]) {
         listener?.enterBookmarkTagCollectionViewDidTap(existingSelectedTags: existingSelectedTags)
+    }
+    
+    func saveButtonDidTap(url: URL, tags: [Tag]?, note: String?) {
+        listener?.enterBookmarkSaveButtonDidTap(url: url, tags: tags, note: note)
+        selectedTagsStream.update(with: [])
     }
     
     private func subscribeSelectedTagsStream() {

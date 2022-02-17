@@ -19,7 +19,7 @@ final class BookmarkComponent: Component<BookmarkDependency>, BookmarkInteractor
     let bookmarkRepository: BookmarkRepositoryType
     
     var bookmarksStream: ReadOnlyStream<[Tag: [Bookmark]]> { bookmarkRepository.bookmarksStream }
-    var selectedTagsStream: ReadOnlyStream<[Tag]> { dependency.selectedTagsStream }
+    var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     
     init(dependency: BookmarkDependency, bookmarkRepository: BookmarkRepositoryType = BookmarkRepository()) {
         self.bookmarkRepository = bookmarkRepository
