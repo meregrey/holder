@@ -11,6 +11,7 @@ enum LocalizedString {
     enum AlertTitle {
         static let keychainErrorOccured = "Keychain Error Occured".localized
         static let tagAlreadySelected = "Tag Already Selected".localized
+        static let enterTheURL = "Enter the URL.".localized
     }
     
     enum AlertMessage {

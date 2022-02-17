@@ -1,6 +1,7 @@
 /* Alert title */
 "Keychain Error Occured" = "키체인 오류 발생";
 "Tag Already Selected" = "이미 선택한 태그입니다";
+"Enter the URL." = "URL을 입력해주세요.";
 
 /* Alert message */
 "An error occurred while saving your login information to the keychain." = "로그인 정보를 키체인에 저장하던 중 오류가 발생했습니다.";

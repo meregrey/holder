@@ -1,6 +1,7 @@
 /* Alert title */
 "Keychain Error Occured" = "Keychain Error Occured";
 "Tag Already Selected" = "Tag Already Selected";
+"Enter the URL." = "Enter the URL.";
 
 /* Alert message */
 "An error occurred while saving your login information to the keychain." = "An error occurred while saving your login information to the keychain.";
