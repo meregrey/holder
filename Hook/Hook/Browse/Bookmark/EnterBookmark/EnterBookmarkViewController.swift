@@ -20,7 +20,12 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @AutoLayout private var headerView = SheetHeaderView(title: LocalizedString.ViewTitle.addBookmark)
     
-    @AutoLayout private var scrollView = UIScrollView()
+    @AutoLayout private var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
     
     @AutoLayout private var urlTextField = LabeledURLTextField(header: "URL")
     
