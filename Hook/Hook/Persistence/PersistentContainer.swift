@@ -19,7 +19,7 @@ final class PersistentContainer: PersistentContainerType {
         let container = NSPersistentCloudKitContainer(name: "PersistenceModel")
         container.loadPersistentStores { _, error in
             if let _ = error {
-                NotificationCenter.default.post(name: NotificationName.didFailToLoadPersistentStore, object: nil)
+                NotificationCenter.default.post(name: NotificationName.Persistence.didFailToLoadPersistentStore, object: nil)
             }
         }
         return container

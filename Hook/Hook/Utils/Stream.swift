@@ -16,7 +16,7 @@ fileprivate protocol ReadOnlyStreamType: AnyObject {
 }
 
 fileprivate protocol MutableStreamType: ReadOnlyStreamType {
-    func update(withValue value: T)
+    func update(with value: T)
 }
 
 class ReadOnlyStream<T: Equatable>: ReadOnlyStreamType {
@@ -44,7 +44,7 @@ class ReadOnlyStream<T: Equatable>: ReadOnlyStreamType {
 
 final class MutableStream<T: Equatable>: ReadOnlyStream<T>, MutableStreamType {
     
-    func update(withValue value: T) {
+    func update(with value: T) {
         relay.accept(value)
     }
 }

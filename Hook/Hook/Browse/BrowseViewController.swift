@@ -56,17 +56,29 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         navigationController?.popViewController(animated: true)
     }
     
+    func presentOver(_ view: ViewControllable) {
+        let viewController = view.uiviewController
+        viewController.modalPresentationStyle = .currentContext
+        presentedViewController?.present(viewController, animated: true)
+    }
+    
+    func dismissOver() {
+        presentedViewController?.dismiss(animated: true)
+    }
+    
     private func configureViews() {
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
                                   selectedImage: Image.tabBarItemSelected)
         
+        view.backgroundColor = Asset.Color.baseBackgroundColor
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

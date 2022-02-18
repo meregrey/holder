@@ -105,7 +105,8 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         ])
     }
     
-    @objc private func tagSettingsButtonDidTap() {
+    @objc
+    private func tagSettingsButtonDidTap() {
         listener?.tagSettingsButtonDidTap()
     }
 }
@@ -126,7 +127,7 @@ extension TagBarViewController: UICollectionViewDataSource {
 extension TagBarViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
 

@@ -20,8 +20,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @AutoLayout private var containerView = UIView()
     
-    @AutoLayout private var labeledTextField = LabeledTextField(header: LocalizedString.TextFieldHeader.tagName,
-                                                                countLimit: Number.countLimit)
+    @AutoLayout private var countLimitTextField = CountLimitTextField(header: LocalizedString.LabelTitle.tagName,
+                                                                      countLimit: Number.countLimit)
     
     @AutoLayout private var saveButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
@@ -69,14 +69,13 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         configureViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        labeledTextField.becomeFirstResponder()
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        countLimitTextField.becomeFirstResponder()
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -96,7 +95,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
                                                object: nil)
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
+    @objc
+    private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
@@ -108,7 +108,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         })
     }
     
-    @objc private func keyboardWillHide() {
+    @objc
+    private func keyboardWillHide() {
         let containerViewHeight = view.frame.height
         
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn, animations: {
@@ -123,7 +124,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
             title = LocalizedString.ViewTitle.addTag
         case .edit(let tag):
             title = LocalizedString.ViewTitle.editTag
-            labeledTextField.setText(tag.name)
+            countLimitTextField.setText(tag.name)
         }
         
         navigationItem.largeTitleDisplayMode = .never
@@ -138,7 +139,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
                                                            constant: view.frame.height)
         
         view.addSubview(containerView)
-        containerView.addSubview(labeledTextField)
+        containerView.addSubview(countLimitTextField)
         containerView.addSubview(saveButton)
         containerView.addConstraint(containerViewHeightConstraint ?? NSLayoutConstraint())
         
@@ -147,9 +148,9 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            labeledTextField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metric.labeledTextFieldTop),
-            labeledTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.labeledTextFieldLeading),
-            labeledTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.labeledTextFieldTrailing),
+            countLimitTextField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metric.labeledTextFieldTop),
+            countLimitTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.labeledTextFieldLeading),
+            countLimitTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.labeledTextFieldTrailing),
             
             saveButton.heightAnchor.constraint(equalToConstant: Metric.saveButtonHeight),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.saveButtonLeading),
@@ -158,12 +159,14 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         ])
     }
     
-    @objc private func backButtonDidTap() {
+    @objc
+    private func backButtonDidTap() {
         listener?.backButtonDidTap()
     }
     
-    @objc private func saveButtonDidTap() {
-        if let tagName = labeledTextField.text, tagName.count > 0 {
+    @objc
+    private func saveButtonDidTap() {
+        if let tagName = countLimitTextField.text, tagName.count > 0 {
             listener?.saveButtonDidTap(tag: Tag(name: tagName))
         }
     }

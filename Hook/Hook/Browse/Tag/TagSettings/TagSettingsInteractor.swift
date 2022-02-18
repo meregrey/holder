@@ -81,11 +81,12 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     private func registerToReceiveNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didSucceedToAddTag),
-                                               name: NotificationName.didSucceedToAddTag,
+                                               name: NotificationName.Tag.didSucceedToAddTag,
                                                object: nil)
     }
     
-    @objc private func didSucceedToAddTag() {
+    @objc
+    private func didSucceedToAddTag() {
         presenter.scrollToBottom()
     }
 }

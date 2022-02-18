@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol TagInteractable: Interactable, TagBarListener, TagSettingsListener, EnterTagListener, EditTagsListener {
+protocol TagInteractable: Interactable, TagBarListener, TagSettingsListener, EnterTagListener, EditTagsListener, SelectTagsListener, SearchTagsListener {
     var router: TagRouting? { get set }
     var listener: TagListener? { get set }
 }
@@ -19,23 +19,31 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
     private let tagSettings: TagSettingsBuildable
     private let enterTag: EnterTagBuildable
     private let editTags: EditTagsBuildable
+    private let selectTags: SelectTagsBuildable
+    private let searchTags: SearchTagsBuildable
     
-    private var tagBarRouter: Routing?
-    private var tagSettingsRouter: Routing?
-    private var enterTagRouter: Routing?
-    private var editTagsRouter: Routing?
+    private var tagBarRouter: TagBarRouting?
+    private var tagSettingsRouter: TagSettingsRouting?
+    private var enterTagRouter: EnterTagRouting?
+    private var editTagsRouter: EditTagsRouting?
+    private var selectTagsRouter: SelectTagsRouting?
+    private var searchTagsRouter: SearchTagsRouting?
     
     init(interactor: TagInteractable,
          baseViewController: BrowseViewControllable,
          tagBar: TagBarBuildable,
          tagSettings: TagSettingsBuildable,
          enterTag: EnterTagBuildable,
-         editTags: EditTagsBuildable) {
+         editTags: EditTagsBuildable,
+         selectTags: SelectTagsBuildable,
+         searchTags: SearchTagsBuildable) {
         self.baseViewController = baseViewController
         self.tagBar = tagBar
         self.tagSettings = tagSettings
         self.enterTag = enterTag
         self.editTags = editTags
+        self.selectTags = selectTags
+        self.searchTags = searchTags
         super.init(interactor: interactor)
         interactor.router = self
     }
@@ -62,9 +70,9 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachTagSettings(includingView isIncludedView: Bool) {
+    func detachTagSettings(includingView isViewIncluded: Bool) {
         guard let router = tagSettingsRouter else { return }
-        if isIncludedView { baseViewController.pop() }
+        if isViewIncluded { baseViewController.pop() }
         detachChild(router)
         tagSettingsRouter = nil
     }
@@ -79,9 +87,9 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachEnterTag(includingView isIncludedView: Bool) {
+    func detachEnterTag(includingView isViewIncluded: Bool) {
         guard let router = enterTagRouter else { return }
-        if isIncludedView { baseViewController.pop() }
+        if isViewIncluded { baseViewController.pop() }
         detachChild(router)
         enterTagRouter = nil
     }
@@ -96,10 +104,47 @@ final class TagRouter: Router<TagInteractable>, TagRouting {
         baseViewController.push(router.viewControllable)
     }
     
-    func detachEditTags(includingView isIncludedView: Bool) {
+    func detachEditTags(includingView isViewIncluded: Bool) {
         guard let router = editTagsRouter else { return }
-        if isIncludedView { baseViewController.pop() }
+        if isViewIncluded { baseViewController.pop() }
         detachChild(router)
         editTagsRouter = nil
+    }
+    
+    // MARK: - SelectTags
+    
+    func attachSelectTags(existingSelectedTags: [Tag]) {
+        guard selectTagsRouter == nil else { return }
+        let router = selectTags.build(withListener: interactor, existingSelectedTags: existingSelectedTags)
+        selectTagsRouter = router
+        attachChild(router)
+        baseViewController.presentOver(router.viewControllable)
+    }
+    
+    func detachSelectTags() {
+        guard let router = selectTagsRouter else { return }
+        baseViewController.dismissOver()
+        detachChild(router)
+        selectTagsRouter = nil
+    }
+    
+    // MARK: - SearchTags
+    
+    func attachSearchTags() {
+        guard searchTagsRouter == nil else { return }
+        guard let selectTagsRouter = selectTagsRouter else { return }
+        let router = searchTags.build(withListener: interactor)
+        searchTagsRouter = router
+        attachChild(router)
+        selectTagsRouter.viewControllable.present(router.viewControllable,
+                                                  modalPresentationStyle: .currentContext,
+                                                  animated: true)
+    }
+    
+    func detachSearchTags() {
+        guard let router = searchTagsRouter else { return }
+        router.viewControllable.dismiss(animated: true)
+        detachChild(router)
+        searchTagsRouter = nil
     }
 }

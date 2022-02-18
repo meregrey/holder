@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Tag: Equatable {
+struct Tag: Hashable {
     let name: String
     
     static func == (lhs: Tag, rhs: Tag) -> Bool {

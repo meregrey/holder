@@ -62,7 +62,8 @@ final class LoggedOutViewController: UIViewController, LoggedOutPresentable, Log
         stackView.addArrangedSubview(loginButton)
     }
     
-    @objc private func loginButtonDidTap() {
+    @objc
+    private func loginButtonDidTap() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
         request.requestedScopes = [.fullName]
