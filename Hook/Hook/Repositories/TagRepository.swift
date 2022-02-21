@@ -8,7 +8,6 @@
 import Foundation
 
 protocol TagRepositoryType {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     func fetch()
     func add(tag: Tag)
     func update(tag: Tag, to newTag: Tag)
@@ -17,12 +16,11 @@ protocol TagRepositoryType {
 
 final class TagRepository: TagRepositoryType {
     
-    private let mutableTagsStream = MutableStream<[Tag]>(initialValue: [])
+    private let tagsStream: MutableStream<[Tag]>
     private let persistentContainer: PersistentContainerType
     
-    var tagsStream: ReadOnlyStream<[Tag]> { mutableTagsStream }
-    
-    init(persistentContainer: PersistentContainerType = PersistentContainer()) {
+    init(tagsStream: MutableStream<[Tag]>, persistentContainer: PersistentContainerType = PersistentContainer()) {
+        self.tagsStream = tagsStream
         self.persistentContainer = persistentContainer
         self.fetch()
     }
@@ -34,7 +32,7 @@ final class TagRepository: TagRepositoryType {
                 self?.setUpDefaultTag()
                 return
             }
-            self?.mutableTagsStream.update(with: tags)
+            self?.tagsStream.update(with: tags)
         }
     }
     
@@ -49,7 +47,7 @@ final class TagRepository: TagRepositoryType {
             tagStorage.tags = tagStorage.tags.appended(with: TagEntity(name: tag.name))
             try context.save()
             guard let newTagsStreamValue = self?.tagsStream.value.appended(with: tag) else { return }
-            self?.mutableTagsStream.update(with: newTagsStreamValue)
+            self?.tagsStream.update(with: newTagsStreamValue)
             self?.postNotification(ofName: NotificationName.Tag.didSucceedToAddTag)
         }
     }
@@ -68,7 +66,7 @@ final class TagRepository: TagRepositoryType {
             guard let tagStorage = try context.fetch(request).first else { return }
             tagStorage.tags = tags.map { $0.converted() }
             try context.save()
-            self?.mutableTagsStream.update(with: tags)
+            self?.tagsStream.update(with: tags)
         }
     }
     
@@ -78,7 +76,7 @@ final class TagRepository: TagRepositoryType {
             guard let tagStorage = try context.fetch(request).first else { return }
             tagStorage.tags = tags.map { $0.converted() }
             try context.save()
-            self?.mutableTagsStream.update(with: tags)
+            self?.tagsStream.update(with: tags)
         }
     }
     
@@ -87,7 +85,7 @@ final class TagRepository: TagRepositoryType {
             let tagStorage = TagStorage(context: context)
             tagStorage.tags = [TagEntity(name: TagName.all)]
             try context.save()
-            self?.mutableTagsStream.update(with: [Tag(name: TagName.all)])
+            self?.tagsStream.update(with: [Tag(name: TagName.all)])
         }
     }
     

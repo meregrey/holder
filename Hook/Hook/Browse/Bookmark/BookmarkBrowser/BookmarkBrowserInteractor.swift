@@ -17,12 +17,23 @@ protocol BookmarkBrowserListener: AnyObject {
     func bookmarkBrowserAddBookmarkButtonDidTap()
 }
 
+protocol BookmarkBrowserInteractorDependency {
+    var tagsStream: ReadOnlyStream<[Tag]> { get }
+    var currentTagStream: MutableStream<Tag> { get }
+}
+
 final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener {
+    
+    private let dependency: BookmarkBrowserInteractorDependency
+    
+    private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
+    private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     
     weak var router: BookmarkBrowserRouting?
     weak var listener: BookmarkBrowserListener?
     
-    override init(presenter: BookmarkBrowserPresentable) {
+    init(presenter: BookmarkBrowserPresentable, dependency: BookmarkBrowserInteractorDependency) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }

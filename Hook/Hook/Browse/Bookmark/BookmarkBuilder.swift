@@ -9,6 +9,8 @@ import RIBs
 
 protocol BookmarkDependency: Dependency {
     var baseViewController: BrowseViewControllable { get }
+    var tagsStream: MutableStream<[Tag]> { get }
+    var currentTagStream: MutableStream<Tag> { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
@@ -19,6 +21,8 @@ final class BookmarkComponent: Component<BookmarkDependency>, BookmarkInteractor
     let bookmarkRepository: BookmarkRepositoryType
     
     var bookmarksStream: ReadOnlyStream<[Tag: [Bookmark]]> { bookmarkRepository.bookmarksStream }
+    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
+    var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     
     init(dependency: BookmarkDependency, bookmarkRepository: BookmarkRepositoryType = BookmarkRepository()) {

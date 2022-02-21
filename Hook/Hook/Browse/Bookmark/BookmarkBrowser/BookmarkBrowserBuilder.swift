@@ -7,9 +7,16 @@
 
 import RIBs
 
-protocol BookmarkBrowserDependency: Dependency {}
+protocol BookmarkBrowserDependency: Dependency {
+    var tagsStream: ReadOnlyStream<[Tag]> { get }
+    var currentTagStream: MutableStream<Tag> { get }
+}
 
-final class BookmarkBrowserComponent: Component<BookmarkBrowserDependency> {}
+final class BookmarkBrowserComponent: Component<BookmarkBrowserDependency>, BookmarkBrowserInteractorDependency {
+    
+    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
+    var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
+}
 
 // MARK: - Builder
 
@@ -24,8 +31,9 @@ final class BookmarkBrowserBuilder: Builder<BookmarkBrowserDependency>, Bookmark
     }
     
     func build(withListener listener: BookmarkBrowserListener) -> BookmarkBrowserRouting {
+        let component = BookmarkBrowserComponent(dependency: dependency)
         let viewController = BookmarkBrowserViewController()
-        let interactor = BookmarkBrowserInteractor(presenter: viewController)
+        let interactor = BookmarkBrowserInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return BookmarkBrowserRouter(interactor: interactor, viewController: viewController)
     }
