@@ -48,12 +48,12 @@ final class BookmarkListTableViewCell: UITableViewCell {
         return label
     }()
     
-    @AutoLayout private var thumbnailImageView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray6
-        view.layer.cornerRadius = 5
-        view.layer.cornerCurve = .continuous
-        return view
+    @AutoLayout private var thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 5
+        imageView.layer.cornerCurve = .continuous
+        return imageView
     }()
     
     private enum Font {
@@ -104,15 +104,6 @@ final class BookmarkListTableViewCell: UITableViewCell {
             stackView.addArrangedSubview(noteLabel)
         }
     }
-    
-//    func configure(with bookmark: Bookmark) {
-//        titleLabel.text = bookmark.title ?? bookmark.host ?? "Unknown Title"
-//        hostLabel.text = bookmark.host ?? "Unknown Host"
-//        if let note = bookmark.note, note.count > 0 {
-//            noteLabel.text = note
-//            stackView.addArrangedSubview(noteLabel)
-//        }
-//    }
     
     private func configureViews() {
         selectionStyle = .none
