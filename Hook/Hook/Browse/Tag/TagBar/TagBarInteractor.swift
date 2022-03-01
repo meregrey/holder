@@ -12,6 +12,7 @@ protocol TagBarRouting: ViewableRouting {}
 protocol TagBarPresentable: Presentable {
     var listener: TagBarPresentableListener? { get set }
     func update(with tags: [Tag])
+    func update(with currentTag: Tag)
 }
 
 protocol TagBarListener: AnyObject {
@@ -42,10 +43,20 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
     override func didBecomeActive() {
         super.didBecomeActive()
         subscribeTagsStream()
+        subscribeCurrentTagStream()
     }
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func viewDidAppearFirst() {
+        guard let tag = tagsStream.value.first else { return }
+        currentTagStream.update(with: tag)
+    }
+    
+    func tagDidSelect(tag: Tag) {
+        currentTagStream.update(with: tag)
     }
     
     func tagSettingsButtonDidTap() {
@@ -54,6 +65,12 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
     
     private func subscribeTagsStream() {
         tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
+            self?.presenter.update(with: $0)
+        }
+    }
+    
+    private func subscribeCurrentTagStream() {
+        currentTagStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             self?.presenter.update(with: $0)
         }
     }

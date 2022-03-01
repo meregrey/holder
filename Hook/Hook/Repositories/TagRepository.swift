@@ -19,6 +19,8 @@ final class TagRepository: TagRepositoryType {
     private let tagsStream: MutableStream<[Tag]>
     private let persistentContainer: PersistentContainerType
     
+    private(set) lazy var context = persistentContainer.context
+    
     init(tagsStream: MutableStream<[Tag]>, persistentContainer: PersistentContainerType = PersistentContainer()) {
         self.tagsStream = tagsStream
         self.persistentContainer = persistentContainer
@@ -26,13 +28,13 @@ final class TagRepository: TagRepositoryType {
     }
     
     func fetch() {
-        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToFetchTags) { [weak self] context in
+        context.perform(with: NotificationName.Tag.didFailToFetchTags) {
             let request = TagStorage.fetchRequest()
-            guard let tags = try context.fetch(request).first?.extractTags() else {
-                self?.setUpDefaultTag()
+            guard let tags = try self.context.fetch(request).first?.extractTags() else {
+                self.setUpDefaultTag()
                 return
             }
-            self?.tagsStream.update(with: tags)
+            self.tagsStream.update(with: tags)
         }
     }
     
@@ -41,14 +43,14 @@ final class TagRepository: TagRepositoryType {
             postNotification(ofName: NotificationName.Tag.existingTag)
             return
         }
-        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToAddTag) { [weak self] context in
+        context.perform(with: NotificationName.Tag.didFailToAddTag) {
             let request = TagStorage.fetchRequest()
-            guard let tagStorage = try context.fetch(request).first else { return }
+            guard let tagStorage = try self.context.fetch(request).first else { return }
             tagStorage.tags = tagStorage.tags.appended(with: TagEntity(name: tag.name))
-            try context.save()
-            guard let newTagsStreamValue = self?.tagsStream.value.appended(with: tag) else { return }
-            self?.tagsStream.update(with: newTagsStreamValue)
-            self?.postNotification(ofName: NotificationName.Tag.didSucceedToAddTag)
+            try self.context.save()
+            let newTagsStreamValue = self.tagsStream.value.appended(with: tag)
+            self.tagsStream.update(with: newTagsStreamValue)
+            self.postNotification(ofName: NotificationName.Tag.didSucceedToAddTag)
         }
     }
     
@@ -61,31 +63,31 @@ final class TagRepository: TagRepositoryType {
             return
         }
         guard let tags = makeReplacedTags(tag, with: newTag) else { return }
-        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToUpdateTag) { [weak self] context in
+        context.perform(with: NotificationName.Tag.didFailToUpdateTag) {
             let request = TagStorage.fetchRequest()
-            guard let tagStorage = try context.fetch(request).first else { return }
+            guard let tagStorage = try self.context.fetch(request).first else { return }
             tagStorage.tags = tags.map { $0.converted() }
-            try context.save()
-            self?.tagsStream.update(with: tags)
+            try self.context.save()
+            self.tagsStream.update(with: tags)
         }
     }
     
     func update(tags: [Tag]) {
-        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToUpdateTags) { [weak self] context in
+        context.perform(with: NotificationName.Tag.didFailToUpdateTags) {
             let request = TagStorage.fetchRequest()
-            guard let tagStorage = try context.fetch(request).first else { return }
+            guard let tagStorage = try self.context.fetch(request).first else { return }
             tagStorage.tags = tags.map { $0.converted() }
-            try context.save()
-            self?.tagsStream.update(with: tags)
+            try self.context.save()
+            self.tagsStream.update(with: tags)
         }
     }
     
     private func setUpDefaultTag() {
-        persistentContainer.performBackgroundTask(with: NotificationName.Tag.didFailToSetUpDefaultTag) { [weak self] context in
-            let tagStorage = TagStorage(context: context)
+        context.perform(with: NotificationName.Tag.didFailToSetUpDefaultTag) {
+            let tagStorage = TagStorage(context: self.context)
             tagStorage.tags = [TagEntity(name: TagName.all)]
-            try context.save()
-            self?.tagsStream.update(with: [Tag(name: TagName.all)])
+            try self.context.save()
+            self.tagsStream.update(with: [Tag(name: TagName.all)])
         }
     }
     

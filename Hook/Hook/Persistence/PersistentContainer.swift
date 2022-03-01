@@ -6,11 +6,9 @@
 //
 
 import CoreData
-import Foundation
 
 protocol PersistentContainerType {
-    func performBackgroundTask(with notificationNameToReportError: NSNotification.Name,
-                               block: @escaping (NSManagedObjectContext) throws -> Void)
+    var context: NSManagedObjectContext { get }
 }
 
 final class PersistentContainer: PersistentContainerType {
@@ -19,20 +17,11 @@ final class PersistentContainer: PersistentContainerType {
         let container = NSPersistentCloudKitContainer(name: "PersistenceModel")
         container.loadPersistentStores { _, error in
             if let _ = error {
-                NotificationCenter.default.post(name: NotificationName.Persistence.didFailToLoadPersistentStore, object: nil)
+                NotificationCenter.default.post(name: NotificationName.Store.didFailToLoad, object: nil)
             }
         }
         return container
     }()
     
-    func performBackgroundTask(with notificationNameToReportError: NSNotification.Name,
-                               block: @escaping (NSManagedObjectContext) throws -> Void) {
-        container.performBackgroundTask { context in
-            do {
-                try block(context)
-            } catch {
-                NotificationCenter.default.post(name: notificationNameToReportError, object: nil)
-            }
-        }
-    }
+    private(set) lazy var context = container.newBackgroundContext()
 }

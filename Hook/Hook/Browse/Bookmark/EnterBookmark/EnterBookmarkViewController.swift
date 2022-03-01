@@ -107,6 +107,10 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         if selectedTags.isEmpty { tagCollectionView.resetHeight() }
     }
     
+    func dismiss() {
+        dismiss(animated: true)
+    }
+    
     private func registerToReceiveNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
@@ -285,4 +289,3 @@ extension EnterBookmarkViewController: LabeledNoteTextViewListener {
         scrollToBottom()
     }
 }
-

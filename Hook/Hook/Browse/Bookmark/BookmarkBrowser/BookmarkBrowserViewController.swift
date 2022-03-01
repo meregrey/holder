@@ -5,16 +5,38 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
+import CoreData
 import RIBs
 import UIKit
 
 protocol BookmarkBrowserPresentableListener: AnyObject {
+    func indexPathDidChange(indexPath: IndexPath)
     func addBookmarkButtonDidTap()
 }
 
 final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPresentable, BookmarkBrowserViewControllable {
     
-    @AutoLayout private var containerView = UIView()
+    private let context: NSManagedObjectContext
+    
+    private var tags: [Tag] = []
+    private var currentIndexPath = IndexPath(item: 0, section: 0)
+    private var bookmarkListTableViewContentOffsets: [IndexPath: CGPoint] = [:]
+    
+    @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.minimumLineSpacing = .zero
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.register(BookmarkBrowserCollectionViewCell.self)
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        
+        return collectionView
+    }()
     
     @AutoLayout private var addBookmarkButton: UIButton = {
         let button = UIButton()
@@ -39,35 +61,102 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     weak var listener: BookmarkBrowserPresentableListener?
     
-    init() {
+    init(context: NSManagedObjectContext) {
+        self.context = context
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        self.context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         super.init(coder: coder)
         configureViews()
     }
     
+    func update(with tags: [Tag]) {
+        self.tags = tags
+    }
+    
+    func update(with currentTag: Tag) {
+        guard let index = tags.firstIndex(of: currentTag) else { return }
+        let indexPath = IndexPath(item: index, section: 0)
+        bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        bookmarkBrowserCollectionView.reloadData()
+    }
+    
     private func configureViews() {
-        view.addSubview(containerView)
-        containerView.addSubview(addBookmarkButton)
+        bookmarkBrowserCollectionView.dataSource = self
+        bookmarkBrowserCollectionView.delegate = self
+        
+        view.addSubview(bookmarkBrowserCollectionView)
+        view.addSubview(addBookmarkButton)
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bookmarkBrowserCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            bookmarkBrowserCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bookmarkBrowserCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bookmarkBrowserCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             addBookmarkButton.widthAnchor.constraint(equalToConstant: Metric.addBookmarkButtonWidth),
             addBookmarkButton.heightAnchor.constraint(equalToConstant: Metric.addBookmarkButtonHeight),
-            addBookmarkButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            addBookmarkButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Metric.addBookmarkButtonBottom)
+            addBookmarkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addBookmarkButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Metric.addBookmarkButtonBottom)
         ])
     }
     
     @objc
     private func addBookmarkButtonDidTap() {
         listener?.addBookmarkButtonDidTap()
+    }
+}
+
+extension BookmarkBrowserViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return tags.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: BookmarkBrowserCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
+        let tag = tags[indexPath.item]
+        cell.configure(for: tag, context: context)
+        return cell
+    }
+}
+
+extension BookmarkBrowserViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
+        let contentOffset = bookmarkListTableViewContentOffsets[indexPath] ?? CGPoint.zero
+        cell.setBookmarkListTableViewContentOffset(contentOffset)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
+        cell.resetBookmarkListTableViewContentOffset()
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView else { return }
+        guard let cell = collectionView.cellForItem(at: currentIndexPath) as? BookmarkBrowserCollectionViewCell else { return }
+        let contentOffset = cell.bookmarkListTableViewContentOffset()
+        bookmarkListTableViewContentOffsets.updateValue(contentOffset, forKey: currentIndexPath)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView else { return }
+        guard let indexPath = collectionView.indexPathsForVisibleItems.first else { return }
+        currentIndexPath = indexPath
+        listener?.indexPathDidChange(indexPath: indexPath)
+    }
+}
+
+extension BookmarkBrowserViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }

@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
         let result = credentialRepository.save(credential: credential)
         switch result {
         case .success(()): break
-        case .failure(_): postNotification(ofName: NotificationName.Credential.didFailToSaveCredential)
+        case .failure(_): postNotification(ofName: NotificationName.Credential.didFailToSave)
         }
     }
     

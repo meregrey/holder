@@ -5,6 +5,7 @@
 //  Created by Yeojin Yoon on 2021/12/24.
 //
 
+import CoreData
 import RIBs
 
 protocol LoggedInDependency: Dependency {}
@@ -12,9 +13,11 @@ protocol LoggedInDependency: Dependency {}
 final class LoggedInComponent: Component<LoggedInDependency>, BrowseDependency, SearchDependency, FavoritesDependency, AccountDependency {
     
     let credential: Credential
+    let context: NSManagedObjectContext
     
-    init(dependency: LoggedInDependency, credential: Credential) {
+    init(dependency: LoggedInDependency, credential: Credential, persistentContainer: PersistentContainerType = PersistentContainer()) {
         self.credential = credential
+        self.context = persistentContainer.context
         super.init(dependency: dependency)
     }
 }

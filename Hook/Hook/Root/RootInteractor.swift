@@ -15,7 +15,7 @@ protocol RootRouting: ViewableRouting {
 
 protocol RootPresentable: Presentable {
     var listener: RootPresentableListener? { get set }
-    func displayAlert(withTitle title: String, message: String)
+    func displayAlert(title: String, message: String)
 }
 
 protocol RootListener: AnyObject {
@@ -72,13 +72,12 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     private func registerToReceiveNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didFailToSaveCredential),
-                                               name: NotificationName.Credential.didFailToSaveCredential,
+                                               name: NotificationName.Credential.didFailToSave,
                                                object: nil)
     }
 
     @objc
     private func didFailToSaveCredential() {
-        presenter.displayAlert(withTitle: LocalizedString.AlertTitle.keychainErrorOccured,
-                               message: LocalizedString.AlertMessage.keychainErrorOccured)
+        presenter.displayAlert(title: LocalizedString.AlertTitle.keychainErrorOccured, message: LocalizedString.AlertMessage.keychainErrorOccured)
     }
 }

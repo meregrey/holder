@@ -5,17 +5,21 @@
 //  Created by Yeojin Yoon on 2022/01/02.
 //
 
+import CoreData
 import RIBs
 
-protocol BrowseDependency: Dependency {}
+protocol BrowseDependency: Dependency {
+    var context: NSManagedObjectContext { get }
+}
 
 final class BrowseComponent: Component<BrowseDependency>, TagDependency, BookmarkDependency {
     
     let tagsStream = MutableStream<[Tag]>(initialValue: [])
     let currentTagStream = MutableStream<Tag>(initialValue: Tag(name: ""))
     let selectedTagsStream = MutableStream<[Tag]>(initialValue: [])
+    let baseViewController: BrowseViewControllable
     
-    var baseViewController: BrowseViewControllable
+    var context: NSManagedObjectContext { dependency.context }
     
     init(dependency: BrowseDependency, baseViewController: BrowseViewControllable) {
         self.baseViewController = baseViewController

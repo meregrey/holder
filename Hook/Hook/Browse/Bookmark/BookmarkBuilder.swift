@@ -5,30 +5,24 @@
 //  Created by Yeojin Yoon on 2022/01/26.
 //
 
+import CoreData
 import RIBs
 
 protocol BookmarkDependency: Dependency {
-    var baseViewController: BrowseViewControllable { get }
+    var context: NSManagedObjectContext { get }
     var tagsStream: MutableStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
+    var baseViewController: BrowseViewControllable { get }
 }
 
-final class BookmarkComponent: Component<BookmarkDependency>, BookmarkInteractorDependency, BookmarkBrowserDependency, EnterBookmarkDependency {
+final class BookmarkComponent: Component<BookmarkDependency>, BookmarkBrowserDependency, EnterBookmarkDependency {
     
-    fileprivate var baseViewController: BrowseViewControllable { dependency.baseViewController }
-    
-    let bookmarkRepository: BookmarkRepositoryType
-    
-    var bookmarksStream: ReadOnlyStream<[Tag: [Bookmark]]> { bookmarkRepository.bookmarksStream }
+    var context: NSManagedObjectContext { dependency.context }
     var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
-    
-    init(dependency: BookmarkDependency, bookmarkRepository: BookmarkRepositoryType = BookmarkRepository()) {
-        self.bookmarkRepository = bookmarkRepository
-        super.init(dependency: dependency)
-    }
+    var baseViewController: BrowseViewControllable { dependency.baseViewController }
 }
 
 // MARK: - Builder
@@ -45,7 +39,7 @@ final class BookmarkBuilder: Builder<BookmarkDependency>, BookmarkBuildable {
     
     func build(withListener listener: BookmarkListener) -> BookmarkRouting {
         let component = BookmarkComponent(dependency: dependency)
-        let interactor = BookmarkInteractor(dependency: component)
+        let interactor = BookmarkInteractor()
         interactor.listener = listener
         let bookmarkBrowser = BookmarkBrowserBuilder(dependency: component)
         let enterBookmark = EnterBookmarkBuilder(dependency: component)

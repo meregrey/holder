@@ -13,20 +13,24 @@ extension ViewControllable {
                  modalPresentationStyle: UIModalPresentationStyle = .fullScreen,
                  animated: Bool = false,
                  completion: (() -> Void)? = nil) {
-        viewControllableToPresent.uiviewController.modalPresentationStyle = modalPresentationStyle
-        uiviewController.present(viewControllableToPresent.uiviewController,
-                                 animated: animated,
-                                 completion: completion)
+        DispatchQueue.main.async {
+            viewControllableToPresent.uiviewController.modalPresentationStyle = modalPresentationStyle
+            self.uiviewController.present(viewControllableToPresent.uiviewController,
+                                     animated: animated,
+                                     completion: completion)
+        }
     }
     
     func dismiss(animated: Bool = false, completion: (() -> Void)? = nil) {
-        uiviewController.dismiss(animated: animated, completion: completion)
+        DispatchQueue.main.async {
+            self.uiviewController.dismiss(animated: animated, completion: completion)
+        }
     }
     
-    func presentAlert(withTitle title: String, message: String, actions: [UIAlertAction]? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let actions = actions ?? [UIAlertAction(title: LocalizedString.AlertActionTitle.ok, style: .default)]
-        actions.forEach { alert.addAction($0) }
-        uiviewController.present(alert, animated: true)
+    func presentAlert(title: String, message: String? = nil, actions: [AlertAction]? = nil) {
+        DispatchQueue.main.async {
+            guard let alertController = AlertController(title: title, message: message, actions: actions) else { return }
+            self.uiviewController.present(alertController, animated: true)
+        }
     }
 }

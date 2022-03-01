@@ -12,10 +12,14 @@ enum LocalizedString {
         static let keychainErrorOccured = "Keychain Error Occured".localized
         static let tagAlreadySelected = "Tag Already Selected".localized
         static let enterTheURL = "Enter the URL.".localized
+        static let bookmarkCorrespondingToTheURLExists = "A bookmark corresponding to the URL exists.".localized
+        static let errorOccurredWhileFetchingTheMetadata = "An error occurred while fetching the metadata.".localized
+        static let errorOccurredWhileCheckingTheStore = "An error occurred while checking the store.".localized
+        static let errorOccurredWhileSavingToTheStore = "An error occurred while saving to the store.".localized
     }
     
     enum AlertMessage {
-        static let keychainErrorOccured = "An error occurred while saving your login information to the keychain.".localized
+        static let keychainErrorOccured = "An error occurred while saving to the keychain.".localized
         static let tagAlreadySelected = "Check out the tag in the list.".localized
     }
     

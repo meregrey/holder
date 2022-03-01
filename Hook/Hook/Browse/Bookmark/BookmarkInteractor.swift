@@ -5,7 +5,6 @@
 //  Created by Yeojin Yoon on 2022/01/26.
 //
 
-import LinkPresentation
 import RIBs
 
 protocol BookmarkRouting: Routing {
@@ -19,23 +18,14 @@ protocol BookmarkListener: AnyObject {
     func attachSelectTags(existingSelectedTags: [Tag])
 }
 
-protocol BookmarkInteractorDependency {
-    var bookmarkRepository: BookmarkRepositoryType { get }
-}
-
 final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresentationControllerDelegate {
-    
-    private let dependency: BookmarkInteractorDependency
-    
-    private var bookmarkRepository: BookmarkRepositoryType { dependency.bookmarkRepository }
     
     let presentationProxy = AdaptivePresentationControllerDelegateProxy()
     
     weak var router: BookmarkRouting?
     weak var listener: BookmarkListener?
     
-    init(dependency: BookmarkInteractorDependency) {
-        self.dependency = dependency
+    override init() {
         super.init()
         self.presentationProxy.delegate = self
     }
@@ -70,17 +60,7 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
         listener?.attachSelectTags(existingSelectedTags: existingSelectedTags)
     }
     
-    func enterBookmarkSaveButtonDidTap(url: URL, tags: [Tag]?, note: String?) {
-        router?.detachEnterBookmark(includingView: true)
-        LPMetadataProvider().startFetchingMetadata(for: url) { metadata, error in
-            let bookmarkTags = tags?.enumerated().map { BookmarkTag(name: $1.name, index: $0) }
-            let bookmark = Bookmark(url: url,
-                                    isFavorite: false,
-                                    tags: bookmarkTags,
-                                    note: note,
-                                    title: metadata?.title,
-                                    host: url.host)
-            self.bookmarkRepository.add(bookmark: bookmark)
-        }
+    func enterBookmarkSaveButtonDidTap() {
+        router?.detachEnterBookmark(includingView: false)
     }
 }
