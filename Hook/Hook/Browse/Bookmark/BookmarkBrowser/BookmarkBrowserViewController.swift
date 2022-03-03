@@ -81,7 +81,6 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         guard let index = tags.firstIndex(of: currentTag) else { return }
         let indexPath = IndexPath(item: index, section: 0)
         bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-        bookmarkBrowserCollectionView.reloadData()
     }
     
     private func configureViews() {
