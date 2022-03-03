@@ -84,3 +84,15 @@ final class BookmarkListTableViewDataSource: NSObject, UITableViewDataSource {
         return cell
     }
 }
+
+extension BookmarkListTableViewDataSource: UITableViewDataSourcePrefetching {
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach {
+            if $0.section == 1 { return }
+            guard let bookmarkEntity = isForAll ? fetchedResultsControllerForAll?.object(at: $0) : fetchedResultsControllerForTag?.object(at: $0).bookmark else { return }
+            guard let url = URL(string: bookmarkEntity.urlString) else { return }
+            ThumbnailLoader.shared.loadThumbnail(for: url) { _ in }
+        }
+    }
+}

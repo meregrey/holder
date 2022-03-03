@@ -44,6 +44,7 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
                                                                               context: context)
         }
         bookmarkListTableView.dataSource = bookmarkListTableViewDataSource
+        bookmarkListTableView.prefetchDataSource = bookmarkListTableViewDataSource
         bookmarkListTableView.delegate = bookmarkListTableViewDelegate
         bookmarkListTableView.reloadData()
     }
