@@ -84,6 +84,11 @@
 		676DF8812791CDD600267103 /* EditTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676DF87D2791CDD600267103 /* EditTagsViewController.swift */; };
 		676DF8822791CDD600267103 /* EditTagsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676DF87E2791CDD600267103 /* EditTagsBuilder.swift */; };
 		676DF8832791CDD600267103 /* EditTagsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676DF87F2791CDD600267103 /* EditTagsInteractor.swift */; };
+		6783192827CEFEA900439271 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6783192727CEFEA900439271 /* Cache.swift */; };
+		6783192A27CF0A5A00439271 /* ThumbnailLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6783192927CF0A5A00439271 /* ThumbnailLoader.swift */; };
+		6783192E27CF4AC900439271 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6783192D27CF4AC900439271 /* UIImage.swift */; };
+		6783193027CF722F00439271 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6783192F27CF722F00439271 /* BookmarkViewModel.swift */; };
+		6783193227CFAC3500439271 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6783193127CFAC3500439271 /* Size.swift */; };
 		678559F727CDCB9D00BE78F5 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678559F627CDCB9D00BE78F5 /* NSManagedObjectContext.swift */; };
 		67923BF82795711300B8E41E /* EditTagsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67923BF72795711300B8E41E /* EditTagsTableView.swift */; };
 		67923BFA2795715C00B8E41E /* EditTagsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67923BF92795715C00B8E41E /* EditTagsTableViewCell.swift */; };
@@ -244,6 +249,11 @@
 		676DF87D2791CDD600267103 /* EditTagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagsViewController.swift; sourceTree = "<group>"; };
 		676DF87E2791CDD600267103 /* EditTagsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagsBuilder.swift; sourceTree = "<group>"; };
 		676DF87F2791CDD600267103 /* EditTagsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagsInteractor.swift; sourceTree = "<group>"; };
+		6783192727CEFEA900439271 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		6783192927CF0A5A00439271 /* ThumbnailLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailLoader.swift; sourceTree = "<group>"; };
+		6783192D27CF4AC900439271 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		6783192F27CF722F00439271 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
+		6783193127CFAC3500439271 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		678559F627CDCB9D00BE78F5 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		67923BF72795711300B8E41E /* EditTagsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagsTableView.swift; sourceTree = "<group>"; };
 		67923BF92795715C00B8E41E /* EditTagsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagsTableViewCell.swift; sourceTree = "<group>"; };
@@ -402,9 +412,11 @@
 				673A88A9277BF57A00A89DC7 /* Extensions */,
 				67FFB21F27BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift */,
 				67BDEA36277764CA0031FEC1 /* AutoLayout.swift */,
+				6783192727CEFEA900439271 /* Cache.swift */,
 				672B2FD62771A7580075F348 /* KeychainManager.swift */,
 				6705B61D2782111D00793CB8 /* NavigationController.swift */,
 				673A88B1277C05CD00A89DC7 /* Stream.swift */,
+				6783192927CF0A5A00439271 /* ThumbnailLoader.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -527,6 +539,7 @@
 				678559F627CDCB9D00BE78F5 /* NSManagedObjectContext.swift */,
 				67CE08E42789ED7A006C25C1 /* ReusableView.swift */,
 				673A88A7277BF49E00A89DC7 /* String.swift */,
+				6783192D27CF4AC900439271 /* UIImage.swift */,
 				67CE08E62789F1C4006C25C1 /* UIView.swift */,
 				67BDEA342774CD210031FEC1 /* ViewControllable.swift */,
 			);
@@ -539,6 +552,7 @@
 				67923BFB2795C6BA00B8E41E /* Asset.swift */,
 				673A88AC277BF64000A89DC7 /* LocalizedString.swift */,
 				673A889E277B7E7600A89DC7 /* NotificationName.swift */,
+				6783193127CFAC3500439271 /* Size.swift */,
 				676AC7DC2785E6620047B95F /* TagName.swift */,
 			);
 			path = Constants;
@@ -569,6 +583,7 @@
 				674DBF2E27C46D4600D7358F /* BookmarkListTableViewCell.swift */,
 				67D8806E27C527BB00DC4D07 /* BookmarkListTableViewDataSource.swift */,
 				67BB323627C5C2300093F9EE /* BookmarkListTableViewDelegate.swift */,
+				6783192F27CF722F00439271 /* BookmarkViewModel.swift */,
 				676D795A27CCB0BF00ACED5C /* FetchedResultsControllerDelegate.swift */,
 			);
 			path = Views;
@@ -1034,6 +1049,7 @@
 				67F54A9C27B731F200868E93 /* SearchTagsRouter.swift in Sources */,
 				67F54AA827B9E81800868E93 /* AlertAction.swift in Sources */,
 				67A763CF27ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataClass.swift in Sources */,
+				6783192E27CF4AC900439271 /* UIImage.swift in Sources */,
 				67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */,
 				6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */,
 				67CB5B1427B0AFAA00DE2582 /* LabeledTagCollectionViewCell.swift in Sources */,
@@ -1047,6 +1063,7 @@
 				676AC7DF2785EEA80047B95F /* Array.swift in Sources */,
 				672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */,
 				67F6E2BE27BB535600414E48 /* LabeledNoteTextView.swift in Sources */,
+				6783193027CF722F00439271 /* BookmarkViewModel.swift in Sources */,
 				676D139627902BE0003AA102 /* TextField.swift in Sources */,
 				676D1380278EC0CE003AA102 /* EnterTagRouter.swift in Sources */,
 				6705B5E527815BA300793CB8 /* SearchRouter.swift in Sources */,
@@ -1056,6 +1073,7 @@
 				67BDEA312774C81F0031FEC1 /* LoggedInRouter.swift in Sources */,
 				6705B5F227815C3000793CB8 /* FavoritesInteractor.swift in Sources */,
 				672F49E727AC99D000DACEF5 /* LabeledTagCollectionView.swift in Sources */,
+				6783192A27CF0A5A00439271 /* ThumbnailLoader.swift in Sources */,
 				67A763CE27ABD2F8002B34F4 /* BookmarkEntity+CoreDataProperties.swift in Sources */,
 				672F49EF27AD1A8200DACEF5 /* SelectTagsBuilder.swift in Sources */,
 				676AC7D5278579A60047B95F /* Tag.swift in Sources */,
@@ -1074,6 +1092,7 @@
 				67F54A9E27B731F200868E93 /* SearchTagsBuilder.swift in Sources */,
 				67390782279DB72900742772 /* BookmarkTag.swift in Sources */,
 				67EDC91827717476003F646F /* AppDelegate.swift in Sources */,
+				6783193227CFAC3500439271 /* Size.swift in Sources */,
 				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
 				676DF8822791CDD600267103 /* EditTagsBuilder.swift in Sources */,
 				6705B5E627815BA300793CB8 /* SearchViewController.swift in Sources */,
@@ -1098,6 +1117,7 @@
 				673A88A8277BF49E00A89DC7 /* String.swift in Sources */,
 				6735714727A1961800C1136B /* BookmarkBuilder.swift in Sources */,
 				67BB323727C5C2300093F9EE /* BookmarkListTableViewDelegate.swift in Sources */,
+				6783192827CEFEA900439271 /* Cache.swift in Sources */,
 				67DB1FF827B55FD40045D301 /* SearchBar.swift in Sources */,
 				67CB5B1227B0AE6B00DE2582 /* LeftAlignmentCollectionViewFlowLayout.swift in Sources */,
 				672F49ED27AD1A8200DACEF5 /* SelectTagsRouter.swift in Sources */,
