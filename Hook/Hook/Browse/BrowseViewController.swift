@@ -29,11 +29,17 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     init() {
         super.init(nibName: nil, bundle: nil)
         configureViews()
+        registerToReceiveNotification()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureViews()
+        registerToReceiveNotification()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +84,49 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didFailToAddExistingBookmark),
+                                               name: NotificationName.Bookmark.existingBookmark,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didFailToFetchMetadata),
+                                               name: NotificationName.Metadata.didFailToFetch,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didFailToCheckStore),
+                                               name: NotificationName.Store.didFailToCheck,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didFailToSaveStore),
+                                               name: NotificationName.Store.didFailToSave,
+                                               object: nil)
+    }
+    
+    @objc
+    private func didFailToAddExistingBookmark() {
+        presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheURLExists)
+    }
+    
+    @objc
+    private func didFailToFetchMetadata() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileFetchingTheMetadata)
+    }
+    
+    @objc
+    private func didFailToCheckStore() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileCheckingTheStore)
+    }
+    
+    @objc
+    private func didFailToSaveStore() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileSavingToTheStore)
     }
 }

@@ -2,9 +2,13 @@
 "Keychain Error Occured" = "Keychain Error Occured";
 "Tag Already Selected" = "Tag Already Selected";
 "Enter the URL." = "Enter the URL.";
+"A bookmark corresponding to the URL exists." = "A bookmark corresponding to the URL exists.";
+"An error occurred while fetching the metadata." = "An error occurred while fetching the metadata.";
+"An error occurred while checking the store." = "An error occurred while checking the store.";
+"An error occurred while saving to the store." = "An error occurred while saving to the store.";
 
 /* Alert message */
-"An error occurred while saving your login information to the keychain." = "An error occurred while saving your login information to the keychain.";
+"An error occurred while saving to the keychain." = "An error occurred while saving to the keychain.";
 "Check out the tag in the list." = "Check out the tag in the list.";
 
 /* Alert action title */

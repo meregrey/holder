@@ -10,16 +10,23 @@ import Foundation
 enum NotificationName {
     enum Bookmark {
         static let didFailToAddBookmark = NSNotification.Name("didFailToAddBookmark")
+        static let didFailToFetchBookmarks = NSNotification.Name("didFailToFetchBookmarks")
         static let didSucceedToAddBookmark = NSNotification.Name("didSucceedToAddBookmark")
         static let existingBookmark = NSNotification.Name("existingBookmark")
     }
     
     enum Credential {
-        static let didFailToSaveCredential = NSNotification.Name("didFailToSaveCredential")
+        static let didFailToSave = NSNotification.Name("didFailToSave")
     }
     
-    enum Persistence {
-        static let didFailToLoadPersistentStore = NSNotification.Name("didFailToLoadPersistentStore")
+    enum Metadata {
+        static let didFailToFetch = NSNotification.Name("didFailToFetch")
+    }
+    
+    enum Store {
+        static let didFailToCheck = NSNotification.Name("didFailToCheck")
+        static let didFailToLoad = NSNotification.Name("didFailToLoad")
+        static let didFailToSave = NSNotification.Name("didFailToSave")
     }
     
     enum Tag {

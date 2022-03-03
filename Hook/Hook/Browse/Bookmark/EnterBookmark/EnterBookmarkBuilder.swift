@@ -5,14 +5,17 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
+import CoreData
 import RIBs
 
 protocol EnterBookmarkDependency: Dependency {
+    var context: NSManagedObjectContext { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
 final class EnterBookmarkComponent: Component<EnterBookmarkDependency>, EnterBookmarkInteractorDependency {
     
+    var context: NSManagedObjectContext { dependency.context }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
 }
 

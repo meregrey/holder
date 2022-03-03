@@ -11,20 +11,20 @@ import Foundation
 @objc(BookmarkEntity)
 public class BookmarkEntity: NSManagedObject {
     
-    func configure(with bookmark: Bookmark) {
-        urlString = bookmark.url.absoluteString
-        creationDate = Date()
-        isFavorite = bookmark.isFavorite
-        note = bookmark.note
-        title = bookmark.title
-        host = bookmark.host
+    func configure(url: URL, tags: [Tag]?, note: String?, title: String?, host: String?) {
+        self.urlString = url.absoluteString
+        self.creationDate = Date()
+        self.isFavorite = false
+        self.note = note
+        self.title = title
+        self.host = host
         
-        guard let tags = bookmark.tags else { return }
+        guard let tags = tags else { return }
         guard let context = managedObjectContext else { return }
         
-        tags.forEach {
+        tags.enumerated().forEach {
             let bookmarkTagEntity = BookmarkTagEntity(context: context)
-            bookmarkTagEntity.configure(with: $0, bookmarkEntity: self)
+            bookmarkTagEntity.configure(with: BookmarkTag(name: $1.name, index: $0), bookmarkEntity: self)
             addToTags(bookmarkTagEntity)
         }
     }

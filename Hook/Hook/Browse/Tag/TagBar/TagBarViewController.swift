@@ -9,12 +9,15 @@ import RIBs
 import UIKit
 
 protocol TagBarPresentableListener: AnyObject {
+    func viewDidAppearFirst()
+    func tagDidSelect(tag: Tag)
     func tagSettingsButtonDidTap()
 }
 
 final class TagBarViewController: UIViewController, TagBarPresentable, TagBarViewControllable {
     
     private var tags: [Tag] = []
+    private var isFirstAppeared = true
     
     @AutoLayout private var containerView = UIView()
     
@@ -69,11 +72,26 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         configureViews()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if isFirstAppeared {
+            listener?.viewDidAppearFirst()
+            isFirstAppeared = false
+        }
+    }
+    
     func update(with tags: [Tag]) {
         self.tags = tags
         DispatchQueue.main.async {
             self.tagBarCollectionView.reloadData()
             self.tagBarCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
+        }
+    }
+    
+    func update(with currentTag: Tag) {
+        guard let index = tags.firstIndex(of: currentTag) else { return }
+        DispatchQueue.main.async {
+            self.tagBarCollectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .centeredHorizontally)
         }
     }
     
@@ -127,6 +145,7 @@ extension TagBarViewController: UICollectionViewDataSource {
 extension TagBarViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        listener?.tagDidSelect(tag: tags[indexPath.row])
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }

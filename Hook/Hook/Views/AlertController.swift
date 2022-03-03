@@ -19,6 +19,7 @@ final class AlertController: UIViewController {
         let label = UILabel()
         label.font = Font.titleLabel
         label.textColor = Asset.Color.primaryColor
+        label.numberOfLines = 0
         return label
     }()
     
@@ -26,7 +27,7 @@ final class AlertController: UIViewController {
         let label = UILabel()
         label.font = Font.messageLabel
         label.textColor = Asset.Color.primaryColor
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         return label
     }()
     
@@ -63,9 +64,7 @@ final class AlertController: UIViewController {
         static let actionStackViewBottom = CGFloat(-24)
     }
     
-    init?(title: String,
-          message: String? = nil,
-          actions: [AlertAction]? = nil) {
+    init?(title: String, message: String? = nil, actions: [AlertAction]? = nil) {
         if let actions = actions, actions.count > 2 { return nil }
         super.init(nibName: nil, bundle: nil)
         configureViews(title: title, message: message, actions: actions)
@@ -85,7 +84,7 @@ final class AlertController: UIViewController {
         view.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.7)
         view.addSubview(containerView)
         
-        titleLabel.text = title
+        titleLabel.attributedText = titleLabelAttributedText(title: title)
         containerView.addSubview(titleLabel)
         
         if let message = message {
@@ -117,6 +116,12 @@ final class AlertController: UIViewController {
             actionStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.actionStackViewTrailing),
             actionStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Metric.actionStackViewBottom)
         ])
+    }
+    
+    private func titleLabelAttributedText(title: String) -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        return NSAttributedString(string: title, attributes: [.paragraphStyle: paragraphStyle])
     }
     
     private func messageLabelAttributedText(message: String) -> NSAttributedString {

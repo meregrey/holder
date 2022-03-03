@@ -22,7 +22,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         super.init(coder: coder)
     }
     
-    func displayAlert(withTitle title: String, message: String) {
-        presentAlert(withTitle: title, message: message)
+    func displayAlert(title: String, message: String) {
+        presentAlert(title: title, message: message)
     }
 }
