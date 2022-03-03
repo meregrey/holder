@@ -9,6 +9,8 @@ import UIKit
 
 final class BookmarkListTableViewCell: UITableViewCell {
     
+    private var viewModel: BookmarkViewModel?
+    
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
         view.backgroundColor = Asset.Color.upperBackgroundColor
@@ -50,6 +52,8 @@ final class BookmarkListTableViewCell: UITableViewCell {
     
     @AutoLayout private var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.alpha = 0
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 5
         imageView.layer.cornerCurve = .continuous
@@ -63,18 +67,18 @@ final class BookmarkListTableViewCell: UITableViewCell {
     }
     
     private enum Metric {
-        static let containerViewTop = CGFloat(8)
+        static let containerViewTop = CGFloat(6)
         static let containerViewLeading = CGFloat(20)
         static let containerViewTrailing = CGFloat(-20)
-        static let containerViewBottom = CGFloat(-8)
+        static let containerViewBottom = CGFloat(-6)
         
         static let stackViewTop = CGFloat(20)
         static let stackViewLeading = CGFloat(16)
         static let stackViewTrailing = CGFloat(-16)
         static let stackViewBottom = CGFloat(-20)
         
-        static let thumbnailImageViewWidth = CGFloat(90)
-        static let thumbnailImageViewHeight = CGFloat(60)
+        static let thumbnailImageViewWidth = Size.thumbnail.width
+        static let thumbnailImageViewHeight = Size.thumbnail.height
         static let thumbnailImageViewTrailing = CGFloat(-16)
         
         static let labelPreferredMaxLayoutWidth = UIScreen.main.bounds.width - (containerViewLeading + (-containerViewTrailing) + stackViewLeading + (-stackViewTrailing) + thumbnailImageViewWidth + (-thumbnailImageViewTrailing))
@@ -94,15 +98,31 @@ final class BookmarkListTableViewCell: UITableViewCell {
         super.prepareForReuse()
         stackView.removeArrangedSubview(noteLabel)
         noteLabel.removeFromSuperview()
+        titleLabel.text = nil
+        hostLabel.text = nil
+        noteLabel.text = nil
+        thumbnailImageView.image = nil
+        thumbnailImageView.alpha = 0
     }
     
-    func configure(with bookmarkEntity: BookmarkEntity) {
-        titleLabel.text = bookmarkEntity.title ?? bookmarkEntity.host ?? "Unknown Title"
-        hostLabel.text = bookmarkEntity.host ?? "Unknown Host"
-        if let note = bookmarkEntity.note, note.count > 0 {
+    func configure(with bookmarkViewModel: BookmarkViewModel) {
+        viewModel = bookmarkViewModel
+        titleLabel.text = viewModel?.title ?? viewModel?.host ?? "Unknown Title"
+        hostLabel.text = viewModel?.host ?? "Unknown Host"
+        if let note = viewModel?.note, note.count > 0 {
             noteLabel.text = note
             stackView.addArrangedSubview(noteLabel)
         }
+        viewModel?.bind { [weak self] thumbnail in
+            DispatchQueue.main.async {
+                self?.thumbnailImageView.image = thumbnail
+                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
+                                                               delay: 0,
+                                                               options: .curveLinear,
+                                                               animations: { self?.thumbnailImageView.alpha = 1 })
+            }
+        }
+        viewModel?.loadThumbnail()
     }
     
     private func configureViews() {

@@ -49,15 +49,10 @@ final class BookmarkListTableViewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 { return transparentCell() }
         let cell: BookmarkListTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        if isForAll {
-            guard let bookmarkEntity = fetchedResultsControllerForAll?.object(at: indexPath) else { return cell }
-            cell.configure(with: bookmarkEntity)
-            return cell
-        } else {
-            guard let bookmarkEntity = fetchedResultsControllerForTag?.object(at: indexPath).bookmark else { return cell }
-            cell.configure(with: bookmarkEntity)
-            return cell
-        }
+        guard let bookmarkEntity = isForAll ? fetchedResultsControllerForAll?.object(at: indexPath) : fetchedResultsControllerForTag?.object(at: indexPath).bookmark else { return cell }
+        let viewModel = BookmarkViewModel(with: bookmarkEntity)
+        cell.configure(with: viewModel)
+        return cell
     }
 
     private func fetchedResultsControllerForAll(context: NSManagedObjectContext) -> NSFetchedResultsController<BookmarkEntity> {
