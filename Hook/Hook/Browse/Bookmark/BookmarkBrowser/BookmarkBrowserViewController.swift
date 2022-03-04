@@ -20,7 +20,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
-    private var bookmarkListTableViewContentOffsets: [IndexPath: CGPoint] = [:]
+    private var bookmarkListCollectionViewContentOffsets: [IndexPath: CGPoint] = [:]
     
     @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -127,20 +127,20 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        let contentOffset = bookmarkListTableViewContentOffsets[indexPath] ?? CGPoint.zero
-        cell.setBookmarkListTableViewContentOffset(contentOffset)
+        let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] ?? CGPoint.zero
+        cell.setBookmarkListCollectionViewContentOffset(contentOffset)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        cell.resetBookmarkListTableViewContentOffset()
+        cell.resetBookmarkListCollectionViewContentOffset()
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         guard let collectionView = scrollView as? UICollectionView else { return }
         guard let cell = collectionView.cellForItem(at: currentIndexPath) as? BookmarkBrowserCollectionViewCell else { return }
-        let contentOffset = cell.bookmarkListTableViewContentOffset()
-        bookmarkListTableViewContentOffsets.updateValue(contentOffset, forKey: currentIndexPath)
+        let contentOffset = cell.bookmarkListCollectionViewContentOffset()
+        bookmarkListCollectionViewContentOffsets.updateValue(contentOffset, forKey: currentIndexPath)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

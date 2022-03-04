@@ -10,10 +10,10 @@ import UIKit
 
 final class FetchedResultsControllerDelegate: NSObject, NSFetchedResultsControllerDelegate {
     
-    private weak var tableView: UITableView?
+    private weak var collectionView: UICollectionView?
     
-    init(tableView: UITableView) {
-        self.tableView = tableView
+    init(collectionView: UICollectionView) {
+        self.collectionView = collectionView
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
@@ -25,7 +25,7 @@ final class FetchedResultsControllerDelegate: NSObject, NSFetchedResultsControll
         case .insert:
             DispatchQueue.main.async {
                 guard let newIndexPath = newIndexPath else { return }
-                self.tableView?.insertRows(at: [newIndexPath], with: .automatic)
+                self.collectionView?.insertItems(at: [newIndexPath])
             }
         case .update: break
         case .delete: break

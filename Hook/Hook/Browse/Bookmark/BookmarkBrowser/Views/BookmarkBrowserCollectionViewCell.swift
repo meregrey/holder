@@ -10,17 +10,31 @@ import UIKit
 
 final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     
-    @AutoLayout private var bookmarkListTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(BookmarkListTableViewCell.self)
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .clear
-        return tableView
+    @AutoLayout private var bookmarkListCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.minimumLineSpacing = Metric.bookmarkListCollectionViewLineSpacing
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.register(BookmarkListCollectionViewCell.self)
+        collectionView.register(UICollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: String(describing: UICollectionReusableView.self))
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        
+        return collectionView
     }()
     
-    private let bookmarkListTableViewDelegate = BookmarkListTableViewDelegate()
-    private var bookmarkListTableViewDataSource: BookmarkListTableViewDataSource?
+    private var bookmarkListCollectionViewManager: BookmarkListCollectionViewManager?
+    
+    private enum Metric {
+        static let bookmarkListCollectionViewLineSpacing = CGFloat(12)
+        static let bookmarkListCollectionViewLeading = CGFloat(20)
+        static let bookmarkListCollectionViewTrailing = CGFloat(-20)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,41 +48,41 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        bookmarkListTableViewDataSource = nil
+        bookmarkListCollectionViewManager = nil
     }
     
     func configure(for tag: Tag, context: NSManagedObjectContext) {
-        if bookmarkListTableViewDataSource == nil {
-            bookmarkListTableViewDataSource = BookmarkListTableViewDataSource(tableView: bookmarkListTableView,
-                                                                              tag: tag,
-                                                                              context: context)
+        if bookmarkListCollectionViewManager == nil {
+            bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView,
+                                                                                  tag: tag,
+                                                                                  context: context)
         }
-        bookmarkListTableView.dataSource = bookmarkListTableViewDataSource
-        bookmarkListTableView.prefetchDataSource = bookmarkListTableViewDataSource
-        bookmarkListTableView.delegate = bookmarkListTableViewDelegate
-        bookmarkListTableView.reloadData()
+        bookmarkListCollectionView.dataSource = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.prefetchDataSource = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.delegate = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.reloadData()
     }
     
-    func bookmarkListTableViewContentOffset() -> CGPoint {
-        return bookmarkListTableView.contentOffset
+    func bookmarkListCollectionViewContentOffset() -> CGPoint {
+        return bookmarkListCollectionView.contentOffset
     }
     
-    func setBookmarkListTableViewContentOffset(_ contentOffset: CGPoint) {
-        bookmarkListTableView.layoutIfNeeded()
-        bookmarkListTableView.contentOffset = contentOffset
+    func setBookmarkListCollectionViewContentOffset(_ contentOffset: CGPoint) {
+        bookmarkListCollectionView.layoutIfNeeded()
+        bookmarkListCollectionView.contentOffset = contentOffset
     }
     
-    func resetBookmarkListTableViewContentOffset() {
-        bookmarkListTableView.contentOffset = CGPoint.zero
+    func resetBookmarkListCollectionViewContentOffset() {
+        bookmarkListCollectionView.contentOffset = CGPoint.zero
     }
     
     private func configureViews() {
-        contentView.addSubview(bookmarkListTableView)
+        contentView.addSubview(bookmarkListCollectionView)
         NSLayoutConstraint.activate([
-            bookmarkListTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bookmarkListTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bookmarkListTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bookmarkListTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            bookmarkListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bookmarkListCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.bookmarkListCollectionViewLeading),
+            bookmarkListCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.bookmarkListCollectionViewTrailing),
+            bookmarkListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

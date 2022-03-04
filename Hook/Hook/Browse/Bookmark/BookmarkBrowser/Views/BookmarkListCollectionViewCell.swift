@@ -1,21 +1,15 @@
 //
-//  BookmarkListTableViewCell.swift
+//  BookmarkListCollectionViewCell.swift
 //  Hook
 //
-//  Created by Yeojin Yoon on 2022/02/22.
+//  Created by Yeojin Yoon on 2022/03/04.
 //
 
 import UIKit
 
-final class BookmarkListTableViewCell: UITableViewCell {
+final class BookmarkListCollectionViewCell: UICollectionViewCell {
     
     private var viewModel: BookmarkViewModel?
-    
-    @AutoLayout private var containerView: RoundedCornerView = {
-        let view = RoundedCornerView()
-        view.backgroundColor = Asset.Color.upperBackgroundColor
-        return view
-    }()
     
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -30,7 +24,7 @@ final class BookmarkListTableViewCell: UITableViewCell {
         label.font = Font.titleLabel
         label.textColor = Asset.Color.primaryColor
         label.numberOfLines = 0
-        label.preferredMaxLayoutWidth = Metric.labelPreferredMaxLayoutWidth
+        label.preferredMaxLayoutWidth = Metric.labelWidth
         return label
     }()
     
@@ -46,7 +40,7 @@ final class BookmarkListTableViewCell: UITableViewCell {
         label.font = Font.noteLabel
         label.textColor = Asset.Color.secondaryColor
         label.numberOfLines = 0
-        label.preferredMaxLayoutWidth = Metric.labelPreferredMaxLayoutWidth
+        label.preferredMaxLayoutWidth = Metric.labelWidth
         return label
     }()
     
@@ -67,10 +61,7 @@ final class BookmarkListTableViewCell: UITableViewCell {
     }
     
     private enum Metric {
-        static let containerViewTop = CGFloat(6)
-        static let containerViewLeading = CGFloat(20)
-        static let containerViewTrailing = CGFloat(-20)
-        static let containerViewBottom = CGFloat(-6)
+        static let labelWidth = UIScreen.main.bounds.width - (stackViewLeading + (-stackViewTrailing) + thumbnailImageViewWidth + (-thumbnailImageViewTrailing) + 40)
         
         static let stackViewTop = CGFloat(20)
         static let stackViewLeading = CGFloat(16)
@@ -80,15 +71,13 @@ final class BookmarkListTableViewCell: UITableViewCell {
         static let thumbnailImageViewWidth = Size.thumbnail.width
         static let thumbnailImageViewHeight = Size.thumbnail.height
         static let thumbnailImageViewTrailing = CGFloat(-16)
-        
-        static let labelPreferredMaxLayoutWidth = UIScreen.main.bounds.width - (containerViewLeading + (-containerViewTrailing) + stackViewLeading + (-stackViewTrailing) + thumbnailImageViewWidth + (-thumbnailImageViewTrailing))
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         configureViews()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureViews()
@@ -103,6 +92,15 @@ final class BookmarkListTableViewCell: UITableViewCell {
         noteLabel.text = nil
         thumbnailImageView.image = nil
         thumbnailImageView.alpha = 0
+    }
+    
+    static func fittingSize(with bookmarkEntity: BookmarkEntity, width: CGFloat) -> CGSize {
+        let cell = BookmarkListCollectionViewCell()
+        cell.configure(with: bookmarkEntity)
+        let targetSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
+        return cell.contentView.systemLayoutSizeFitting(targetSize,
+                                                        withHorizontalFittingPriority: .required,
+                                                        verticalFittingPriority: .fittingSizeLevel)
     }
     
     func configure(with bookmarkViewModel: BookmarkViewModel) {
@@ -126,30 +124,34 @@ final class BookmarkListTableViewCell: UITableViewCell {
     }
     
     private func configureViews() {
-        selectionStyle = .none
-        backgroundColor = .clear
+        backgroundColor = Asset.Color.upperBackgroundColor
+        layer.cornerRadius = 15
+        layer.cornerCurve = .continuous
         
-        contentView.addSubview(containerView)
-        containerView.addSubview(stackView)
-        containerView.addSubview(thumbnailImageView)
+        contentView.addSubview(stackView)
+        contentView.addSubview(thumbnailImageView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(hostLabel)
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.containerViewTop),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.containerViewLeading),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.containerViewTrailing),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.containerViewBottom),
-            
-            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metric.stackViewTop),
-            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.stackViewLeading),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.stackViewTop),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.stackViewLeading),
             stackView.trailingAnchor.constraint(equalTo: thumbnailImageView.leadingAnchor, constant: Metric.stackViewTrailing),
-            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Metric.stackViewBottom),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.stackViewBottom),
             
             thumbnailImageView.widthAnchor.constraint(equalToConstant: Metric.thumbnailImageViewWidth),
             thumbnailImageView.heightAnchor.constraint(equalToConstant: Metric.thumbnailImageViewHeight),
-            thumbnailImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            thumbnailImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.thumbnailImageViewTrailing)
+            thumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            thumbnailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.thumbnailImageViewTrailing)
         ])
+    }
+    
+    private func configure(with bookmarkEntity: BookmarkEntity) {
+        titleLabel.text = bookmarkEntity.title
+        hostLabel.text = bookmarkEntity.host
+        if let note = bookmarkEntity.note, note.count > 0 {
+            noteLabel.text = note
+            stackView.addArrangedSubview(noteLabel)
+        }
     }
 }
