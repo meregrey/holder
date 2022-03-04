@@ -44,9 +44,7 @@ final class LabeledTagCollectionViewCell: UICollectionViewCell {
         configureViews()
     }
     
-    static func fittingSize(with tag: Tag,
-                            height: CGFloat,
-                            maximumWidth: CGFloat) -> CGSize {
+    static func fittingSize(with tag: Tag, height: CGFloat, maximumWidth: CGFloat) -> CGSize {
         let cell = LabeledTagCollectionViewCell()
         cell.configure(with: tag)
         let targetSize = CGSize(width: UIView.layoutFittingCompressedSize.width, height: height)

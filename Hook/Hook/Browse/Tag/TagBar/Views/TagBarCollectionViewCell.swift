@@ -39,7 +39,7 @@ final class TagBarCollectionViewCell: UICollectionViewCell {
         configureViews()
     }
     
-    static func fittingSize(withTag tag: Tag, height: CGFloat) -> CGSize {
+    static func fittingSize(with tag: Tag, height: CGFloat) -> CGSize {
         let cell = TagBarCollectionViewCell()
         cell.configure(with: tag)
         let targetSize = CGSize(width: UIView.layoutFittingCompressedSize.width, height: height)
