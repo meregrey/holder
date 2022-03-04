@@ -1,3 +1,15 @@
+/* Action title */
+"Add" = "Add";
+"Add to Favorites" = "Add to Favorites";
+"Cancel" = "Cancel";
+"Copy URL" = "Copy URL";
+"Delete" = "Delete";
+"Done" = "Done";
+"Edit" = "Edit";
+"OK" = "OK";
+"Save" = "Save";
+"Share" = "Share";
+
 /* Alert title */
 "Keychain Error Occured" = "Keychain Error Occured";
 "Tag Already Selected" = "Tag Already Selected";
@@ -10,16 +22,6 @@
 /* Alert message */
 "An error occurred while saving to the keychain." = "An error occurred while saving to the keychain.";
 "Check out the tag in the list." = "Check out the tag in the list.";
-
-/* Alert action title */
-"OK" = "OK";
-
-/* Button title */
-"Add" = "Add";
-"Cancel" = "Cancel";
-"Delete" = "Delete";
-"Done" = "Done";
-"Save" = "Save";
 
 /* Label text */
 "Tag name" = "Tag name";
