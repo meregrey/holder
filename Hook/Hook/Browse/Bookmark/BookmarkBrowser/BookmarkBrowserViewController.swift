@@ -40,7 +40,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     @AutoLayout private var addBookmarkButton: UIButton = {
         let button = UIButton()
-        button.setTitle(LocalizedString.ButtonTitle.add, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.add, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.titleLabel?.font = Font.addBookmarkButton
         button.backgroundColor = Asset.Color.primaryColor

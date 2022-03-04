@@ -35,7 +35,7 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     
     @AutoLayout private var doneButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
-        button.setTitle(LocalizedString.ButtonTitle.done, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.done, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(doneButtonDidTap), for: .touchUpInside)

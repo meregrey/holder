@@ -98,7 +98,7 @@ final class AlertController: UIViewController {
             ])
         }
         
-        let actions = actions ?? [AlertAction(title: LocalizedString.AlertActionTitle.ok, handler: #selector(handleDefaultAction))]
+        let actions = actions ?? [AlertAction(title: LocalizedString.ActionTitle.ok, handler: #selector(handleDefaultAction))]
         actions.forEach { actionStackView.addArrangedSubview($0) }
         containerView.addSubview(actionStackView)
         

@@ -34,7 +34,7 @@ final class SearchBar: UIControl {
     @AutoLayout private var cancelButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = Font.cancelButton
-        button.setTitle(LocalizedString.ButtonTitle.cancel, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.cancel, for: .normal)
         button.setTitleColor(Asset.Color.secondaryColor, for: .normal)
         return button
     }()
@@ -131,7 +131,7 @@ final class SearchBar: UIControl {
     private func cancelButtonWidth() -> CGFloat {
         let button = UIButton()
         button.titleLabel?.font = Font.cancelButton
-        button.setTitle(LocalizedString.ButtonTitle.cancel, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.cancel, for: .normal)
         let targetSize = CGSize(width: UIView.layoutFittingCompressedSize.width, height: 0)
         return button.systemLayoutSizeFitting(targetSize).width
     }
