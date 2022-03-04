@@ -14,7 +14,7 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.minimumLineSpacing = Metric.bookmarkListCollectionViewLineSpacing
+        flowLayout.minimumLineSpacing = 12
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(BookmarkListCollectionViewCell.self)
@@ -29,12 +29,6 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     }()
     
     private var bookmarkListCollectionViewManager: BookmarkListCollectionViewManager?
-    
-    private enum Metric {
-        static let bookmarkListCollectionViewLineSpacing = CGFloat(12)
-        static let bookmarkListCollectionViewLeading = CGFloat(20)
-        static let bookmarkListCollectionViewTrailing = CGFloat(-20)
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,8 +74,8 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(bookmarkListCollectionView)
         NSLayoutConstraint.activate([
             bookmarkListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bookmarkListCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.bookmarkListCollectionViewLeading),
-            bookmarkListCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.bookmarkListCollectionViewTrailing),
+            bookmarkListCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bookmarkListCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             bookmarkListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }

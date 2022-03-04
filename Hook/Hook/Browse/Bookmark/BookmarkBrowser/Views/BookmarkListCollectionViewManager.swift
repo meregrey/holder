@@ -98,7 +98,7 @@ extension BookmarkListCollectionViewManager: UICollectionViewDelegateFlowLayout 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let defaultHeight = CGFloat(84)
-        let defaultSize = CGSize(width: collectionView.frame.width, height: defaultHeight)
+        let defaultSize = CGSize(width: collectionView.frame.width - 40, height: defaultHeight)
         guard let bookmarkEntity = isForAll ? fetchedResultsControllerForAll?.object(at: indexPath) : fetchedResultsControllerForTag?.object(at: indexPath).bookmark else { return defaultSize }
         let fittingSize = BookmarkListCollectionViewCell.fittingSize(with: bookmarkEntity, width: defaultSize.width)
         return fittingSize.height > defaultHeight ? fittingSize : defaultSize
