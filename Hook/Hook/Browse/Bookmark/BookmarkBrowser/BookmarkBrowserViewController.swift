@@ -5,7 +5,6 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
-import CoreData
 import RIBs
 import UIKit
 
@@ -15,8 +14,6 @@ protocol BookmarkBrowserPresentableListener: AnyObject {
 }
 
 final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPresentable, BookmarkBrowserViewControllable {
-    
-    private let context: NSManagedObjectContext
     
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
@@ -61,14 +58,12 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     weak var listener: BookmarkBrowserPresentableListener?
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    init() {
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
-        self.context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         super.init(coder: coder)
         configureViews()
     }
@@ -118,7 +113,7 @@ extension BookmarkBrowserViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BookmarkBrowserCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         let tag = tags[indexPath.item]
-        cell.configure(for: tag, context: context)
+        cell.configure(with: tag)
         return cell
     }
 }

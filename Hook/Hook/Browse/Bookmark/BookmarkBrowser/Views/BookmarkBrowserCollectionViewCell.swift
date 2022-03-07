@@ -5,7 +5,6 @@
 //  Created by Yeojin Yoon on 2022/02/21.
 //
 
-import CoreData
 import UIKit
 
 final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
@@ -45,12 +44,9 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         bookmarkListCollectionViewManager = nil
     }
     
-    func configure(for tag: Tag, context: NSManagedObjectContext) {
-        if bookmarkListCollectionViewManager == nil {
-            bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView,
-                                                                                  tag: tag,
-                                                                                  context: context)
-        }
+    func configure(with tag: Tag) {
+        guard bookmarkListCollectionViewManager == nil else { return }
+        bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView, tag: tag)
         bookmarkListCollectionView.dataSource = bookmarkListCollectionViewManager
         bookmarkListCollectionView.prefetchDataSource = bookmarkListCollectionViewManager
         bookmarkListCollectionView.delegate = bookmarkListCollectionViewManager

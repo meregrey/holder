@@ -5,7 +5,6 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
-import CoreData
 import RIBs
 
 protocol BookmarkBrowserRouting: ViewableRouting {}
@@ -21,7 +20,6 @@ protocol BookmarkBrowserListener: AnyObject {
 }
 
 protocol BookmarkBrowserInteractorDependency {
-    var context: NSManagedObjectContext { get }
     var tagsStream: ReadOnlyStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
 }
@@ -30,7 +28,6 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     private let dependency: BookmarkBrowserInteractorDependency
     
-    private var context: NSManagedObjectContext { dependency.context }
     private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     

@@ -10,47 +10,26 @@ import UIKit
 
 final class BookmarkListCollectionViewManager: NSObject {
     
+    private let bookmarkRepository = BookmarkRepository.shared
     private let fetchedResultsControllerDelegate: FetchedResultsControllerDelegate
 
     private var isForAll = false
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
 
-    init(collectionView: UICollectionView, tag: Tag, context: NSManagedObjectContext) {
+    init(collectionView: UICollectionView, tag: Tag) {
         self.fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: collectionView)
         super.init()
         if tag.name == TagName.all {
             self.isForAll = true
-            self.fetchedResultsControllerForAll = fetchedResultsControllerForAll(context: context)
+            self.fetchedResultsControllerForAll = bookmarkRepository.fetchedResultsController()
             self.fetchedResultsControllerForAll?.delegate = fetchedResultsControllerDelegate
             try? self.fetchedResultsControllerForAll?.performFetch()
         } else {
-            self.fetchedResultsControllerForTag = fetchedResultsControllerForTag(tag: tag, context: context)
+            self.fetchedResultsControllerForTag = bookmarkRepository.fetchedResultsController(for: tag)
             self.fetchedResultsControllerForTag?.delegate = fetchedResultsControllerDelegate
             try? self.fetchedResultsControllerForTag?.performFetch()
         }
-    }
-    
-    private func fetchedResultsControllerForAll(context: NSManagedObjectContext) -> NSFetchedResultsController<BookmarkEntity> {
-        let request = BookmarkEntity.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: false)
-        request.sortDescriptors = [sortDescriptor]
-        return NSFetchedResultsController(fetchRequest: request,
-                                          managedObjectContext: context,
-                                          sectionNameKeyPath: nil,
-                                          cacheName: nil)
-    }
-    
-    private func fetchedResultsControllerForTag(tag: Tag, context: NSManagedObjectContext) -> NSFetchedResultsController<BookmarkTagEntity> {
-        let request = BookmarkTagEntity.fetchRequest()
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkTagEntity.bookmark.creationDate), ascending: false)
-        request.predicate = predicate
-        request.sortDescriptors = [sortDescriptor]
-        return NSFetchedResultsController(fetchRequest: request,
-                                          managedObjectContext: context,
-                                          sectionNameKeyPath: nil,
-                                          cacheName: nil)
     }
 }
 

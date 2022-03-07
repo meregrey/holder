@@ -5,11 +5,9 @@
 //  Created by Yeojin Yoon on 2022/01/26.
 //
 
-import CoreData
 import RIBs
 
 protocol BookmarkDependency: Dependency {
-    var context: NSManagedObjectContext { get }
     var tagsStream: MutableStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
@@ -18,7 +16,6 @@ protocol BookmarkDependency: Dependency {
 
 final class BookmarkComponent: Component<BookmarkDependency>, BookmarkBrowserDependency, EnterBookmarkDependency {
     
-    var context: NSManagedObjectContext { dependency.context }
     var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }

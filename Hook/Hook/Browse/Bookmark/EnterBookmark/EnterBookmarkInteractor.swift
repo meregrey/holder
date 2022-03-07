@@ -5,7 +5,6 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
-import CoreData
 import LinkPresentation
 import RIBs
 
@@ -24,15 +23,14 @@ protocol EnterBookmarkListener: AnyObject {
 }
 
 protocol EnterBookmarkInteractorDependency {
-    var context: NSManagedObjectContext { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
 final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresentable>, EnterBookmarkInteractable, EnterBookmarkPresentableListener {
     
+    private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: EnterBookmarkInteractorDependency
     
-    private var context: NSManagedObjectContext { dependency.context }
     private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     
     weak var router: EnterBookmarkRouting?
@@ -65,7 +63,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     func saveButtonDidTap(url: URL, tags: [Tag]?, note: String?) {
         presenter.dismiss()
         clearSelectedTagsStream()
-        if isExisting(url) {
+        guard canContinueSaving(url) else {
             listener?.enterBookmarkSaveButtonDidTap()
             return
         }
@@ -78,38 +76,38 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         }
     }
     
-    private func isExisting(_ url: URL) -> Bool {
-        let request = BookmarkEntity.fetchRequest()
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), url.absoluteString)
-        request.predicate = predicate
-        do {
-            let count = try context.count(for: request)
-            if count > 0 { NotificationCenter.default.post(name: NotificationName.Bookmark.existingBookmark, object: nil) }
-            return count > 0
-        } catch {
-            NotificationCenter.default.post(name: NotificationName.Store.didFailToCheck, object: nil)
-            return true
+    private func clearSelectedTagsStream() {
+        selectedTagsStream.update(with: [])
+    }
+    
+    private func canContinueSaving(_ url: URL) -> Bool {
+        let result = bookmarkRepository.isExisting(url)
+        switch result {
+        case .success(let isExisting):
+            if isExisting { NotificationCenter.post(named: NotificationName.Bookmark.existingBookmark) }
+            return !isExisting
+        case .failure(_):
+            NotificationCenter.post(named: NotificationName.Store.didFailToCheck)
+            return false
         }
     }
     
     private func attemptToSave(url: URL, tags: [Tag]?, note: String?) {
         LPMetadataProvider().startFetchingMetadata(for: url) { metadata, error in
             guard error == nil else {
-                NotificationCenter.default.post(name: NotificationName.Metadata.didFailToFetch, object: nil)
+                NotificationCenter.post(named: NotificationName.Metadata.didFailToFetch)
                 return
             }
-            let bookmarkEntity = BookmarkEntity(context: self.context)
-            bookmarkEntity.configure(url: url, tags: tags, note: note, title: metadata?.title, host: url.host)
-            do {
-                try self.context.save()
-            } catch {
-                NotificationCenter.default.post(name: NotificationName.Store.didFailToSave, object: nil)
+            
+            let bookmark = Bookmark(url: url, tags: tags, note: note, title: metadata?.title)
+            let result = self.bookmarkRepository.add(bookmark)
+            
+            switch result {
+            case .success(_): break
+            case .failure(_): NotificationCenter.post(named: NotificationName.Store.didFailToSave)
             }
+            
             self.listener?.enterBookmarkSaveButtonDidTap()
         }
-    }
-    
-    private func clearSelectedTagsStream() {
-        selectedTagsStream.update(with: [])
     }
 }
