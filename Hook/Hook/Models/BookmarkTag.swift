@@ -9,5 +9,5 @@ import Foundation
 
 struct BookmarkTag {
     let name: String
-    var index: Int
+    let index: Int
 }
