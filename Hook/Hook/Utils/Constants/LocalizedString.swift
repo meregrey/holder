@@ -22,18 +22,20 @@ enum LocalizedString {
     }
     
     enum AlertTitle {
-        static let keychainErrorOccured = "Keychain Error Occured".localized
-        static let tagAlreadySelected = "Tag Already Selected".localized
         static let enterTheURL = "Enter the URL.".localized
         static let bookmarkCorrespondingToTheURLExists = "A bookmark corresponding to the URL exists.".localized
         static let errorOccurredWhileFetchingTheMetadata = "An error occurred while fetching the metadata.".localized
         static let errorOccurredWhileCheckingTheStore = "An error occurred while checking the store.".localized
         static let errorOccurredWhileSavingToTheStore = "An error occurred while saving to the store.".localized
+        static let keychainErrorOccured = "Keychain Error Occured".localized
+        static let tagAlreadySelected = "Tag Already Selected".localized
+        static let deleteBookmark = "Delete Bookmark?".localized
     }
     
     enum AlertMessage {
         static let keychainErrorOccured = "An error occurred while saving to the keychain.".localized
         static let tagAlreadySelected = "Check out the tag in the list.".localized
+        static let deleteBookmark = "This bookmark will be deleted from all tags.".localized
     }
     
     enum LabelTitle {
@@ -61,5 +63,6 @@ enum LocalizedString {
         static let editTags = "Edit Tags".localized
         static let selectTags = "Select Tags".localized
         static let addBookmark = "Add Bookmark".localized
+        static let editBookmark = "Edit Bookmark".localized
     }
 }
