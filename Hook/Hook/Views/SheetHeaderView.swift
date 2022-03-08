@@ -35,16 +35,16 @@ final class SheetHeaderView: UIView {
     }
     
     private enum Metric {
-        static let titleLabelTop = CGFloat(20)
+        static let height = CGFloat(66)
+        
         static let titleLabelLeading = CGFloat(20)
         static let titleLabelTrailing = CGFloat(-20)
-        static let titleLabelBottom = CGFloat(-20)
         
         static let closeButtonWidthHeight = CGFloat(22)
         static let closeButtonTrailing = CGFloat(-20)
     }
     
-    init(title: String) {
+    init(title: String? = nil) {
         super.init(frame: .zero)
         self.titleLabel.text = title
         configure()
@@ -53,6 +53,10 @@ final class SheetHeaderView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         configure()
+    }
+    
+    func setTitle(_ title: String) {
+        titleLabel.text = title
     }
     
     func addTargetToCloseButton(_ target: AnyObject, action: Selector) {
@@ -64,14 +68,15 @@ final class SheetHeaderView: UIView {
         addSubview(closeButton)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.titleLabelTop),
+            heightAnchor.constraint(equalToConstant: Metric.height),
+            
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.titleLabelLeading),
             titleLabel.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: Metric.titleLabelTrailing),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Metric.titleLabelBottom),
             
             closeButton.widthAnchor.constraint(equalToConstant: Metric.closeButtonWidthHeight),
             closeButton.heightAnchor.constraint(equalToConstant: Metric.closeButtonWidthHeight),
-            closeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            closeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Metric.closeButtonTrailing)
         ])
     }
