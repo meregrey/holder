@@ -10,8 +10,9 @@ import Foundation
 enum NotificationName {
     enum Bookmark {
         static let didFailToAddBookmark = NSNotification.Name("didFailToAddBookmark")
+        static let didFailToDeleteBookmark = NSNotification.Name("didFailToDeleteBookmark")
         static let didFailToFetchBookmarks = NSNotification.Name("didFailToFetchBookmarks")
-        static let didSucceedToAddBookmark = NSNotification.Name("didSucceedToAddBookmark")
+        static let didFailToUpdateBookmark = NSNotification.Name("didFailToUpdateBookmark")
         static let existingBookmark = NSNotification.Name("existingBookmark")
     }
     
