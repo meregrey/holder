@@ -11,17 +11,21 @@
 "Share" = "공유";
 
 /* Alert title */
-"Keychain Error Occured" = "키체인 오류 발생";
-"Tag Already Selected" = "이미 선택한 태그입니다";
 "Enter the URL." = "URL을 입력해주세요.";
 "A bookmark corresponding to the URL exists." = "URL에 해당하는 북마크가\n존재합니다.";
 "An error occurred while fetching the metadata." = "메타데이터를 가져오던 중\n오류가 발생했습니다.";
 "An error occurred while checking the store." = "스토어를 확인하던 중\n오류가 발생했습니다.";
 "An error occurred while saving to the store." = "스토어에 저장하던 중\n오류가 발생했습니다.";
 
+/* Alert title with message */
+"Keychain Error Occured" = "키체인 오류 발생";
+"Tag Already Selected" = "이미 선택한 태그입니다";
+"Delete Bookmark?" = "북마크를 삭제할까요?";
+
 /* Alert message */
 "An error occurred while saving to the keychain." = "키체인에 저장하던 중 오류가 발생했습니다.";
 "Check out the tag in the list." = "목록에서 해당 태그를 확인해보세요.";
+"This bookmark will be deleted from all tags." = "이 북마크가 모든 태그에서 삭제됩니다.";
 
 /* Label text */
 "Tag name" = "태그 이름";
@@ -45,3 +49,4 @@
 "Edit Tags" = "태그 편집";
 "Select Tags" = "태그 선택";
 "Add Bookmark" = "북마크 추가";
+"Edit Bookmark" = "북마크 편집";
