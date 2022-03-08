@@ -11,7 +11,7 @@ protocol EnterTagDependency: Dependency {}
 
 final class EnterTagComponent: Component<EnterTagDependency>, EnterTagInteractorDependency {
     
-    var mode: EnterTagMode
+    let mode: EnterTagMode
     
     init(dependency: EnterTagDependency, mode: EnterTagMode) {
         self.mode = mode
