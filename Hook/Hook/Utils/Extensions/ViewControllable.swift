@@ -27,9 +27,9 @@ extension ViewControllable {
         }
     }
     
-    func presentAlert(title: String, message: String? = nil, actions: [AlertAction]? = nil) {
+    func presentAlert(title: String, message: String? = nil, action: AlertAction? = nil) {
         DispatchQueue.main.async {
-            guard let alertController = AlertController(title: title, message: message, actions: actions) else { return }
+            let alertController = AlertController(title: title, message: message, action: action)
             self.uiviewController.present(alertController, animated: true)
         }
     }
