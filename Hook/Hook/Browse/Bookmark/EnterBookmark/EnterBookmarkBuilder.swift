@@ -13,13 +13,20 @@ protocol EnterBookmarkDependency: Dependency {
 
 final class EnterBookmarkComponent: Component<EnterBookmarkDependency>, EnterBookmarkInteractorDependency {
     
+    let mode: EnterBookmarkMode
+    
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
+    
+    init(dependency: EnterBookmarkDependency, mode: EnterBookmarkMode) {
+        self.mode = mode
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
 
 protocol EnterBookmarkBuildable: Buildable {
-    func build(withListener listener: EnterBookmarkListener) -> EnterBookmarkRouting
+    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode) -> EnterBookmarkRouting
 }
 
 final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmarkBuildable {
@@ -28,9 +35,9 @@ final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmar
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: EnterBookmarkListener) -> EnterBookmarkRouting {
-        let component = EnterBookmarkComponent(dependency: dependency)
-        let viewController = EnterBookmarkViewController()
+    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode) -> EnterBookmarkRouting {
+        let component = EnterBookmarkComponent(dependency: dependency, mode: mode)
+        let viewController = EnterBookmarkViewController(mode: mode)
         let interactor = EnterBookmarkInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return EnterBookmarkRouter(interactor: interactor, viewController: viewController)

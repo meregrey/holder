@@ -9,23 +9,7 @@ import UIKit
 
 final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     
-    @AutoLayout private var bookmarkListCollectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.minimumLineSpacing = 12
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(BookmarkListCollectionViewCell.self)
-        collectionView.register(UICollectionReusableView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                withReuseIdentifier: String(describing: UICollectionReusableView.self))
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        
-        return collectionView
-    }()
+    @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
     
     private var bookmarkListCollectionViewManager: BookmarkListCollectionViewManager?
     
@@ -44,12 +28,13 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         bookmarkListCollectionViewManager = nil
     }
     
-    func configure(with tag: Tag) {
+    func configure(with tag: Tag, listener: BookmarkListCollectionViewListener) {
         guard bookmarkListCollectionViewManager == nil else { return }
         bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView, tag: tag)
         bookmarkListCollectionView.dataSource = bookmarkListCollectionViewManager
         bookmarkListCollectionView.prefetchDataSource = bookmarkListCollectionViewManager
         bookmarkListCollectionView.delegate = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.listener = listener
         bookmarkListCollectionView.reloadData()
     }
     

@@ -47,9 +47,9 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     
     // MARK: - EnterBookmark
     
-    func attachEnterBookmark() {
+    func attachEnterBookmark(mode: EnterBookmarkMode) {
         guard enterBookmarkRouter == nil else { return }
-        let router = enterBookmark.build(withListener: interactor)
+        let router = enterBookmark.build(withListener: interactor, mode: mode)
         enterBookmarkRouter = router
         attachChild(router)
         router.viewControllable.uiviewController.presentationController?.delegate = interactor.presentationProxy

@@ -23,6 +23,7 @@ protocol EnterBookmarkListener: AnyObject {
 }
 
 protocol EnterBookmarkInteractorDependency {
+    var mode: EnterBookmarkMode { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
@@ -31,6 +32,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: EnterBookmarkInteractorDependency
     
+    private var mode: EnterBookmarkMode { dependency.mode }
     private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     
     weak var router: EnterBookmarkRouting?
@@ -45,34 +47,49 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     override func didBecomeActive() {
         super.didBecomeActive()
         subscribeSelectedTagsStream()
+        updateSelectedTagsStreamForEditMode()
     }
     
     override func willResignActive() {
         super.willResignActive()
+        clearSelectedTagsStream()
     }
     
     func closeButtonDidTap() {
         listener?.enterBookmarkCloseButtonDidTap()
-        clearSelectedTagsStream()
     }
     
     func tagCollectionViewDidTap(existingSelectedTags: [Tag]) {
         listener?.enterBookmarkTagCollectionViewDidTap(existingSelectedTags: existingSelectedTags)
     }
     
-    func saveButtonDidTap(url: URL, tags: [Tag]?, note: String?) {
+    func saveButtonDidTapToAdd(bookmark: Bookmark) {
         presenter.dismiss()
-        clearSelectedTagsStream()
-        guard canContinueSaving(url) else {
+        guard canContinueSaving(bookmark.url) else {
             listener?.enterBookmarkSaveButtonDidTap()
             return
         }
-        attemptToSave(url: url, tags: tags, note: note)
+        addBookmark(bookmark)
+    }
+    
+    func saveButtonDidTapToEdit(bookmark: Bookmark) {
+        presenter.dismiss()
+        updateBookmark(bookmark)
     }
     
     private func subscribeSelectedTagsStream() {
         selectedTagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             self?.presenter.update(with: $0)
+        }
+    }
+    
+    private func updateSelectedTagsStreamForEditMode() {
+        switch mode {
+        case .add: return
+        case .edit(let bookmark):
+            guard let bookmarkTags = bookmark.tags else { return }
+            let tags = bookmarkTags.sorted(by: { $0.index < $1.index }).map({ Tag(name: $0.name) })
+            selectedTagsStream.update(with: tags)
         }
     }
     
@@ -92,14 +109,14 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         }
     }
     
-    private func attemptToSave(url: URL, tags: [Tag]?, note: String?) {
-        LPMetadataProvider().startFetchingMetadata(for: url) { metadata, error in
+    private func addBookmark(_ bookmark: Bookmark) {
+        LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, error in
             guard error == nil else {
                 NotificationCenter.post(named: NotificationName.Metadata.didFailToFetch)
                 return
             }
             
-            let bookmark = Bookmark(url: url, tags: tags, note: note, title: metadata?.title)
+            let bookmark = bookmark.updated(title: metadata?.title)
             let result = self.bookmarkRepository.add(bookmark)
             
             switch result {
@@ -109,5 +126,16 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
             
             self.listener?.enterBookmarkSaveButtonDidTap()
         }
+    }
+    
+    private func updateBookmark(_ bookmark: Bookmark) {
+        let result = bookmarkRepository.update(bookmark)
+        
+        switch result {
+        case .success(_): break
+        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
+        }
+        
+        listener?.enterBookmarkSaveButtonDidTap()
     }
 }

@@ -17,6 +17,7 @@ protocol BookmarkBrowserPresentable: Presentable {
 
 protocol BookmarkBrowserListener: AnyObject {
     func bookmarkBrowserAddBookmarkButtonDidTap()
+    func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark)
 }
 
 protocol BookmarkBrowserInteractorDependency {
@@ -57,6 +58,10 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     func addBookmarkButtonDidTap() {
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
+    }
+    
+    func contextMenuEditDidTap(bookmark: Bookmark) {
+        listener?.bookmarkBrowserContextMenuEditDidTap(bookmark: bookmark)
     }
     
     private func subscribeTagsStream() {

@@ -10,7 +10,7 @@ import RIBs
 protocol BookmarkRouting: Routing {
     func cleanupViews()
     func attachBookmarkBrowser()
-    func attachEnterBookmark()
+    func attachEnterBookmark(mode: EnterBookmarkMode)
     func detachEnterBookmark(includingView isViewIncluded: Bool)
 }
 
@@ -47,7 +47,11 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     // MARK: - BookmarkBrowser
     
     func bookmarkBrowserAddBookmarkButtonDidTap() {
-        router?.attachEnterBookmark()
+        router?.attachEnterBookmark(mode: .add)
+    }
+    
+    func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark) {
+        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
     }
     
     // MARK: - EnterBookmark
