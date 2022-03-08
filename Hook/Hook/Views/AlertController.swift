@@ -64,18 +64,17 @@ final class AlertController: UIViewController {
         static let actionStackViewBottom = CGFloat(-24)
     }
     
-    init?(title: String, message: String? = nil, actions: [AlertAction]? = nil) {
-        if let actions = actions, actions.count > 2 { return nil }
+    init(title: String, message: String? = nil, action: AlertAction? = nil) {
         super.init(nibName: nil, bundle: nil)
-        configureViews(title: title, message: message, actions: actions)
+        configureViews(title: title, message: message, action: action)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        configureViews(title: "", message: nil, actions: nil)
+        configureViews(title: "", message: nil, action: nil)
     }
     
-    private func configureViews(title: String, message: String?, actions: [AlertAction]?) {
+    private func configureViews(title: String, message: String?, action: AlertAction?) {
         var anchorForActionStackViewTop = titleLabel.bottomAnchor
         
         modalPresentationStyle = .overFullScreen
@@ -98,7 +97,7 @@ final class AlertController: UIViewController {
             ])
         }
         
-        let actions = actions ?? [AlertAction(title: LocalizedString.ActionTitle.ok, handler: #selector(handleDefaultAction))]
+        let actions = actions(with: action)
         actions.forEach { actionStackView.addArrangedSubview($0) }
         containerView.addSubview(actionStackView)
         
@@ -130,8 +129,26 @@ final class AlertController: UIViewController {
         return NSAttributedString(string: message, attributes: [.paragraphStyle: paragraphStyle])
     }
     
+    private func actions(with action: AlertAction?) -> [AlertAction] {
+        let defaultActionTitle = action == nil ? LocalizedString.ActionTitle.ok : LocalizedString.ActionTitle.cancel
+        let defaultAction = AlertAction(title: defaultActionTitle, handler: handleDefaultAction)
+        var actions = [defaultAction]
+        if let action = action {
+            action.delegate = self
+            actions.insert(action, at: 0)
+        }
+        return actions
+    }
+    
     @objc
     private func handleDefaultAction() {
+        dismiss(animated: true)
+    }
+}
+
+extension AlertController: AlertActionDelegate {
+    
+    func dismissAlert() {
         dismiss(animated: true)
     }
 }
