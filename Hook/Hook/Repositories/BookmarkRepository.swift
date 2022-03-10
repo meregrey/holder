@@ -11,7 +11,10 @@ protocol BookmarkRepositoryType {
     func fetchedResultsController() -> NSFetchedResultsController<BookmarkEntity>
     func fetchedResultsController(for tag: Tag) -> NSFetchedResultsController<BookmarkTagEntity>
     func isExisting(_ url: URL) -> Result<Bool, Error>
-    func add(_ bookmark: Bookmark) -> Result<Void, Error>
+    func add(with bookmark: Bookmark) -> Result<Void, Error>
+    func update(with bookmark: Bookmark) -> Result<Void, Error>
+    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
+    func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
 }
 
 final class BookmarkRepository: BookmarkRepositoryType {
@@ -56,7 +59,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func add(_ bookmark: Bookmark) -> Result<Void, Error> {
+    func add(with bookmark: Bookmark) -> Result<Void, Error> {
         let bookmarkEntity = BookmarkEntity(context: context)
         bookmarkEntity.configure(with: bookmark)
         do {
@@ -67,7 +70,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func update(_ bookmark: Bookmark) -> Result<Void, Error> {
+    func update(with bookmark: Bookmark) -> Result<Void, Error> {
         let request = BookmarkEntity.fetchRequest()
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), bookmark.url.absoluteString)
         request.predicate = predicate
@@ -75,6 +78,16 @@ final class BookmarkRepository: BookmarkRepositoryType {
             guard let bookmarkEntity = try context.fetch(request).first else { return .success(()) }
             try deleteTags(of: bookmarkEntity)
             bookmarkEntity.update(with: bookmark)
+            try context.save()
+            return .success(())
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error> {
+        do {
+            bookmarkEntity.isFavorite.toggle()
             try context.save()
             return .success(())
         } catch {
