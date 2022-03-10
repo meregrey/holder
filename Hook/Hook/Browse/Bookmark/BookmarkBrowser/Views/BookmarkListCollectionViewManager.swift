@@ -12,14 +12,15 @@ final class BookmarkListCollectionViewManager: NSObject {
     
     private let bookmarkRepository = BookmarkRepository.shared
     private let fetchedResultsControllerDelegate: FetchedResultsControllerDelegate
+    private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
 
     private var isForAll = false
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
-    private var bookmarkEntityForContextMenu: BookmarkEntity?
-
-    init(collectionView: UICollectionView, tag: Tag) {
+    
+    init(collectionView: UICollectionView, listener: BookmarkListContextMenuListener?, tag: Tag) {
         self.fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: collectionView)
+        self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
         super.init()
         if tag.name == TagName.all {
             self.isForAll = true
@@ -85,37 +86,9 @@ extension BookmarkListCollectionViewManager: UICollectionViewDataSourcePrefetchi
 extension BookmarkListCollectionViewManager: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let collectionView = collectionView as? BookmarkListCollectionView else { return nil }
-        guard let listener = collectionView.listener else { return nil }
-        bookmarkEntityForContextMenu = bookmarkEntity(at: indexPath)
-        
-        let shareAction = UIAction(title: LocalizedString.ActionTitle.share, image: UIImage(systemName: "square.and.arrow.up")) { _ in }
-        let copyURLAction = UIAction(title: LocalizedString.ActionTitle.copyURL, image: UIImage(systemName: "link")) { _ in }
-        let addToFavoritesAction = UIAction(title: LocalizedString.ActionTitle.addToFavorites, image: UIImage(systemName: "bookmark")) { _ in }
-        
-        let editAction = UIAction(title: LocalizedString.ActionTitle.edit, image: UIImage(systemName: "pencil")) { _ in
-            guard let bookmark = self.bookmarkEntityForContextMenu?.converted() else { return }
-            listener.contextMenuEditDidTap(bookmark: bookmark)
-        }
-        
-        let deleteAction = UIAction(title: LocalizedString.ActionTitle.delete, image: UIImage(systemName: "minus.circle"), attributes: .destructive) { _ in
-            listener.contextMenuDeleteDidTap(title: LocalizedString.AlertTitle.deleteBookmark,
-                                             message: LocalizedString.AlertMessage.deleteBookmark,
-                                             action: AlertAction(title: LocalizedString.ActionTitle.delete, handler: self.delete))
-        }
-        
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            return UIMenu(title: "", children: [shareAction, copyURLAction, addToFavoritesAction, editAction, deleteAction])
-        }
-    }
-    
-    @objc
-    private func delete() {
-        guard let bookmarkEntity = bookmarkEntityForContextMenu else { return }
-        let result = bookmarkRepository.delete(bookmarkEntity)
-        switch result {
-        case .success(()): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToDeleteBookmark)
+            let bookmarkEntity = self.bookmarkEntity(at: indexPath)
+            return self.bookmarkListContextMenuProvider.menu(for: bookmarkEntity)
         }
     }
 }
