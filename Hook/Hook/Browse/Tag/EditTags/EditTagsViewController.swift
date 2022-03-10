@@ -29,7 +29,7 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
     
     @AutoLayout private var saveButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
-        button.setTitle(LocalizedString.ButtonTitle.save, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
@@ -152,7 +152,7 @@ extension EditTagsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: LocalizedString.ButtonTitle.delete) { _, _, _ in
+        let action = UIContextualAction(style: .destructive, title: LocalizedString.ActionTitle.delete) { _, _, _ in
             self.tags.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .none)
         }

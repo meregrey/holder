@@ -35,7 +35,7 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     
     @AutoLayout private var doneButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
-        button.setTitle(LocalizedString.ButtonTitle.done, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.done, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(doneButtonDidTap), for: .touchUpInside)
@@ -75,10 +75,8 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     
     func update(with tagBySearch: Tag) {
         if selectedTags.contains(tagBySearch) {
-            guard let alertController = AlertController(title: LocalizedString.AlertTitle.tagAlreadySelected,
-                                                        message: LocalizedString.AlertMessage.tagAlreadySelected) else { return }
             DispatchQueue.main.async {
-                self.present(alertController, animated: true)
+                self.presentAlert(title: LocalizedString.AlertTitle.tagAlreadySelected, message: LocalizedString.AlertMessage.tagAlreadySelected)
             }
             return
         }

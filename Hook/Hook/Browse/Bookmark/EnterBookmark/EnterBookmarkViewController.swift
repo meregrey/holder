@@ -11,14 +11,17 @@ import UIKit
 protocol EnterBookmarkPresentableListener: AnyObject {
     func closeButtonDidTap()
     func tagCollectionViewDidTap(existingSelectedTags: [Tag])
-    func saveButtonDidTap(url: URL, tags: [Tag]?, note: String?)
+    func saveButtonDidTapToAdd(bookmark: Bookmark)
+    func saveButtonDidTapToEdit(bookmark: Bookmark)
 }
 
 final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresentable, EnterBookmarkViewControllable {
     
+    private let mode: EnterBookmarkMode
+    
     private var selectedTags: [Tag] = []
     
-    @AutoLayout private var headerView = SheetHeaderView(title: LocalizedString.ViewTitle.addBookmark)
+    @AutoLayout private var headerView = SheetHeaderView()
     
     @AutoLayout private var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -37,7 +40,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @AutoLayout private var saveButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
-        button.setTitle(LocalizedString.ButtonTitle.save, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
@@ -80,13 +83,15 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     weak var listener: EnterBookmarkPresentableListener?
     
-    init() {
+    init(mode: EnterBookmarkMode) {
+        self.mode = mode
         super.init(nibName: nil, bundle: nil)
         registerToReceiveNotification()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        self.mode = .add
         super.init(coder: coder)
         registerToReceiveNotification()
         configureViews()
@@ -98,7 +103,10 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        urlTextField.becomeFirstResponder()
+        switch mode {
+        case .add: urlTextField.becomeFirstResponder()
+        case .edit(_): urlTextField.disable()
+        }
     }
     
     func update(with selectedTags: [Tag]) {
@@ -140,6 +148,15 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     }
     
     private func configureViews() {
+        switch mode {
+        case .add:
+            headerView.setTitle(LocalizedString.ViewTitle.addBookmark)
+        case .edit(let bookmark):
+            headerView.setTitle(LocalizedString.ViewTitle.editBookmark)
+            urlTextField.setText(bookmark.url.absoluteString)
+            noteTextView.setText(bookmark.note)
+        }
+        
         headerView.addTargetToCloseButton(self, action: #selector(closeButtonDidTap))
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tagCollectionViewDidTap(_:)))
@@ -222,14 +239,22 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @objc
     private func saveButtonDidTap() {
-        guard let text = urlTextField.text, let url = URL(string: text) else {
-            guard let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheURL) else { return }
+        guard let urlString = urlTextField.text, let url = URL(string: urlString) else {
+            let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheURL)
             view.endEditing(true)
             present(alertController, animated: true)
             return
         }
         let tags = selectedTags.count > 0 ? selectedTags : nil
-        listener?.saveButtonDidTap(url: url, tags: tags, note: noteTextView.text)
+        let note = noteTextView.text
+        switch mode {
+        case .add:
+            let bookmark = Bookmark(url: url, tags: tags, note: note, title: nil)
+            listener?.saveButtonDidTapToAdd(bookmark: bookmark)
+        case .edit(let bookmark):
+            let bookmark = bookmark.updated(tags: tags, note: note)
+            listener?.saveButtonDidTapToEdit(bookmark: bookmark)
+        }
     }
 }
 

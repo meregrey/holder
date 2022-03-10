@@ -37,6 +37,15 @@ final class LabeledURLTextField: LabeledView {
         return textField.becomeFirstResponder()
     }
     
+    func disable() {
+        alpha = 0.2
+        isUserInteractionEnabled = false
+    }
+    
+    func setText(_ text: String) {
+        textField.text = text
+    }
+    
     private func configure() {
         textField.delegate = self
         addSubviewUnderLabel(textField)

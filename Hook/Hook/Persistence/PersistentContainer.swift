@@ -13,6 +13,8 @@ protocol PersistentContainerType {
 
 final class PersistentContainer: PersistentContainerType {
     
+    static let shared = PersistentContainer()
+    
     private let container: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "PersistenceModel")
         container.loadPersistentStores { _, error in
@@ -24,4 +26,6 @@ final class PersistentContainer: PersistentContainerType {
     }()
     
     private(set) lazy var context = container.newBackgroundContext()
+    
+    private init() {}
 }

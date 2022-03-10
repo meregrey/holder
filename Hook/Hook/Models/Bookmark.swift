@@ -7,15 +7,24 @@
 
 import Foundation
 
-struct Bookmark: Equatable {
+struct Bookmark {
     let url: URL
-    var isFavorite: Bool
-    var tags: [BookmarkTag]?
-    var note: String?
-    var title: String?
-    var host: String?
+    let tags: [BookmarkTag]?
+    let note: String?
+    let title: String?
     
-    static func == (lhs: Bookmark, rhs: Bookmark) -> Bool {
-        return lhs.url == rhs.url
+    func updated(tags: [Tag]?, note: String?) -> Self {
+        return Bookmark(url: url, tags: tags, note: note, title: title)
+    }
+    
+    func updated(title: String?) -> Self {
+        return Bookmark(url: url, tags: tags, note: note, title: title)
+    }
+}
+
+extension Bookmark {
+    init(url: URL, tags: [Tag]?, note: String?, title: String?) {
+        let tags = tags?.enumerated().map { BookmarkTag(name: $0.element.name, index: $0.offset) }
+        self.init(url: url, tags: tags, note: note, title: title)
     }
 }

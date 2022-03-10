@@ -5,7 +5,7 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
-import CoreData
+import LinkPresentation
 import RIBs
 import UIKit
 
@@ -16,11 +16,12 @@ protocol BookmarkBrowserPresentableListener: AnyObject {
 
 final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPresentable, BookmarkBrowserViewControllable {
     
-    private let context: NSManagedObjectContext
-    
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
-    private var bookmarkListTableViewContentOffsets: [IndexPath: CGPoint] = [:]
+    private var bookmarkListCollectionViewContentOffsets: [IndexPath: CGPoint] = [:]
+    private var metadata: LPLinkMetadata?
+    
+    private var bookmarkListContextMenuListener: BookmarkListContextMenuListener? { listener as? BookmarkListContextMenuListener }
     
     @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -40,7 +41,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     @AutoLayout private var addBookmarkButton: UIButton = {
         let button = UIButton()
-        button.setTitle(LocalizedString.ButtonTitle.add, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.add, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.titleLabel?.font = Font.addBookmarkButton
         button.backgroundColor = Asset.Color.primaryColor
@@ -61,14 +62,12 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     weak var listener: BookmarkBrowserPresentableListener?
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    init() {
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
-        self.context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         super.init(coder: coder)
         configureViews()
     }
@@ -81,6 +80,18 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         guard let index = tags.firstIndex(of: currentTag) else { return }
         let indexPath = IndexPath(item: index, section: 0)
         bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+    }
+    
+    func displayShareSheet(with metadata: LPLinkMetadata) {
+        self.metadata = metadata
+        let activityViewController = UIActivityViewController(activityItems: [self], applicationActivities: nil)
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true)
+        }
+    }
+    
+    func displayAlert(title: String, message: String?, action: AlertAction?) {
+        presentAlert(title: title, message: message, action: action)
     }
     
     private func configureViews() {
@@ -109,6 +120,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     }
 }
 
+// MARK: - Data Source
+
 extension BookmarkBrowserViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -118,29 +131,31 @@ extension BookmarkBrowserViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BookmarkBrowserCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         let tag = tags[indexPath.item]
-        cell.configure(for: tag, context: context)
+        cell.configure(with: tag, listener: bookmarkListContextMenuListener)
         return cell
     }
 }
+
+// MARK: - Delegate
 
 extension BookmarkBrowserViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        let contentOffset = bookmarkListTableViewContentOffsets[indexPath] ?? CGPoint.zero
-        cell.setBookmarkListTableViewContentOffset(contentOffset)
+        let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] ?? CGPoint.zero
+        cell.setBookmarkListCollectionViewContentOffset(contentOffset)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        cell.resetBookmarkListTableViewContentOffset()
+        cell.resetBookmarkListCollectionViewContentOffset()
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         guard let collectionView = scrollView as? UICollectionView else { return }
         guard let cell = collectionView.cellForItem(at: currentIndexPath) as? BookmarkBrowserCollectionViewCell else { return }
-        let contentOffset = cell.bookmarkListTableViewContentOffset()
-        bookmarkListTableViewContentOffsets.updateValue(contentOffset, forKey: currentIndexPath)
+        let contentOffset = cell.bookmarkListCollectionViewContentOffset()
+        bookmarkListCollectionViewContentOffsets.updateValue(contentOffset, forKey: currentIndexPath)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -151,11 +166,30 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Layout
+
 extension BookmarkBrowserViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+}
+
+// MARK: - Share
+
+extension BookmarkBrowserViewController: UIActivityItemSource {
+    
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return metadata?.originalURL
+    }
+    
+    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
+        return metadata
     }
 }

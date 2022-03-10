@@ -5,7 +5,7 @@
 //  Created by Yeojin Yoon on 2022/01/05.
 //
 
-import Foundation
+import CoreData
 
 protocol TagRepositoryType {
     func fetch()
@@ -17,13 +17,11 @@ protocol TagRepositoryType {
 final class TagRepository: TagRepositoryType {
     
     private let tagsStream: MutableStream<[Tag]>
-    private let persistentContainer: PersistentContainerType
     
-    private(set) lazy var context = persistentContainer.context
+    private var context: NSManagedObjectContext { PersistentContainer.shared.context }
     
-    init(tagsStream: MutableStream<[Tag]>, persistentContainer: PersistentContainerType = PersistentContainer()) {
+    init(tagsStream: MutableStream<[Tag]>) {
         self.tagsStream = tagsStream
-        self.persistentContainer = persistentContainer
         self.fetch()
     }
     

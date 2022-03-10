@@ -51,7 +51,7 @@ final class LabeledNoteTextView: LabeledView {
                                                                      toItem: containerView,
                                                                      attribute: .trailing,
                                                                      multiplier: 1,
-                                                                     constant: 0)
+                                                                     constant: -12)
     
     private enum Font {
         static let textView = UIFont.systemFont(ofSize: 17, weight: .medium)
@@ -65,8 +65,6 @@ final class LabeledNoteTextView: LabeledView {
         static let containerViewCornerRadius = CGFloat(12)
         
         static let textViewInset = UIEdgeInsets(top: 17, left: 12, bottom: 17, right: 0)
-        static let textViewMinimumWidth = UIScreen.main.bounds.width - 100
-        static let textViewMinimumHeight = CGFloat(55)
         
         static let clearButtonWidthHeight = CGFloat(21)
         static let clearButtonTrailing = CGFloat(-12)
@@ -93,6 +91,10 @@ final class LabeledNoteTextView: LabeledView {
         configure()
     }
     
+    func setText(_ text: String?) {
+        textView.text = text
+    }
+    
     private func configure() {
         textView.delegate = self
         
@@ -100,9 +102,9 @@ final class LabeledNoteTextView: LabeledView {
         containerView.addSubview(textView)
         containerView.addSubview(clearButton)
         
+        textViewTrailingConstraint.isActive = true
+        
         NSLayoutConstraint.activate([
-            textView.widthAnchor.constraint(greaterThanOrEqualToConstant: Metric.textViewMinimumWidth),
-            textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Metric.textViewMinimumHeight),
             textView.topAnchor.constraint(equalTo: containerView.topAnchor),
             textView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             textView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
@@ -123,7 +125,6 @@ final class LabeledNoteTextView: LabeledView {
 extension LabeledNoteTextView: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textViewTrailingConstraint.isActive = true
         textViewTrailingConstraint.constant = -45
         clearButton.isHidden = false
         listener?.textViewDidBecomeFirstResponder()

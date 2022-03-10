@@ -5,22 +5,13 @@
 //  Created by Yeojin Yoon on 2022/02/21.
 //
 
-import CoreData
 import UIKit
 
 final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     
-    @AutoLayout private var bookmarkListTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(BookmarkListTableViewCell.self)
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .clear
-        return tableView
-    }()
+    @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
     
-    private let bookmarkListTableViewDelegate = BookmarkListTableViewDelegate()
-    private var bookmarkListTableViewDataSource: BookmarkListTableViewDataSource?
+    private var bookmarkListCollectionViewManager: BookmarkListCollectionViewManager?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,41 +25,40 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        bookmarkListTableViewDataSource = nil
+        bookmarkListCollectionViewManager = nil
     }
     
-    func configure(for tag: Tag, context: NSManagedObjectContext) {
-        if bookmarkListTableViewDataSource == nil {
-            bookmarkListTableViewDataSource = BookmarkListTableViewDataSource(tableView: bookmarkListTableView,
-                                                                              tag: tag,
-                                                                              context: context)
-        }
-        bookmarkListTableView.dataSource = bookmarkListTableViewDataSource
-        bookmarkListTableView.prefetchDataSource = bookmarkListTableViewDataSource
-        bookmarkListTableView.delegate = bookmarkListTableViewDelegate
-        bookmarkListTableView.reloadData()
+    func configure(with tag: Tag, listener: BookmarkListContextMenuListener?) {
+        guard bookmarkListCollectionViewManager == nil else { return }
+        bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView,
+                                                                              listener: listener,
+                                                                              tag: tag)
+        bookmarkListCollectionView.dataSource = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.prefetchDataSource = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.delegate = bookmarkListCollectionViewManager
+        bookmarkListCollectionView.reloadData()
     }
     
-    func bookmarkListTableViewContentOffset() -> CGPoint {
-        return bookmarkListTableView.contentOffset
+    func bookmarkListCollectionViewContentOffset() -> CGPoint {
+        return bookmarkListCollectionView.contentOffset
     }
     
-    func setBookmarkListTableViewContentOffset(_ contentOffset: CGPoint) {
-        bookmarkListTableView.layoutIfNeeded()
-        bookmarkListTableView.contentOffset = contentOffset
+    func setBookmarkListCollectionViewContentOffset(_ contentOffset: CGPoint) {
+        bookmarkListCollectionView.layoutIfNeeded()
+        bookmarkListCollectionView.contentOffset = contentOffset
     }
     
-    func resetBookmarkListTableViewContentOffset() {
-        bookmarkListTableView.contentOffset = CGPoint.zero
+    func resetBookmarkListCollectionViewContentOffset() {
+        bookmarkListCollectionView.contentOffset = CGPoint.zero
     }
     
     private func configureViews() {
-        contentView.addSubview(bookmarkListTableView)
+        contentView.addSubview(bookmarkListCollectionView)
         NSLayoutConstraint.activate([
-            bookmarkListTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bookmarkListTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bookmarkListTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bookmarkListTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            bookmarkListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bookmarkListCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bookmarkListCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bookmarkListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

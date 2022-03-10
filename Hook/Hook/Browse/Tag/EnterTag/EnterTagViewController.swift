@@ -25,7 +25,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @AutoLayout private var saveButton: RoundedCornerButton = {
         let button = RoundedCornerButton()
-        button.setTitle(LocalizedString.ButtonTitle.save, for: .normal)
+        button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
         button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)

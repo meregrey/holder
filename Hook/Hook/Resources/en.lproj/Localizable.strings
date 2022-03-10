@@ -1,25 +1,32 @@
+/* Action title */
+"Add" = "Add";
+"Add to Favorites" = "Add to Favorites";
+"Cancel" = "Cancel";
+"Copy URL" = "Copy URL";
+"Delete" = "Delete";
+"Done" = "Done";
+"Edit" = "Edit";
+"OK" = "OK";
+"Remove from Favorites" = "Remove from Favorites";
+"Save" = "Save";
+"Share" = "Share";
+
 /* Alert title */
-"Keychain Error Occured" = "Keychain Error Occured";
-"Tag Already Selected" = "Tag Already Selected";
 "Enter the URL." = "Enter the URL.";
 "A bookmark corresponding to the URL exists." = "A bookmark corresponding to the URL exists.";
 "An error occurred while fetching the metadata." = "An error occurred while fetching the metadata.";
 "An error occurred while checking the store." = "An error occurred while checking the store.";
 "An error occurred while saving to the store." = "An error occurred while saving to the store.";
 
+/* Alert title with message */
+"Keychain Error Occured" = "Keychain Error Occured";
+"Tag Already Selected" = "Tag Already Selected";
+"Delete Bookmark?" = "Delete Bookmark?";
+
 /* Alert message */
 "An error occurred while saving to the keychain." = "An error occurred while saving to the keychain.";
 "Check out the tag in the list." = "Check out the tag in the list.";
-
-/* Alert action title */
-"OK" = "OK";
-
-/* Button title */
-"Add" = "Add";
-"Cancel" = "Cancel";
-"Delete" = "Delete";
-"Done" = "Done";
-"Save" = "Save";
+"This bookmark will be deleted from all tags." = "This bookmark will be deleted from all tags.";
 
 /* Label text */
 "Tag name" = "Tag name";
@@ -43,3 +50,4 @@
 "Edit Tags" = "Edit Tags";
 "Select Tags" = "Select Tags";
 "Add Bookmark" = "Add Bookmark";
+"Edit Bookmark" = "Edit Bookmark";

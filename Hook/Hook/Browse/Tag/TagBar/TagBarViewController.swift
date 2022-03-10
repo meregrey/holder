@@ -29,6 +29,7 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(TagBarCollectionViewCell.self)
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         
         return collectionView
@@ -155,6 +156,6 @@ extension TagBarViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return TagBarCollectionViewCell.fittingSize(withTag: tags[indexPath.item], height: Metric.containerViewHeight)
+        return TagBarCollectionViewCell.fittingSize(with: tags[indexPath.item], height: Metric.containerViewHeight)
     }
 }
