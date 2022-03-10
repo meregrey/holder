@@ -17,6 +17,7 @@ enum LocalizedString {
         static let done = "Done".localized
         static let edit = "Edit".localized
         static let ok = "OK".localized
+        static let removeFromFavorites = "Remove from Favorites".localized
         static let save = "Save".localized
         static let share = "Share".localized
     }
