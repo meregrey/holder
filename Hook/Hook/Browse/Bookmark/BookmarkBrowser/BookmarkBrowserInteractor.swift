@@ -5,6 +5,7 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
+import LinkPresentation
 import RIBs
 
 protocol BookmarkBrowserRouting: ViewableRouting {}
@@ -13,6 +14,7 @@ protocol BookmarkBrowserPresentable: Presentable {
     var listener: BookmarkBrowserPresentableListener? { get set }
     func update(with tags: [Tag])
     func update(with currentTag: Tag)
+    func displayShareSheet(with metadata: LPLinkMetadata)
     func displayAlert(title: String, message: String?, action: AlertAction?)
 }
 
@@ -62,6 +64,14 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     func addBookmarkButtonDidTap() {
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
+    }
+    
+    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity) {
+        guard let url = URL(string: bookmarkEntity.urlString) else { return }
+        LPMetadataProvider().startFetchingMetadata(for: url) { metadata, _ in
+            guard let metadata = metadata else { return }
+            self.presenter.displayShareSheet(with: metadata)
+        }
     }
     
     func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity) {

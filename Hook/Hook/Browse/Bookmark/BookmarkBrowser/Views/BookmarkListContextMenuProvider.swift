@@ -8,6 +8,7 @@
 import UIKit
 
 protocol BookmarkListContextMenuListener: AnyObject {
+    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
@@ -29,7 +30,10 @@ final class BookmarkListContextMenuProvider {
     }
     
     private func shareAction() -> UIAction {
-        return UIAction(title: LocalizedString.ActionTitle.share, image: UIImage(systemName: "square.and.arrow.up")) { _ in }
+        return UIAction(title: LocalizedString.ActionTitle.share, image: UIImage(systemName: "square.and.arrow.up")) { _ in
+            guard let bookmarkEntity = self.bookmarkEntity else { return }
+            self.listener?.contextMenuShareDidTap(bookmarkEntity: bookmarkEntity)
+        }
     }
     
     private func copyURLAction() -> UIAction {

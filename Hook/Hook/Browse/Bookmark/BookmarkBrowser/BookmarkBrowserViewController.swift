@@ -5,6 +5,7 @@
 //  Created by Yeojin Yoon on 2022/01/27.
 //
 
+import LinkPresentation
 import RIBs
 import UIKit
 
@@ -18,6 +19,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
     private var bookmarkListCollectionViewContentOffsets: [IndexPath: CGPoint] = [:]
+    private var metadata: LPLinkMetadata?
     
     private var bookmarkListContextMenuListener: BookmarkListContextMenuListener? { listener as? BookmarkListContextMenuListener }
     
@@ -78,6 +80,14 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         guard let index = tags.firstIndex(of: currentTag) else { return }
         let indexPath = IndexPath(item: index, section: 0)
         bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+    }
+    
+    func displayShareSheet(with metadata: LPLinkMetadata) {
+        self.metadata = metadata
+        let activityViewController = UIActivityViewController(activityItems: [self], applicationActivities: nil)
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true)
+        }
     }
     
     func displayAlert(title: String, message: String?, action: AlertAction?) {
@@ -164,5 +174,22 @@ extension BookmarkBrowserViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+}
+
+// MARK: - Share
+
+extension BookmarkBrowserViewController: UIActivityItemSource {
+    
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return metadata?.originalURL
+    }
+    
+    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
+        return metadata
     }
 }
