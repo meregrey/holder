@@ -117,7 +117,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
             }
             
             let bookmark = bookmark.updated(title: metadata?.title)
-            let result = self.bookmarkRepository.add(bookmark)
+            let result = self.bookmarkRepository.add(with: bookmark)
             
             switch result {
             case .success(_): break
@@ -129,13 +129,11 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     }
     
     private func updateBookmark(_ bookmark: Bookmark) {
-        let result = bookmarkRepository.update(bookmark)
-        
+        let result = bookmarkRepository.update(with: bookmark)
         switch result {
         case .success(_): break
         case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
         }
-        
         listener?.enterBookmarkSaveButtonDidTap()
     }
 }
