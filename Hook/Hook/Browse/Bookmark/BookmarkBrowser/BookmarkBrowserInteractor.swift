@@ -64,6 +64,10 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
     }
     
+    func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity) {
+        UIPasteboard.general.string = bookmarkEntity.urlString
+    }
+    
     func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity) {
         let result = bookmarkRepository.update(bookmarkEntity)
         switch result {
