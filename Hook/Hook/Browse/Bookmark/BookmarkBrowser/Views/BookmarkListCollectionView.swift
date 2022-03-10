@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol BookmarkListCollectionViewListener: AnyObject {
-    func contextMenuEditDidTap(bookmark: Bookmark)
-    func contextMenuDeleteDidTap(title: String, message: String?, action: AlertAction?)
-}
-
 final class BookmarkListCollectionView: UICollectionView {
     
     private let flowLayout: UICollectionViewFlowLayout = {
@@ -21,8 +16,6 @@ final class BookmarkListCollectionView: UICollectionView {
         layout.minimumLineSpacing = 12
         return layout
     }()
-    
-    weak var listener: BookmarkListCollectionViewListener?
     
     init() {
         super.init(frame: .zero, collectionViewLayout: flowLayout)

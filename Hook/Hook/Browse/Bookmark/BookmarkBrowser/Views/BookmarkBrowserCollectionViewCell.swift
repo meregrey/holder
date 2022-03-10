@@ -28,13 +28,14 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         bookmarkListCollectionViewManager = nil
     }
     
-    func configure(with tag: Tag, listener: BookmarkListCollectionViewListener) {
+    func configure(with tag: Tag, listener: BookmarkListContextMenuListener?) {
         guard bookmarkListCollectionViewManager == nil else { return }
-        bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView, tag: tag)
+        bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView,
+                                                                              listener: listener,
+                                                                              tag: tag)
         bookmarkListCollectionView.dataSource = bookmarkListCollectionViewManager
         bookmarkListCollectionView.prefetchDataSource = bookmarkListCollectionViewManager
         bookmarkListCollectionView.delegate = bookmarkListCollectionViewManager
-        bookmarkListCollectionView.listener = listener
         bookmarkListCollectionView.reloadData()
     }
     

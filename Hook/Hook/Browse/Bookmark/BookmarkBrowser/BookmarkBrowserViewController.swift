@@ -11,7 +11,6 @@ import UIKit
 protocol BookmarkBrowserPresentableListener: AnyObject {
     func indexPathDidChange(indexPath: IndexPath)
     func addBookmarkButtonDidTap()
-    func contextMenuEditDidTap(bookmark: Bookmark)
 }
 
 final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPresentable, BookmarkBrowserViewControllable {
@@ -19,6 +18,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
     private var bookmarkListCollectionViewContentOffsets: [IndexPath: CGPoint] = [:]
+    
+    private var bookmarkListContextMenuListener: BookmarkListContextMenuListener? { listener as? BookmarkListContextMenuListener }
     
     @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -79,6 +80,10 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
     
+    func displayAlert(title: String, message: String?, action: AlertAction?) {
+        presentAlert(title: title, message: message, action: action)
+    }
+    
     private func configureViews() {
         bookmarkBrowserCollectionView.dataSource = self
         bookmarkBrowserCollectionView.delegate = self
@@ -116,7 +121,7 @@ extension BookmarkBrowserViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BookmarkBrowserCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         let tag = tags[indexPath.item]
-        cell.configure(with: tag, listener: self)
+        cell.configure(with: tag, listener: bookmarkListContextMenuListener)
         return cell
     }
 }
@@ -159,18 +164,5 @@ extension BookmarkBrowserViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
-    }
-}
-
-// MARK: - Listener
-
-extension BookmarkBrowserViewController: BookmarkListCollectionViewListener {
-    
-    func contextMenuEditDidTap(bookmark: Bookmark) {
-        listener?.contextMenuEditDidTap(bookmark: bookmark)
-    }
-    
-    func contextMenuDeleteDidTap(title: String, message: String?, action: AlertAction?) {
-        presentAlert(title: title, message: message, action: action)
     }
 }

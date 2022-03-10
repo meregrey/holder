@@ -13,6 +13,7 @@ protocol BookmarkBrowserPresentable: Presentable {
     var listener: BookmarkBrowserPresentableListener? { get set }
     func update(with tags: [Tag])
     func update(with currentTag: Tag)
+    func displayAlert(title: String, message: String?, action: AlertAction?)
 }
 
 protocol BookmarkBrowserListener: AnyObject {
@@ -25,9 +26,12 @@ protocol BookmarkBrowserInteractorDependency {
     var currentTagStream: MutableStream<Tag> { get }
 }
 
-final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener {
+final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListContextMenuListener {
     
+    private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkBrowserInteractorDependency
+    
+    private var bookmarkEntityToDelete: BookmarkEntity?
     
     private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
@@ -60,8 +64,24 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
     }
     
-    func contextMenuEditDidTap(bookmark: Bookmark) {
+    func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity) {
+        let result = bookmarkRepository.update(bookmarkEntity)
+        switch result {
+        case .success(_): break
+        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
+        }
+    }
+    
+    func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity) {
+        guard let bookmark = bookmarkEntity.converted() else { return }
         listener?.bookmarkBrowserContextMenuEditDidTap(bookmark: bookmark)
+    }
+    
+    func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity) {
+        bookmarkEntityToDelete = bookmarkEntity
+        presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
+                               message: LocalizedString.AlertMessage.deleteBookmark,
+                               action: AlertAction(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
     }
     
     private func subscribeTagsStream() {
@@ -74,6 +94,16 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         currentTagStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             guard $0.name.count > 0 else { return }
             self?.presenter.update(with: $0)
+        }
+    }
+    
+    @objc
+    private func deleteBookmark() {
+        guard let bookmarkEntity = bookmarkEntityToDelete else { return }
+        let result = bookmarkRepository.delete(bookmarkEntity)
+        switch result {
+        case .success(()): break
+        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToDeleteBookmark)
         }
     }
 }
