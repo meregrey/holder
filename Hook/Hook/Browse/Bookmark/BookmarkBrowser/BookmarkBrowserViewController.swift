@@ -21,7 +21,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     private var bookmarkListCollectionViewContentOffsets: [IndexPath: CGPoint] = [:]
     private var metadata: LPLinkMetadata?
     
-    private var bookmarkListContextMenuListener: BookmarkListContextMenuListener? { listener as? BookmarkListContextMenuListener }
+    private var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
     
     @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -131,7 +131,7 @@ extension BookmarkBrowserViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BookmarkBrowserCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         let tag = tags[indexPath.item]
-        cell.configure(with: tag, listener: bookmarkListContextMenuListener)
+        cell.configure(with: tag, listener: bookmarkListCollectionViewListener)
         return cell
     }
 }

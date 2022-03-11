@@ -8,19 +8,30 @@
 import CoreData
 import UIKit
 
+protocol BookmarkListCollectionViewListener: AnyObject {
+    func bookmarkDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity)
+}
+
 final class BookmarkListCollectionViewManager: NSObject {
     
     private let bookmarkRepository = BookmarkRepository.shared
     private let fetchedResultsControllerDelegate: FetchedResultsControllerDelegate
     private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
-
+    
+    private weak var listener: BookmarkListCollectionViewListener?
     private var isForAll = false
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
     
-    init(collectionView: UICollectionView, listener: BookmarkListContextMenuListener?, tag: Tag) {
+    init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag) {
         self.fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: collectionView)
         self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
+        self.listener = listener
         super.init()
         if tag.name == TagName.all {
             self.isForAll = true

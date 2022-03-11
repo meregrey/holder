@@ -28,7 +28,7 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         bookmarkListCollectionViewManager = nil
     }
     
-    func configure(with tag: Tag, listener: BookmarkListContextMenuListener?) {
+    func configure(with tag: Tag, listener: BookmarkListCollectionViewListener?) {
         guard bookmarkListCollectionViewManager == nil else { return }
         bookmarkListCollectionViewManager = BookmarkListCollectionViewManager(collectionView: bookmarkListCollectionView,
                                                                               listener: listener,
