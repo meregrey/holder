@@ -14,7 +14,7 @@ protocol BookmarkDependency: Dependency {
     var baseViewController: BrowseViewControllable { get }
 }
 
-final class BookmarkComponent: Component<BookmarkDependency>, BookmarkBrowserDependency, EnterBookmarkDependency {
+final class BookmarkComponent: Component<BookmarkDependency>, BookmarkBrowserDependency, EnterBookmarkDependency, BookmarkDetailDependency {
     
     var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
@@ -40,9 +40,11 @@ final class BookmarkBuilder: Builder<BookmarkDependency>, BookmarkBuildable {
         interactor.listener = listener
         let bookmarkBrowser = BookmarkBrowserBuilder(dependency: component)
         let enterBookmark = EnterBookmarkBuilder(dependency: component)
+        let bookmarkDetail = BookmarkDetailBuilder(dependency: component)
         return BookmarkRouter(interactor: interactor,
                               baseViewController: component.baseViewController,
                               bookmarkBrowser: bookmarkBrowser,
-                              enterBookmark: enterBookmark)
+                              enterBookmark: enterBookmark,
+                              bookmarkDetail: bookmarkDetail)
     }
 }

@@ -96,6 +96,11 @@ extension BookmarkListCollectionViewManager: UICollectionViewDataSourcePrefetchi
 
 extension BookmarkListCollectionViewManager: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return }
+        listener?.bookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let bookmarkEntity = self.bookmarkEntity(at: indexPath)

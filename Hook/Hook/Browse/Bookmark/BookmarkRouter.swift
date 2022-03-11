@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol BookmarkInteractable: Interactable, BookmarkBrowserListener, EnterBookmarkListener {
+protocol BookmarkInteractable: Interactable, BookmarkBrowserListener, EnterBookmarkListener, BookmarkDetailListener {
     var router: BookmarkRouting? { get set }
     var listener: BookmarkListener? { get set }
     var presentationProxy: AdaptivePresentationControllerDelegateProxy { get }
@@ -18,17 +18,21 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     private let baseViewController: BrowseViewControllable
     private let bookmarkBrowser: BookmarkBrowserBuildable
     private let enterBookmark: EnterBookmarkBuildable
+    private let bookmarkDetail: BookmarkDetailBuildable
     
     private var bookmarkBrowserRouter: BookmarkBrowserRouting?
     private var enterBookmarkRouter: EnterBookmarkRouting?
+    private var bookmarkDetailRouter: BookmarkDetailRouting?
     
     init(interactor: BookmarkInteractable,
          baseViewController: BrowseViewControllable,
          bookmarkBrowser: BookmarkBrowserBuildable,
-         enterBookmark: EnterBookmarkBuildable) {
+         enterBookmark: EnterBookmarkBuildable,
+         bookmarkDetail: BookmarkDetailBuildable) {
         self.baseViewController = baseViewController
         self.bookmarkBrowser = bookmarkBrowser
         self.enterBookmark = enterBookmark
+        self.bookmarkDetail = bookmarkDetail
         super.init(interactor: interactor)
         interactor.router = self
     }
@@ -61,5 +65,22 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
         if isViewIncluded { baseViewController.dismiss(animated: true) }
         detachChild(router)
         enterBookmarkRouter = nil
+    }
+    
+    // MARK: - BookmarkDetail
+    
+    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity) {
+        guard bookmarkDetailRouter == nil else { return }
+        let router = bookmarkDetail.build(withListener: interactor, bookmarkEntity: bookmarkEntity)
+        bookmarkDetailRouter = router
+        attachChild(router)
+        baseViewController.push(router.viewControllable)
+    }
+    
+    func detachBookmarkDetail(includingView isViewIncluded: Bool) {
+        guard let router = bookmarkDetailRouter else { return }
+        if isViewIncluded { baseViewController.pop() }
+        detachChild(router)
+        bookmarkDetailRouter = nil
     }
 }

@@ -20,6 +20,7 @@ protocol BookmarkBrowserPresentable: Presentable {
 
 protocol BookmarkBrowserListener: AnyObject {
     func bookmarkBrowserAddBookmarkButtonDidTap()
+    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity)
     func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark)
 }
 
@@ -28,7 +29,7 @@ protocol BookmarkBrowserInteractorDependency {
     var currentTagStream: MutableStream<Tag> { get }
 }
 
-final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListContextMenuListener {
+final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkBrowserInteractorDependency
@@ -64,6 +65,10 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     func addBookmarkButtonDidTap() {
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
+    }
+    
+    func bookmarkDidTap(bookmarkEntity: BookmarkEntity) {
+        listener?.bookmarkBrowserBookmarkDidTap(bookmarkEntity: bookmarkEntity)
     }
     
     func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity) {
