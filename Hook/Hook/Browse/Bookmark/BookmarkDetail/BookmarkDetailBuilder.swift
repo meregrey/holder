@@ -9,7 +9,7 @@ import RIBs
 
 protocol BookmarkDetailDependency: Dependency {}
 
-final class BookmarkDetailComponent: Component<BookmarkDetailDependency>, BookmarkDetailInteractorDependency {
+final class BookmarkDetailComponent: Component<BookmarkDetailDependency>, BookmarkDetailInteractorDependency, BookmarkDetailSheetDependency {
     
     let bookmarkEntity: BookmarkEntity
     
@@ -36,6 +36,9 @@ final class BookmarkDetailBuilder: Builder<BookmarkDetailDependency>, BookmarkDe
         let viewController = BookmarkDetailViewController()
         let interactor = BookmarkDetailInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return BookmarkDetailRouter(interactor: interactor, viewController: viewController)
+        let bookmarkDetailSheet = BookmarkDetailSheetBuilder(dependency: component)
+        return BookmarkDetailRouter(interactor: interactor,
+                                    viewController: viewController,
+                                    bookmarkDetailSheet: bookmarkDetailSheet)
     }
 }
