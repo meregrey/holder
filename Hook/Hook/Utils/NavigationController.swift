@@ -25,14 +25,21 @@ final class NavigationController: UINavigationController, ViewControllable {
     }
     
     private func configureViews() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = Asset.Color.baseBackgroundColor
-        appearance.largeTitleTextAttributes = [.font: Font.navigationBarLargeTitle]
-        navigationBar.standardAppearance = appearance
-        navigationBar.scrollEdgeAppearance = appearance
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithTransparentBackground()
+        navigationBarAppearance.backgroundColor = Asset.Color.baseBackgroundColor
+        navigationBarAppearance.largeTitleTextAttributes = [.font: Font.navigationBarLargeTitle]
+        navigationBar.standardAppearance = navigationBarAppearance
+        navigationBar.scrollEdgeAppearance = navigationBarAppearance
         navigationBar.tintColor = Asset.Color.primaryColor
         navigationBar.prefersLargeTitles = true
+        
+        let toolbarAppearance = UIToolbarAppearance()
+        toolbarAppearance.configureWithTransparentBackground()
+        toolbarAppearance.backgroundEffect = UIBlurEffect(style: .prominent)
+        toolbar.standardAppearance = toolbarAppearance
+        toolbar.tintColor = Asset.Color.primaryColor
+        
         interactivePopGestureRecognizer?.delegate = self
     }
 }
