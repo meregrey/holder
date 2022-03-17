@@ -79,4 +79,16 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     func bookmarkDetailDidRemove() {
         router?.detachBookmarkDetail(includingView: false)
     }
+    
+    func bookmarkDetailBackwardButtonDidTap() {
+        router?.detachBookmarkDetail(includingView: true)
+    }
+    
+    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
+        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+    }
+    
+    func bookmarkDetailDidRequestToDetach() {
+        router?.detachBookmarkDetail(includingView: true)
+    }
 }

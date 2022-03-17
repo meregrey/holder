@@ -61,7 +61,7 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     }
     
     func detachEnterBookmark(includingView isViewIncluded: Bool) {
-        guard let router = self.enterBookmarkRouter else { return }
+        guard let router = enterBookmarkRouter else { return }
         if isViewIncluded { baseViewController.dismiss(animated: true) }
         detachChild(router)
         enterBookmarkRouter = nil
