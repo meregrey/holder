@@ -13,13 +13,18 @@ enum LocalizedString {
         static let addToFavorites = "Add to Favorites".localized
         static let cancel = "Cancel".localized
         static let copyURL = "Copy URL".localized
+        static let dark = "Dark".localized
         static let delete = "Delete".localized
+        static let displaySettings = "Display Settings".localized
         static let done = "Done".localized
         static let edit = "Edit".localized
+        static let light = "Light".localized
         static let ok = "OK".localized
+        static let reload = "Reload".localized
         static let removeFromFavorites = "Remove from Favorites".localized
         static let save = "Save".localized
         static let share = "Share".localized
+        static let systemSetting = "System Setting".localized
     }
     
     enum AlertTitle {
