@@ -13,7 +13,7 @@ protocol BookmarkRepositoryType {
     func isExisting(_ url: URL) -> Result<Bool, Error>
     func add(with bookmark: Bookmark) -> Result<Void, Error>
     func update(with bookmark: Bookmark) -> Result<Void, Error>
-    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
+    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error>
     func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
 }
 
@@ -85,11 +85,11 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error> {
+    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error> {
         do {
             bookmarkEntity.isFavorite.toggle()
             try context.save()
-            return .success(())
+            return .success(bookmarkEntity.isFavorite)
         } catch {
             return .failure(error)
         }
