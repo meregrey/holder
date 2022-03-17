@@ -1,5 +1,5 @@
 //
-//  AlertAction.swift
+//  Action.swift
 //  Hook
 //
 //  Created by Yeojin Yoon on 2022/02/14.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol AlertActionDelegate: AnyObject {
-    func dismissAlert()
+protocol ActionListener: AnyObject {
+    func dismiss()
 }
 
-final class AlertAction: UIButton {
+final class Action: UIButton {
     
     typealias Handler = () -> Void
     
     var handler: Handler
-    weak var delegate: AlertActionDelegate?
+    weak var listener: ActionListener?
     
     init(title: String, handler: @escaping Handler) {
         self.handler = handler
@@ -40,6 +40,6 @@ final class AlertAction: UIButton {
     @objc
     private func executeHandler() {
         handler()
-        delegate?.dismissAlert()
+        listener?.dismiss()
     }
 }

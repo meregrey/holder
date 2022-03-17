@@ -15,7 +15,7 @@ protocol BookmarkBrowserPresentable: Presentable {
     func update(with tags: [Tag])
     func update(with currentTag: Tag)
     func displayShareSheet(with metadata: LPLinkMetadata)
-    func displayAlert(title: String, message: String?, action: AlertAction?)
+    func displayAlert(title: String, message: String?, action: Action?)
 }
 
 protocol BookmarkBrowserListener: AnyObject {
@@ -100,7 +100,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         bookmarkEntityToDelete = bookmarkEntity
         presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
                                message: LocalizedString.AlertMessage.deleteBookmark,
-                               action: AlertAction(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
+                               action: Action(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
     }
     
     private func subscribeTagsStream() {
@@ -116,7 +116,6 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         }
     }
     
-    @objc
     private func deleteBookmark() {
         guard let bookmarkEntity = bookmarkEntityToDelete else { return }
         let result = bookmarkRepository.delete(bookmarkEntity)

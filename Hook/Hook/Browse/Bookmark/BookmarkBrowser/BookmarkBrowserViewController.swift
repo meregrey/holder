@@ -90,7 +90,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         }
     }
     
-    func displayAlert(title: String, message: String?, action: AlertAction?) {
+    func displayAlert(title: String, message: String?, action: Action?) {
         presentAlert(title: title, message: message, action: action)
     }
     

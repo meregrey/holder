@@ -64,7 +64,7 @@ final class AlertController: UIViewController {
         static let actionStackViewBottom = CGFloat(-24)
     }
     
-    init(title: String, message: String? = nil, action: AlertAction? = nil) {
+    init(title: String, message: String? = nil, action: Action? = nil) {
         super.init(nibName: nil, bundle: nil)
         configureViews(title: title, message: message, action: action)
     }
@@ -74,7 +74,7 @@ final class AlertController: UIViewController {
         configureViews(title: "", message: nil, action: nil)
     }
     
-    private func configureViews(title: String, message: String?, action: AlertAction?) {
+    private func configureViews(title: String, message: String?, action: Action?) {
         var anchorForActionStackViewTop = titleLabel.bottomAnchor
         
         modalPresentationStyle = .overFullScreen
@@ -129,12 +129,12 @@ final class AlertController: UIViewController {
         return NSAttributedString(string: message, attributes: [.paragraphStyle: paragraphStyle])
     }
     
-    private func actions(with action: AlertAction?) -> [AlertAction] {
+    private func actions(with action: Action?) -> [Action] {
         let defaultActionTitle = action == nil ? LocalizedString.ActionTitle.ok : LocalizedString.ActionTitle.cancel
-        let defaultAction = AlertAction(title: defaultActionTitle, handler: handleDefaultAction)
+        let defaultAction = Action(title: defaultActionTitle, handler: handleDefaultAction)
         var actions = [defaultAction]
         if let action = action {
-            action.delegate = self
+            action.listener = self
             actions.insert(action, at: 0)
         }
         return actions
@@ -146,9 +146,9 @@ final class AlertController: UIViewController {
     }
 }
 
-extension AlertController: AlertActionDelegate {
+extension AlertController: ActionListener {
     
-    func dismissAlert() {
+    func dismiss() {
         dismiss(animated: true)
     }
 }
