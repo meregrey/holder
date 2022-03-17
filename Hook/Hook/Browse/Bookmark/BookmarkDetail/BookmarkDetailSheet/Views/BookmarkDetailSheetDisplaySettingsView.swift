@@ -9,7 +9,7 @@ import UIKit
 
 final class BookmarkDetailSheetDisplaySettingsView: RoundedCornerView {
     
-    static let height = CGFloat(205)
+    static let height = CGFloat(215)
     
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
