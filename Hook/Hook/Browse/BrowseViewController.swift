@@ -95,11 +95,6 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didFailToFetchMetadata),
-                                               name: NotificationName.Metadata.didFailToFetch,
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(didFailToCheckStore),
                                                name: NotificationName.Store.didFailToCheck,
                                                object: nil)
@@ -113,11 +108,6 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @objc
     private func didFailToAddExistingBookmark() {
         presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheURLExists)
-    }
-    
-    @objc
-    private func didFailToFetchMetadata() {
-        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileFetchingTheMetadata)
     }
     
     @objc

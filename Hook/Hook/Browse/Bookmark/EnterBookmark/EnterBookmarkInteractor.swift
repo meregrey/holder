@@ -110,12 +110,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     }
     
     private func addBookmark(_ bookmark: Bookmark) {
-        LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, error in
-            guard error == nil else {
-                NotificationCenter.post(named: NotificationName.Metadata.didFailToFetch)
-                return
-            }
-            
+        LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, _ in
             let bookmark = bookmark.updated(title: metadata?.title)
             let result = self.bookmarkRepository.add(with: bookmark)
             
