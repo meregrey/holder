@@ -14,6 +14,7 @@ protocol BookmarkBrowserPresentable: Presentable {
     var listener: BookmarkBrowserPresentableListener? { get set }
     func update(with tags: [Tag])
     func update(with currentTag: Tag)
+    func displayBlurView(for contentOffset: CGPoint)
     func displayShareSheet(with metadata: LPLinkMetadata)
     func displayAlert(title: String, message: String?, action: Action?)
 }
@@ -65,6 +66,10 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     func addBookmarkButtonDidTap() {
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
+    }
+    
+    func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint) {
+        presenter.displayBlurView(for: contentOffset)
     }
     
     func bookmarkDidTap(bookmarkEntity: BookmarkEntity) {

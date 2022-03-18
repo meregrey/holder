@@ -9,6 +9,7 @@ import CoreData
 import UIKit
 
 protocol BookmarkListCollectionViewListener: AnyObject {
+    func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint)
     func bookmarkDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity)
@@ -107,6 +108,11 @@ extension BookmarkListCollectionViewManager: UICollectionViewDelegate {
             return self.bookmarkListContextMenuProvider.menu(for: bookmarkEntity)
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView else { return }
+        listener?.bookmarkListCollectionViewDidScroll(contentOffset: collectionView.contentOffset)
+    }
 }
 
 // MARK: - Layout
@@ -119,6 +125,10 @@ extension BookmarkListCollectionViewManager: UICollectionViewDelegateFlowLayout 
         guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return defaultSize }
         let fittingSize = BookmarkListCollectionViewCell.fittingSize(with: bookmarkEntity, width: defaultSize.width)
         return fittingSize.height > defaultHeight ? fittingSize : defaultSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: Size.tagBarHeight + 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
