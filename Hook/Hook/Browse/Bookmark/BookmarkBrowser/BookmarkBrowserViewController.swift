@@ -39,6 +39,13 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         return collectionView
     }()
     
+    @AutoLayout private var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .prominent)
+        let view = UIVisualEffectView(effect: effect)
+        view.alpha = 0
+        return view
+    }()
+    
     @AutoLayout private var addBookmarkButton: UIButton = {
         let button = UIButton()
         button.setTitle(LocalizedString.ActionTitle.add, for: .normal)
@@ -55,6 +62,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     }
     
     private enum Metric {
+        static let blurViewHeight = Size.safeAreaTopInset + Size.tagBarHeight
+        
         static let addBookmarkButtonWidth = CGFloat(80)
         static let addBookmarkButtonHeight = CGFloat(50)
         static let addBookmarkButtonBottom = CGFloat(-20)
@@ -82,6 +91,14 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
     
+    func displayBlurView(for contentOffset: CGPoint) {
+        var alpha = 0
+        if contentOffset.y > -(Size.safeAreaTopInset) { alpha = 1 }
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
+            self.blurView.alpha = CGFloat(alpha)
+        }
+    }
+    
     func displayShareSheet(with metadata: LPLinkMetadata) {
         self.metadata = metadata
         let activityViewController = UIActivityViewController(activityItems: [self], applicationActivities: nil)
@@ -99,6 +116,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         bookmarkBrowserCollectionView.delegate = self
         
         view.addSubview(bookmarkBrowserCollectionView)
+        view.addSubview(blurView)
         view.addSubview(addBookmarkButton)
         
         NSLayoutConstraint.activate([
@@ -106,6 +124,11 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
             bookmarkBrowserCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bookmarkBrowserCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bookmarkBrowserCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            blurView.heightAnchor.constraint(equalToConstant: Metric.blurViewHeight),
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             addBookmarkButton.widthAnchor.constraint(equalToConstant: Metric.addBookmarkButtonWidth),
             addBookmarkButton.heightAnchor.constraint(equalToConstant: Metric.addBookmarkButtonHeight),
@@ -142,13 +165,8 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] ?? CGPoint.zero
+        guard let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] else { return }
         cell.setBookmarkListCollectionViewContentOffset(contentOffset)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        cell.resetBookmarkListCollectionViewContentOffset()
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -163,6 +181,7 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
         guard let indexPath = collectionView.indexPathsForVisibleItems.first else { return }
         currentIndexPath = indexPath
         listener?.indexPathDidChange(indexPath: indexPath)
+        if let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] { displayBlurView(for: contentOffset) }
     }
 }
 

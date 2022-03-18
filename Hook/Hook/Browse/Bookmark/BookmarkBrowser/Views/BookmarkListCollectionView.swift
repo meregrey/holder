@@ -30,6 +30,9 @@ final class BookmarkListCollectionView: UICollectionView {
     private func configure() {
         register(BookmarkListCollectionViewCell.self)
         register(UICollectionReusableView.self,
+                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                 withReuseIdentifier: String(describing: UICollectionReusableView.self))
+        register(UICollectionReusableView.self,
                  forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                  withReuseIdentifier: String(describing: UICollectionReusableView.self))
         showsVerticalScrollIndicator = false
