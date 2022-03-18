@@ -31,8 +31,8 @@ final class BrowseInteractor: PresentableInteractor<BrowsePresentable>, BrowseIn
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        router?.attachTag()
         router?.attachBookmark()
+        router?.attachTag()
     }
 
     override func willResignActive() {
