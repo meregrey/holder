@@ -51,9 +51,9 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
     }
     
     private enum Metric {
-        static let containerViewHeight = CGFloat(60)
+        static let containerViewHeight = Size.safeAreaTopInset + Size.tagBarHeight
         
-        static let tagBarCollectionViewHeight = containerViewHeight
+        static let tagBarCollectionViewHeight = Size.tagBarHeight
         static let tagBarCollectionViewLeading = CGFloat(10)
         static let tagBarCollectionViewTrailing = CGFloat(-16)
         
@@ -115,12 +115,12 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
             tagBarCollectionView.heightAnchor.constraint(equalToConstant: Metric.tagBarCollectionViewHeight),
             tagBarCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.tagBarCollectionViewLeading),
             tagBarCollectionView.trailingAnchor.constraint(equalTo: tagSettingsButton.leadingAnchor, constant: Metric.tagBarCollectionViewTrailing),
-            tagBarCollectionView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            tagBarCollectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
             tagSettingsButton.widthAnchor.constraint(equalToConstant: Metric.tagSettingsButtonWidthHeight),
             tagSettingsButton.heightAnchor.constraint(equalToConstant: Metric.tagSettingsButtonWidthHeight),
             tagSettingsButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.tagSettingsButtonTrailing),
-            tagSettingsButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            tagSettingsButton.centerYAnchor.constraint(equalTo: tagBarCollectionView.centerYAnchor)
         ])
     }
     
@@ -156,6 +156,6 @@ extension TagBarViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return TagBarCollectionViewCell.fittingSize(with: tags[indexPath.item], height: Metric.containerViewHeight)
+        return TagBarCollectionViewCell.fittingSize(with: tags[indexPath.item], height: Metric.tagBarCollectionViewHeight)
     }
 }

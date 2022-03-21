@@ -3,13 +3,18 @@
 "Add to Favorites" = "Add to Favorites";
 "Cancel" = "Cancel";
 "Copy URL" = "Copy URL";
+"Dark" = "Dark";
 "Delete" = "Delete";
+"Display Settings" = "Display Settings";
 "Done" = "Done";
 "Edit" = "Edit";
+"Light" = "Light";
 "OK" = "OK";
+"Reload" = "Reload";
 "Remove from Favorites" = "Remove from Favorites";
 "Save" = "Save";
 "Share" = "Share";
+"System Setting" = "System Setting";
 
 /* Alert title */
 "Enter the URL." = "Enter the URL.";

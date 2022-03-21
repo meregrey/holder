@@ -12,6 +12,8 @@ protocol BookmarkRouting: Routing {
     func attachBookmarkBrowser()
     func attachEnterBookmark(mode: EnterBookmarkMode)
     func detachEnterBookmark(includingView isViewIncluded: Bool)
+    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity)
+    func detachBookmarkDetail(includingView isViewIncluded: Bool)
 }
 
 protocol BookmarkListener: AnyObject {
@@ -50,6 +52,10 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
         router?.attachEnterBookmark(mode: .add)
     }
     
+    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
+        router?.attachBookmarkDetail(bookmarkEntity: bookmarkEntity)
+    }
+    
     func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark) {
         router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
     }
@@ -66,5 +72,23 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     
     func enterBookmarkSaveButtonDidTap() {
         router?.detachEnterBookmark(includingView: false)
+    }
+    
+    // MARK: - BookmarkDetail
+    
+    func bookmarkDetailDidRemove() {
+        router?.detachBookmarkDetail(includingView: false)
+    }
+    
+    func bookmarkDetailBackwardButtonDidTap() {
+        router?.detachBookmarkDetail(includingView: true)
+    }
+    
+    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
+        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+    }
+    
+    func bookmarkDetailDidRequestToDetach() {
+        router?.detachBookmarkDetail(includingView: true)
     }
 }

@@ -17,6 +17,7 @@ enum Asset {
         static let upperBackgroundColor = UIColor(named: "UpperBackgroundColor") ?? .clear
         static let selectedBackgroundColor = UIColor(named: "SelectedBackgroundColor") ?? .clear
         static let alertBackgroundColor = UIColor(named: "AlertBackgroundColor") ?? .clear
+        static let webViewBackgroundColor = UIColor(named: "WebViewBackgroundColor") ?? .clear
         
         static let borderColor = UIColor(named: "BorderColor") ?? .clear
         

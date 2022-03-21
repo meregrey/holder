@@ -20,10 +20,6 @@ enum NotificationName {
         static let didFailToSave = NSNotification.Name("didFailToSave")
     }
     
-    enum Metadata {
-        static let didFailToFetch = NSNotification.Name("didFailToFetch")
-    }
-    
     enum Store {
         static let didFailToCheck = NSNotification.Name("didFailToCheck")
         static let didFailToLoad = NSNotification.Name("didFailToLoad")

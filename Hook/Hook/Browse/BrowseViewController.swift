@@ -12,18 +12,29 @@ protocol BrowsePresentableListener: AnyObject {}
 
 final class BrowseViewController: UIViewController, BrowsePresentable, BrowseViewControllable {
     
-    @AutoLayout private var stackView: UIStackView = {
+    @AutoLayout private var bookmarkBrowserContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.distribution = .fill
         stackView.alignment = .fill
         return stackView
     }()
     
+    @AutoLayout private var tagBarContainerView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
+    @AutoLayout private var dummyView = UIView()
+    
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "rectangle.grid.1x2")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
-        static let tabBarItemSelected = UIImage(systemName: "rectangle.grid.1x2.fill")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItem = UIImage(named: "browse")
+        static let tabBarItemSelected = UIImage(named: "browse.fill")
     }
-
+    
     weak var listener: BrowsePresentableListener?
     
     init() {
@@ -47,10 +58,10 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    func addChild(_ view: ViewControllable) {
-        let childViewController = view.uiviewController
+    func addChild(_ viewControllable: ViewControllable) {
+        let childViewController = viewControllable.uiviewController
         addChild(childViewController)
-        stackView.addArrangedSubview(childViewController.view)
+        addChildView(viewControllable)
         childViewController.didMove(toParent: self)
     }
     
@@ -78,13 +89,22 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
                                   selectedImage: Image.tabBarItemSelected)
         
         view.backgroundColor = Asset.Color.baseBackgroundColor
-        view.addSubview(stackView)
+        
+        view.addSubview(bookmarkBrowserContainerView)
+        view.addSubview(tagBarContainerView)
+        bookmarkBrowserContainerView.addArrangedSubview(dummyView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            bookmarkBrowserContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            bookmarkBrowserContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bookmarkBrowserContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bookmarkBrowserContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            tagBarContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            tagBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tagBarContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            dummyView.heightAnchor.constraint(equalToConstant: 0)
         ])
     }
     
@@ -92,11 +112,6 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didFailToAddExistingBookmark),
                                                name: NotificationName.Bookmark.existingBookmark,
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didFailToFetchMetadata),
-                                               name: NotificationName.Metadata.didFailToFetch,
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
@@ -110,14 +125,21 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
                                                object: nil)
     }
     
-    @objc
-    private func didFailToAddExistingBookmark() {
-        presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheURLExists)
+    private func addChildView(_ viewControllable: ViewControllable) {
+        let childViewController = viewControllable.uiviewController
+        
+        if childViewController is BookmarkBrowserViewController {
+            bookmarkBrowserContainerView.addArrangedSubview(childViewController.view)
+        }
+        
+        if childViewController is TagBarViewController {
+            tagBarContainerView.addArrangedSubview(childViewController.view)
+        }
     }
     
     @objc
-    private func didFailToFetchMetadata() {
-        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileFetchingTheMetadata)
+    private func didFailToAddExistingBookmark() {
+        presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheURLExists)
     }
     
     @objc

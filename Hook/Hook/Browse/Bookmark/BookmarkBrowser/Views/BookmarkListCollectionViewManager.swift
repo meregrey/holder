@@ -8,19 +8,31 @@
 import CoreData
 import UIKit
 
+protocol BookmarkListCollectionViewListener: AnyObject {
+    func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint)
+    func bookmarkDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity)
+}
+
 final class BookmarkListCollectionViewManager: NSObject {
     
     private let bookmarkRepository = BookmarkRepository.shared
     private let fetchedResultsControllerDelegate: FetchedResultsControllerDelegate
     private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
-
+    
+    private weak var listener: BookmarkListCollectionViewListener?
     private var isForAll = false
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
     
-    init(collectionView: UICollectionView, listener: BookmarkListContextMenuListener?, tag: Tag) {
+    init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag) {
         self.fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: collectionView)
         self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
+        self.listener = listener
         super.init()
         if tag.name == TagName.all {
             self.isForAll = true
@@ -85,11 +97,21 @@ extension BookmarkListCollectionViewManager: UICollectionViewDataSourcePrefetchi
 
 extension BookmarkListCollectionViewManager: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return }
+        listener?.bookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let bookmarkEntity = self.bookmarkEntity(at: indexPath)
             return self.bookmarkListContextMenuProvider.menu(for: bookmarkEntity)
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView else { return }
+        listener?.bookmarkListCollectionViewDidScroll(contentOffset: collectionView.contentOffset)
     }
 }
 
@@ -103,6 +125,10 @@ extension BookmarkListCollectionViewManager: UICollectionViewDelegateFlowLayout 
         guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return defaultSize }
         let fittingSize = BookmarkListCollectionViewCell.fittingSize(with: bookmarkEntity, width: defaultSize.width)
         return fittingSize.height > defaultHeight ? fittingSize : defaultSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: Size.tagBarHeight + 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {

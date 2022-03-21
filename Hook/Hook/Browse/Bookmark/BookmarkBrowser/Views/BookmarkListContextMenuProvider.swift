@@ -7,20 +7,12 @@
 
 import UIKit
 
-protocol BookmarkListContextMenuListener: AnyObject {
-    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity)
-}
-
 final class BookmarkListContextMenuProvider {
     
-    private weak var listener: BookmarkListContextMenuListener?
+    private weak var listener: BookmarkListCollectionViewListener?
     private var bookmarkEntity: BookmarkEntity?
     
-    init(listener: BookmarkListContextMenuListener?) {
+    init(listener: BookmarkListCollectionViewListener?) {
         self.listener = listener
     }
     

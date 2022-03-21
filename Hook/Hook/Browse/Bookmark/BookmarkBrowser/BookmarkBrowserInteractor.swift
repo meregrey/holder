@@ -14,12 +14,14 @@ protocol BookmarkBrowserPresentable: Presentable {
     var listener: BookmarkBrowserPresentableListener? { get set }
     func update(with tags: [Tag])
     func update(with currentTag: Tag)
+    func displayBlurView(for contentOffset: CGPoint)
     func displayShareSheet(with metadata: LPLinkMetadata)
-    func displayAlert(title: String, message: String?, action: AlertAction?)
+    func displayAlert(title: String, message: String?, action: Action?)
 }
 
 protocol BookmarkBrowserListener: AnyObject {
     func bookmarkBrowserAddBookmarkButtonDidTap()
+    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity)
     func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark)
 }
 
@@ -28,7 +30,7 @@ protocol BookmarkBrowserInteractorDependency {
     var currentTagStream: MutableStream<Tag> { get }
 }
 
-final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListContextMenuListener {
+final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkBrowserInteractorDependency
@@ -66,6 +68,14 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         listener?.bookmarkBrowserAddBookmarkButtonDidTap()
     }
     
+    func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint) {
+        presenter.displayBlurView(for: contentOffset)
+    }
+    
+    func bookmarkDidTap(bookmarkEntity: BookmarkEntity) {
+        listener?.bookmarkBrowserBookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    }
+    
     func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity) {
         guard let url = URL(string: bookmarkEntity.urlString) else { return }
         LPMetadataProvider().startFetchingMetadata(for: url) { metadata, _ in
@@ -95,7 +105,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         bookmarkEntityToDelete = bookmarkEntity
         presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
                                message: LocalizedString.AlertMessage.deleteBookmark,
-                               action: AlertAction(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
+                               action: Action(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
     }
     
     private func subscribeTagsStream() {
@@ -111,7 +121,6 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         }
     }
     
-    @objc
     private func deleteBookmark() {
         guard let bookmarkEntity = bookmarkEntityToDelete else { return }
         let result = bookmarkRepository.delete(bookmarkEntity)
