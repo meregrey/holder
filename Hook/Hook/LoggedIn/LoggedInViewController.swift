@@ -32,5 +32,6 @@ final class LoggedInViewController: UITabBarController, LoggedInPresentable, Log
     
     private func configureViews() {
         tabBar.tintColor = Asset.Color.primaryColor
+        tabBar.unselectedItemTintColor = Asset.Color.unselectedTabBarItemColor
     }
 }
