@@ -28,7 +28,7 @@ class LabeledView: UIView {
         static let label = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
     
-    init(header: String, theme: ViewTheme? = .normal) {
+    init(header: String, theme: ViewTheme = .normal) {
         super.init(frame: .zero)
         self.label.text = header
         if theme == .sheet { self.label.textColor = Asset.Color.sheetTextColor }

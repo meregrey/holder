@@ -21,7 +21,8 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     private var shouldAddTag = false
     
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchAndAdd,
-                                                  showsCancelButton: true)
+                                                  showsCancelButton: true,
+                                                  theme: .sheet)
     
     @AutoLayout private var searchTagsTableView: UITableView = {
         let tableView = UITableView()

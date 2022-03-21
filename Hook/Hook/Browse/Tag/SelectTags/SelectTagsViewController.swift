@@ -22,7 +22,8 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     @AutoLayout private var headerView = SheetHeaderView(title: LocalizedString.ViewTitle.selectTags)
     
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchAndAdd,
-                                                  isInputEnabled: false)
+                                                  isInputEnabled: false,
+                                                  theme: .sheet)
     
     @AutoLayout private var selectTagsTableView: UITableView = {
         let tableView = UITableView()
