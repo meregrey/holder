@@ -14,7 +14,6 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
     
     private enum Image {
         static let tabBarItem = UIImage(named: "account")
-        static let tabBarItemSelected = UIImage(named: "account")
     }
 
     weak var listener: AccountPresentableListener?
@@ -33,6 +32,7 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
         title = LocalizedString.ViewTitle.account
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
-                                  selectedImage: Image.tabBarItemSelected)
+                                  selectedImage: Image.tabBarItem)
+        view.backgroundColor = Asset.Color.baseBackgroundColor
     }
 }

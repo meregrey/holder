@@ -13,8 +13,7 @@ protocol FavoritesPresentableListener: AnyObject {}
 final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "favorites")
-        static let tabBarItemSelected = UIImage(named: "favorites.fill")
+        static let tabBarItem = UIImage(named: "favorites.fill")
     }
 
     weak var listener: FavoritesPresentableListener?
@@ -33,6 +32,7 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
         title = LocalizedString.ViewTitle.favorites
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
-                                  selectedImage: Image.tabBarItemSelected)
+                                  selectedImage: Image.tabBarItem)
+        view.backgroundColor = Asset.Color.baseBackgroundColor
     }
 }

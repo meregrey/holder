@@ -31,8 +31,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @AutoLayout private var dummyView = UIView()
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "browse")
-        static let tabBarItemSelected = UIImage(named: "browse.fill")
+        static let tabBarItem = UIImage(named: "browse.fill")
     }
     
     weak var listener: BrowsePresentableListener?
@@ -86,7 +85,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     private func configureViews() {
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
-                                  selectedImage: Image.tabBarItemSelected)
+                                  selectedImage: Image.tabBarItem)
         
         view.backgroundColor = Asset.Color.baseBackgroundColor
         

@@ -14,7 +14,6 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
     
     private enum Image {
         static let tabBarItem = UIImage(named: "search")
-        static let tabBarItemSelected = UIImage(named: "search")
     }
 
     weak var listener: SearchPresentableListener?
@@ -33,6 +32,7 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
         title = LocalizedString.ViewTitle.search
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
-                                  selectedImage: Image.tabBarItemSelected)
+                                  selectedImage: Image.tabBarItem)
+        view.backgroundColor = Asset.Color.baseBackgroundColor
     }
 }
