@@ -11,7 +11,7 @@ final class SearchBar: UIControl {
     
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
-        view.backgroundColor = Asset.Color.sheetSearchBackgroundColor
+        view.backgroundColor = Asset.Color.searchBackgroundColor
         return view
     }()
 
@@ -52,7 +52,7 @@ final class SearchBar: UIControl {
     }
     
     private enum Metric {
-        static let height = CGFloat(55)
+        static let height = CGFloat(50)
         
         static let magnifyingglassImageViewWidthHeight = CGFloat(25)
         static let magnifyingglassImageViewLeading = CGFloat(15)
@@ -63,8 +63,10 @@ final class SearchBar: UIControl {
     
     init(placeholder: String,
          showsCancelButton: Bool = false,
-         isInputEnabled: Bool = true) {
+         isInputEnabled: Bool = true,
+         theme: ViewTheme = .normal) {
         super.init(frame: .zero)
+        if theme == .sheet { containerView.backgroundColor = Asset.Color.sheetSearchBackgroundColor }
         configure(placeholder: placeholder,
                   showsCancelButton: showsCancelButton,
                   isInputEnabled: isInputEnabled)
