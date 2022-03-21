@@ -13,8 +13,8 @@ protocol SearchPresentableListener: AnyObject {}
 final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "magnifyingglass")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
-        static let tabBarItemSelected = UIImage(systemName: "magnifyingglass")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItem = UIImage(named: "search")
+        static let tabBarItemSelected = UIImage(named: "search")
     }
 
     weak var listener: SearchPresentableListener?

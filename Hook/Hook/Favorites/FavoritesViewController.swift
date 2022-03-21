@@ -13,8 +13,8 @@ protocol FavoritesPresentableListener: AnyObject {}
 final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "bookmark")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
-        static let tabBarItemSelected = UIImage(systemName: "bookmark.fill")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItem = UIImage(named: "favorites")
+        static let tabBarItemSelected = UIImage(named: "favorites.fill")
     }
 
     weak var listener: FavoritesPresentableListener?

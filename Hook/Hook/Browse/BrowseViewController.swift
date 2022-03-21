@@ -31,8 +31,8 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @AutoLayout private var dummyView = UIView()
     
     private enum Image {
-        static let tabBarItem = UIImage(systemName: "rectangle.grid.1x2")?.withTintColor(Asset.Color.secondaryColor, renderingMode: .alwaysOriginal)
-        static let tabBarItemSelected = UIImage(systemName: "rectangle.grid.1x2.fill")?.withTintColor(Asset.Color.primaryColor, renderingMode: .alwaysOriginal)
+        static let tabBarItem = UIImage(named: "browse")
+        static let tabBarItemSelected = UIImage(named: "browse.fill")
     }
     
     weak var listener: BrowsePresentableListener?
