@@ -25,7 +25,9 @@ final class LoggedInViewController: UITabBarController, LoggedInPresentable, Log
     }
     
     func setViewControllers(_ viewControllers: [ViewControllable]) {
-        super.setViewControllers(viewControllers.map(\.uiviewController), animated: false)
+        let viewControllers = viewControllers.map { $0.uiviewController }
+        viewControllers.forEach { $0.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -6, right: 0) }
+        super.setViewControllers(viewControllers, animated: false)
     }
     
     private func configureViews() {
