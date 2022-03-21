@@ -21,6 +21,8 @@ enum Asset {
         
         static let borderColor = UIColor(named: "BorderColor") ?? .clear
         
+        static let unselectedTabBarItemColor = UIColor(named: "UnselectedTabBarItemColor") ?? .clear
+        
         // MARK: - Sheet
         
         static let sheetBaseBackgroundColor = UIColor(named: "SheetBaseBackgroundColor") ?? .clear
