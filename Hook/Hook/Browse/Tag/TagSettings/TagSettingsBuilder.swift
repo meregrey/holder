@@ -7,14 +7,9 @@
 
 import RIBs
 
-protocol TagSettingsDependency: Dependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
-}
+protocol TagSettingsDependency: Dependency {}
 
-final class TagSettingsComponent: Component<TagSettingsDependency>, TagSettingsInteractorDependency {
-    
-    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
-}
+final class TagSettingsComponent: Component<TagSettingsDependency> {}
 
 // MARK: - Builder
 
@@ -29,9 +24,8 @@ final class TagSettingsBuilder: Builder<TagSettingsDependency>, TagSettingsBuild
     }
     
     func build(withListener listener: TagSettingsListener) -> TagSettingsRouting {
-        let component = TagSettingsComponent(dependency: dependency)
         let viewController = TagSettingsViewController()
-        let interactor = TagSettingsInteractor(presenter: viewController, dependency: component)
+        let interactor = TagSettingsInteractor(presenter: viewController)
         interactor.listener = listener
         return TagSettingsRouter(interactor: interactor, viewController: viewController)
     }

@@ -20,15 +20,14 @@ protocol TagBarListener: AnyObject {
 }
 
 protocol TagBarInteractorDependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
 }
 
 final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarInteractable, TagBarPresentableListener {
     
+    private let tagsStream = TagRepository.shared.tagsStream
     private let dependency: TagBarInteractorDependency
     
-    private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     
     weak var router: TagBarRouting?

@@ -8,13 +8,11 @@
 import RIBs
 
 protocol TagBarDependency: Dependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
 }
 
 final class TagBarComponent: Component<TagBarDependency>, TagBarInteractorDependency {
     
-    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
 }
 

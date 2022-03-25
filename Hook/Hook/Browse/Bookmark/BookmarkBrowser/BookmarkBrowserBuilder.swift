@@ -8,13 +8,11 @@
 import RIBs
 
 protocol BookmarkBrowserDependency: Dependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
 }
 
 final class BookmarkBrowserComponent: Component<BookmarkBrowserDependency>, BookmarkBrowserInteractorDependency {
     
-    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
 }
 
