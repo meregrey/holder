@@ -2,6 +2,7 @@
 "Add" = "Add";
 "Add to Favorites" = "Add to Favorites";
 "Cancel" = "Cancel";
+"Clear" = "Clear";
 "Copy URL" = "Copy URL";
 "Dark" = "Dark";
 "Delete" = "Delete";
@@ -37,9 +38,15 @@
 "Tag name" = "Tag name";
 "Tags" = "Tags";
 "Note" = "Note";
+"Recent Searches" = "Recent Searches";
+"No Recent Searches" = "No Recent Searches";
+"Recent searches will be added as you search for titles, URLs, or notes." = "Recent searches will be added as you\nsearch for titles, URLs, or notes.";
+"No Search Results" = "No Search Results";
+"No results matching the search term could be found. Try another search term." = "No results matching the search term could\nbe found. Try another search term.";
 
 /* Placeholder */
 "Search & Add" = "Search & Add";
+"Search titles, URLs, notes" = "Search titles, URLs, notes";
 
 /* Tag name */
 "All" = "All";

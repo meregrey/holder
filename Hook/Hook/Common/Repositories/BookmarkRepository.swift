@@ -10,11 +10,13 @@ import CoreData
 protocol BookmarkRepositoryType {
     func fetchedResultsController() -> NSFetchedResultsController<BookmarkEntity>
     func fetchedResultsController(for tag: Tag) -> NSFetchedResultsController<BookmarkTagEntity>
+    func fetchedResultsController(for searchTerm: String) -> NSFetchedResultsController<BookmarkEntity>
     func isExisting(_ url: URL) -> Result<Bool, Error>
     func add(with bookmark: Bookmark) -> Result<Void, Error>
     func update(with bookmark: Bookmark) -> Result<Void, Error>
     func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error>
     func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
+    func deleteTags(for tag: Tag)
 }
 
 final class BookmarkRepository: BookmarkRepositoryType {
@@ -40,6 +42,21 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
         let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkTagEntity.bookmark.creationDate), ascending: false)
         request.predicate = predicate
+        request.sortDescriptors = [sortDescriptor]
+        return NSFetchedResultsController(fetchRequest: request,
+                                          managedObjectContext: context,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }
+    
+    func fetchedResultsController(for searchTerm: String) -> NSFetchedResultsController<BookmarkEntity> {
+        let request = BookmarkEntity.fetchRequest()
+        let titlePredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(BookmarkEntity.title), searchTerm)
+        let urlPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(BookmarkEntity.urlString), searchTerm)
+        let notePredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(BookmarkEntity.note), searchTerm)
+        let predicates = NSCompoundPredicate(type: .or, subpredicates: [titlePredicate, urlPredicate, notePredicate])
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: false)
+        request.predicate = predicates
         request.sortDescriptors = [sortDescriptor]
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: context,
@@ -102,6 +119,20 @@ final class BookmarkRepository: BookmarkRepositoryType {
             return .success(())
         } catch {
             return .failure(error)
+        }
+    }
+    
+    func deleteTags(for tag: Tag) {
+        let request = BookmarkTagEntity.fetchRequest()
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
+        request.predicate = predicate
+        request.includesPropertyValues = false
+        do {
+            let bookmarkTagEntities = try context.fetch(request)
+            bookmarkTagEntities.forEach { context.delete($0) }
+            try context.save()
+        } catch {
+            return
         }
     }
     

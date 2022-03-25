@@ -15,7 +15,7 @@ protocol SearchTagsPresentable: Presentable {
 
 protocol SearchTagsListener: AnyObject {
     func searchTagsCancelButtonDidTap()
-    func searchTagsRowDidSelect(tag: Tag, shouldAddTag: Bool)
+    func searchTagsRowDidSelect()
 }
 
 protocol SearchTagsInteractorDependency {
@@ -50,7 +50,14 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
     }
     
     func rowDidSelect(tag: Tag, shouldAddTag: Bool) {
+        if shouldAddTag {
+            let result = TagRepository.shared.add(tag)
+            switch result {
+            case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
+            case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToAddTag)
+            }
+        }
         tagBySearchStream.update(with: tag)
-        listener?.searchTagsRowDidSelect(tag: tag, shouldAddTag: shouldAddTag)
+        listener?.searchTagsRowDidSelect()
     }
 }

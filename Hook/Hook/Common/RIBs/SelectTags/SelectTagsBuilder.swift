@@ -8,7 +8,6 @@
 import RIBs
 
 protocol SelectTagsDependency: Dependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     var tagBySearchStream: MutableStream<Tag> { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
 }
@@ -17,7 +16,6 @@ final class SelectTagsComponent: Component<SelectTagsDependency>, SelectTagsInte
     
     let existingSelectedTags: [Tag]
     
-    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     var tagBySearchStream: MutableStream<Tag> { dependency.tagBySearchStream }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     

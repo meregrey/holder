@@ -15,7 +15,7 @@ protocol SearchTagsPresentableListener: AnyObject {
 
 final class SearchTagsViewController: UIViewController, SearchTagsPresentable, SearchTagsViewControllable {
     
-    private let tags: [Tag]
+    private let tags = TagRepository.shared.tagsStream.value
     
     private var texts: [String] = []
     private var shouldAddTag = false
@@ -47,15 +47,13 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     
     weak var listener: SearchTagsPresentableListener?
     
-    init(tags: [Tag]) {
-        self.tags = tags
+    init() {
         super.init(nibName: nil, bundle: nil)
         registerToReceiveNotification()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
-        self.tags = []
         super.init(coder: coder)
         registerToReceiveNotification()
         configureViews()
@@ -71,15 +69,13 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(textDidChange(_:)),
-                                               name: UITextField.textDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(textDidChange(_:)),
+                                       name: UITextField.textDidChangeNotification)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillShow(_:)),
+                                       name: UIResponder.keyboardWillShowNotification)
     }
     
     @objc
@@ -95,7 +91,7 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     }
     
     private func texts(for input: String) -> [String] {
-        let filteredTags = tags.filter { $0.name.localizedCaseInsensitiveContains(input) }
+        let filteredTags = tags.filter { $0.name.lowercased().contains(input) }
         if filteredTags.count > 0 {
             shouldAddTag = false
             return filteredTags.map { $0.name }

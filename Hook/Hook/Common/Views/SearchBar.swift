@@ -9,6 +9,8 @@ import UIKit
 
 final class SearchBar: UIControl {
     
+    static var height: CGFloat { Metric.height }
+    
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
         view.backgroundColor = Asset.Color.searchBackgroundColor
@@ -28,6 +30,8 @@ final class SearchBar: UIControl {
         textField.textColor = Asset.Color.sheetSearchTintColor
         textField.clearButtonMode = .whileEditing
         textField.autocapitalizationType = .none
+        textField.returnKeyType = .search
+        textField.enablesReturnKeyAutomatically = true
         return textField
     }()
 
@@ -36,11 +40,28 @@ final class SearchBar: UIControl {
         button.titleLabel?.font = Font.cancelButton
         button.setTitle(LocalizedString.ActionTitle.cancel, for: .normal)
         button.setTitleColor(Asset.Color.secondaryColor, for: .normal)
+        button.isHidden = true
         return button
     }()
     
-    private var constantForContainerViewTrailing = CGFloat(0)
-    private lazy var anchorForContainerViewTrailing = trailingAnchor
+    private var isInputEnabled: Bool
+    private var showsCancelButton: Bool
+    
+    private lazy var containerViewTrailingConstraint = NSLayoutConstraint(item: containerView,
+                                                                          attribute: .trailing,
+                                                                          relatedBy: .equal,
+                                                                          toItem: self,
+                                                                          attribute: .trailing,
+                                                                          multiplier: 1,
+                                                                          constant: 0)
+    
+    private lazy var cancelButtonTrailingConstraint = NSLayoutConstraint(item: cancelButton,
+                                                                         attribute: .trailing,
+                                                                         relatedBy: .equal,
+                                                                         toItem: self,
+                                                                         attribute: .trailing,
+                                                                         multiplier: 1,
+                                                                         constant: cancelButtonWidth())
     
     private enum Image {
         static let magnifyingglassImageView = UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .medium))
@@ -61,22 +82,34 @@ final class SearchBar: UIControl {
         static let searchTextFieldTrailing = CGFloat(-10)
     }
     
+    var text: String? { searchTextField.text }
+    
+    weak var listener: UITextFieldDelegate? {
+        didSet { searchTextField.delegate = listener }
+    }
+    
     init(placeholder: String,
-         showsCancelButton: Bool = false,
          isInputEnabled: Bool = true,
+         showsCancelButton: Bool = false,
          theme: ViewTheme = .normal) {
+        self.isInputEnabled = isInputEnabled
+        self.showsCancelButton = showsCancelButton
         super.init(frame: .zero)
         if theme == .sheet { containerView.backgroundColor = Asset.Color.sheetSearchBackgroundColor }
-        configure(placeholder: placeholder,
-                  showsCancelButton: showsCancelButton,
-                  isInputEnabled: isInputEnabled)
+        registerToReceiveNotification()
+        configure(placeholder: placeholder)
     }
 
     required init?(coder: NSCoder) {
+        self.isInputEnabled = false
+        self.showsCancelButton = false
         super.init(coder: coder)
-        configure(placeholder: "",
-                  showsCancelButton: false,
-                  isInputEnabled: false)
+        registerToReceiveNotification()
+        configure(placeholder: "")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     @discardableResult
@@ -85,38 +118,72 @@ final class SearchBar: UIControl {
         return searchTextField.becomeFirstResponder()
     }
     
+    @discardableResult
+    override func resignFirstResponder() -> Bool {
+        super.resignFirstResponder()
+        return searchTextField.resignFirstResponder()
+    }
+    
     func addTargetToCancelButton(_ target: AnyObject, action: Selector) {
         cancelButton.addTarget(target, action: action, for: .touchUpInside)
     }
     
-    private func configure(placeholder: String,
-                           showsCancelButton: Bool,
-                           isInputEnabled: Bool) {
+    func endSearch() {
+        searchTextField.text = ""
+        searchTextField.resignFirstResponder()
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
+            self.showCancelButton(false)
+            self.layoutIfNeeded()
+        }
+    }
+    
+    func showCancelButton(_ flag: Bool) {
+        let containerViewConstant = flag ? -(cancelButtonWidth() + 15) : 0
+        let cancelButtonConstant = flag ? 0 : cancelButtonWidth()
+        containerViewTrailingConstraint.constant = containerViewConstant
+        cancelButtonTrailingConstraint.constant = cancelButtonConstant
+        cancelButton.isHidden = !flag
+    }
+    
+    func setSearchTerm(_ searchTerm: String) {
+        searchTextField.text = searchTerm
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(textFieldDidBeginEditing),
+                                       name: UITextField.textDidBeginEditingNotification)
+    }
+    
+    @objc
+    private func textFieldDidBeginEditing() {
+        guard isInputEnabled == true, showsCancelButton == false else { return }
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
+            self.showCancelButton(true)
+            self.layoutIfNeeded()
+        }
+    }
+    
+    private func configure(placeholder: String) {
         let placeholderAttributes: [NSAttributedString.Key: Any] = [.font: Font.searchTextField, .foregroundColor: Asset.Color.sheetSearchTintColor]
         searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: placeholderAttributes)
         searchTextField.isUserInteractionEnabled = isInputEnabled
         
         addSubview(containerView)
+        addSubview(cancelButton)
         containerView.addSubview(magnifyingglassImageView)
         containerView.addSubview(searchTextField)
         
-        if showsCancelButton {
-            constantForContainerViewTrailing = CGFloat(-15)
-            anchorForContainerViewTrailing = cancelButton.leadingAnchor
-            addSubview(cancelButton)
-            NSLayoutConstraint.activate([
-                cancelButton.widthAnchor.constraint(equalToConstant: cancelButtonWidth()),
-                cancelButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-                cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
-        }
+        if showsCancelButton { showCancelButton(true) }
+        
+        containerViewTrailingConstraint.isActive = true
+        cancelButtonTrailingConstraint.isActive = true
         
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Metric.height),
 
             containerView.topAnchor.constraint(equalTo: topAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: anchorForContainerViewTrailing, constant: constantForContainerViewTrailing),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             magnifyingglassImageView.widthAnchor.constraint(equalToConstant: Metric.magnifyingglassImageViewWidthHeight),
@@ -126,7 +193,10 @@ final class SearchBar: UIControl {
 
             searchTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             searchTextField.leadingAnchor.constraint(equalTo: magnifyingglassImageView.trailingAnchor, constant: Metric.searchTextFieldLeading),
-            searchTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.searchTextFieldTrailing)
+            searchTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.searchTextFieldTrailing),
+            
+            cancelButton.widthAnchor.constraint(equalToConstant: cancelButtonWidth()),
+            cancelButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

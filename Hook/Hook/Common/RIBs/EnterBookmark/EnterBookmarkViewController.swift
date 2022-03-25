@@ -32,9 +32,9 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @AutoLayout private var urlTextField = LabeledURLTextField(header: "URL")
     
-    @AutoLayout private var tagCollectionView = LabeledTagCollectionView(header: LocalizedString.LabelTitle.tags)
+    @AutoLayout private var tagCollectionView = LabeledTagCollectionView(header: LocalizedString.LabelText.tags)
     
-    @AutoLayout private var noteTextView = LabeledNoteTextView(header: LocalizedString.LabelTitle.note)
+    @AutoLayout private var noteTextView = LabeledNoteTextView(header: LocalizedString.LabelText.note)
     
     @AutoLayout private var transparentFooterView = UIView()
     
@@ -120,15 +120,13 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillShow(_:)),
+                                       name: UIResponder.keyboardWillShowNotification)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillHide),
+                                       name: UIResponder.keyboardWillHideNotification)
     }
     
     @objc

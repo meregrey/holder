@@ -15,4 +15,5 @@ enum Size {
     }()
     static let tagBarHeight = CGFloat(50)
     static let thumbnail = CGSize(width: 90, height: 60)
+    static let searchBarViewHeight = SearchBar.height + SearchBarViewController.searchBarTop + SearchBarViewController.searchBarBottom
 }

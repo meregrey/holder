@@ -23,17 +23,16 @@ protocol SelectTagsListener: AnyObject {
 
 protocol SelectTagsInteractorDependency {
     var existingSelectedTags: [Tag] { get }
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     var tagBySearchStream: MutableStream<Tag> { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
 }
 
 final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, SelectTagsInteractable, SelectTagsPresentableListener {
     
+    private let tagsStream = TagRepository.shared.tagsStream
     private let dependency: SelectTagsInteractorDependency
     
     private var existingSelectedTags: [Tag] { dependency.existingSelectedTags }
-    private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     private var tagBySearchStream: MutableStream<Tag> { dependency.tagBySearchStream }
     private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     

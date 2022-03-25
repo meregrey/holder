@@ -12,6 +12,7 @@ enum LocalizedString {
         static let add = "Add".localized
         static let addToFavorites = "Add to Favorites".localized
         static let cancel = "Cancel".localized
+        static let clear = "Clear".localized
         static let copyURL = "Copy URL".localized
         static let dark = "Dark".localized
         static let delete = "Delete".localized
@@ -44,14 +45,20 @@ enum LocalizedString {
         static let deleteBookmark = "This bookmark will be deleted from all tags.".localized
     }
     
-    enum LabelTitle {
+    enum LabelText {
         static let tagName = "Tag name".localized
         static let tags = "Tags".localized
         static let note = "Note".localized
+        static let recentSearches = "Recent Searches".localized
+        static let noRecentSearches = "No Recent Searches".localized
+        static let recentSearchesWillBeAdded = "Recent searches will be added as you search for titles, URLs, or notes.".localized
+        static let noSearchResults = "No Search Results".localized
+        static let noResultsMatchingTheSearchTerm = "No results matching the search term could be found. Try another search term.".localized
     }
     
     enum Placeholder {
         static let searchAndAdd = "Search & Add".localized
+        static let searchTitlesURLsNotes = "Search titles, URLs, notes".localized
     }
     
     enum TagName {
