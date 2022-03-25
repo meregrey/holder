@@ -20,7 +20,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @AutoLayout private var containerView = UIView()
     
-    @AutoLayout private var countLimitTextField = CountLimitTextField(header: LocalizedString.LabelTitle.tagName,
+    @AutoLayout private var countLimitTextField = CountLimitTextField(header: LocalizedString.LabelText.tagName,
                                                                       countLimit: Number.countLimit)
     
     @AutoLayout private var saveButton: RoundedCornerButton = {
@@ -84,15 +84,13 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillShow(_:)),
+                                       name: UIResponder.keyboardWillShowNotification)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillHide),
+                                       name: UIResponder.keyboardWillHideNotification)
     }
     
     @objc
