@@ -10,13 +10,14 @@ import UIKit
 
 protocol EditTagsPresentableListener: AnyObject {
     func backButtonDidTap()
-    func saveButtonDidTap(tags: [Tag])
+    func saveButtonDidTap(remainingTags: [Tag], deletedTags: [Tag])
     func didRemove()
 }
 
 final class EditTagsViewController: UIViewController, EditTagsPresentable, EditTagsViewControllable {
     
     private var tags: [Tag] = []
+    private var deletedTags: [Tag] = []
     
     @AutoLayout private var editTagsTableView: EditTagsTableView = {
         let tableView = EditTagsTableView()
@@ -102,7 +103,7 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
     
     @objc
     private func saveButtonDidTap() {
-        listener?.saveButtonDidTap(tags: tags)
+        listener?.saveButtonDidTap(remainingTags: tags, deletedTags: deletedTags)
     }
 }
 
@@ -153,6 +154,7 @@ extension EditTagsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: LocalizedString.ActionTitle.delete) { _, _, _ in
+            self.deletedTags.append(self.tags[indexPath.row])
             self.tags.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .none)
         }
