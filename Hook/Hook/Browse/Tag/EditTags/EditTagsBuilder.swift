@@ -7,14 +7,9 @@
 
 import RIBs
 
-protocol EditTagsDependency: Dependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
-}
+protocol EditTagsDependency: Dependency {}
 
-final class EditTagsComponent: Component<EditTagsDependency>, EditTagsInteractorDependency {
-    
-    var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
-}
+final class EditTagsComponent: Component<EditTagsDependency> {}
 
 // MARK: - Builder
 
@@ -29,9 +24,8 @@ final class EditTagsBuilder: Builder<EditTagsDependency>, EditTagsBuildable {
     }
     
     func build(withListener listener: EditTagsListener) -> EditTagsRouting {
-        let component = EditTagsComponent(dependency: dependency)
         let viewController = EditTagsViewController()
-        let interactor = EditTagsInteractor(presenter: viewController, dependency: component)
+        let interactor = EditTagsInteractor(presenter: viewController)
         interactor.listener = listener
         return EditTagsRouter(interactor: interactor, viewController: viewController)
     }

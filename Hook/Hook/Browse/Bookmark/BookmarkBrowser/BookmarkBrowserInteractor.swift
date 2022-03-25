@@ -26,19 +26,17 @@ protocol BookmarkBrowserListener: AnyObject {
 }
 
 protocol BookmarkBrowserInteractorDependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
     var currentTagStream: MutableStream<Tag> { get }
 }
 
 final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     
+    private let tagsStream = TagRepository.shared.tagsStream
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkBrowserInteractorDependency
     
-    private var bookmarkEntityToDelete: BookmarkEntity?
-    
-    private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
+    private var bookmarkEntityToDelete: BookmarkEntity?
     
     weak var router: BookmarkBrowserRouting?
     weak var listener: BookmarkBrowserListener?

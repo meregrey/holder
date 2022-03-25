@@ -9,7 +9,12 @@ import RIBs
 
 protocol SearchDependency: Dependency {}
 
-final class SearchComponent: Component<SearchDependency> {}
+final class SearchComponent: Component<SearchDependency>, SearchInteractorDependency, SearchBarDependency, RecentSearchesDependency, BookmarkListDependency, BookmarkDetailDependency, EnterBookmarkDependency, SelectTagsDependency, SearchTagsDependency {
+    
+    let searchTermStream = MutableStream<String>(initialValue: "")
+    let selectedTagsStream = MutableStream<[Tag]>(initialValue: [])
+    let tagBySearchStream = MutableStream<Tag>(initialValue: Tag(name: ""))
+}
 
 // MARK: - Builder
 
@@ -24,9 +29,25 @@ final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
     }
 
     func build(withListener listener: SearchListener) -> SearchRouting {
+        let component = SearchComponent(dependency: dependency)
         let viewController = SearchViewController()
-        let interactor = SearchInteractor(presenter: viewController)
+        let interactor = SearchInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return SearchRouter(interactor: interactor, viewController: viewController)
+        let searchBar = SearchBarBuilder(dependency: component)
+        let recentSearches = RecentSearchesBuilder(dependency: component)
+        let bookmarkList = BookmarkListBuilder(dependency: component)
+        let enterBookmark = EnterBookmarkBuilder(dependency: component)
+        let selectTags = SelectTagsBuilder(dependency: component)
+        let searchTags = SearchTagsBuilder(dependency: component)
+        let bookmarkDetail = BookmarkDetailBuilder(dependency: component)
+        return SearchRouter(interactor: interactor,
+                            viewController: viewController,
+                            searchBar: searchBar,
+                            recentSearches: recentSearches,
+                            bookmarkList: bookmarkList,
+                            enterBookmark: enterBookmark,
+                            selectTags: selectTags,
+                            searchTags: searchTags,
+                            bookmarkDetail: bookmarkDetail)
     }
 }

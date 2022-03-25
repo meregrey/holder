@@ -23,21 +23,14 @@ protocol TagSettingsListener: AnyObject {
     func tagSettingsDidRemove()
 }
 
-protocol TagSettingsInteractorDependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
-}
-
 final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>, TagSettingsInteractable, TagSettingsPresentableListener {
     
-    private let dependency: TagSettingsInteractorDependency
-    
-    private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
+    private let tagsStream = TagRepository.shared.tagsStream
     
     weak var router: TagSettingsRouting?
     weak var listener: TagSettingsListener?
     
-    init(presenter: TagSettingsPresentable, dependency: TagSettingsInteractorDependency) {
-        self.dependency = dependency
+    override init(presenter: TagSettingsPresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -79,10 +72,9 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didSucceedToAddTag),
-                                               name: NotificationName.Tag.didSucceedToAddTag,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didSucceedToAddTag),
+                                       name: NotificationName.Tag.didSucceedToAddTag)
     }
     
     @objc

@@ -16,25 +16,18 @@ protocol EditTagsPresentable: Presentable {
 
 protocol EditTagsListener: AnyObject {
     func editTagsBackButtonDidTap()
-    func editTagsSaveButtonDidTap(tags: [Tag])
+    func editTagsSaveButtonDidTap()
     func editTagsDidRemove()
-}
-
-protocol EditTagsInteractorDependency {
-    var tagsStream: ReadOnlyStream<[Tag]> { get }
 }
 
 final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, EditTagsInteractable, EditTagsPresentableListener {
     
-    private let dependency: EditTagsInteractorDependency
-    
-    private var tagsStream: ReadOnlyStream<[Tag]> { dependency.tagsStream }
+    private let tagsStream = TagRepository.shared.tagsStream
     
     weak var router: EditTagsRouting?
     weak var listener: EditTagsListener?
     
-    init(presenter: EditTagsPresentable, dependency: EditTagsInteractorDependency) {
-        self.dependency = dependency
+    override init(presenter: EditTagsPresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -52,8 +45,13 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         listener?.editTagsBackButtonDidTap()
     }
     
-    func saveButtonDidTap(tags: [Tag]) {
-        listener?.editTagsSaveButtonDidTap(tags: tags)
+    func saveButtonDidTap(remainingTags: [Tag], deletedTags: [Tag]) {
+        let result = TagRepository.shared.update(tags: remainingTags)
+        switch result {
+        case .success(_): if deletedTags.count > 0 { deleteBookmarkTags(for: deletedTags) }
+        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTags)
+        }
+        listener?.editTagsSaveButtonDidTap()
     }
     
     func didRemove() {
@@ -64,5 +62,9 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             self?.presenter.update(with: $0)
         }
+    }
+    
+    private func deleteBookmarkTags(for tags: [Tag]) {
+        tags.forEach { BookmarkRepository.shared.deleteTags(for: $0) }
     }
 }

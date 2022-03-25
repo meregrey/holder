@@ -77,10 +77,9 @@ final class CountLimitTextField: UIView {
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(textDidChange),
-                                               name: UITextField.textDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(textDidChange),
+                                       name: UITextField.textDidChangeNotification)
     }
     
     @objc private func textDidChange() {

@@ -1,0 +1,65 @@
+/* Action title */
+"Add" = "Add";
+"Add to Favorites" = "Add to Favorites";
+"Cancel" = "Cancel";
+"Clear" = "Clear";
+"Copy URL" = "Copy URL";
+"Dark" = "Dark";
+"Delete" = "Delete";
+"Display Settings" = "Display Settings";
+"Done" = "Done";
+"Edit" = "Edit";
+"Light" = "Light";
+"OK" = "OK";
+"Reload" = "Reload";
+"Remove from Favorites" = "Remove from Favorites";
+"Save" = "Save";
+"Share" = "Share";
+"System Setting" = "System Setting";
+
+/* Alert title */
+"Enter the URL." = "Enter the URL.";
+"A bookmark corresponding to the URL exists." = "A bookmark corresponding to the URL exists.";
+"An error occurred while fetching the metadata." = "An error occurred while fetching the metadata.";
+"An error occurred while checking the store." = "An error occurred while checking the store.";
+"An error occurred while saving to the store." = "An error occurred while saving to the store.";
+
+/* Alert title with message */
+"Keychain Error Occured" = "Keychain Error Occured";
+"Tag Already Selected" = "Tag Already Selected";
+"Delete Bookmark?" = "Delete Bookmark?";
+
+/* Alert message */
+"An error occurred while saving to the keychain." = "An error occurred while saving to the keychain.";
+"Check out the tag in the list." = "Check out the tag in the list.";
+"This bookmark will be deleted from all tags." = "This bookmark will be deleted from all tags.";
+
+/* Label text */
+"Tag name" = "Tag name";
+"Tags" = "Tags";
+"Note" = "Note";
+"Recent Searches" = "Recent Searches";
+"No Recent Searches" = "No Recent Searches";
+"Recent searches will be added as you search for titles, URLs, or notes." = "Recent searches will be added as you\nsearch for titles, URLs, or notes.";
+"No Search Results" = "No Search Results";
+"No results matching the search term could be found. Try another search term." = "No results matching the search term could\nbe found. Try another search term.";
+
+/* Placeholder */
+"Search & Add" = "Search & Add";
+"Search titles, URLs, notes" = "Search titles, URLs, notes";
+
+/* Tag name */
+"All" = "All";
+
+/* View title */
+"Browse" = "Browse";
+"Search" = "Search";
+"Favorites" = "Favorites";
+"Account" = "Account";
+"Tag Settings" = "Tag Settings";
+"Add Tag" = "Add Tag";
+"Edit Tag" = "Edit Tag";
+"Edit Tags" = "Edit Tags";
+"Select Tags" = "Select Tags";
+"Add Bookmark" = "Add Bookmark";
+"Edit Bookmark" = "Edit Bookmark";

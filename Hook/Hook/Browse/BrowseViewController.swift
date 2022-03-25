@@ -31,8 +31,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @AutoLayout private var dummyView = UIView()
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "browse")
-        static let tabBarItemSelected = UIImage(named: "browse.fill")
+        static let tabBarItem = UIImage(named: "browse.fill")
     }
     
     weak var listener: BrowsePresentableListener?
@@ -55,26 +54,26 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.isNavigationBarHidden = true
     }
     
     func addChild(_ viewControllable: ViewControllable) {
         let childViewController = viewControllable.uiviewController
         addChild(childViewController)
-        addChildView(viewControllable)
+        addChildView(of: childViewController)
         childViewController.didMove(toParent: self)
     }
     
-    func push(_ view: ViewControllable) {
-        navigationController?.pushViewController(view.uiviewController, animated: true)
+    func push(_ viewControllable: ViewControllable) {
+        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
     }
     
     func pop() {
         navigationController?.popViewController(animated: true)
     }
     
-    func presentOver(_ view: ViewControllable) {
-        let viewController = view.uiviewController
+    func presentOver(_ viewControllable: ViewControllable) {
+        let viewController = viewControllable.uiviewController
         viewController.modalPresentationStyle = .currentContext
         presentedViewController?.present(viewController, animated: true)
     }
@@ -86,7 +85,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     private func configureViews() {
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
-                                  selectedImage: Image.tabBarItemSelected)
+                                  selectedImage: Image.tabBarItem)
         
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
@@ -109,32 +108,22 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didFailToAddExistingBookmark),
-                                               name: NotificationName.Bookmark.existingBookmark,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToAddExistingBookmark),
+                                       name: NotificationName.Bookmark.existingBookmark)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didFailToCheckStore),
-                                               name: NotificationName.Store.didFailToCheck,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToCheckStore),
+                                       name: NotificationName.Store.didFailToCheck)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didFailToSaveStore),
-                                               name: NotificationName.Store.didFailToSave,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToSaveStore),
+                                       name: NotificationName.Store.didFailToSave)
     }
     
-    private func addChildView(_ viewControllable: ViewControllable) {
-        let childViewController = viewControllable.uiviewController
-        
-        if childViewController is BookmarkBrowserViewController {
-            bookmarkBrowserContainerView.addArrangedSubview(childViewController.view)
-        }
-        
-        if childViewController is TagBarViewController {
-            tagBarContainerView.addArrangedSubview(childViewController.view)
-        }
+    private func addChildView(of childViewController: UIViewController) {
+        let containerView = childViewController is BookmarkBrowserViewController ? bookmarkBrowserContainerView : tagBarContainerView
+        containerView.addArrangedSubview(childViewController.view)
     }
     
     @objc

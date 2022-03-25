@@ -13,10 +13,10 @@ protocol BrowseInteractable: Interactable, TagListener, BookmarkListener {
 }
 
 protocol BrowseViewControllable: ViewControllable {
-    func addChild(_ view: ViewControllable)
-    func push(_ view: ViewControllable)
+    func addChild(_ viewControllable: ViewControllable)
+    func push(_ viewControllable: ViewControllable)
     func pop()
-    func presentOver(_ view: ViewControllable)
+    func presentOver(_ viewControllable: ViewControllable)
     func dismissOver()
 }
 

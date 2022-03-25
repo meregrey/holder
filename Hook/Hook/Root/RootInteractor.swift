@@ -70,14 +70,14 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     }
     
     private func registerToReceiveNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didFailToSaveCredential),
-                                               name: NotificationName.Credential.didFailToSave,
-                                               object: nil)
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToSaveCredential),
+                                       name: NotificationName.Credential.didFailToSave)
     }
 
     @objc
     private func didFailToSaveCredential() {
-        presenter.displayAlert(title: LocalizedString.AlertTitle.keychainErrorOccured, message: LocalizedString.AlertMessage.keychainErrorOccured)
+        presenter.displayAlert(title: LocalizedString.AlertTitle.keychainErrorOccured,
+                               message: LocalizedString.AlertMessage.keychainErrorOccured)
     }
 }

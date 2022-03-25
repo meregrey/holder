@@ -15,7 +15,7 @@ protocol EnterTagPresentable: Presentable {
 
 protocol EnterTagListener: AnyObject {
     func enterTagBackButtonDidTap()
-    func enterTagSaveButtonDidTap(mode: EnterTagMode, tag: Tag)
+    func enterTagSaveButtonDidTap()
     func enterTagDidRemove()
 }
 
@@ -25,6 +25,7 @@ protocol EnterTagInteractorDependency {
 
 final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, EnterTagInteractable, EnterTagPresentableListener {
     
+    private let tagRepository = TagRepository.shared
     private let dependency: EnterTagInteractorDependency
     
     private var mode: EnterTagMode { dependency.mode }
@@ -51,10 +52,34 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     }
     
     func saveButtonDidTap(tag: Tag) {
-        listener?.enterTagSaveButtonDidTap(mode: mode, tag: tag)
+        if tagRepository.isExisting(tag) {
+            NotificationCenter.post(named: NotificationName.Tag.existingTag)
+            return
+        }
+        switch mode {
+        case .add: addTag(tag)
+        case .edit(let existingTag): updateTag(existingTag, to: tag)
+        }
+        listener?.enterTagSaveButtonDidTap()
     }
     
     func didRemove() {
         listener?.enterTagDidRemove()
+    }
+    
+    private func addTag(_ tag: Tag) {
+        let result = tagRepository.add(tag)
+        switch result {
+        case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
+        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToAddTag)
+        }
+    }
+    
+    private func updateTag(_ tag: Tag, to newTag: Tag) {
+        let result = tagRepository.update(tag, to: newTag)
+        switch result {
+        case .success(_): break
+        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTag)
+        }
     }
 }

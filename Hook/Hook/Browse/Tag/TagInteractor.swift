@@ -25,21 +25,13 @@ protocol TagRouting: Routing {
 
 protocol TagListener: AnyObject {}
 
-protocol TagInteractorDependency {
-    var tagRepository: TagRepositoryType { get }
-}
-
 final class TagInteractor: Interactor, TagInteractable {
-    
-    private let dependency: TagInteractorDependency
-    
-    private var tagRepository: TagRepositoryType { dependency.tagRepository }
     
     weak var router: TagRouting?
     weak var listener: TagListener?
     
-    init(dependency: TagInteractorDependency) {
-        self.dependency = dependency
+    override init() {
+        super.init()
     }
     
     override func didBecomeActive() {
@@ -86,11 +78,7 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.detachEnterTag(includingView: true)
     }
     
-    func enterTagSaveButtonDidTap(mode: EnterTagMode, tag: Tag) {
-        switch mode {
-        case .add: tagRepository.add(tag: tag)
-        case .edit(let existingTag): tagRepository.update(tag: existingTag, to: tag)
-        }
+    func enterTagSaveButtonDidTap() {
         router?.detachEnterTag(includingView: true)
     }
     
@@ -104,8 +92,7 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.detachEditTags(includingView: true)
     }
     
-    func editTagsSaveButtonDidTap(tags: [Tag]) {
-        tagRepository.update(tags: tags)
+    func editTagsSaveButtonDidTap() {
         router?.detachEditTags(includingView: true)
     }
     
@@ -133,8 +120,7 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.detachSearchTags()
     }
     
-    func searchTagsRowDidSelect(tag: Tag, shouldAddTag: Bool) {
-        if shouldAddTag { tagRepository.add(tag: tag) }
+    func searchTagsRowDidSelect() {
         router?.detachSearchTags()
     }
 }
