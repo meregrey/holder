@@ -13,7 +13,7 @@ protocol BookmarkListRouting: ViewableRouting {}
 
 protocol BookmarkListPresentable: Presentable {
     var listener: BookmarkListPresentableListener? { get set }
-    func update(with fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?)
+    func update(fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?, searchTerm: String)
     func displayShareSheet(with metadata: LPLinkMetadata)
     func displayAlert(title: String, message: String?, action: Action?)
 }
@@ -25,6 +25,7 @@ protocol BookmarkListListener: AnyObject {
 
 protocol BookmarkListInteractorDependency {
     var searchTermStream: ReadOnlyStream<String> { get }
+    var isForFavorites: Bool { get }
 }
 
 final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentable>, BookmarkListInteractable, BookmarkListPresentableListener, BookmarkListCollectionViewListener {
@@ -33,6 +34,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     private let dependency: BookmarkListInteractorDependency
     
     private var searchTermStream: ReadOnlyStream<String> { dependency.searchTermStream }
+    private var isForFavorites: Bool { dependency.isForFavorites }
     private var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?
     private var bookmarkEntityToDelete: BookmarkEntity?
     
@@ -47,6 +49,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     
     override func didBecomeActive() {
         super.didBecomeActive()
+        registerToReceiveNotification()
         subscribeSearchTermStream()
     }
     
@@ -92,17 +95,40 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
                                action: Action(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
     }
     
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(contextObjectsDidChange),
+                                       name: .NSManagedObjectContextObjectsDidChange,
+                                       object: BookmarkRepository.shared.context)
+    }
+    
+    @objc
+    private func contextObjectsDidChange() {
+        fetch(for: searchTermStream.value)
+    }
+    
     private func subscribeSearchTermStream() {
         searchTermStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            guard $0.count > 0 else { return }
-            self?.fetchedResultsController = BookmarkRepository.shared.fetchedResultsController(for: $0)
-            try? self?.fetchedResultsController?.performFetch()
-            if let fetchedObjects = self?.fetchedResultsController?.fetchedObjects, fetchedObjects.count == 0 {
-                NotificationCenter.post(named: NotificationName.Bookmark.noSearchResultsForBookmarks,
-                                        userInfo: [NotificationCenter.UserInfoKey.noSearchResultsForBookmarks: $0])
-            }
-            self?.presenter.update(with: self?.fetchedResultsController)
+            self?.fetch(for: $0)
         }
+    }
+    
+    private func fetch(for searchTerm: String) {
+        fetchedResultsController = searchTerm.count > 0 ? fetchedResultsController(for: searchTerm) : fetchedResultsControllerForFavorites()
+        try? fetchedResultsController?.performFetch()
+        if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count == 0 {
+            NotificationCenter.post(named: NotificationName.Bookmark.noSearchResultsForBookmarks,
+                                    userInfo: [NotificationCenter.UserInfoKey.noSearchResultsForBookmarks: searchTerm])
+        }
+        presenter.update(fetchedResultsController: fetchedResultsController, searchTerm: searchTerm)
+    }
+    
+    private func fetchedResultsController(for searchTerm: String) -> NSFetchedResultsController<BookmarkEntity> {
+        return bookmarkRepository.fetchedResultsController(for: searchTerm, isFavorite: isForFavorites)
+    }
+    
+    private func fetchedResultsControllerForFavorites() -> NSFetchedResultsController<BookmarkEntity> {
+        return bookmarkRepository.fetchedResultsController(isFavorite: true)
     }
     
     private func deleteBookmark() {

@@ -423,9 +423,7 @@
 		6705B5D627815AC800793CB8 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				6737F06A27E99F0800F4AFB5 /* SearchBar */,
 				6737F07327E9B52200F4AFB5 /* RecentSearches */,
-				6737F07F27EAB1B100F4AFB5 /* BookmarkList */,
 				6705B5E127815BA300793CB8 /* SearchRouter.swift */,
 				6705B5E427815BA300793CB8 /* SearchInteractor.swift */,
 				6705B5E327815BA300793CB8 /* SearchBuilder.swift */,
@@ -676,7 +674,9 @@
 		6737F08B27EB15CD00F4AFB5 /* RIBs */ = {
 			isa = PBXGroup;
 			children = (
+				6737F07F27EAB1B100F4AFB5 /* BookmarkList */,
 				67A2A0C127A246780036C361 /* EnterBookmark */,
+				6737F06A27E99F0800F4AFB5 /* SearchBar */,
 				67F54A9727B731D900868E93 /* SearchTags */,
 				672F49E827AD1A6800DACEF5 /* SelectTags */,
 			);
