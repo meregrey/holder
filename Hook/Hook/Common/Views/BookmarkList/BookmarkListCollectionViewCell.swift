@@ -32,6 +32,7 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Font.hostLabel
         label.textColor = Asset.Color.secondaryColor
+        label.lineBreakMode = .byTruncatingMiddle
         return label
     }()
     
@@ -106,11 +107,13 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     func configure(with bookmarkViewModel: BookmarkViewModel) {
         viewModel = bookmarkViewModel
         titleLabel.text = viewModel?.title ?? viewModel?.host ?? "Unknown Title"
-        hostLabel.text = viewModel?.host ?? "Unknown Host"
+        hostLabel.attributedText = hostLabelAttributedText(with: viewModel)
+        
         if let note = viewModel?.note, note.count > 0 {
             noteLabel.text = note
             stackView.addArrangedSubview(noteLabel)
         }
+        
         viewModel?.bind { [weak self] thumbnail in
             DispatchQueue.main.async {
                 self?.thumbnailImageView.image = thumbnail
@@ -120,6 +123,7 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
                                                                animations: { self?.thumbnailImageView.alpha = 1 })
             }
         }
+        
         viewModel?.loadThumbnail()
     }
     
@@ -153,5 +157,23 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
             noteLabel.text = note
             stackView.addArrangedSubview(noteLabel)
         }
+    }
+    
+    private func hostLabelAttributedText(with viewModel: BookmarkViewModel?) -> NSMutableAttributedString {
+        let string = viewModel?.host ?? "Unknown Host"
+        let attributedString = NSMutableAttributedString(string: string)
+        
+        guard let isFavorite = viewModel?.isFavorite, isFavorite else { return attributedString }
+        
+        let paddingAttachment = NSTextAttachment()
+        paddingAttachment.bounds = CGRect(x: 0, y: 0, width: 4, height: 0)
+        
+        let image = UIImage(systemName: "bookmark.square.fill")?.withTintColor(Asset.Color.secondaryColor) ?? UIImage()
+        let imageAttachment = NSTextAttachment(image: image)
+        
+        attributedString.append(NSAttributedString(attachment: paddingAttachment))
+        attributedString.append(NSAttributedString(attachment: imageAttachment))
+        
+        return attributedString
     }
 }
