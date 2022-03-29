@@ -68,7 +68,7 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     
     // MARK: - SearchBar
     
-    func searchBarDidSearch(searchTerm: String) {
+    func searchBarDidSearch() {
         router?.detachRecentSearchesView()
         router?.attachBookmarkList()
     }
