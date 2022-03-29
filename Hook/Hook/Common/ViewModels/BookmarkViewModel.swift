@@ -14,12 +14,14 @@ final class BookmarkViewModel {
     private var handler: ((UIImage?) -> Void)?
     private var thumbnail: UIImage? { didSet { handler?(thumbnail) } }
     
+    let isFavorite: Bool
     let title: String?
     let host: String?
     let note: String?
     
     init(with bookmarkEntity: BookmarkEntity) {
         self.url = URL(string: bookmarkEntity.urlString)
+        self.isFavorite = bookmarkEntity.isFavorite
         self.title = bookmarkEntity.title
         self.host = bookmarkEntity.host
         self.note = bookmarkEntity.note
