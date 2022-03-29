@@ -128,7 +128,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     
     @objc
     private func didFailToAddExistingBookmark() {
-        presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheURLExists)
+        presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheLinkExists)
     }
     
     @objc

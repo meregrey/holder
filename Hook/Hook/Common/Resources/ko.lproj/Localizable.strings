@@ -3,7 +3,7 @@
 "Add to Favorites" = "즐겨찾기에 추가";
 "Cancel" = "취소";
 "Clear" = "지우기";
-"Copy URL" = "URL 복사";
+"Copy Link" = "링크 복사";
 "Dark" = "다크 모드";
 "Delete" = "삭제";
 "Display Settings" = "디스플레이 설정";
@@ -18,8 +18,8 @@
 "System Setting" = "시스템 설정";
 
 /* Alert title */
-"Enter the URL." = "URL을 입력해 주세요.";
-"A bookmark corresponding to the URL exists." = "URL에 해당하는 북마크가\n존재합니다.";
+"Enter the link." = "링크를 입력해 주세요.";
+"A bookmark corresponding to the link exists." = "링크에 해당하는 북마크가\n존재합니다.";
 "An error occurred while fetching the metadata." = "메타데이터를 가져오던 중\n오류가 발생했습니다.";
 "An error occurred while checking the store." = "스토어를 확인하던 중\n오류가 발생했습니다.";
 "An error occurred while saving to the store." = "스토어에 저장하던 중\n오류가 발생했습니다.";
@@ -36,11 +36,12 @@
 
 /* Label text */
 "Tag name" = "태그 이름";
+"Link" = "링크";
 "Tags" = "태그";
 "Note" = "메모";
 "Recent Searches" = "최근 검색어";
 "No Recent Searches" = "최근 검색 없음";
-"Recent searches will be added as you search for titles, URLs, or notes." = "제목, URL, 또는 메모를 검색하면\n최근 검색어가 추가됩니다.";
+"Recent searches will be added as you search for titles, links, or notes." = "제목, 링크, 또는 메모를 검색하면\n최근 검색어가 추가됩니다.";
 "No Search Results" = "검색 결과 없음";
 "No results matching the search term could be found. Try another search term." = "검색어와 일치하는 결과를 찾을 수 없습니다.\n다른 검색어를 사용해 보세요.";
 "No Favorites" = "즐겨찾기 없음";
@@ -48,7 +49,7 @@
 
 /* Placeholder */
 "Search & Add" = "검색 및 추가";
-"Search titles, URLs, notes" = "제목, URL, 메모 검색";
+"Search titles, links, notes" = "제목, 링크, 메모 검색";
 
 /* Tag name */
 "All" = "전체";

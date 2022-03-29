@@ -82,7 +82,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         }
     }
     
-    func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity) {
+    func contextMenuCopyLinkDidTap(bookmarkEntity: BookmarkEntity) {
         UIPasteboard.general.string = bookmarkEntity.urlString
     }
     

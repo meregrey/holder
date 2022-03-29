@@ -181,7 +181,7 @@
 		67F54AA227B747F900868E93 /* SearchTagsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F54AA127B747F900868E93 /* SearchTagsTableViewCell.swift */; };
 		67F54AA427B9D4E700868E93 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F54AA327B9D4E700868E93 /* AlertController.swift */; };
 		67F54AA827B9E81800868E93 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F54AA727B9E81800868E93 /* Action.swift */; };
-		67F6E2B727BB33D800414E48 /* LabeledURLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F6E2B627BB33D800414E48 /* LabeledURLTextField.swift */; };
+		67F6E2B727BB33D800414E48 /* LabeledLinkTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F6E2B627BB33D800414E48 /* LabeledLinkTextField.swift */; };
 		67F6E2BE27BB535600414E48 /* LabeledNoteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F6E2BD27BB535600414E48 /* LabeledNoteTextView.swift */; };
 		67FFB22027BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FFB21F27BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift */; };
 /* End PBXBuildFile section */
@@ -378,7 +378,7 @@
 		67F54AA127B747F900868E93 /* SearchTagsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTagsTableViewCell.swift; sourceTree = "<group>"; };
 		67F54AA327B9D4E700868E93 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		67F54AA727B9E81800868E93 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
-		67F6E2B627BB33D800414E48 /* LabeledURLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledURLTextField.swift; sourceTree = "<group>"; };
+		67F6E2B627BB33D800414E48 /* LabeledLinkTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledLinkTextField.swift; sourceTree = "<group>"; };
 		67F6E2BD27BB535600414E48 /* LabeledNoteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledNoteTextView.swift; sourceTree = "<group>"; };
 		67FFB21F27BE5FC600D47DF7 /* AdaptivePresentationControllerDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptivePresentationControllerDelegateProxy.swift; sourceTree = "<group>"; };
 		AC21C7F00D33770B60875905 /* Pods-HookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HookTests.release.xcconfig"; path = "Target Support Files/Pods-HookTests/Pods-HookTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -529,7 +529,7 @@
 		672F49E527AC98A000DACEF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				67F6E2B627BB33D800414E48 /* LabeledURLTextField.swift */,
+				67F6E2B627BB33D800414E48 /* LabeledLinkTextField.swift */,
 				672F49E627AC99D000DACEF5 /* LabeledTagCollectionView.swift */,
 				67CB5B1327B0AFAA00DE2582 /* LabeledTagCollectionViewCell.swift */,
 				67F6E2BD27BB535600414E48 /* LabeledNoteTextView.swift */,
@@ -1294,7 +1294,7 @@
 				67EBE2E127E1F0AC00FA9FE8 /* InterfaceStyle.swift in Sources */,
 				677B23EB27DACADB00CC5FDF /* BookmarkDetailInteractor.swift in Sources */,
 				67A763D227ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift in Sources */,
-				67F6E2B727BB33D800414E48 /* LabeledURLTextField.swift in Sources */,
+				67F6E2B727BB33D800414E48 /* LabeledLinkTextField.swift in Sources */,
 				6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				676DF8802791CDD600267103 /* EditTagsRouter.swift in Sources */,

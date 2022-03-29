@@ -12,7 +12,7 @@ protocol BookmarkListCollectionViewListener: AnyObject {
     func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint)
     func bookmarkDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuCopyURLDidTap(bookmarkEntity: BookmarkEntity)
+    func contextMenuCopyLinkDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
     func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity)

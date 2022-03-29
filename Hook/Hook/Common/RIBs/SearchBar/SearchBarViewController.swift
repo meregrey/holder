@@ -18,7 +18,7 @@ final class SearchBarViewController: UIViewController, SearchBarPresentable, Sea
     static var searchBarTop: CGFloat { Metric.searchBarTop }
     static var searchBarBottom: CGFloat { -(Metric.searchBarBottom) }
     
-    @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchTitlesURLsNotes)
+    @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchTitlesLinksNotes)
     
     private enum Metric {
         static let searchBarTop = Size.safeAreaTopInset + CGFloat(10)

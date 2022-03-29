@@ -13,7 +13,7 @@ enum LocalizedString {
         static let addToFavorites = "Add to Favorites".localized
         static let cancel = "Cancel".localized
         static let clear = "Clear".localized
-        static let copyURL = "Copy URL".localized
+        static let copyLink = "Copy Link".localized
         static let dark = "Dark".localized
         static let delete = "Delete".localized
         static let displaySettings = "Display Settings".localized
@@ -29,8 +29,8 @@ enum LocalizedString {
     }
     
     enum AlertTitle {
-        static let enterTheURL = "Enter the URL.".localized
-        static let bookmarkCorrespondingToTheURLExists = "A bookmark corresponding to the URL exists.".localized
+        static let enterTheLink = "Enter the link.".localized
+        static let bookmarkCorrespondingToTheLinkExists = "A bookmark corresponding to the link exists.".localized
         static let errorOccurredWhileFetchingTheMetadata = "An error occurred while fetching the metadata.".localized
         static let errorOccurredWhileCheckingTheStore = "An error occurred while checking the store.".localized
         static let errorOccurredWhileSavingToTheStore = "An error occurred while saving to the store.".localized
@@ -47,11 +47,12 @@ enum LocalizedString {
     
     enum LabelText {
         static let tagName = "Tag name".localized
+        static let link = "Link".localized
         static let tags = "Tags".localized
         static let note = "Note".localized
         static let recentSearches = "Recent Searches".localized
         static let noRecentSearches = "No Recent Searches".localized
-        static let noRecentSearchesExplanation = "Recent searches will be added as you search for titles, URLs, or notes.".localized
+        static let noRecentSearchesExplanation = "Recent searches will be added as you search for titles, links, or notes.".localized
         static let noSearchResults = "No Search Results".localized
         static let noSearchResultsExplanation = "No results matching the search term could be found. Try another search term.".localized
         static let noFavorites = "No Favorites".localized
@@ -60,7 +61,7 @@ enum LocalizedString {
     
     enum Placeholder {
         static let searchAndAdd = "Search & Add".localized
-        static let searchTitlesURLsNotes = "Search titles, URLs, notes".localized
+        static let searchTitlesLinksNotes = "Search titles, links, notes".localized
     }
     
     enum TagName {
