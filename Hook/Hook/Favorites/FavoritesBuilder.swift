@@ -9,7 +9,11 @@ import RIBs
 
 protocol FavoritesDependency: Dependency {}
 
-final class FavoritesComponent: Component<FavoritesDependency> {}
+final class FavoritesComponent: Component<FavoritesDependency>, SearchBarDependency, BookmarkListDependency {
+    
+    let searchTermStream = MutableStream<String>(initialValue: "")
+    let isForFavorites = true
+}
 
 // MARK: - Builder
 
@@ -24,9 +28,15 @@ final class FavoritesBuilder: Builder<FavoritesDependency>, FavoritesBuildable {
     }
 
     func build(withListener listener: FavoritesListener) -> FavoritesRouting {
+        let component = FavoritesComponent(dependency: dependency)
         let viewController = FavoritesViewController()
         let interactor = FavoritesInteractor(presenter: viewController)
         interactor.listener = listener
-        return FavoritesRouter(interactor: interactor, viewController: viewController)
+        let searchBar = SearchBarBuilder(dependency: component)
+        let bookmarkList = BookmarkListBuilder(dependency: component)
+        return FavoritesRouter(interactor: interactor,
+                               viewController: viewController,
+                               searchBar: searchBar,
+                               bookmarkList: bookmarkList)
     }
 }
