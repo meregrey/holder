@@ -37,18 +37,18 @@ final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
         let searchBar = SearchBarBuilder(dependency: component)
         let recentSearches = RecentSearchesBuilder(dependency: component)
         let bookmarkList = BookmarkListBuilder(dependency: component)
+        let bookmarkDetail = BookmarkDetailBuilder(dependency: component)
         let enterBookmark = EnterBookmarkBuilder(dependency: component)
         let selectTags = SelectTagsBuilder(dependency: component)
         let searchTags = SearchTagsBuilder(dependency: component)
-        let bookmarkDetail = BookmarkDetailBuilder(dependency: component)
         return SearchRouter(interactor: interactor,
                             viewController: viewController,
                             searchBar: searchBar,
                             recentSearches: recentSearches,
                             bookmarkList: bookmarkList,
+                            bookmarkDetail: bookmarkDetail,
                             enterBookmark: enterBookmark,
                             selectTags: selectTags,
-                            searchTags: searchTags,
-                            bookmarkDetail: bookmarkDetail)
+                            searchTags: searchTags)
     }
 }

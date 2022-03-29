@@ -16,9 +16,9 @@ protocol SearchInteractable: Interactable, SearchBarListener, RecentSearchesList
 protocol SearchViewControllable: ViewControllable {
     func addChild(_ viewControllable: ViewControllable)
     func removeChild(_ viewControllable: ViewControllable)
-    func push(_ view: ViewControllable)
+    func push(_ viewControllable: ViewControllable)
     func pop()
-    func presentOver(_ view: ViewControllable)
+    func presentOver(_ viewControllable: ViewControllable)
     func dismissOver()
 }
 
@@ -27,35 +27,35 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     private let searchBar: SearchBarBuildable
     private let recentSearches: RecentSearchesBuildable
     private let bookmarkList: BookmarkListBuildable
+    private let bookmarkDetail: BookmarkDetailBuildable
     private let enterBookmark: EnterBookmarkBuildable
     private let selectTags: SelectTagsBuildable
     private let searchTags: SearchTagsBuildable
-    private let bookmarkDetail: BookmarkDetailBuildable
     
     private var searchBarRouter: SearchBarRouting?
     private var recentSearchesRouter: RecentSearchesRouting?
     private var bookmarkListRouter: BookmarkListRouting?
+    private var bookmarkDetailRouter: BookmarkDetailRouting?
     private var enterBookmarkRouter: EnterBookmarkRouting?
     private var selectTagsRouter: SelectTagsRouting?
     private var searchTagsRouter: SearchTagsRouting?
-    private var bookmarkDetailRouter: BookmarkDetailRouting?
     
     init(interactor: SearchInteractable,
          viewController: SearchViewControllable,
          searchBar: SearchBarBuildable,
          recentSearches: RecentSearchesBuildable,
          bookmarkList: BookmarkListBuildable,
+         bookmarkDetail: BookmarkDetailBuildable,
          enterBookmark: EnterBookmarkBuildable,
          selectTags: SelectTagsBuildable,
-         searchTags: SearchTagsBuildable,
-         bookmarkDetail: BookmarkDetailBuildable) {
+         searchTags: SearchTagsBuildable) {
         self.searchBar = searchBar
         self.recentSearches = recentSearches
         self.bookmarkList = bookmarkList
+        self.bookmarkDetail = bookmarkDetail
         self.enterBookmark = enterBookmark
         self.selectTags = selectTags
         self.searchTags = searchTags
-        self.bookmarkDetail = bookmarkDetail
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
