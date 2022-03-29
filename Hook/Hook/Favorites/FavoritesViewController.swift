@@ -73,6 +73,24 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
         childViewController.didMove(toParent: self)
     }
     
+    func push(_ viewControllable: ViewControllable) {
+        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
+    }
+    
+    func pop() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func presentOver(_ viewControllable: ViewControllable) {
+        let viewController = viewControllable.uiviewController
+        viewController.modalPresentationStyle = .currentContext
+        presentedViewController?.present(viewController, animated: true)
+    }
+    
+    func dismissOver() {
+        presentedViewController?.dismiss(animated: true)
+    }
+    
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(keyboardWillShow(_:)),
