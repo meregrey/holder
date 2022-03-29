@@ -14,6 +14,7 @@ final class SearchComponent: Component<SearchDependency>, SearchInteractorDepend
     let searchTermStream = MutableStream<String>(initialValue: "")
     let selectedTagsStream = MutableStream<[Tag]>(initialValue: [])
     let tagBySearchStream = MutableStream<Tag>(initialValue: Tag(name: ""))
+    let isForFavorites = false
 }
 
 // MARK: - Builder

@@ -94,7 +94,7 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     
     func attachBookmarkList() {
         guard bookmarkListRouter == nil else { return }
-        let router = bookmarkList.build(withListener: interactor)
+        let router = bookmarkList.build(withListener: interactor, forFavorites: false)
         bookmarkListRouter = router
         attachChild(router)
         viewController.addChild(router.viewControllable)
