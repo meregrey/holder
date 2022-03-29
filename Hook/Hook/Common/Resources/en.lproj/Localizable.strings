@@ -43,6 +43,8 @@
 "Recent searches will be added as you search for titles, URLs, or notes." = "Recent searches will be added as you\nsearch for titles, URLs, or notes.";
 "No Search Results" = "No Search Results";
 "No results matching the search term could be found. Try another search term." = "No results matching the search term could\nbe found. Try another search term.";
+"No Favorites" = "No Favorites";
+"There are no bookmarks added to Favorites. Add frequently used bookmarks." = "There are no bookmarks added to Favorites.\nAdd frequently used bookmarks.";
 
 /* Placeholder */
 "Search & Add" = "Search & Add";

@@ -51,9 +51,11 @@ enum LocalizedString {
         static let note = "Note".localized
         static let recentSearches = "Recent Searches".localized
         static let noRecentSearches = "No Recent Searches".localized
-        static let recentSearchesWillBeAdded = "Recent searches will be added as you search for titles, URLs, or notes.".localized
+        static let noRecentSearchesExplanation = "Recent searches will be added as you search for titles, URLs, or notes.".localized
         static let noSearchResults = "No Search Results".localized
-        static let noResultsMatchingTheSearchTerm = "No results matching the search term could be found. Try another search term.".localized
+        static let noSearchResultsExplanation = "No results matching the search term could be found. Try another search term.".localized
+        static let noFavorites = "No Favorites".localized
+        static let noFavoritesExplanation = "There are no bookmarks added to Favorites. Add frequently used bookmarks.".localized
     }
     
     enum Placeholder {
