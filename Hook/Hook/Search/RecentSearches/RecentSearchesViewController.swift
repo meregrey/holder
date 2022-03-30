@@ -53,7 +53,7 @@ final class RecentSearchesViewController: UIViewController, RecentSearchesPresen
     }()
     
     @AutoLayout private var noRecentSearchesView = ExplanationView(title: LocalizedString.LabelText.noRecentSearches,
-                                                                   explanation: LocalizedString.LabelText.recentSearchesWillBeAdded)
+                                                                   explanation: LocalizedString.LabelText.noRecentSearchesExplanation)
     
     private enum Font {
         static let recentSearchesLabel = UIFont.systemFont(ofSize: 22, weight: .bold)

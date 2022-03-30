@@ -14,6 +14,8 @@ protocol BookmarkListPresentableListener: AnyObject {}
 
 final class BookmarkListViewController: UIViewController, BookmarkListPresentable, BookmarkListViewControllable {
     
+    private let isForFavorites: Bool
+    
     private var metadata: LPLinkMetadata?
     
     @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
@@ -25,8 +27,7 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
         return view
     }()
     
-    @AutoLayout private var noSearchResultsView = ExplanationView(title: LocalizedString.LabelText.noSearchResults,
-                                                                  explanation: LocalizedString.LabelText.noResultsMatchingTheSearchTerm)
+    @AutoLayout private var explanationView = ExplanationView()
     
     private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>? {
         didSet { fetchedResultsController?.delegate = fetchedResultsControllerDelegate }
@@ -42,23 +43,26 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
     
     weak var listener: BookmarkListPresentableListener?
     
-    init() {
+    init(forFavorites isForFavorites: Bool) {
+        self.isForFavorites = isForFavorites
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        self.isForFavorites = false
         super.init(coder: coder)
         configureViews()
     }
     
-    func update(with fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?) {
+    func update(fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?, searchTerm: String) {
         self.fetchedResultsController = fetchedResultsController
         if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count > 0 {
             bookmarkListCollectionView.reloadData()
-            noSearchResultsView.isHidden = true
+            explanationView.isHidden = true
         } else {
-            noSearchResultsView.isHidden = false
+            configureExplanationView(with: searchTerm)
+            explanationView.isHidden = false
         }
     }
     
@@ -89,7 +93,7 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
         
         view.addSubview(bookmarkListCollectionView)
         view.addSubview(blurView)
-        view.addSubview(noSearchResultsView)
+        view.addSubview(explanationView)
         
         NSLayoutConstraint.activate([
             bookmarkListCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -102,18 +106,25 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
             blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            noSearchResultsView.topAnchor.constraint(equalTo: view.topAnchor),
-            noSearchResultsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            noSearchResultsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            noSearchResultsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            explanationView.topAnchor.constraint(equalTo: view.topAnchor),
+            explanationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            explanationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            explanationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func configureExplanationView(with searchTerm: String) {
+        let title = searchTerm.count > 0 ? LocalizedString.LabelText.noSearchResults : LocalizedString.LabelText.noFavorites
+        let explanation = searchTerm.count > 0 ? LocalizedString.LabelText.noSearchResultsExplanation : LocalizedString.LabelText.noFavoritesExplanation
+        explanationView.setTitle(title)
+        explanationView.setExplanation(explanation)
     }
     
     private func bookmarkEntity(at indexPath: IndexPath) -> BookmarkEntity? {
         return fetchedResultsController?.object(at: indexPath)
     }
     
-    func displayBlurView(for contentOffset: CGPoint) {
+    private func displayBlurView(for contentOffset: CGPoint) {
         var alpha = 0
         if contentOffset.y > -(Size.safeAreaTopInset) { alpha = 1 }
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {

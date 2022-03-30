@@ -15,7 +15,7 @@ protocol SearchBarPresentable: Presentable {
 }
 
 protocol SearchBarListener: AnyObject {
-    func searchBarDidSearch(searchTerm: String)
+    func searchBarDidSearch()
     func searchBarCancelButtonDidTap()
 }
 
@@ -49,7 +49,7 @@ final class SearchBarInteractor: PresentableInteractor<SearchBarPresentable>, Se
     
     func didSearch(searchTerm: String) {
         searchTermStream.update(with: searchTerm)
-        listener?.searchBarDidSearch(searchTerm: searchTerm)
+        listener?.searchBarDidSearch()
     }
     
     func cancelButtonDidTap() {

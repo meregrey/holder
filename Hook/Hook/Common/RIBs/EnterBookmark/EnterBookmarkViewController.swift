@@ -30,7 +30,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         return scrollView
     }()
     
-    @AutoLayout private var urlTextField = LabeledURLTextField(header: "URL")
+    @AutoLayout private var linkTextField = LabeledLinkTextField(header: LocalizedString.LabelText.link)
     
     @AutoLayout private var tagCollectionView = LabeledTagCollectionView(header: LocalizedString.LabelText.tags)
     
@@ -58,9 +58,9 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
                                                                      constant: Metric.saveButtonBottom)
     
     private enum Metric {
-        static let urlTextFieldTop = CGFloat(10)
-        static let urlTextFieldLeading = CGFloat(20)
-        static let urlTextFieldTrailing = CGFloat(-20)
+        static let linkTextFieldTop = CGFloat(10)
+        static let linkTextFieldLeading = CGFloat(20)
+        static let linkTextFieldTrailing = CGFloat(-20)
         
         static let tagCollectionViewCellHeight = CGFloat(36)
         static let tagCollectionViewTop = CGFloat(30)
@@ -104,8 +104,8 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     override func viewDidLoad() {
         super.viewDidLoad()
         switch mode {
-        case .add: urlTextField.becomeFirstResponder()
-        case .edit(_): urlTextField.disable()
+        case .add: linkTextField.becomeFirstResponder()
+        case .edit(_): linkTextField.disable()
         }
     }
     
@@ -151,7 +151,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             headerView.setTitle(LocalizedString.ViewTitle.addBookmark)
         case .edit(let bookmark):
             headerView.setTitle(LocalizedString.ViewTitle.editBookmark)
-            urlTextField.setText(bookmark.url.absoluteString)
+            linkTextField.setText(bookmark.url.absoluteString)
             noteTextView.setText(bookmark.note)
         }
         
@@ -163,7 +163,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         tagCollectionView.delegate = self
         
         scrollView.delegate = self
-        urlTextField.listener = self
+        linkTextField.listener = self
         noteTextView.listener = self
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
@@ -171,7 +171,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         view.addSubview(scrollView)
         view.addSubview(saveButton)
         
-        scrollView.addSubview(urlTextField)
+        scrollView.addSubview(linkTextField)
         scrollView.addSubview(tagCollectionView)
         scrollView.addSubview(noteTextView)
         scrollView.addSubview(transparentFooterView)
@@ -190,11 +190,11 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             scrollView.contentLayoutGuide.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
             scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
             
-            urlTextField.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: Metric.urlTextFieldTop),
-            urlTextField.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Metric.urlTextFieldLeading),
-            urlTextField.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: Metric.urlTextFieldTrailing),
+            linkTextField.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: Metric.linkTextFieldTop),
+            linkTextField.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Metric.linkTextFieldLeading),
+            linkTextField.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: Metric.linkTextFieldTrailing),
             
-            tagCollectionView.topAnchor.constraint(equalTo: urlTextField.bottomAnchor, constant: Metric.tagCollectionViewTop),
+            tagCollectionView.topAnchor.constraint(equalTo: linkTextField.bottomAnchor, constant: Metric.tagCollectionViewTop),
             tagCollectionView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Metric.tagCollectionViewLeading),
             tagCollectionView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: Metric.tagCollectionViewTrailing),
             
@@ -237,8 +237,8 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @objc
     private func saveButtonDidTap() {
-        guard let urlString = urlTextField.text, let url = URL(string: urlString) else {
-            let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheURL)
+        guard let urlString = linkTextField.text, let url = URL(string: urlString) else {
+            let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheLink)
             view.endEditing(true)
             present(alertController, animated: true)
             return
@@ -267,7 +267,7 @@ extension EnterBookmarkViewController: UIScrollViewDelegate {
 
 // MARK: - Text Field
 
-extension EnterBookmarkViewController: LabeledURLTextFieldListener {
+extension EnterBookmarkViewController: LabeledLinkTextFieldListener {
     
     func textFieldDidBecomeFirstResponder() {
         scrollToTop()

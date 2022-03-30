@@ -9,9 +9,13 @@ import UIKit
 
 final class ExplanationView: UIView {
     
-    private let title: String
-    private let explanation: String
-    private let centerYConstant: CGFloat
+    private var title: String {
+        didSet { titleLabel.text = title }
+    }
+    
+    private var explanation: String {
+        didSet { explanationLabel.attributedText = explanationLabelAttributedText() }
+    }
     
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -42,14 +46,14 @@ final class ExplanationView: UIView {
     }
     
     private enum Metric {
+        static let stackViewCenterY = CGFloat(40)
         static let stackViewLeading = CGFloat(20)
         static let stackViewTrailing = CGFloat(-20)
     }
     
-    init(title: String, explanation: String, centerYConstant: CGFloat = 40) {
+    init(title: String = "", explanation: String = "") {
         self.title = title
         self.explanation = explanation
-        self.centerYConstant = centerYConstant
         super.init(frame: .zero)
         configure()
     }
@@ -57,9 +61,16 @@ final class ExplanationView: UIView {
     required init?(coder: NSCoder) {
         self.title = ""
         self.explanation = ""
-        self.centerYConstant = 0
         super.init(coder: coder)
         configure()
+    }
+    
+    func setTitle(_ title: String) {
+        self.title = title
+    }
+    
+    func setExplanation(_ explanation: String) {
+        self.explanation = explanation
     }
     
     private func configure() {
@@ -72,7 +83,7 @@ final class ExplanationView: UIView {
         stackView.addArrangedSubview(explanationLabel)
         
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: centerYConstant),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Metric.stackViewCenterY),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.stackViewLeading),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Metric.stackViewTrailing)
         ])

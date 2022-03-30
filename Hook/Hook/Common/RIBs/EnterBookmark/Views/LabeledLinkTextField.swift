@@ -1,5 +1,5 @@
 //
-//  LabeledURLTextField.swift
+//  LabeledLinkTextField.swift
 //  Hook
 //
 //  Created by Yeojin Yoon on 2022/02/15.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-protocol LabeledURLTextFieldListener: AnyObject {
+protocol LabeledLinkTextFieldListener: AnyObject {
     func textFieldDidBecomeFirstResponder()
 }
 
-final class LabeledURLTextField: LabeledView {
+final class LabeledLinkTextField: LabeledView {
     
     @AutoLayout private var textField: TextField
     
     var text: String? { textField.text }
     
-    weak var listener: LabeledURLTextFieldListener?
+    weak var listener: LabeledLinkTextFieldListener?
     
     init(header: String) {
         self.textField = TextField(placeholder: nil, keyboardType: .URL, theme: .sheet)
@@ -52,7 +52,7 @@ final class LabeledURLTextField: LabeledView {
     }
 }
 
-extension LabeledURLTextField: UITextFieldDelegate {
+extension LabeledLinkTextField: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         listener?.textFieldDidBecomeFirstResponder()

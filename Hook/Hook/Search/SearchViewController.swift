@@ -15,16 +15,12 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
     @AutoLayout private var contentContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .fill
         return stackView
     }()
     
     @AutoLayout private var searchBarContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .fill
         return stackView
     }()
     

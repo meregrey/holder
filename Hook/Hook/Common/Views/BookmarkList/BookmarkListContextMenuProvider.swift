@@ -18,7 +18,7 @@ final class BookmarkListContextMenuProvider {
     
     func menu(for bookmarkEntity: BookmarkEntity?) -> UIMenu {
         self.bookmarkEntity = bookmarkEntity
-        return UIMenu(title: "", children: [shareAction(), copyURLAction(), favoriteAction(), editAction(), deleteAction()])
+        return UIMenu(title: "", children: [shareAction(), copyLinkAction(), favoriteAction(), editAction(), deleteAction()])
     }
     
     private func shareAction() -> UIAction {
@@ -28,10 +28,10 @@ final class BookmarkListContextMenuProvider {
         }
     }
     
-    private func copyURLAction() -> UIAction {
-        return UIAction(title: LocalizedString.ActionTitle.copyURL, image: UIImage(systemName: "link")) { _ in
+    private func copyLinkAction() -> UIAction {
+        return UIAction(title: LocalizedString.ActionTitle.copyLink, image: UIImage(systemName: "link")) { _ in
             guard let bookmarkEntity = self.bookmarkEntity else { return }
-            self.listener?.contextMenuCopyURLDidTap(bookmarkEntity: bookmarkEntity)
+            self.listener?.contextMenuCopyLinkDidTap(bookmarkEntity: bookmarkEntity)
         }
     }
     

@@ -3,7 +3,7 @@
 "Add to Favorites" = "Add to Favorites";
 "Cancel" = "Cancel";
 "Clear" = "Clear";
-"Copy URL" = "Copy URL";
+"Copy Link" = "Copy Link";
 "Dark" = "Dark";
 "Delete" = "Delete";
 "Display Settings" = "Display Settings";
@@ -18,8 +18,8 @@
 "System Setting" = "System Setting";
 
 /* Alert title */
-"Enter the URL." = "Enter the URL.";
-"A bookmark corresponding to the URL exists." = "A bookmark corresponding to the URL exists.";
+"Enter the link." = "Enter the link.";
+"A bookmark corresponding to the link exists." = "A bookmark corresponding to the link exists.";
 "An error occurred while fetching the metadata." = "An error occurred while fetching the metadata.";
 "An error occurred while checking the store." = "An error occurred while checking the store.";
 "An error occurred while saving to the store." = "An error occurred while saving to the store.";
@@ -36,17 +36,20 @@
 
 /* Label text */
 "Tag name" = "Tag name";
+"Link" = "Link";
 "Tags" = "Tags";
 "Note" = "Note";
 "Recent Searches" = "Recent Searches";
 "No Recent Searches" = "No Recent Searches";
-"Recent searches will be added as you search for titles, URLs, or notes." = "Recent searches will be added as you\nsearch for titles, URLs, or notes.";
+"Recent searches will be added as you search for titles, links, or notes." = "Recent searches will be added as you\nsearch for titles, links, or notes.";
 "No Search Results" = "No Search Results";
 "No results matching the search term could be found. Try another search term." = "No results matching the search term could\nbe found. Try another search term.";
+"No Favorites" = "No Favorites";
+"There are no bookmarks added to Favorites. Add frequently used bookmarks." = "There are no bookmarks added to Favorites.\nAdd frequently used bookmarks.";
 
 /* Placeholder */
 "Search & Add" = "Search & Add";
-"Search titles, URLs, notes" = "Search titles, URLs, notes";
+"Search titles, links, notes" = "Search titles, links, notes";
 
 /* Tag name */
 "All" = "All";
