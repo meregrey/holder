@@ -446,6 +446,7 @@
 		6705B5D827815AE400793CB8 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				67C9FBE727F53BCF007EBAFB /* Views */,
 				6705B5F327815C7400793CB8 /* AccountRouter.swift */,
 				6705B5F627815C7400793CB8 /* AccountInteractor.swift */,
 				6705B5F527815C7400793CB8 /* AccountBuilder.swift */,
@@ -875,6 +876,13 @@
 				6705B61B2781DF3100793CB8 /* LoggedInViewController.swift */,
 			);
 			path = LoggedIn;
+			sourceTree = "<group>";
+		};
+		67C9FBE727F53BCF007EBAFB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		67CB5B1527B0E2A700DE2582 /* Layouts */ = {

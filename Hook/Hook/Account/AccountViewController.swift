@@ -13,7 +13,7 @@ protocol AccountPresentableListener: AnyObject {}
 final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable {
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "account")
+        static let tabBarItem = UIImage(named: "settings")
     }
 
     weak var listener: AccountPresentableListener?
