@@ -561,7 +561,6 @@
 			isa = PBXGroup;
 			children = (
 				6735714927A19B8A00C1136B /* BookmarkBrowser */,
-				677B23E327DACAAE00CC5FDF /* BookmarkDetail */,
 				6735714327A1961800C1136B /* BookmarkRouter.swift */,
 				6735714527A1961800C1136B /* BookmarkInteractor.swift */,
 				6735714427A1961800C1136B /* BookmarkBuilder.swift */,
@@ -674,6 +673,7 @@
 		6737F08B27EB15CD00F4AFB5 /* RIBs */ = {
 			isa = PBXGroup;
 			children = (
+				677B23E327DACAAE00CC5FDF /* BookmarkDetail */,
 				6737F07F27EAB1B100F4AFB5 /* BookmarkList */,
 				67A2A0C127A246780036C361 /* EnterBookmark */,
 				6737F06A27E99F0800F4AFB5 /* SearchBar */,
