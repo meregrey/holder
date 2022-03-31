@@ -9,7 +9,7 @@ import RIBs
 
 protocol LoggedInDependency: Dependency {}
 
-final class LoggedInComponent: Component<LoggedInDependency>, BrowseDependency, SearchDependency, FavoritesDependency, AccountDependency {
+final class LoggedInComponent: Component<LoggedInDependency>, BrowseDependency, SearchDependency, FavoritesDependency, SettingsDependency {
     
     let credential: Credential
     
@@ -39,12 +39,12 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
         let browse = BrowseBuilder(dependency: component)
         let search = SearchBuilder(dependency: component)
         let favorites = FavoritesBuilder(dependency: component)
-        let account = AccountBuilder(dependency: component)
+        let settings = SettingsBuilder(dependency: component)
         return LoggedInRouter(interactor: interactor,
                               viewController: viewController,
                               browse: browse,
                               search: search,
                               favorites: favorites,
-                              account: account)
+                              settings: settings)
     }
 }

@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol LoggedInInteractable: Interactable, BrowseListener, SearchListener, FavoritesListener, AccountListener {
+protocol LoggedInInteractable: Interactable, BrowseListener, SearchListener, FavoritesListener, SettingsListener {
     var router: LoggedInRouting? { get set }
     var listener: LoggedInListener? { get set }
 }
@@ -21,18 +21,18 @@ final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewCon
     private let browse: BrowseBuildable
     private let search: SearchBuildable
     private let favorites: FavoritesBuildable
-    private let account: AccountBuildable
+    private let settings: SettingsBuildable
     
     init(interactor: LoggedInInteractable,
          viewController: LoggedInViewControllable,
          browse: BrowseBuildable,
          search: SearchBuildable,
          favorites: FavoritesBuildable,
-         account: AccountBuildable) {
+         settings: SettingsBuildable) {
         self.browse = browse
         self.search = search
         self.favorites = favorites
-        self.account = account
+        self.settings = settings
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -41,17 +41,17 @@ final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewCon
         let browseRouter = browse.build(withListener: interactor)
         let searchRouter = search.build(withListener: interactor)
         let favoritesRouter = favorites.build(withListener: interactor)
-        let accountRouter = account.build(withListener: interactor)
+        let settingsRouter = settings.build(withListener: interactor)
         
         attachChild(browseRouter)
         attachChild(searchRouter)
         attachChild(favoritesRouter)
-        attachChild(accountRouter)
+        attachChild(settingsRouter)
         
         let viewControllers = [NavigationController(root: browseRouter.viewControllable) ?? browseRouter.viewControllable,
                                NavigationController(root: searchRouter.viewControllable) ?? searchRouter.viewControllable,
                                NavigationController(root: favoritesRouter.viewControllable) ?? favoritesRouter.viewControllable,
-                               NavigationController(root: accountRouter.viewControllable) ?? accountRouter.viewControllable]
+                               NavigationController(root: settingsRouter.viewControllable) ?? settingsRouter.viewControllable]
         
         viewController.setViewControllers(viewControllers)
     }

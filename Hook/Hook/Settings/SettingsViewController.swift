@@ -1,22 +1,22 @@
 //
-//  AccountViewController.swift
+//  SettingsViewController.swift
 //  Hook
 //
-//  Created by Yeojin Yoon on 2022/01/02.
+//  Created by Yeojin Yoon on 2022/03/31.
 //
 
 import RIBs
 import UIKit
 
-protocol AccountPresentableListener: AnyObject {}
+protocol SettingsPresentableListener: AnyObject {}
 
-final class AccountViewController: UIViewController, AccountPresentable, AccountViewControllable {
+final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
     
     private enum Image {
         static let tabBarItem = UIImage(named: "settings")
     }
-
-    weak var listener: AccountPresentableListener?
+    
+    weak var listener: SettingsPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -28,11 +28,16 @@ final class AccountViewController: UIViewController, AccountPresentable, Account
         configureViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
     private func configureViews() {
-        title = LocalizedString.ViewTitle.account
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
                                   selectedImage: Image.tabBarItem)
+        
         view.backgroundColor = Asset.Color.baseBackgroundColor
     }
 }
