@@ -7,9 +7,14 @@
 
 import RIBs
 
-protocol SettingsDependency: Dependency {}
+protocol SettingsDependency: Dependency {
+    var credential: Credential { get }
+}
 
-final class SettingsComponent: Component<SettingsDependency> {}
+final class SettingsComponent: Component<SettingsDependency>, SettingsInteractorDependency {
+    
+    var credential: Credential { dependency.credential }
+}
 
 // MARK: - Builder
 
@@ -24,8 +29,9 @@ final class SettingsBuilder: Builder<SettingsDependency>, SettingsBuildable {
     }
     
     func build(withListener listener: SettingsListener) -> SettingsRouting {
+        let component = SettingsComponent(dependency: dependency)
         let viewController = SettingsViewController()
-        let interactor = SettingsInteractor(presenter: viewController)
+        let interactor = SettingsInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return SettingsRouter(interactor: interactor, viewController: viewController)
     }
