@@ -121,6 +121,11 @@
 		679AE21127F55CA400B56734 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE20D27F55CA400B56734 /* SettingsBuilder.swift */; };
 		679AE21227F55CA400B56734 /* SettingsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE20E27F55CA400B56734 /* SettingsInteractor.swift */; };
 		679AE21527F5765600B56734 /* SettingsOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21427F5765600B56734 /* SettingsOptionView.swift */; };
+		679AE21B27FA82A800B56734 /* AppearanceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21727FA82A800B56734 /* AppearanceRouter.swift */; };
+		679AE21C27FA82A800B56734 /* AppearanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21827FA82A800B56734 /* AppearanceViewController.swift */; };
+		679AE21D27FA82A800B56734 /* AppearanceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21927FA82A800B56734 /* AppearanceBuilder.swift */; };
+		679AE21E27FA82A800B56734 /* AppearanceInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21A27FA82A800B56734 /* AppearanceInteractor.swift */; };
+		679AE22027FA9A6800B56734 /* ChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21F27FA9A6800B56734 /* ChoiceView.swift */; };
 		67A2A0C627A2468E0036C361 /* EnterBookmarkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */; };
 		67A2A0C727A2468E0036C361 /* EnterBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */; };
 		67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */; };
@@ -316,6 +321,11 @@
 		679AE20D27F55CA400B56734 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		679AE20E27F55CA400B56734 /* SettingsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInteractor.swift; sourceTree = "<group>"; };
 		679AE21427F5765600B56734 /* SettingsOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionView.swift; sourceTree = "<group>"; };
+		679AE21727FA82A800B56734 /* AppearanceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceRouter.swift; sourceTree = "<group>"; };
+		679AE21827FA82A800B56734 /* AppearanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceViewController.swift; sourceTree = "<group>"; };
+		679AE21927FA82A800B56734 /* AppearanceBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceBuilder.swift; sourceTree = "<group>"; };
+		679AE21A27FA82A800B56734 /* AppearanceInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceInteractor.swift; sourceTree = "<group>"; };
+		679AE21F27FA9A6800B56734 /* ChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceView.swift; sourceTree = "<group>"; };
 		67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkRouter.swift; sourceTree = "<group>"; };
 		67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkViewController.swift; sourceTree = "<group>"; };
 		67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkBuilder.swift; sourceTree = "<group>"; };
@@ -775,6 +785,7 @@
 				6737F08A27EAB4B200F4AFB5 /* BookmarkList */,
 				67F54AA727B9E81800868E93 /* Action.swift */,
 				67F54AA327B9D4E700868E93 /* AlertController.swift */,
+				679AE21F27FA9A6800B56734 /* ChoiceView.swift */,
 				6737F08C27ECB40300F4AFB5 /* ExplanationView.swift */,
 				67CB5B0F27B0A50900DE2582 /* LabeledView.swift */,
 				67CB5B1627B119F700DE2582 /* LeftAlignmentCollectionView.swift */,
@@ -824,6 +835,7 @@
 		679AE20A27F55C9400B56734 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				679AE21627FA825E00B56734 /* Appearance */,
 				679AE21327F5762B00B56734 /* Views */,
 				679AE20B27F55CA400B56734 /* SettingsRouter.swift */,
 				679AE20E27F55CA400B56734 /* SettingsInteractor.swift */,
@@ -839,6 +851,17 @@
 				679AE21427F5765600B56734 /* SettingsOptionView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		679AE21627FA825E00B56734 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				679AE21727FA82A800B56734 /* AppearanceRouter.swift */,
+				679AE21A27FA82A800B56734 /* AppearanceInteractor.swift */,
+				679AE21927FA82A800B56734 /* AppearanceBuilder.swift */,
+				679AE21827FA82A800B56734 /* AppearanceViewController.swift */,
+			);
+			path = Appearance;
 			sourceTree = "<group>";
 		};
 		67A2A0C127A246780036C361 /* EnterBookmark */ = {
@@ -1247,6 +1270,7 @@
 				6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */,
 				67CB5B1427B0AFAA00DE2582 /* LabeledTagCollectionViewCell.swift in Sources */,
 				676D1398279038BE003AA102 /* RoundedCornerButton.swift in Sources */,
+				679AE21B27FA82A800B56734 /* AppearanceRouter.swift in Sources */,
 				67BDEA292774C7E70031FEC1 /* LoggedOutRouter.swift in Sources */,
 				6761795827D3814600F0FACB /* NotificationCenter.swift in Sources */,
 				67CE08B827887303006C25C1 /* TagBarViewController.swift in Sources */,
@@ -1258,6 +1282,7 @@
 				67F6E2BE27BB535600414E48 /* LabeledNoteTextView.swift in Sources */,
 				6783193027CF722F00439271 /* BookmarkViewModel.swift in Sources */,
 				677B23E827DACADB00CC5FDF /* BookmarkDetailRouter.swift in Sources */,
+				679AE21E27FA82A800B56734 /* AppearanceInteractor.swift in Sources */,
 				6737F06F27E99F1700F4AFB5 /* SearchBarRouter.swift in Sources */,
 				6752F9C927E19566002B1E0A /* BookmarkDetailSheetViewController.swift in Sources */,
 				676D139627902BE0003AA102 /* TextField.swift in Sources */,
@@ -1309,6 +1334,7 @@
 				67A763D227ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift in Sources */,
 				67F6E2B727BB33D800414E48 /* LabeledLinkTextField.swift in Sources */,
 				6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */,
+				679AE22027FA9A6800B56734 /* ChoiceView.swift in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				676DF8802791CDD600267103 /* EditTagsRouter.swift in Sources */,
 				67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */,
@@ -1316,6 +1342,7 @@
 				67CB5B1027B0A50900DE2582 /* LabeledView.swift in Sources */,
 				672B2FE82771D1810075F348 /* AppComponent.swift in Sources */,
 				67BDEA2B2774C7E70031FEC1 /* LoggedOutBuilder.swift in Sources */,
+				679AE21C27FA82A800B56734 /* AppearanceViewController.swift in Sources */,
 				672F49F027AD1A8200DACEF5 /* SelectTagsInteractor.swift in Sources */,
 				67CE08E72789F1C4006C25C1 /* UIView.swift in Sources */,
 				6705B61E2782111D00793CB8 /* NavigationController.swift in Sources */,
@@ -1368,6 +1395,7 @@
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
 				67D1276F27D6E3A100C76FFE /* EnterBookmarkMode.swift in Sources */,
 				6737F07B27E9B53F00F4AFB5 /* RecentSearchesInteractor.swift in Sources */,
+				679AE21D27FA82A800B56734 /* AppearanceBuilder.swift in Sources */,
 				6705B5DF27815B3F00793CB8 /* BrowseBuilder.swift in Sources */,
 				67F54AA427B9D4E700868E93 /* AlertController.swift in Sources */,
 				67CE08B927887303006C25C1 /* TagBarBuilder.swift in Sources */,
