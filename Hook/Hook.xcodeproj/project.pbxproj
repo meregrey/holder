@@ -81,7 +81,7 @@
 		6752F9CA27E19566002B1E0A /* BookmarkDetailSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6752F9C627E19566002B1E0A /* BookmarkDetailSheetBuilder.swift */; };
 		6752F9CB27E19566002B1E0A /* BookmarkDetailSheetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6752F9C727E19566002B1E0A /* BookmarkDetailSheetRouter.swift */; };
 		6752F9CC27E19566002B1E0A /* BookmarkDetailSheetInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6752F9C827E19566002B1E0A /* BookmarkDetailSheetInteractor.swift */; };
-		6752F9CF27E19604002B1E0A /* BookmarkDetailSheetDisplaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6752F9CE27E19604002B1E0A /* BookmarkDetailSheetDisplaySettingsView.swift */; };
+		6752F9CF27E19604002B1E0A /* BookmarkDetailSheetAppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6752F9CE27E19604002B1E0A /* BookmarkDetailSheetAppearanceSettingsView.swift */; };
 		6755116827E08344007F28BC /* SheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6755116727E08344007F28BC /* SheetController.swift */; };
 		6761795827D3814600F0FACB /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6761795727D3814600F0FACB /* NotificationCenter.swift */; };
 		676AC7D127856F960047B95F /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676AC7D027856F960047B95F /* PersistentContainer.swift */; };
@@ -120,6 +120,7 @@
 		679AE21027F55CA400B56734 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE20C27F55CA400B56734 /* SettingsViewController.swift */; };
 		679AE21127F55CA400B56734 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE20D27F55CA400B56734 /* SettingsBuilder.swift */; };
 		679AE21227F55CA400B56734 /* SettingsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE20E27F55CA400B56734 /* SettingsInteractor.swift */; };
+		679AE21527F5765600B56734 /* SettingsOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21427F5765600B56734 /* SettingsOptionView.swift */; };
 		67A2A0C627A2468E0036C361 /* EnterBookmarkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */; };
 		67A2A0C727A2468E0036C361 /* EnterBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */; };
 		67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */; };
@@ -275,7 +276,7 @@
 		6752F9C627E19566002B1E0A /* BookmarkDetailSheetBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetBuilder.swift; sourceTree = "<group>"; };
 		6752F9C727E19566002B1E0A /* BookmarkDetailSheetRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetRouter.swift; sourceTree = "<group>"; };
 		6752F9C827E19566002B1E0A /* BookmarkDetailSheetInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetInteractor.swift; sourceTree = "<group>"; };
-		6752F9CE27E19604002B1E0A /* BookmarkDetailSheetDisplaySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetDisplaySettingsView.swift; sourceTree = "<group>"; };
+		6752F9CE27E19604002B1E0A /* BookmarkDetailSheetAppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetAppearanceSettingsView.swift; sourceTree = "<group>"; };
 		6755116727E08344007F28BC /* SheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetController.swift; sourceTree = "<group>"; };
 		6761795727D3814600F0FACB /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		676AC7D027856F960047B95F /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
@@ -314,6 +315,7 @@
 		679AE20C27F55CA400B56734 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		679AE20D27F55CA400B56734 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		679AE20E27F55CA400B56734 /* SettingsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInteractor.swift; sourceTree = "<group>"; };
+		679AE21427F5765600B56734 /* SettingsOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionView.swift; sourceTree = "<group>"; };
 		67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkRouter.swift; sourceTree = "<group>"; };
 		67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkViewController.swift; sourceTree = "<group>"; };
 		67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkBuilder.swift; sourceTree = "<group>"; };
@@ -742,7 +744,7 @@
 		6752F9CD27E19592002B1E0A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6752F9CE27E19604002B1E0A /* BookmarkDetailSheetDisplaySettingsView.swift */,
+				6752F9CE27E19604002B1E0A /* BookmarkDetailSheetAppearanceSettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -822,12 +824,21 @@
 		679AE20A27F55C9400B56734 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				679AE21327F5762B00B56734 /* Views */,
 				679AE20B27F55CA400B56734 /* SettingsRouter.swift */,
 				679AE20E27F55CA400B56734 /* SettingsInteractor.swift */,
 				679AE20D27F55CA400B56734 /* SettingsBuilder.swift */,
 				679AE20C27F55CA400B56734 /* SettingsViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		679AE21327F5762B00B56734 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				679AE21427F5765600B56734 /* SettingsOptionView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		67A2A0C127A246780036C361 /* EnterBookmark */ = {
@@ -1262,6 +1273,7 @@
 				6705B5F227815C3000793CB8 /* FavoritesInteractor.swift in Sources */,
 				672F49E727AC99D000DACEF5 /* LabeledTagCollectionView.swift in Sources */,
 				6783192A27CF0A5A00439271 /* ThumbnailLoader.swift in Sources */,
+				679AE21527F5765600B56734 /* SettingsOptionView.swift in Sources */,
 				67A763CE27ABD2F8002B34F4 /* BookmarkEntity+CoreDataProperties.swift in Sources */,
 				679AE21127F55CA400B56734 /* SettingsBuilder.swift in Sources */,
 				672F49EF27AD1A8200DACEF5 /* SelectTagsBuilder.swift in Sources */,
@@ -1287,7 +1299,7 @@
 				6783193227CFAC3500439271 /* Size.swift in Sources */,
 				6737F08627EAB24100F4AFB5 /* BookmarkListBuilder.swift in Sources */,
 				672B2FDA2771A7A70075F348 /* KeychainError.swift in Sources */,
-				6752F9CF27E19604002B1E0A /* BookmarkDetailSheetDisplaySettingsView.swift in Sources */,
+				6752F9CF27E19604002B1E0A /* BookmarkDetailSheetAppearanceSettingsView.swift in Sources */,
 				676DF8822791CDD600267103 /* EditTagsBuilder.swift in Sources */,
 				6705B5E627815BA300793CB8 /* SearchViewController.swift in Sources */,
 				6705B5E727815BA300793CB8 /* SearchBuilder.swift in Sources */,

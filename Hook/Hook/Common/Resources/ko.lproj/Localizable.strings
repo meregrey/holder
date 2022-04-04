@@ -1,8 +1,11 @@
 /* Action title */
 "Add" = "추가";
 "Add to Favorites" = "즐겨찾기에 추가";
+"Appearance" = "테마";
+"Appearance Settings" = "테마 설정";
 "Cancel" = "취소";
 "Clear" = "지우기";
+"Clear Data" = "데이터 지우기";
 "Copy Link" = "링크 복사";
 "Dark" = "다크 모드";
 "Delete" = "삭제";
@@ -15,6 +18,8 @@
 "Remove from Favorites" = "즐겨찾기에서 제거";
 "Save" = "저장";
 "Share" = "공유";
+"Sign Out" = "로그아웃";
+"Sort Bookmarks" = "북마크 정렬";
 "System Setting" = "시스템 설정";
 
 /* Alert title */
@@ -58,7 +63,7 @@
 "Browse" = "둘러보기";
 "Search" = "검색";
 "Favorites" = "즐겨찾기";
-"Account" = "계정";
+"Settings" = "설정";
 "Tag Settings" = "태그 설정";
 "Add Tag" = "태그 추가";
 "Edit Tag" = "태그 편집";

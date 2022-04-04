@@ -1,12 +1,14 @@
 /* Action title */
 "Add" = "Add";
 "Add to Favorites" = "Add to Favorites";
+"Appearance" = "Appearance";
+"Appearance Settings" = "Appearance Settings";
 "Cancel" = "Cancel";
 "Clear" = "Clear";
+"Clear Data" = "Clear Data";
 "Copy Link" = "Copy Link";
 "Dark" = "Dark";
 "Delete" = "Delete";
-"Display Settings" = "Display Settings";
 "Done" = "Done";
 "Edit" = "Edit";
 "Light" = "Light";
@@ -15,6 +17,8 @@
 "Remove from Favorites" = "Remove from Favorites";
 "Save" = "Save";
 "Share" = "Share";
+"Sign Out" = "Sign Out";
+"Sort Bookmarks" = "Sort Bookmarks";
 "System Setting" = "System Setting";
 
 /* Alert title */
@@ -58,7 +62,7 @@
 "Browse" = "Browse";
 "Search" = "Search";
 "Favorites" = "Favorites";
-"Account" = "Account";
+"Settings" = "Settings";
 "Tag Settings" = "Tag Settings";
 "Add Tag" = "Add Tag";
 "Edit Tag" = "Edit Tag";
