@@ -7,7 +7,10 @@
 
 import RIBs
 
-protocol SettingsRouting: ViewableRouting {}
+protocol SettingsRouting: ViewableRouting {
+    func attachAppearance()
+    func detachAppearance(includingView isViewIncluded: Bool)
+}
 
 protocol SettingsPresentable: Presentable {
     var listener: SettingsPresentableListener? { get set }
@@ -42,5 +45,19 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func appearanceOptionViewDidTap() {
+        router?.attachAppearance()
+    }
+    
+    // MARK: - Appearance
+    
+    func appearanceBackButtonDidTap() {
+        router?.detachAppearance(includingView: true)
+    }
+    
+    func appearanceDidRemove() {
+        router?.detachAppearance(includingView: false)
     }
 }

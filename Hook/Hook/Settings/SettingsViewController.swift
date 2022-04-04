@@ -8,7 +8,9 @@
 import RIBs
 import UIKit
 
-protocol SettingsPresentableListener: AnyObject {}
+protocol SettingsPresentableListener: AnyObject {
+    func appearanceOptionViewDidTap()
+}
 
 final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
     
@@ -29,13 +31,9 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     }()
     
     @AutoLayout private var userNameOptionView = SettingsOptionView(title: "", showsForwardImageView: false)
-    
-    @AutoLayout private var appearanceOptionView = SettingsOptionView(title: LocalizedString.ActionTitle.appearance)
-    
-    @AutoLayout private var sortBookmarksOptionView = SettingsOptionView(title: LocalizedString.ActionTitle.sortBookmarks)
-    
-    @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ActionTitle.clearData)
-    
+    @AutoLayout private var appearanceOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.appearance)
+    @AutoLayout private var sortBookmarksOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.sortBookmarks)
+    @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.clearData)
     @AutoLayout private var signOutOptionView = SettingsOptionView(title: LocalizedString.ActionTitle.signOut, centered: true)
     
     private enum Font {
@@ -77,7 +75,19 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         userNameOptionView.setTitle(credential.name)
     }
     
+    func push(_ viewControllable: ViewControllable) {
+        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
+    }
+    
+    func pop() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     private func configureViews() {
+        appearanceOptionView.addTarget(self, action: #selector(appearanceOptionViewDidTap), for: .touchUpInside)
+        sortBookmarksOptionView.addTarget(self, action: #selector(sortBookmarksOptionViewDidTap), for: .touchUpInside)
+        clearDataOptionView.addTarget(self, action: #selector(clearDataOptionViewDidTap), for: .touchUpInside)
+        
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
                                   selectedImage: Image.tabBarItem)
@@ -105,4 +115,15 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.stackViewTrailing)
         ])
     }
+    
+    @objc
+    private func appearanceOptionViewDidTap() {
+        listener?.appearanceOptionViewDidTap()
+    }
+    
+    @objc
+    private func sortBookmarksOptionViewDidTap() {}
+    
+    @objc
+    private func clearDataOptionViewDidTap() {}
 }
