@@ -1,11 +1,9 @@
 /* Action title */
 "Add" = "Add";
 "Add to Favorites" = "Add to Favorites";
-"Appearance" = "Appearance";
 "Appearance Settings" = "Appearance Settings";
 "Cancel" = "Cancel";
 "Clear" = "Clear";
-"Clear Data" = "Clear Data";
 "Copy Link" = "Copy Link";
 "Dark" = "Dark";
 "Delete" = "Delete";
@@ -18,7 +16,6 @@
 "Save" = "Save";
 "Share" = "Share";
 "Sign Out" = "Sign Out";
-"Sort Bookmarks" = "Sort Bookmarks";
 "System Setting" = "System Setting";
 
 /* Alert title */
@@ -70,3 +67,6 @@
 "Select Tags" = "Select Tags";
 "Add Bookmark" = "Add Bookmark";
 "Edit Bookmark" = "Edit Bookmark";
+"Appearance" = "Appearance";
+"Sort Bookmarks" = "Sort Bookmarks";
+"Clear Data" = "Clear Data";

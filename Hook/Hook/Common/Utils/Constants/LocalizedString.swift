@@ -11,11 +11,9 @@ enum LocalizedString {
     enum ActionTitle {
         static let add = "Add".localized
         static let addToFavorites = "Add to Favorites".localized
-        static let appearance = "Appearance".localized
         static let appearanceSettings = "Appearance Settings".localized
         static let cancel = "Cancel".localized
         static let clear = "Clear".localized
-        static let clearData = "Clear Data".localized
         static let copyLink = "Copy Link".localized
         static let dark = "Dark".localized
         static let delete = "Delete".localized
@@ -28,7 +26,6 @@ enum LocalizedString {
         static let save = "Save".localized
         static let share = "Share".localized
         static let signOut = "Sign Out".localized
-        static let sortBookmarks = "Sort Bookmarks".localized
         static let systemSetting = "System Setting".localized
     }
     
@@ -84,5 +81,8 @@ enum LocalizedString {
         static let selectTags = "Select Tags".localized
         static let addBookmark = "Add Bookmark".localized
         static let editBookmark = "Edit Bookmark".localized
+        static let appearance = "Appearance".localized
+        static let sortBookmarks = "Sort Bookmarks".localized
+        static let clearData = "Clear Data".localized
     }
 }

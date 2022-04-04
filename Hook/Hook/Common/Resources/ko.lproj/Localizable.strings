@@ -1,11 +1,9 @@
 /* Action title */
 "Add" = "추가";
 "Add to Favorites" = "즐겨찾기에 추가";
-"Appearance" = "테마";
 "Appearance Settings" = "테마 설정";
 "Cancel" = "취소";
 "Clear" = "지우기";
-"Clear Data" = "데이터 지우기";
 "Copy Link" = "링크 복사";
 "Dark" = "다크 모드";
 "Delete" = "삭제";
@@ -19,7 +17,6 @@
 "Save" = "저장";
 "Share" = "공유";
 "Sign Out" = "로그아웃";
-"Sort Bookmarks" = "북마크 정렬";
 "System Setting" = "시스템 설정";
 
 /* Alert title */
@@ -71,3 +68,6 @@
 "Select Tags" = "태그 선택";
 "Add Bookmark" = "북마크 추가";
 "Edit Bookmark" = "북마크 편집";
+"Appearance" = "테마";
+"Sort Bookmarks" = "북마크 정렬";
+"Clear Data" = "데이터 지우기";
