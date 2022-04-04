@@ -131,6 +131,11 @@
 		67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */; };
 		67A2A0C927A2468E0036C361 /* EnterBookmarkInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C527A2468E0036C361 /* EnterBookmarkInteractor.swift */; };
 		67A2AFAD277F509E00D3A28D /* ViewControllableMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */; };
+		67A4A95B27FAC26700CF459B /* SortBookmarksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A4A95727FAC26700CF459B /* SortBookmarksRouter.swift */; };
+		67A4A95C27FAC26700CF459B /* SortBookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A4A95827FAC26700CF459B /* SortBookmarksViewController.swift */; };
+		67A4A95D27FAC26700CF459B /* SortBookmarksBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A4A95927FAC26700CF459B /* SortBookmarksBuilder.swift */; };
+		67A4A95E27FAC26700CF459B /* SortBookmarksInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A4A95A27FAC26700CF459B /* SortBookmarksInteractor.swift */; };
+		67A4A96027FACE5100CF459B /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A4A95F27FACE5100CF459B /* Sort.swift */; };
 		67A763CE27ABD2F8002B34F4 /* BookmarkEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763C827ABD2F7002B34F4 /* BookmarkEntity+CoreDataProperties.swift */; };
 		67A763CF27ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763C927ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataClass.swift */; };
 		67A763D027ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A763CA27ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift */; };
@@ -331,6 +336,11 @@
 		67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkBuilder.swift; sourceTree = "<group>"; };
 		67A2A0C527A2468E0036C361 /* EnterBookmarkInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkInteractor.swift; sourceTree = "<group>"; };
 		67A2AFAC277F509E00D3A28D /* ViewControllableMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllableMock.swift; sourceTree = "<group>"; };
+		67A4A95727FAC26700CF459B /* SortBookmarksRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBookmarksRouter.swift; sourceTree = "<group>"; };
+		67A4A95827FAC26700CF459B /* SortBookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBookmarksViewController.swift; sourceTree = "<group>"; };
+		67A4A95927FAC26700CF459B /* SortBookmarksBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBookmarksBuilder.swift; sourceTree = "<group>"; };
+		67A4A95A27FAC26700CF459B /* SortBookmarksInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBookmarksInteractor.swift; sourceTree = "<group>"; };
+		67A4A95F27FACE5100CF459B /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
 		67A763C827ABD2F7002B34F4 /* BookmarkEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		67A763C927ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkTagEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		67A763CA27ABD2F7002B34F4 /* BookmarkTagEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkTagEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -500,6 +510,7 @@
 				67EBE2E027E1F0AC00FA9FE8 /* InterfaceStyle.swift */,
 				672B2FDC2771A8080075F348 /* KeychainItem.swift */,
 				672B2FE52771CFCF0075F348 /* LoginState.swift */,
+				67A4A95F27FACE5100CF459B /* Sort.swift */,
 				676AC7D4278579A60047B95F /* Tag.swift */,
 				67E0591527BB1E4F000ABAE9 /* ViewTheme.swift */,
 			);
@@ -836,6 +847,7 @@
 			isa = PBXGroup;
 			children = (
 				679AE21627FA825E00B56734 /* Appearance */,
+				67A4A95627FAC24D00CF459B /* SortBookmarks */,
 				679AE21327F5762B00B56734 /* Views */,
 				679AE20B27F55CA400B56734 /* SettingsRouter.swift */,
 				679AE20E27F55CA400B56734 /* SettingsInteractor.swift */,
@@ -874,6 +886,17 @@
 				67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */,
 			);
 			path = EnterBookmark;
+			sourceTree = "<group>";
+		};
+		67A4A95627FAC24D00CF459B /* SortBookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				67A4A95727FAC26700CF459B /* SortBookmarksRouter.swift */,
+				67A4A95A27FAC26700CF459B /* SortBookmarksInteractor.swift */,
+				67A4A95927FAC26700CF459B /* SortBookmarksBuilder.swift */,
+				67A4A95827FAC26700CF459B /* SortBookmarksViewController.swift */,
+			);
+			path = SortBookmarks;
 			sourceTree = "<group>";
 		};
 		67A763C727ABD2E4002B34F4 /* ManagedObject */ = {
@@ -1265,6 +1288,7 @@
 				67A763CF27ABD2F8002B34F4 /* BookmarkTagEntity+CoreDataClass.swift in Sources */,
 				6783192E27CF4AC900439271 /* UIImage.swift in Sources */,
 				6737F08D27ECB40300F4AFB5 /* ExplanationView.swift in Sources */,
+				67A4A95E27FAC26700CF459B /* SortBookmarksInteractor.swift in Sources */,
 				67BDEA2A2774C7E70031FEC1 /* LoggedOutViewController.swift in Sources */,
 				6737F08427EAB24100F4AFB5 /* BookmarkListRouter.swift in Sources */,
 				6736DE5C27843D38003E7321 /* TagEntity.swift in Sources */,
@@ -1280,6 +1304,7 @@
 				676AC7DF2785EEA80047B95F /* Array.swift in Sources */,
 				672B2FE02771B6420075F348 /* CredentialRepository.swift in Sources */,
 				67F6E2BE27BB535600414E48 /* LabeledNoteTextView.swift in Sources */,
+				67A4A96027FACE5100CF459B /* Sort.swift in Sources */,
 				6783193027CF722F00439271 /* BookmarkViewModel.swift in Sources */,
 				677B23E827DACADB00CC5FDF /* BookmarkDetailRouter.swift in Sources */,
 				679AE21E27FA82A800B56734 /* AppearanceInteractor.swift in Sources */,
@@ -1302,6 +1327,7 @@
 				67A763CE27ABD2F8002B34F4 /* BookmarkEntity+CoreDataProperties.swift in Sources */,
 				679AE21127F55CA400B56734 /* SettingsBuilder.swift in Sources */,
 				672F49EF27AD1A8200DACEF5 /* SelectTagsBuilder.swift in Sources */,
+				67A4A95C27FAC26700CF459B /* SortBookmarksViewController.swift in Sources */,
 				676AC7D5278579A60047B95F /* Tag.swift in Sources */,
 				6752F9CB27E19566002B1E0A /* BookmarkDetailSheetRouter.swift in Sources */,
 				6705B61C2781DF3100793CB8 /* LoggedInViewController.swift in Sources */,
@@ -1392,8 +1418,10 @@
 				6752F9CC27E19566002B1E0A /* BookmarkDetailSheetInteractor.swift in Sources */,
 				676D1381278EC0CE003AA102 /* EnterTagViewController.swift in Sources */,
 				67923BFE2795CA4C00B8E41E /* RoundedCornerView.swift in Sources */,
+				67A4A95D27FAC26700CF459B /* SortBookmarksBuilder.swift in Sources */,
 				672B2FD72771A7580075F348 /* KeychainManager.swift in Sources */,
 				67D1276F27D6E3A100C76FFE /* EnterBookmarkMode.swift in Sources */,
+				67A4A95B27FAC26700CF459B /* SortBookmarksRouter.swift in Sources */,
 				6737F07B27E9B53F00F4AFB5 /* RecentSearchesInteractor.swift in Sources */,
 				679AE21D27FA82A800B56734 /* AppearanceBuilder.swift in Sources */,
 				6705B5DF27815B3F00793CB8 /* BrowseBuilder.swift in Sources */,

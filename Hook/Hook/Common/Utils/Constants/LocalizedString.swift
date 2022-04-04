@@ -20,7 +20,9 @@ enum LocalizedString {
         static let done = "Done".localized
         static let edit = "Edit".localized
         static let light = "Light".localized
+        static let newestToOldest = "Newest to Oldest".localized
         static let ok = "OK".localized
+        static let oldestToNewest = "Oldest to Newest".localized
         static let reload = "Reload".localized
         static let removeFromFavorites = "Remove from Favorites".localized
         static let save = "Save".localized
