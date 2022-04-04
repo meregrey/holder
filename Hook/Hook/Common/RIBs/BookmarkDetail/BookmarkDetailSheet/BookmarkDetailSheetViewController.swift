@@ -17,20 +17,20 @@ protocol BookmarkDetailSheetPresentableListener: AnyObject {
 
 final class BookmarkDetailSheetViewController: SheetController, BookmarkDetailSheetPresentable, BookmarkDetailSheetViewControllable {
     
-    @AutoLayout private var displaySettingsView = BookmarkDetailSheetDisplaySettingsView()
+    @AutoLayout private var appearanceSettingsView = BookmarkDetailSheetAppearanceSettingsView()
     
-    private var displaySettingsViewHeight: CGFloat { BookmarkDetailSheetDisplaySettingsView.height }
+    private var appearanceSettingsViewHeight: CGFloat { BookmarkDetailSheetAppearanceSettingsView.height }
     
-    private lazy var displaySettingsViewBottomConstraint = NSLayoutConstraint(item: displaySettingsView,
-                                                                              attribute: .bottom,
-                                                                              relatedBy: .equal,
-                                                                              toItem: view,
-                                                                              attribute: .bottom,
-                                                                              multiplier: 1,
-                                                                              constant: displaySettingsViewHeight)
+    private lazy var appearanceSettingsViewBottomConstraint = NSLayoutConstraint(item: appearanceSettingsView,
+                                                                                 attribute: .bottom,
+                                                                                 relatedBy: .equal,
+                                                                                 toItem: view,
+                                                                                 attribute: .bottom,
+                                                                                 multiplier: 1,
+                                                                                 constant: appearanceSettingsViewHeight)
     
-    private lazy var displaySettingsAction = Action(title: LocalizedString.ActionTitle.displaySettings) { [weak self] in
-        self?.displaySettingsActionDidTap()
+    private lazy var appearanceSettingsAction = Action(title: LocalizedString.ActionTitle.appearanceSettings) { [weak self] in
+        self?.appearanceSettingsActionDidTap()
     }
     
     private lazy var reloadAction = Action(title: LocalizedString.ActionTitle.reload) { [weak self] in
@@ -49,11 +49,11 @@ final class BookmarkDetailSheetViewController: SheetController, BookmarkDetailSh
     
     override init() {
         super.init()
-        actions = [displaySettingsAction, reloadAction, editAction, deleteAction]
+        actions = [appearanceSettingsAction, reloadAction, editAction, deleteAction]
         handlerToDisappear = { [weak self] in
             self?.performToDisappear()
         }
-        configureDisplaySettingsView()
+        configureAppearanceSettingsView()
     }
     
     required init?(coder: NSCoder) {
@@ -63,27 +63,27 @@ final class BookmarkDetailSheetViewController: SheetController, BookmarkDetailSh
     private func performToDisappear() {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
             self.prepareToDisappear()
-            self.displaySettingsViewBottomConstraint.constant = self.displaySettingsViewHeight
+            self.appearanceSettingsViewBottomConstraint.constant = self.appearanceSettingsViewHeight
             self.view.layoutIfNeeded()
         } completion: { _ in
             self.listener?.didRequestToDetach()
         }
     }
     
-    private func configureDisplaySettingsView() {
-        view.addSubview(displaySettingsView)
-        displaySettingsViewBottomConstraint.isActive = true
+    private func configureAppearanceSettingsView() {
+        view.addSubview(appearanceSettingsView)
+        appearanceSettingsViewBottomConstraint.isActive = true
         NSLayoutConstraint.activate([
-            displaySettingsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            displaySettingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            appearanceSettingsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            appearanceSettingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
     @objc
-    private func displaySettingsActionDidTap() {
+    private func appearanceSettingsActionDidTap() {
         hideContainerView { [weak self] in
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.1, delay: 0, options: .curveLinear) {
-                self?.displaySettingsViewBottomConstraint.constant = 20
+                self?.appearanceSettingsViewBottomConstraint.constant = 20
                 self?.view.layoutIfNeeded()
             }
         }

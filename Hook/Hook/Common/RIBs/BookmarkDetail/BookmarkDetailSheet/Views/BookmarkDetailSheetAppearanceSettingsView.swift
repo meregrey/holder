@@ -1,5 +1,5 @@
 //
-//  BookmarkDetailSheetDisplaySettingsView.swift
+//  BookmarkDetailSheetAppearanceSettingsView.swift
 //  Hook
 //
 //  Created by Yeojin Yoon on 2022/03/16.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BookmarkDetailSheetDisplaySettingsView: RoundedCornerView {
+final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     
     static let height = CGFloat(215)
     
@@ -19,9 +19,9 @@ final class BookmarkDetailSheetDisplaySettingsView: RoundedCornerView {
         return stackView
     }()
     
-    @AutoLayout private var systemSettingView = BookmarkDetailSheetDisplaySettingsOptionView(title: LocalizedString.ActionTitle.systemSetting)
-    @AutoLayout private var lightView = BookmarkDetailSheetDisplaySettingsOptionView(title: LocalizedString.ActionTitle.light)
-    @AutoLayout private var darkView = BookmarkDetailSheetDisplaySettingsOptionView(title: LocalizedString.ActionTitle.dark)
+    @AutoLayout private var systemSettingView = BookmarkDetailSheetAppearanceSettingsOptionView(title: LocalizedString.ActionTitle.systemSetting)
+    @AutoLayout private var lightView = BookmarkDetailSheetAppearanceSettingsOptionView(title: LocalizedString.ActionTitle.light)
+    @AutoLayout private var darkView = BookmarkDetailSheetAppearanceSettingsOptionView(title: LocalizedString.ActionTitle.dark)
     
     private enum Metric {
         static let stackViewTop = CGFloat(24)
@@ -91,7 +91,7 @@ final class BookmarkDetailSheetDisplaySettingsView: RoundedCornerView {
     }
 }
 
-private final class BookmarkDetailSheetDisplaySettingsOptionView: UIView {
+private final class BookmarkDetailSheetAppearanceSettingsOptionView: UIView {
     
     @AutoLayout private var titleButton: UIButton = {
         let button = UIButton()
