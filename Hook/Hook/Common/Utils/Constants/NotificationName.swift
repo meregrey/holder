@@ -15,6 +15,7 @@ enum NotificationName {
         static let didFailToUpdateBookmark = NSNotification.Name("didFailToUpdateBookmark")
         static let existingBookmark = NSNotification.Name("existingBookmark")
         static let noSearchResultsForBookmarks = NSNotification.Name("noSearchResultsForBookmarks")
+        static let sortDidChange = NSNotification.Name("sortDidChange")
     }
     
     enum Credential {
