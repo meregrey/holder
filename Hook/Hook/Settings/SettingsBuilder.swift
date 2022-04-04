@@ -11,7 +11,7 @@ protocol SettingsDependency: Dependency {
     var credential: Credential { get }
 }
 
-final class SettingsComponent: Component<SettingsDependency>, SettingsInteractorDependency, AppearanceDependency {
+final class SettingsComponent: Component<SettingsDependency>, SettingsInteractorDependency, AppearanceDependency, SortBookmarksDependency {
     
     var credential: Credential { dependency.credential }
 }
@@ -34,8 +34,10 @@ final class SettingsBuilder: Builder<SettingsDependency>, SettingsBuildable {
         let interactor = SettingsInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         let appearance = AppearanceBuilder(dependency: component)
+        let sortBookmarks = SortBookmarksBuilder(dependency: component)
         return SettingsRouter(interactor: interactor,
                               viewController: viewController,
-                              appearance: appearance)
+                              appearance: appearance,
+                              sortBookmarks: sortBookmarks)
     }
 }

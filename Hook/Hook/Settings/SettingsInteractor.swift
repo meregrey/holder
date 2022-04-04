@@ -10,6 +10,8 @@ import RIBs
 protocol SettingsRouting: ViewableRouting {
     func attachAppearance()
     func detachAppearance(includingView isViewIncluded: Bool)
+    func attachSortBookmarks()
+    func detachSortBookmarks(includingView isViewIncluded: Bool)
 }
 
 protocol SettingsPresentable: Presentable {
@@ -51,6 +53,10 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
         router?.attachAppearance()
     }
     
+    func sortBookmarksOptionViewDidTap() {
+        router?.attachSortBookmarks()
+    }
+    
     // MARK: - Appearance
     
     func appearanceBackButtonDidTap() {
@@ -59,5 +65,15 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
     
     func appearanceDidRemove() {
         router?.detachAppearance(includingView: false)
+    }
+    
+    // MARK: - SortBookmarks
+    
+    func sortBookmarksBackButtonDidTap() {
+        router?.detachSortBookmarks(includingView: true)
+    }
+    
+    func sortBookmarksDidRemove() {
+        router?.detachSortBookmarks(includingView: false)
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 
 protocol SettingsPresentableListener: AnyObject {
     func appearanceOptionViewDidTap()
+    func sortBookmarksOptionViewDidTap()
 }
 
 final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
@@ -122,7 +123,9 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     }
     
     @objc
-    private func sortBookmarksOptionViewDidTap() {}
+    private func sortBookmarksOptionViewDidTap() {
+        listener?.sortBookmarksOptionViewDidTap()
+    }
     
     @objc
     private func clearDataOptionViewDidTap() {}
