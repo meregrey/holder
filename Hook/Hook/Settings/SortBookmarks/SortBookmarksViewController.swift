@@ -23,8 +23,8 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         return stackView
     }()
     
-    @AutoLayout private var newestToOldestChoiceView = ChoiceView(title: LocalizedString.ActionTitle.newestToOldest)
-    @AutoLayout private var oldestToNewestChoiceView = ChoiceView(title: LocalizedString.ActionTitle.oldestToNewest)
+    @AutoLayout private var newestToOldestSelectionView = SelectionView(title: LocalizedString.ActionTitle.newestToOldest)
+    @AutoLayout private var oldestToNewestSelectionView = SelectionView(title: LocalizedString.ActionTitle.oldestToNewest)
     
     private enum Image {
         static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
@@ -66,12 +66,12 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
-        newestToOldestChoiceView.addTarget(self, action: #selector(newestToOldestChoiceViewDidTap))
-        oldestToNewestChoiceView.addTarget(self, action: #selector(oldestToNewestChoiceViewDidTap))
+        newestToOldestSelectionView.addTarget(self, action: #selector(newestToOldestSelectionViewDidTap))
+        oldestToNewestSelectionView.addTarget(self, action: #selector(oldestToNewestSelectionViewDidTap))
         
         view.addSubview(stackView)
-        stackView.addArrangedSubview(newestToOldestChoiceView)
-        stackView.addArrangedSubview(oldestToNewestChoiceView)
+        stackView.addArrangedSubview(newestToOldestSelectionView)
+        stackView.addArrangedSubview(oldestToNewestSelectionView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Metric.stackViewTop),
@@ -82,8 +82,8 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
     
     private func select() {
         let sort = UserDefaults.value(forType: Sort.self) ?? .newestToOldest
-        newestToOldestChoiceView.select(sort == .newestToOldest)
-        oldestToNewestChoiceView.select(sort == .oldestToNewest)
+        newestToOldestSelectionView.select(sort == .newestToOldest)
+        oldestToNewestSelectionView.select(sort == .oldestToNewest)
     }
     
     @objc
@@ -92,12 +92,12 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
     }
     
     @objc
-    private func newestToOldestChoiceViewDidTap() {
+    private func newestToOldestSelectionViewDidTap() {
         handleSort(.newestToOldest)
     }
     
     @objc
-    private func oldestToNewestChoiceViewDidTap() {
+    private func oldestToNewestSelectionViewDidTap() {
         handleSort(.oldestToNewest)
     }
     

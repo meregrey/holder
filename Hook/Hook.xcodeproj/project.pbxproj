@@ -125,7 +125,7 @@
 		679AE21C27FA82A800B56734 /* AppearanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21827FA82A800B56734 /* AppearanceViewController.swift */; };
 		679AE21D27FA82A800B56734 /* AppearanceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21927FA82A800B56734 /* AppearanceBuilder.swift */; };
 		679AE21E27FA82A800B56734 /* AppearanceInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21A27FA82A800B56734 /* AppearanceInteractor.swift */; };
-		679AE22027FA9A6800B56734 /* ChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21F27FA9A6800B56734 /* ChoiceView.swift */; };
+		679AE22027FA9A6800B56734 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AE21F27FA9A6800B56734 /* SelectionView.swift */; };
 		67A2A0C627A2468E0036C361 /* EnterBookmarkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */; };
 		67A2A0C727A2468E0036C361 /* EnterBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */; };
 		67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */; };
@@ -330,7 +330,7 @@
 		679AE21827FA82A800B56734 /* AppearanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceViewController.swift; sourceTree = "<group>"; };
 		679AE21927FA82A800B56734 /* AppearanceBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceBuilder.swift; sourceTree = "<group>"; };
 		679AE21A27FA82A800B56734 /* AppearanceInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceInteractor.swift; sourceTree = "<group>"; };
-		679AE21F27FA9A6800B56734 /* ChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceView.swift; sourceTree = "<group>"; };
+		679AE21F27FA9A6800B56734 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		67A2A0C227A2468E0036C361 /* EnterBookmarkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkRouter.swift; sourceTree = "<group>"; };
 		67A2A0C327A2468E0036C361 /* EnterBookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkViewController.swift; sourceTree = "<group>"; };
 		67A2A0C427A2468E0036C361 /* EnterBookmarkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBookmarkBuilder.swift; sourceTree = "<group>"; };
@@ -796,7 +796,7 @@
 				6737F08A27EAB4B200F4AFB5 /* BookmarkList */,
 				67F54AA727B9E81800868E93 /* Action.swift */,
 				67F54AA327B9D4E700868E93 /* AlertController.swift */,
-				679AE21F27FA9A6800B56734 /* ChoiceView.swift */,
+				679AE21F27FA9A6800B56734 /* SelectionView.swift */,
 				6737F08C27ECB40300F4AFB5 /* ExplanationView.swift */,
 				67CB5B0F27B0A50900DE2582 /* LabeledView.swift */,
 				67CB5B1627B119F700DE2582 /* LeftAlignmentCollectionView.swift */,
@@ -1360,7 +1360,7 @@
 				67A763D227ABD2F8002B34F4 /* TagStorage+CoreDataProperties.swift in Sources */,
 				67F6E2B727BB33D800414E48 /* LabeledLinkTextField.swift in Sources */,
 				6736DE5827843B38003E7321 /* PersistenceModel.xcdatamodeld in Sources */,
-				679AE22027FA9A6800B56734 /* ChoiceView.swift in Sources */,
+				679AE22027FA9A6800B56734 /* SelectionView.swift in Sources */,
 				672B2FE22771B6820075F348 /* Credential.swift in Sources */,
 				676DF8802791CDD600267103 /* EditTagsRouter.swift in Sources */,
 				67A2A0C827A2468E0036C361 /* EnterBookmarkBuilder.swift in Sources */,

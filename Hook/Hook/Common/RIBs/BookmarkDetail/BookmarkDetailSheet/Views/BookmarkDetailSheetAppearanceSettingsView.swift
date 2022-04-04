@@ -19,9 +19,9 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
         return stackView
     }()
     
-    @AutoLayout private var systemSettingChoiceView = ChoiceView(title: LocalizedString.ActionTitle.systemSetting)
-    @AutoLayout private var lightChoiceView = ChoiceView(title: LocalizedString.ActionTitle.light)
-    @AutoLayout private var darkChoiceView = ChoiceView(title: LocalizedString.ActionTitle.dark)
+    @AutoLayout private var systemSettingSelectionView = SelectionView(title: LocalizedString.ActionTitle.systemSetting)
+    @AutoLayout private var lightSelectionView = SelectionView(title: LocalizedString.ActionTitle.light)
+    @AutoLayout private var darkSelectionView = SelectionView(title: LocalizedString.ActionTitle.dark)
     
     private enum Metric {
         static let stackViewTop = CGFloat(24)
@@ -43,16 +43,16 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     private func configure() {
         select()
         
-        systemSettingChoiceView.addTarget(self, action: #selector(systemSettingChoiceViewDidTap))
-        lightChoiceView.addTarget(self, action: #selector(lightChoiceViewDidTap))
-        darkChoiceView.addTarget(self, action: #selector(darkChoiceViewDidTap))
+        systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap))
+        lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap))
+        darkSelectionView.addTarget(self, action: #selector(darkSelectionViewDidTap))
         
         backgroundColor = Asset.Color.sheetBaseBackgroundColor
         
         addSubview(stackView)
-        stackView.addArrangedSubview(systemSettingChoiceView)
-        stackView.addArrangedSubview(lightChoiceView)
-        stackView.addArrangedSubview(darkChoiceView)
+        stackView.addArrangedSubview(systemSettingSelectionView)
+        stackView.addArrangedSubview(lightSelectionView)
+        stackView.addArrangedSubview(darkSelectionView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: Metric.stackViewTop),
@@ -64,23 +64,23 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     
     private func select() {
         let interfaceStyle = UserDefaults.value(forType: InterfaceStyle.self) ?? .systemSetting
-        systemSettingChoiceView.select(interfaceStyle == .systemSetting)
-        lightChoiceView.select(interfaceStyle == .light)
-        darkChoiceView.select(interfaceStyle == .dark)
+        systemSettingSelectionView.select(interfaceStyle == .systemSetting)
+        lightSelectionView.select(interfaceStyle == .light)
+        darkSelectionView.select(interfaceStyle == .dark)
     }
     
     @objc
-    private func systemSettingChoiceViewDidTap() {
+    private func systemSettingSelectionViewDidTap() {
         handleInterfaceStyle(.systemSetting)
     }
     
     @objc
-    private func lightChoiceViewDidTap() {
+    private func lightSelectionViewDidTap() {
         handleInterfaceStyle(.light)
     }
     
     @objc
-    private func darkChoiceViewDidTap() {
+    private func darkSelectionViewDidTap() {
         handleInterfaceStyle(.dark)
     }
     

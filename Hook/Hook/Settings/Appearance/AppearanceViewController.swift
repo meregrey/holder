@@ -23,9 +23,9 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
         return stackView
     }()
     
-    @AutoLayout private var systemSettingChoiceView = ChoiceView(title: LocalizedString.ActionTitle.systemSetting)
-    @AutoLayout private var lightChoiceView = ChoiceView(title: LocalizedString.ActionTitle.light)
-    @AutoLayout private var darkChoiceView = ChoiceView(title: LocalizedString.ActionTitle.dark)
+    @AutoLayout private var systemSettingSelectionView = SelectionView(title: LocalizedString.ActionTitle.systemSetting)
+    @AutoLayout private var lightSelectionView = SelectionView(title: LocalizedString.ActionTitle.light)
+    @AutoLayout private var darkSelectionView = SelectionView(title: LocalizedString.ActionTitle.dark)
     
     private enum Image {
         static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
@@ -67,14 +67,14 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
-        systemSettingChoiceView.addTarget(self, action: #selector(systemSettingChoiceViewDidTap))
-        lightChoiceView.addTarget(self, action: #selector(lightChoiceViewDidTap))
-        darkChoiceView.addTarget(self, action: #selector(darkChoiceViewDidTap))
+        systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap))
+        lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap))
+        darkSelectionView.addTarget(self, action: #selector(darkSelectionViewDidTap))
         
         view.addSubview(stackView)
-        stackView.addArrangedSubview(systemSettingChoiceView)
-        stackView.addArrangedSubview(lightChoiceView)
-        stackView.addArrangedSubview(darkChoiceView)
+        stackView.addArrangedSubview(systemSettingSelectionView)
+        stackView.addArrangedSubview(lightSelectionView)
+        stackView.addArrangedSubview(darkSelectionView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Metric.stackViewTop),
@@ -85,9 +85,9 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
     
     private func select() {
         let interfaceStyle = UserDefaults.value(forType: InterfaceStyle.self) ?? .systemSetting
-        systemSettingChoiceView.select(interfaceStyle == .systemSetting)
-        lightChoiceView.select(interfaceStyle == .light)
-        darkChoiceView.select(interfaceStyle == .dark)
+        systemSettingSelectionView.select(interfaceStyle == .systemSetting)
+        lightSelectionView.select(interfaceStyle == .light)
+        darkSelectionView.select(interfaceStyle == .dark)
     }
     
     @objc
@@ -96,17 +96,17 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
     }
     
     @objc
-    private func systemSettingChoiceViewDidTap() {
+    private func systemSettingSelectionViewDidTap() {
         handleInterfaceStyle(.systemSetting)
     }
     
     @objc
-    private func lightChoiceViewDidTap() {
+    private func lightSelectionViewDidTap() {
         handleInterfaceStyle(.light)
     }
     
     @objc
-    private func darkChoiceViewDidTap() {
+    private func darkSelectionViewDidTap() {
         handleInterfaceStyle(.dark)
     }
     

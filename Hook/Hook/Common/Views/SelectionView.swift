@@ -1,5 +1,5 @@
 //
-//  ChoiceView.swift
+//  SelectionView.swift
 //  Hook
 //
 //  Created by Yeojin Yoon on 2022/04/04.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ChoiceView: UIView {
+final class SelectionView: UIView {
     
     @AutoLayout private var titleButton: UIButton = {
         let button = UIButton()
