@@ -100,10 +100,19 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
                                        selector: #selector(contextObjectsDidChange),
                                        name: .NSManagedObjectContextObjectsDidChange,
                                        object: BookmarkRepository.shared.context)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(sortDidChange),
+                                       name: NotificationName.Bookmark.sortDidChange)
     }
     
     @objc
     private func contextObjectsDidChange() {
+        fetch(for: searchTermStream.value)
+    }
+    
+    @objc
+    private func sortDidChange() {
         fetch(for: searchTermStream.value)
     }
     
