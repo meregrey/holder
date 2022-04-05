@@ -15,6 +15,8 @@ protocol SettingsPresentableListener: AnyObject {
 
 final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
     
+    private static let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    
     @AutoLayout private var titleLabel: UILabel = {
         let label = UILabel()
         label.text = LocalizedString.ViewTitle.settings
@@ -31,6 +33,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         return stackView
     }()
     
+    @AutoLayout private var versionOptionView = SettingsOptionView(title: LocalizedString.LabelText.version, info: version)
     @AutoLayout private var appearanceOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.appearance)
     @AutoLayout private var sortBookmarksOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.sortBookmarks)
     @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.clearData)
@@ -91,7 +94,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         
         view.addSubview(titleLabel)
         view.addSubview(stackView)
-        
+        stackView.addArrangedSubview(versionOptionView)
         stackView.addArrangedSubview(appearanceOptionView)
         stackView.addArrangedSubview(sortBookmarksOptionView)
         stackView.addArrangedSubview(clearDataOptionView)
