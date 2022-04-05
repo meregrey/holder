@@ -45,6 +45,7 @@
 "No results matching the search term could be found. Try another search term." = "검색어와 일치하는 결과를 찾을 수 없습니다.\n다른 검색어를 사용해 보세요.";
 "No Favorites" = "즐겨찾기 없음";
 "There are no bookmarks added to Favorites. Add frequently used bookmarks." = "즐겨찾기에 추가된 북마크가 없습니다. 자주\n사용하는 북마크를 추가해 보세요.";
+"Version" = "앱 버전";
 
 /* Placeholder */
 "Search & Add" = "검색 및 추가";

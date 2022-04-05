@@ -56,6 +56,7 @@ enum LocalizedString {
         static let noSearchResultsExplanation = "No results matching the search term could be found. Try another search term.".localized
         static let noFavorites = "No Favorites".localized
         static let noFavoritesExplanation = "There are no bookmarks added to Favorites. Add frequently used bookmarks.".localized
+        static let version = "Version".localized
     }
     
     enum Placeholder {
