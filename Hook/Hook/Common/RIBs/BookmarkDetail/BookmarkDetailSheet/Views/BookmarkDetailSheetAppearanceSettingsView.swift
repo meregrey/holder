@@ -9,13 +9,13 @@ import UIKit
 
 final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     
-    static let height = CGFloat(215)
+    static let height = CGFloat(220)
     
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
-        stackView.spacing = 12
+        stackView.spacing = 4
         return stackView
     }()
     
@@ -43,9 +43,9 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     private func configure() {
         select()
         
-        systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap))
-        lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap))
-        darkSelectionView.addTarget(self, action: #selector(darkSelectionViewDidTap))
+        systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap), for: .touchUpInside)
+        lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap), for: .touchUpInside)
+        darkSelectionView.addTarget(self, action: #selector(darkSelectionViewDidTap), for: .touchUpInside)
         
         backgroundColor = Asset.Color.sheetBaseBackgroundColor
         

@@ -19,7 +19,7 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -66,8 +66,8 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
-        newestToOldestSelectionView.addTarget(self, action: #selector(newestToOldestSelectionViewDidTap))
-        oldestToNewestSelectionView.addTarget(self, action: #selector(oldestToNewestSelectionViewDidTap))
+        newestToOldestSelectionView.addTarget(self, action: #selector(newestToOldestSelectionViewDidTap), for: .touchUpInside)
+        oldestToNewestSelectionView.addTarget(self, action: #selector(oldestToNewestSelectionViewDidTap), for: .touchUpInside)
         
         view.addSubview(stackView)
         stackView.addArrangedSubview(newestToOldestSelectionView)

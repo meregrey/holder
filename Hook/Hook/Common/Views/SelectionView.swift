@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class SelectionView: UIView {
+final class SelectionView: UIControl {
     
-    @AutoLayout private var titleButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = Font.titleButton
-        button.setTitleColor(Asset.Color.primaryColor, for: .normal)
-        return button
+    @AutoLayout private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = Font.titleLabel
+        label.textColor = Asset.Color.primaryColor
+        return label
     }()
     
     @AutoLayout private var checkmarkImageView: UIImageView = {
@@ -26,7 +26,7 @@ final class SelectionView: UIView {
     }()
     
     private enum Font {
-        static let titleButton = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        static let titleLabel = UIFont.systemFont(ofSize: 17, weight: .semibold)
     }
     
     private enum Image {
@@ -34,6 +34,8 @@ final class SelectionView: UIView {
     }
     
     private enum Metric {
+        static let height = CGFloat(40)
+        
         static let checkmarkImageViewWidthHeight = CGFloat(22)
     }
     
@@ -47,24 +49,22 @@ final class SelectionView: UIView {
         configure(with: "")
     }
     
-    func addTarget(_ target: Any?, action: Selector) {
-        titleButton.addTarget(target, action: action, for: .touchUpInside)
-    }
-    
     func select(_ flag: Bool) {
         checkmarkImageView.isHidden = !flag
     }
     
     private func configure(with title: String) {
-        titleButton.setTitle(title, for: .normal)
+        titleLabel.text = title
         
-        addSubview(titleButton)
+        addSubview(titleLabel)
         addSubview(checkmarkImageView)
         
         NSLayoutConstraint.activate([
-            titleButton.topAnchor.constraint(equalTo: topAnchor),
-            titleButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            heightAnchor.constraint(equalToConstant: Metric.height),
+            
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             checkmarkImageView.widthAnchor.constraint(equalToConstant: Metric.checkmarkImageViewWidthHeight),
             checkmarkImageView.heightAnchor.constraint(equalToConstant: Metric.checkmarkImageViewWidthHeight),

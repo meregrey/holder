@@ -19,7 +19,7 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -67,9 +67,9 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
-        systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap))
-        lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap))
-        darkSelectionView.addTarget(self, action: #selector(darkSelectionViewDidTap))
+        systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap), for: .touchUpInside)
+        lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap), for: .touchUpInside)
+        darkSelectionView.addTarget(self, action: #selector(darkSelectionViewDidTap), for: .touchUpInside)
         
         view.addSubview(stackView)
         stackView.addArrangedSubview(systemSettingSelectionView)
