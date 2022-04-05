@@ -31,11 +31,9 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         return stackView
     }()
     
-    @AutoLayout private var userNameOptionView = SettingsOptionView(title: "", showsForwardImageView: false)
     @AutoLayout private var appearanceOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.appearance)
     @AutoLayout private var sortBookmarksOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.sortBookmarks)
     @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.clearData)
-    @AutoLayout private var signOutOptionView = SettingsOptionView(title: LocalizedString.ActionTitle.signOut, centered: true)
     
     private enum Font {
         static let titleLabel = UIFont.systemFont(ofSize: 30, weight: .bold)
@@ -72,10 +70,6 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         navigationController?.isNavigationBarHidden = true
     }
     
-    func update(with credential: Credential) {
-        userNameOptionView.setTitle(credential.name)
-    }
-    
     func push(_ viewControllable: ViewControllable) {
         navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
     }
@@ -98,13 +92,9 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         view.addSubview(titleLabel)
         view.addSubview(stackView)
         
-        stackView.addArrangedSubview(userNameOptionView)
-        stackView.addArrangedSubview(UIView())
         stackView.addArrangedSubview(appearanceOptionView)
         stackView.addArrangedSubview(sortBookmarksOptionView)
         stackView.addArrangedSubview(clearDataOptionView)
-        stackView.addArrangedSubview(UIView())
-        stackView.addArrangedSubview(signOutOptionView)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Metric.titleLabelTop),

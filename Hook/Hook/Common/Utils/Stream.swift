@@ -20,9 +20,9 @@ fileprivate protocol MutableStreamType: ReadOnlyStreamType {
 }
 
 class ReadOnlyStream<T: Equatable>: ReadOnlyStreamType {
-
+    
     fileprivate let relay: BehaviorRelay<T>
-
+    
     fileprivate var stream: Observable<T> {
         return relay
             .asObservable()
@@ -30,7 +30,7 @@ class ReadOnlyStream<T: Equatable>: ReadOnlyStreamType {
     }
     
     var value: T { relay.value }
-
+    
     init(initialValue: T) {
         self.relay = BehaviorRelay(value: initialValue)
     }

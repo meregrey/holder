@@ -18,10 +18,6 @@ enum NotificationName {
         static let sortDidChange = NSNotification.Name("sortDidChange")
     }
     
-    enum Credential {
-        static let didFailToSave = NSNotification.Name("didFailToSave")
-    }
-    
     enum Store {
         static let didFailToCheck = NSNotification.Name("didFailToCheck")
         static let didFailToLoad = NSNotification.Name("didFailToLoad")

@@ -14,7 +14,7 @@ final class NavigationController: UINavigationController, ViewControllable {
         static let navigationBarLargeTitle = UIFont.systemFont(ofSize: 26, weight: .bold)
     }
     
-    init?(root: ViewControllable) {
+    init(root: ViewControllable) {
         super.init(rootViewController: root.uiviewController)
         configureViews()
     }

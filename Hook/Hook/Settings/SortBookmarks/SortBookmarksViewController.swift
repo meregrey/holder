@@ -19,7 +19,7 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
-        stackView.spacing = 10
+        stackView.spacing = 12
         return stackView
     }()
     

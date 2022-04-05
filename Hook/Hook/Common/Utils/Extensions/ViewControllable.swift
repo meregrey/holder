@@ -16,8 +16,8 @@ extension ViewControllable {
         DispatchQueue.main.async {
             viewControllableToPresent.uiviewController.modalPresentationStyle = modalPresentationStyle
             self.uiviewController.present(viewControllableToPresent.uiviewController,
-                                     animated: animated,
-                                     completion: completion)
+                                          animated: animated,
+                                          completion: completion)
         }
     }
     

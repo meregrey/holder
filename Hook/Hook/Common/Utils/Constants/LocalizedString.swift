@@ -27,23 +27,19 @@ enum LocalizedString {
         static let removeFromFavorites = "Remove from Favorites".localized
         static let save = "Save".localized
         static let share = "Share".localized
-        static let signOut = "Sign Out".localized
         static let systemSetting = "System Setting".localized
     }
     
     enum AlertTitle {
         static let enterTheLink = "Enter the link.".localized
         static let bookmarkCorrespondingToTheLinkExists = "A bookmark corresponding to the link exists.".localized
-        static let errorOccurredWhileFetchingTheMetadata = "An error occurred while fetching the metadata.".localized
         static let errorOccurredWhileCheckingTheStore = "An error occurred while checking the store.".localized
         static let errorOccurredWhileSavingToTheStore = "An error occurred while saving to the store.".localized
-        static let keychainErrorOccured = "Keychain Error Occured".localized
         static let tagAlreadySelected = "Tag Already Selected".localized
         static let deleteBookmark = "Delete Bookmark?".localized
     }
     
     enum AlertMessage {
-        static let keychainErrorOccured = "An error occurred while saving to the keychain.".localized
         static let tagAlreadySelected = "Check out the tag in the list.".localized
         static let deleteBookmark = "This bookmark will be deleted from all tags.".localized
     }

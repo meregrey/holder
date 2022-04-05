@@ -7,70 +7,52 @@
 
 import RIBs
 
-protocol RootInteractable: Interactable, LoggedOutListener, LoggedInListener {
+protocol RootInteractable: Interactable, BrowseListener, SearchListener, FavoritesListener, SettingsListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
 
-protocol RootViewControllable: ViewControllable {}
+protocol RootViewControllable: ViewControllable {
+    func setViewControllers(_ viewControllers: [ViewControllable])
+}
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
     
-    private let loggedOut: LoggedOutBuildable
-    private let loggedIn: LoggedInBuildable
-    
-    private var loggedOutRouter: LoggedOutRouting?
-    private var loggedInRouter: LoggedInRouting?
+    private let browse: BrowseBuildable
+    private let search: SearchBuildable
+    private let favorites: FavoritesBuildable
+    private let settings: SettingsBuildable
     
     init(interactor: RootInteractable,
          viewController: RootViewControllable,
-         loggedOut: LoggedOutBuildable,
-         loggedIn: LoggedInBuildable) {
-        self.loggedOut = loggedOut
-        self.loggedIn = loggedIn
+         browse: BrowseBuildable,
+         search: SearchBuildable,
+         favorites: FavoritesBuildable,
+         settings: SettingsBuildable) {
+        self.browse = browse
+        self.search = search
+        self.favorites = favorites
+        self.settings = settings
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
-    func routeToLoggedOut() {
-        detachLoggedIn()
-        attachLoggedOut()
-    }
-    
-    func routeToLoggedIn(withCredential credential: Credential) {
-        DispatchQueue.main.async {
-            self.detachLoggedOut()
-            self.attachLoggedIn(withCredential: credential)
-        }
-    }
-    
-    private func attachLoggedOut() {
-        guard loggedOutRouter == nil else { return }
-        let router = loggedOut.build(withListener: interactor)
-        loggedOutRouter = router
-        attachChild(router)
-        viewController.present(router.viewControllable)
-    }
-    
-    private func detachLoggedOut() {
-        guard let router = loggedOutRouter else { return }
-        viewController.dismiss()
-        detachChild(router)
-        loggedOutRouter = nil
-    }
-    
-    private func attachLoggedIn(withCredential credential: Credential) {
-        guard loggedInRouter == nil else { return }
-        let router = loggedIn.build(withListener: interactor, credential: credential)
-        loggedInRouter = router
-        attachChild(router)
-        viewController.present(router.viewControllable)
-    }
-    
-    private func detachLoggedIn() {
-        guard let router = loggedInRouter else { return }
-        viewController.dismiss()
-        detachChild(router)
-        loggedInRouter = nil
+    func attachTabs() {
+        let browseRouter = browse.build(withListener: interactor)
+        let searchRouter = search.build(withListener: interactor)
+        let favoritesRouter = favorites.build(withListener: interactor)
+        let settingsRouter = settings.build(withListener: interactor)
+        
+        attachChild(browseRouter)
+        attachChild(searchRouter)
+        attachChild(favoritesRouter)
+        attachChild(settingsRouter)
+        
+        let viewControllers = [NavigationController(root: browseRouter.viewControllable),
+                               NavigationController(root: searchRouter.viewControllable),
+                               NavigationController(root: favoritesRouter.viewControllable),
+                               NavigationController(root: settingsRouter.viewControllable)]
+        
+        viewController.setViewControllers(viewControllers)
     }
 }

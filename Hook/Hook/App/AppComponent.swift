@@ -2,19 +2,14 @@
 //  AppComponent.swift
 //  Hook
 //
-//  Created by Yeojin Yoon on 2021/12/21.
+//  Created by Yeojin Yoon on 2022/04/05.
 //
 
 import RIBs
 
 final class AppComponent: Component<EmptyDependency>, RootDependency {
     
-    let credentialRepository: CredentialRepositoryType
-    
-    var loginStateStream: ReadOnlyStream<LoginState> { credentialRepository.loginStateStream }
-    
-    init(credentialRepository: CredentialRepositoryType = CredentialRepository()) {
-        self.credentialRepository = credentialRepository
+    init() {
         super.init(dependency: EmptyComponent())
     }
 }

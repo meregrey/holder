@@ -17,23 +17,19 @@
 "Remove from Favorites" = "Remove from Favorites";
 "Save" = "Save";
 "Share" = "Share";
-"Sign Out" = "Sign Out";
 "System Setting" = "System Setting";
 
 /* Alert title */
 "Enter the link." = "Enter the link.";
 "A bookmark corresponding to the link exists." = "A bookmark corresponding to the link exists.";
-"An error occurred while fetching the metadata." = "An error occurred while fetching the metadata.";
 "An error occurred while checking the store." = "An error occurred while checking the store.";
 "An error occurred while saving to the store." = "An error occurred while saving to the store.";
 
 /* Alert title with message */
-"Keychain Error Occured" = "Keychain Error Occured";
 "Tag Already Selected" = "Tag Already Selected";
 "Delete Bookmark?" = "Delete Bookmark?";
 
 /* Alert message */
-"An error occurred while saving to the keychain." = "An error occurred while saving to the keychain.";
 "Check out the tag in the list." = "Check out the tag in the list.";
 "This bookmark will be deleted from all tags." = "This bookmark will be deleted from all tags.";
 
