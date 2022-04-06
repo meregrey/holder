@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol SettingsInteractable: Interactable, AppearanceListener, SortBookmarksListener {
+protocol SettingsInteractable: Interactable, AppearanceListener, SortBookmarksListener, ClearDataListener {
     var router: SettingsRouting? { get set }
     var listener: SettingsListener? { get set }
 }
@@ -21,16 +21,20 @@ final class SettingsRouter: ViewableRouter<SettingsInteractable, SettingsViewCon
     
     private let appearance: AppearanceBuildable
     private let sortBookmarks: SortBookmarksBuildable
+    private let clearData: ClearDataBuildable
     
     private var appearanceRouter: AppearanceRouting?
     private var sortBookmarksRouter: SortBookmarksRouting?
+    private var clearDataRouter: ClearDataRouting?
     
     init(interactor: SettingsInteractable,
          viewController: SettingsViewControllable,
          appearance: AppearanceBuildable,
-         sortBookmarks: SortBookmarksBuildable) {
+         sortBookmarks: SortBookmarksBuildable,
+         clearData: ClearDataBuildable) {
         self.appearance = appearance
         self.sortBookmarks = sortBookmarks
+        self.clearData = clearData
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -67,5 +71,22 @@ final class SettingsRouter: ViewableRouter<SettingsInteractable, SettingsViewCon
         if isViewIncluded { viewController.pop() }
         detachChild(router)
         sortBookmarksRouter = nil
+    }
+    
+    // MARK: - ClearData
+    
+    func attachClearData() {
+        guard clearDataRouter == nil else { return }
+        let router = clearData.build(withListener: interactor)
+        clearDataRouter = router
+        attachChild(router)
+        viewController.push(router.viewControllable)
+    }
+    
+    func detachClearData(includingView isViewIncluded: Bool) {
+        guard let router = clearDataRouter else { return }
+        if isViewIncluded { viewController.pop() }
+        detachChild(router)
+        clearDataRouter = nil
     }
 }

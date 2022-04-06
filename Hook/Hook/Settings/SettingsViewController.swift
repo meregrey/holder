@@ -11,6 +11,7 @@ import UIKit
 protocol SettingsPresentableListener: AnyObject {
     func appearanceOptionViewDidTap()
     func sortBookmarksOptionViewDidTap()
+    func clearDataOptionViewDidTap()
 }
 
 final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
@@ -121,5 +122,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     }
     
     @objc
-    private func clearDataOptionViewDidTap() {}
+    private func clearDataOptionViewDidTap() {
+        listener?.clearDataOptionViewDidTap()
+    }
 }

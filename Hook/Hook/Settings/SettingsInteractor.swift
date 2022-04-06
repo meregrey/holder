@@ -12,6 +12,8 @@ protocol SettingsRouting: ViewableRouting {
     func detachAppearance(includingView isViewIncluded: Bool)
     func attachSortBookmarks()
     func detachSortBookmarks(includingView isViewIncluded: Bool)
+    func attachClearData()
+    func detachClearData(includingView isViewIncluded: Bool)
 }
 
 protocol SettingsPresentable: Presentable {
@@ -46,6 +48,10 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
         router?.attachSortBookmarks()
     }
     
+    func clearDataOptionViewDidTap() {
+        router?.attachClearData()
+    }
+    
     // MARK: - Appearance
     
     func appearanceBackButtonDidTap() {
@@ -64,5 +70,19 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
     
     func sortBookmarksDidRemove() {
         router?.detachSortBookmarks(includingView: false)
+    }
+    
+    // MARK: - ClearData
+    
+    func clearDataBackButtonDidTap() {
+        router?.detachClearData(includingView: true)
+    }
+    
+    func clearDataDidRemove() {
+        router?.detachClearData(includingView: false)
+    }
+    
+    func clearDataClearButtonDidTap() {
+        router?.detachClearData(includingView: true)
     }
 }
