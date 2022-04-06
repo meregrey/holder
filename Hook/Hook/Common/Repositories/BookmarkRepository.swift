@@ -17,6 +17,7 @@ protocol BookmarkRepositoryType {
     func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error>
     func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
     func deleteTags(for tag: Tag)
+    func clear()
 }
 
 final class BookmarkRepository: BookmarkRepositoryType {
@@ -153,6 +154,11 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
+    func clear() {
+        clearEntities(with: BookmarkEntity.fetchRequest())
+        clearEntities(with: BookmarkTagEntity.fetchRequest())
+    }
+    
     private func deleteTags(of bookmarkEntity: BookmarkEntity) throws {
         let request = BookmarkTagEntity.fetchRequest()
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.bookmark), bookmarkEntity)
@@ -161,5 +167,13 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let bookmarkTagEntities = try context.fetch(request)
         bookmarkTagEntities.forEach { context.delete($0) }
         try context.save()
+    }
+    
+    private func clearEntities(with fetchRequest: NSFetchRequest<NSFetchRequestResult>) {
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        deleteRequest.resultType = .resultTypeObjectIDs
+        let deleteResult = try? context.execute(deleteRequest) as? NSBatchDeleteResult
+        guard let objectIDs = deleteResult?.result as? [NSManagedObjectID] else { return }
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [context])
     }
 }
