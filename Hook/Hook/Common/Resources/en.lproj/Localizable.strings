@@ -46,6 +46,8 @@
 "No Favorites" = "No Favorites";
 "There are no bookmarks added to Favorites. Add frequently used bookmarks." = "There are no bookmarks added to Favorites.\nAdd frequently used bookmarks.";
 "Version" = "Version";
+"Clear Data?" = "Clear Data?";
+"Clearing will remove all tag and bookmark data." = "Clearing will remove all tag and bookmark data.";
 
 /* Placeholder */
 "Search & Add" = "Search & Add";

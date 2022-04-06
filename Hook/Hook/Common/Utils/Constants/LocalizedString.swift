@@ -57,6 +57,8 @@ enum LocalizedString {
         static let noFavorites = "No Favorites".localized
         static let noFavoritesExplanation = "There are no bookmarks added to Favorites. Add frequently used bookmarks.".localized
         static let version = "Version".localized
+        static let clearData = "Clear Data?".localized
+        static let clearDataExplanation = "Clearing will remove all tag and bookmark data.".localized
     }
     
     enum Placeholder {

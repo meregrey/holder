@@ -46,6 +46,8 @@
 "No Favorites" = "즐겨찾기 없음";
 "There are no bookmarks added to Favorites. Add frequently used bookmarks." = "즐겨찾기에 추가된 북마크가 없습니다. 자주\n사용하는 북마크를 추가해 보세요.";
 "Version" = "앱 버전";
+"Clear Data?" = "데이터를 지울까요?";
+"Clearing will remove all tag and bookmark data." = "지우기를 실행하면 태그 및 북마크 데이터가\n모두 제거됩니다.";
 
 /* Placeholder */
 "Search & Add" = "검색 및 추가";
