@@ -12,6 +12,7 @@ protocol TagRepositoryType {
     func add(_ tag: Tag) -> Result<Void, Error>
     func update(_ tag: Tag, to newTag: Tag) -> Result<Void, Error>
     func update(tags: [Tag]) -> Result<Void, Error>
+    func clear()
 }
 
 final class TagRepository: TagRepositoryType {
@@ -69,6 +70,18 @@ final class TagRepository: TagRepositoryType {
             return .success(())
         } catch {
             return .failure(error)
+        }
+    }
+    
+    func clear() {
+        let request = TagStorage.fetchRequest()
+        do {
+            guard let tagStorage = try context.fetch(request).first else { return }
+            tagStorage.tags = [TagEntity(name: TagName.all)]
+            try context.save()
+            mutableTagsStream.update(with: [Tag(name: TagName.all)])
+        } catch {
+            return
         }
     }
     
