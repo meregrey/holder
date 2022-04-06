@@ -74,7 +74,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         
         static let transparentFooterViewHeight = CGFloat(100)
         
-        static let saveButtonHeight = RoundedCornerButton.height
         static let saveButtonLeading = CGFloat(20)
         static let saveButtonTrailing = CGFloat(-20)
         static let saveButtonBottom = CGFloat(-40)
@@ -208,7 +207,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             transparentFooterView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             transparentFooterView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             
-            saveButton.heightAnchor.constraint(equalToConstant: Metric.saveButtonHeight),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.saveButtonLeading),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.saveButtonTrailing),
             saveButtonBottomConstraint

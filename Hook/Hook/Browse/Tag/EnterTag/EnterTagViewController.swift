@@ -47,7 +47,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         static let labeledTextFieldLeading = CGFloat(20)
         static let labeledTextFieldTrailing = CGFloat(-20)
         
-        static let saveButtonHeight = RoundedCornerButton.height
         static let saveButtonLeading = CGFloat(20)
         static let saveButtonTrailing = CGFloat(-20)
         static let saveButtonBottom = CGFloat(-40)
@@ -150,7 +149,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
             countLimitTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.labeledTextFieldLeading),
             countLimitTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.labeledTextFieldTrailing),
             
-            saveButton.heightAnchor.constraint(equalToConstant: Metric.saveButtonHeight),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.saveButtonLeading),
             saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.saveButtonTrailing),
             saveButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Metric.saveButtonBottom)
