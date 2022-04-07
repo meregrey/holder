@@ -17,6 +17,7 @@ protocol BookmarkRepositoryType {
     func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error>
     func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
     func deleteTags(for tag: Tag)
+    func clear()
 }
 
 final class BookmarkRepository: BookmarkRepositoryType {
@@ -24,6 +25,11 @@ final class BookmarkRepository: BookmarkRepositoryType {
     static let shared = BookmarkRepository()
     
     var context: NSManagedObjectContext { PersistentContainer.shared.context }
+    
+    var ascending: Bool {
+        let sort = UserDefaults.value(forType: Sort.self) ?? .newestToOldest
+        return sort == .newestToOldest ? false : true
+    }
     
     private init() {}
     
@@ -35,7 +41,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
             request.predicate = predicate
         }
         
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: ascending)
         request.sortDescriptors = [sortDescriptor]
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: context,
@@ -46,7 +52,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
     func fetchedResultsController(for tag: Tag) -> NSFetchedResultsController<BookmarkTagEntity> {
         let request = BookmarkTagEntity.fetchRequest()
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkTagEntity.bookmark.creationDate), ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkTagEntity.bookmark.creationDate), ascending: ascending)
         request.predicate = predicate
         request.sortDescriptors = [sortDescriptor]
         return NSFetchedResultsController(fetchRequest: request,
@@ -67,7 +73,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
             predicates = NSCompoundPredicate(type: .and, subpredicates: [predicates, isFavoritePredicate])
         }
         
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: ascending)
         request.predicate = predicates
         request.sortDescriptors = [sortDescriptor]
         return NSFetchedResultsController(fetchRequest: request,
@@ -148,6 +154,11 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
+    func clear() {
+        clearEntities(with: BookmarkEntity.fetchRequest())
+        clearEntities(with: BookmarkTagEntity.fetchRequest())
+    }
+    
     private func deleteTags(of bookmarkEntity: BookmarkEntity) throws {
         let request = BookmarkTagEntity.fetchRequest()
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.bookmark), bookmarkEntity)
@@ -156,5 +167,13 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let bookmarkTagEntities = try context.fetch(request)
         bookmarkTagEntities.forEach { context.delete($0) }
         try context.save()
+    }
+    
+    private func clearEntities(with fetchRequest: NSFetchRequest<NSFetchRequestResult>) {
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        deleteRequest.resultType = .resultTypeObjectIDs
+        let deleteResult = try? context.execute(deleteRequest) as? NSBatchDeleteResult
+        guard let objectIDs = deleteResult?.result as? [NSManagedObjectID] else { return }
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [context])
     }
 }

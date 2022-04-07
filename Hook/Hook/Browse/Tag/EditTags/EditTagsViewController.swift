@@ -44,7 +44,6 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
     private enum Metric {
         static let editTagsTableViewRowHeight = CGFloat(80)
         
-        static let saveButtonHeight = RoundedCornerButton.height
         static let saveButtonLeading = CGFloat(20)
         static let saveButtonTrailing = CGFloat(-20)
         static let saveButtonBottom = CGFloat(-40)
@@ -89,7 +88,6 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
             editTagsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             editTagsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            saveButton.heightAnchor.constraint(equalToConstant: Metric.saveButtonHeight),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.saveButtonLeading),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.saveButtonTrailing),
             saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Metric.saveButtonBottom)

@@ -9,8 +9,6 @@ import UIKit
 
 final class RoundedCornerButton: UIButton {
     
-    static let height = CGFloat(55)
-    
     init() {
         super.init(frame: .zero)
         configure()
@@ -25,5 +23,6 @@ final class RoundedCornerButton: UIButton {
         layer.cornerRadius = 10
         layer.cornerCurve = .continuous
         titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
 }

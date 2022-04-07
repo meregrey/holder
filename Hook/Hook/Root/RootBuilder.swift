@@ -7,18 +7,9 @@
 
 import RIBs
 
-protocol RootDependency: Dependency {
-    var loginStateStream: ReadOnlyStream<LoginState> { get }
-}
+protocol RootDependency: Dependency {}
 
-final class RootComponent: Component<RootDependency>, RootInteractorDependency, LoggedOutDependency, LoggedInDependency {
-    
-    var loginStateStream: ReadOnlyStream<LoginState> { dependency.loginStateStream }
-    
-    override init(dependency: RootDependency) {
-        super.init(dependency: dependency)
-    }
-}
+final class RootComponent: Component<RootDependency>, BrowseDependency, SearchDependency, FavoritesDependency, SettingsDependency {}
 
 // MARK: - Builder
 
@@ -27,21 +18,25 @@ protocol RootBuildable: Buildable {
 }
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
-
+    
     override init(dependency: RootDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(withListener listener: RootListener) -> LaunchRouting {
-        let viewController = RootViewController()
         let component = RootComponent(dependency: dependency)
-        let interactor = RootInteractor(presenter: viewController, dependency: component)
+        let viewController = RootViewController()
+        let interactor = RootInteractor(presenter: viewController)
         interactor.listener = listener
-        let loggedOut = LoggedOutBuilder(dependency: component)
-        let loggedIn = LoggedInBuilder(dependency: component)
+        let browse = BrowseBuilder(dependency: component)
+        let search = SearchBuilder(dependency: component)
+        let favorites = FavoritesBuilder(dependency: component)
+        let settings = SettingsBuilder(dependency: component)
         return RootRouter(interactor: interactor,
                           viewController: viewController,
-                          loggedOut: loggedOut,
-                          loggedIn: loggedIn)
+                          browse: browse,
+                          search: search,
+                          favorites: favorites,
+                          settings: settings)
     }
 }

@@ -47,7 +47,6 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         static let selectTagsTableViewCellHeight = CGFloat(80)
         static let selectTagsTableViewTop = CGFloat(20)
         
-        static let doneButtonHeight = RoundedCornerButton.height
         static let doneButtonLeading = CGFloat(20)
         static let doneButtonTrailing = CGFloat(-20)
         static let doneButtonBottom = CGFloat(-40)
@@ -119,7 +118,6 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
             selectTagsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectTagsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            doneButton.heightAnchor.constraint(equalToConstant: Metric.doneButtonHeight),
             doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.doneButtonLeading),
             doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.doneButtonTrailing),
             doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Metric.doneButtonBottom)

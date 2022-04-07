@@ -1,16 +1,18 @@
 /* Action title */
 "Add" = "추가";
 "Add to Favorites" = "즐겨찾기에 추가";
+"Appearance Settings" = "테마 설정";
 "Cancel" = "취소";
 "Clear" = "지우기";
 "Copy Link" = "링크 복사";
 "Dark" = "다크 모드";
 "Delete" = "삭제";
-"Display Settings" = "디스플레이 설정";
 "Done" = "완료";
 "Edit" = "편집";
 "Light" = "라이트 모드";
+"Newest to Oldest" = "최신 것 먼저";
 "OK" = "확인";
+"Oldest to Newest" = "오래된 것 먼저";
 "Reload" = "새로 고침";
 "Remove from Favorites" = "즐겨찾기에서 제거";
 "Save" = "저장";
@@ -20,17 +22,14 @@
 /* Alert title */
 "Enter the link." = "링크를 입력해 주세요.";
 "A bookmark corresponding to the link exists." = "링크에 해당하는 북마크가\n존재합니다.";
-"An error occurred while fetching the metadata." = "메타데이터를 가져오던 중\n오류가 발생했습니다.";
 "An error occurred while checking the store." = "스토어를 확인하던 중\n오류가 발생했습니다.";
 "An error occurred while saving to the store." = "스토어에 저장하던 중\n오류가 발생했습니다.";
 
 /* Alert title with message */
-"Keychain Error Occured" = "키체인 오류 발생";
 "Tag Already Selected" = "이미 선택한 태그입니다";
 "Delete Bookmark?" = "북마크를 삭제할까요?";
 
 /* Alert message */
-"An error occurred while saving to the keychain." = "키체인에 저장하던 중 오류가 발생했습니다.";
 "Check out the tag in the list." = "목록에서 해당 태그를 확인해 보세요.";
 "This bookmark will be deleted from all tags." = "이 북마크가 모든 태그에서 삭제됩니다.";
 
@@ -46,6 +45,9 @@
 "No results matching the search term could be found. Try another search term." = "검색어와 일치하는 결과를 찾을 수 없습니다.\n다른 검색어를 사용해 보세요.";
 "No Favorites" = "즐겨찾기 없음";
 "There are no bookmarks added to Favorites. Add frequently used bookmarks." = "즐겨찾기에 추가된 북마크가 없습니다. 자주\n사용하는 북마크를 추가해 보세요.";
+"Version" = "앱 버전";
+"Clear Data?" = "데이터를 지울까요?";
+"Clearing will remove all tag and bookmark data." = "지우기를 실행하면 태그 및 북마크 데이터가\n모두 제거됩니다.";
 
 /* Placeholder */
 "Search & Add" = "검색 및 추가";
@@ -58,7 +60,7 @@
 "Browse" = "둘러보기";
 "Search" = "검색";
 "Favorites" = "즐겨찾기";
-"Account" = "계정";
+"Settings" = "설정";
 "Tag Settings" = "태그 설정";
 "Add Tag" = "태그 추가";
 "Edit Tag" = "태그 편집";
@@ -66,3 +68,6 @@
 "Select Tags" = "태그 선택";
 "Add Bookmark" = "북마크 추가";
 "Edit Bookmark" = "북마크 편집";
+"Appearance" = "테마";
+"Sort Bookmarks" = "북마크 정렬";
+"Clear Data" = "데이터 지우기";

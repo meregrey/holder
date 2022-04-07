@@ -31,7 +31,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @AutoLayout private var dummyView = UIView()
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "browse.fill")
+        static let tabBarItem = UIImage(named: "browse")
     }
     
     weak var listener: BrowsePresentableListener?

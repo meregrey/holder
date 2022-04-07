@@ -6,78 +6,33 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol RootRouting: ViewableRouting {
-    func routeToLoggedOut()
-    func routeToLoggedIn(withCredential credential: Credential)
+    func attachTabs()
 }
 
 protocol RootPresentable: Presentable {
     var listener: RootPresentableListener? { get set }
-    func displayAlert(title: String, message: String)
 }
 
-protocol RootListener: AnyObject {
-    func didSucceedLogin(withCredential credential: Credential)
-    func didRequestLogout()
-}
-
-protocol RootInteractorDependency {
-    var loginStateStream: ReadOnlyStream<LoginState> { get }
-}
+protocol RootListener: AnyObject {}
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
     
-    private let dependency: RootInteractorDependency
-    
-    private var loginStateStream: ReadOnlyStream<LoginState> { dependency.loginStateStream }
-
     weak var router: RootRouting?
     weak var listener: RootListener?
     
-    init(presenter: RootPresentable, dependency: RootInteractorDependency) {
-        self.dependency = dependency
+    override init(presenter: RootPresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        subscribeLoginStateStream()
-        registerToReceiveNotification()
+        router?.attachTabs()
     }
 
     override func willResignActive() {
         super.willResignActive()
-    }
-    
-    func didSucceedLogin(withCredential credential: Credential) {
-        listener?.didSucceedLogin(withCredential: credential)
-    }
-    
-    private func subscribeLoginStateStream() {
-        loginStateStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            self?.determineToRoute(withLoginState: $0)
-        }
-    }
-
-    private func determineToRoute(withLoginState loginState: LoginState) {
-        switch loginState {
-        case .loggedOut: router?.routeToLoggedOut()
-        case .loggedIn(let credential): router?.routeToLoggedIn(withCredential: credential)
-        }
-    }
-    
-    private func registerToReceiveNotification() {
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(didFailToSaveCredential),
-                                       name: NotificationName.Credential.didFailToSave)
-    }
-
-    @objc
-    private func didFailToSaveCredential() {
-        presenter.displayAlert(title: LocalizedString.AlertTitle.keychainErrorOccured,
-                               message: LocalizedString.AlertMessage.keychainErrorOccured)
     }
 }

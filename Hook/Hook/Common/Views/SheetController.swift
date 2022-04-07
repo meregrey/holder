@@ -22,14 +22,14 @@ class SheetController: UIViewController {
     
     @AutoLayout private var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Color.backgroundView
+        view.backgroundColor = .black
         view.alpha = 0
         return view
     }()
     
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView(cornerRadius: 20)
-        view.backgroundColor = Color.containerView
+        view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         return view
     }()
     
@@ -59,11 +59,6 @@ class SheetController: UIViewController {
                                                                         attribute: .bottom,
                                                                         multiplier: 1,
                                                                         constant: 0)
-    
-    private enum Color {
-        static let backgroundView = UIColor.black
-        static let containerView = Asset.Color.sheetBaseBackgroundColor
-    }
     
     private enum Metric {
         static let stackViewTop = CGFloat(24)
