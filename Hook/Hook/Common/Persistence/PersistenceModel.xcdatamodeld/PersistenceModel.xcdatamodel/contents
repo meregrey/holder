@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="21C5039b" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BookmarkEntity" representedClassName="BookmarkEntity" syncable="YES">
-        <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="creationDate" attributeType="Date" defaultDateTimeInterval="-31654800" usesScalarValueType="NO"/>
         <attribute name="host" optional="YES" attributeType="String"/>
-        <attribute name="isFavorite" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <attribute name="urlString" attributeType="String"/>
+        <attribute name="urlString" attributeType="String" defaultValueString=""/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BookmarkTagEntity" inverseName="bookmark" inverseEntity="BookmarkTagEntity"/>
     </entity>
     <entity name="BookmarkTagEntity" representedClassName="BookmarkTagEntity" syncable="YES">
         <attribute name="index" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
         <relationship name="bookmark" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookmarkEntity" inverseName="tags" inverseEntity="BookmarkEntity"/>
     </entity>
     <entity name="TagStorage" representedClassName="TagStorage" syncable="YES">
-        <attribute name="tags" attributeType="Transformable" valueTransformerName="TagStorageTransformer" customClassName="[TagEntity]"/>
+        <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="TagStorageTransformer" customClassName="[TagEntity]"/>
     </entity>
     <elements>
         <element name="BookmarkEntity" positionX="-63" positionY="-9" width="128" height="134"/>

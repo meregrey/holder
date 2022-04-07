@@ -10,7 +10,7 @@ import Foundation
 
 extension TagStorage {
     
-    @NSManaged public var tags: [TagEntity]
+    @NSManaged public var tags: [TagEntity]?
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TagStorage> {
         return NSFetchRequest<TagStorage>(entityName: "TagStorage")
