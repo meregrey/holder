@@ -12,6 +12,7 @@ import Foundation
 public class TagStorage: NSManagedObject {
     
     func extractTags() -> [Tag] {
+        let tags = tags ?? []
         return tags.map { $0.converted() }
     }
 }

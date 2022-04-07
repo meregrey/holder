@@ -35,7 +35,8 @@ final class TagRepository: TagRepositoryType {
         let request = TagStorage.fetchRequest()
         do {
             guard let tagStorage = try context.fetch(request).first else { return .success(()) }
-            tagStorage.tags = tagStorage.tags.appended(with: TagEntity(name: tag.name))
+            let tags = tagStorage.tags ?? []
+            tagStorage.tags = tags.appended(with: TagEntity(name: tag.name))
             try context.save()
             let newValue = mutableTagsStream.value.appended(with: tag)
             mutableTagsStream.update(with: newValue)
