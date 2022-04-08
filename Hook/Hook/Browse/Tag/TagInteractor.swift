@@ -64,7 +64,7 @@ final class TagInteractor: Interactor, TagInteractable {
         router?.attachEditTags()
     }
     
-    func tagSettingsEditTagTableViewRowDidSelect(tag: Tag) {
+    func tagSettingsTagDidSelect(tag: Tag) {
         router?.attachEnterTag(mode: .edit(tag: tag))
     }
     

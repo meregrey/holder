@@ -5,13 +5,14 @@
 //  Created by Yeojin Yoon on 2022/02/04.
 //
 
+import CoreData
 import RIBs
 
 protocol SelectTagsRouting: ViewableRouting {}
 
 protocol SelectTagsPresentable: Presentable {
     var listener: SelectTagsPresentableListener? { get set }
-    func update(with tags: [Tag], existingSelectedTags: [Tag])
+    func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>, existingSelectedTags: [Tag])
     func update(with tagBySearch: Tag)
 }
 
@@ -29,7 +30,6 @@ protocol SelectTagsInteractorDependency {
 
 final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, SelectTagsInteractable, SelectTagsPresentableListener {
     
-    private let tagsStream = TagRepository.shared.tagsStream
     private let dependency: SelectTagsInteractorDependency
     
     private var existingSelectedTags: [Tag] { dependency.existingSelectedTags }
@@ -47,7 +47,7 @@ final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, 
     
     override func didBecomeActive() {
         super.didBecomeActive()
-        subscribeTagsStream()
+        performFetch()
         subscribeTagBySearchStream()
     }
     
@@ -69,15 +69,16 @@ final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, 
         listener?.selectTagsDoneButtonDidTap()
     }
     
-    private func subscribeTagsStream() {
-        tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            self?.presenter.update(with: $0, existingSelectedTags: self?.existingSelectedTags ?? [])
-        }
+    private func performFetch() {
+        let fetchedResultsController = TagRepository.shared.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        presenter.update(with: fetchedResultsController, existingSelectedTags: existingSelectedTags)
     }
     
     private func subscribeTagBySearchStream() {
         tagBySearchStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            if $0.name.count > 0 { self?.presenter.update(with: $0) }
+            guard $0.name.count > 0 else { return }
+            self?.presenter.update(with: $0)
         }
     }
     

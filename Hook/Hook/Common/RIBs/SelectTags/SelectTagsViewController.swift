@@ -5,6 +5,7 @@
 //  Created by Yeojin Yoon on 2022/02/04.
 //
 
+import CoreData
 import RIBs
 import UIKit
 
@@ -16,8 +17,8 @@ protocol SelectTagsPresentableListener: AnyObject {
 
 final class SelectTagsViewController: UIViewController, SelectTagsPresentable, SelectTagsViewControllable {
     
-    private var tags: [Tag] = []
     private var selectedTags: [Tag] = []
+    private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
     @AutoLayout private var headerView = SheetHeaderView(title: LocalizedString.ViewTitle.selectTags)
     
@@ -64,9 +65,9 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         configureViews()
     }
     
-    func update(with tags: [Tag], existingSelectedTags: [Tag]) {
-        let filteredTags = tags.filter { $0.name != TagName.all }
-        self.tags = filteredTags
+    func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>, existingSelectedTags: [Tag]) {
+        self.fetchedResultsController = fetchedResultsController
+        self.fetchedResultsController?.delegate = self
         self.selectedTags = existingSelectedTags
         DispatchQueue.main.async {
             self.selectTagsTableView.reloadData()
@@ -81,8 +82,9 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
             return
         }
         selectedTags.append(tagBySearch)
-        guard let row = tags.firstIndex(of: tagBySearch) else { return }
-        let indexPath = IndexPath(row: row, section: 0)
+        guard let tagEntities = fetchedResultsController?.fetchedObjects else { return }
+        guard let tagEntity = tagEntities.filter({ $0.name == tagBySearch.name }).first else { return }
+        let indexPath = IndexPath(row: Int(tagEntity.index), section: 0)
         DispatchQueue.main.async {
             self.selectTagsTableView.scrollToRow(at: indexPath, at: .middle, animated: false)
             self.selectTagsTableView.reloadRows(at: [indexPath], with: .none)
@@ -140,6 +142,8 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     }
 }
 
+// MARK: - Data Source
+
 extension SelectTagsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -147,14 +151,15 @@ extension SelectTagsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 { return tags.count }
+        if section == 0 { return fetchedResultsController?.fetchedObjects?.count ?? 0 }
         return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell: SelectTagsTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-            let tag = tags[indexPath.row]
+            guard let tagEntities = fetchedResultsController?.fetchedObjects else { return cell }
+            let tag = Tag(name: tagEntities[indexPath.row].name)
             let flag = selectedTags.contains(tag)
             cell.configure(with: tag, selected: flag)
             return cell
@@ -167,6 +172,8 @@ extension SelectTagsViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Delegate
+
 extension SelectTagsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -175,7 +182,8 @@ extension SelectTagsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? SelectTagsTableViewCell else { return }
-        let tag = tags[indexPath.row]
+        guard let tagEntities = fetchedResultsController?.fetchedObjects else { return }
+        let tag = Tag(name: tagEntities[indexPath.row].name)
         
         if selectedTags.contains(tag) {
             let index = selectedTags.firstIndex(of: tag) ?? 0
@@ -185,5 +193,14 @@ extension SelectTagsViewController: UITableViewDelegate {
         }
         
         cell.isChecked.toggle()
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension SelectTagsViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        selectTagsTableView.reloadData()
     }
 }

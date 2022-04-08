@@ -77,12 +77,16 @@ final class LabeledTagCollectionView: LabeledView {
     }
     
     func reloadData() {
-        tagCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.tagCollectionView.reloadData()
+        }
     }
     
     func resetHeight() {
-        containerViewHeightConstraint.constant = Metric.containerViewMinimumHeight
-        layoutIfNeeded()
+        DispatchQueue.main.async {
+            self.containerViewHeightConstraint.constant = Metric.containerViewMinimumHeight
+            self.layoutIfNeeded()
+        }
     }
     
     private func configureViews() {

@@ -57,12 +57,14 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
     
     func update(fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?, searchTerm: String) {
         self.fetchedResultsController = fetchedResultsController
-        if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count > 0 {
-            bookmarkListCollectionView.reloadData()
-            explanationView.isHidden = true
-        } else {
-            configureExplanationView(with: searchTerm)
-            explanationView.isHidden = false
+        DispatchQueue.main.async {
+            if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count > 0 {
+                self.bookmarkListCollectionView.reloadData()
+                self.explanationView.isHidden = true
+            } else {
+                self.configureExplanationView(with: searchTerm)
+                self.explanationView.isHidden = false
+            }
         }
     }
     

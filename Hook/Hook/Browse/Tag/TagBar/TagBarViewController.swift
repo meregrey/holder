@@ -5,19 +5,19 @@
 //  Created by Yeojin Yoon on 2022/01/07.
 //
 
+import CoreData
 import RIBs
 import UIKit
 
 protocol TagBarPresentableListener: AnyObject {
-    func viewDidAppearFirst()
     func tagDidSelect(tag: Tag)
     func tagSettingsButtonDidTap()
 }
 
 final class TagBarViewController: UIViewController, TagBarPresentable, TagBarViewControllable {
     
-    private var tags: [Tag] = []
-    private var isFirstAppeared = true
+    private var currentIndexPath = IndexPath(item: 0, section: 0)
+    private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
     @AutoLayout private var containerView = UIView()
     
@@ -73,16 +73,9 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         configureViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if isFirstAppeared {
-            listener?.viewDidAppearFirst()
-            isFirstAppeared = false
-        }
-    }
-    
-    func update(with tags: [Tag]) {
-        self.tags = tags
+    func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>) {
+        self.fetchedResultsController = fetchedResultsController
+        self.fetchedResultsController?.delegate = self
         DispatchQueue.main.async {
             self.tagBarCollectionView.reloadData()
             self.tagBarCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
@@ -90,9 +83,19 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
     }
     
     func update(with currentTag: Tag) {
-        guard let index = tags.firstIndex(of: currentTag) else { return }
+        let indexPath: IndexPath
+        
+        if currentTag.name == TagName.all {
+            indexPath = IndexPath(item: 0, section: 0)
+        } else {
+            guard let tagEntities = fetchedResultsController?.fetchedObjects else { return }
+            guard let tagEntity = tagEntities.filter({ $0.name == currentTag.name }).first else { return }
+            indexPath = IndexPath(item: Int(tagEntity.index) + 1, section: 0)
+        }
+        
         DispatchQueue.main.async {
-            self.tagBarCollectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+            self.tagBarCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            self.currentIndexPath = indexPath
         }
     }
     
@@ -130,32 +133,67 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
     }
 }
 
+// MARK: - Data Source
+
 extension TagBarViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tags.count
+        let fetchedObjectsCount = fetchedResultsController?.fetchedObjects?.count ?? 0
+        return fetchedObjectsCount + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TagBarCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.configure(with: tags[indexPath.item])
-        return cell
+        if fetchedResultsController == nil || indexPath.item == 0 {
+            cell.configure(with: Tag(name: TagName.all))
+            return cell
+        } else {
+            guard let tagEntity = fetchedResultsController?.fetchedObjects?[indexPath.item - 1] else { return cell }
+            cell.configure(with: Tag(name: tagEntity.name))
+            return cell
+        }
     }
 }
+
+// MARK: - Delegate
 
 extension TagBarViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        listener?.tagDidSelect(tag: tags[indexPath.row])
+        let tag: Tag
+        if fetchedResultsController == nil || indexPath.item == 0 {
+            tag = Tag(name: TagName.all)
+        } else {
+            guard let tagEntity = fetchedResultsController?.fetchedObjects?[indexPath.item - 1] else { return }
+            tag = Tag(name: tagEntity.name)
+        }
+        listener?.tagDidSelect(tag: tag)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
+
+// MARK: - Layout
 
 extension TagBarViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return TagBarCollectionViewCell.fittingSize(with: tags[indexPath.item], height: Metric.tagBarCollectionViewHeight)
+        if fetchedResultsController == nil || indexPath.item == 0 {
+            return TagBarCollectionViewCell.fittingSize(with: Tag(name: TagName.all), height: Metric.tagBarCollectionViewHeight)
+        } else {
+            guard let tagEntity = fetchedResultsController?.fetchedObjects?[indexPath.item - 1] else { return CGSize(width: 0, height: 0) }
+            return TagBarCollectionViewCell.fittingSize(with: Tag(name: tagEntity.name), height: Metric.tagBarCollectionViewHeight)
+        }
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension TagBarViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tagBarCollectionView.reloadData()
+        tagBarCollectionView.selectItem(at: currentIndexPath, animated: false, scrollPosition: .centeredHorizontally)
     }
 }

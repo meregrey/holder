@@ -5,6 +5,7 @@
 //  Created by Yeojin Yoon on 2022/01/10.
 //
 
+import CoreData
 import RIBs
 import UIKit
 
@@ -12,13 +13,13 @@ protocol TagSettingsPresentableListener: AnyObject {
     func backButtonDidTap()
     func addTagButtonDidTap()
     func editTagsButtonDidTap()
-    func editTagTableViewRowDidSelect(tag: Tag)
+    func tagDidSelect(tag: Tag)
     func didRemove()
 }
 
 final class TagSettingsViewController: UIViewController, TagSettingsPresentable, TagSettingsViewControllable {
     
-    private var tags: [Tag] = []
+    private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
     @AutoLayout private var tagSettingsTableView: UITableView = {
         let tableView = UITableView()
@@ -36,7 +37,7 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     }
     
     private enum Metric {
-        static let editTagTableViewRowHeight = CGFloat(80)
+        static let tagSettingsTableViewRowHeight = CGFloat(80)
     }
     
     weak var listener: TagSettingsPresentableListener?
@@ -61,15 +62,17 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         if parent == nil { listener?.didRemove() }
     }
     
-    func update(with tags: [Tag]) {
-        self.tags = tags
+    func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>) {
+        self.fetchedResultsController = fetchedResultsController
+        self.fetchedResultsController?.delegate = self
         DispatchQueue.main.async {
             self.tagSettingsTableView.reloadData()
         }
     }
     
     func scrollToBottom() {
-        let indexPath = IndexPath(row: tags.count - 1, section: 0)
+        guard let count = fetchedResultsController?.fetchedObjects?.count else { return }
+        let indexPath = IndexPath(row: count - 1, section: 0)
         DispatchQueue.main.async {
             self.tagSettingsTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
@@ -112,28 +115,41 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     }
 }
 
+// MARK: - Data Source
+
 extension TagSettingsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tags.count
+        return fetchedResultsController?.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TagSettingsTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.configure(with: tags[indexPath.row])
+        guard let tagEntity = fetchedResultsController?.fetchedObjects?[indexPath.row] else { return cell }
+        cell.configure(with: Tag(name: tagEntity.name))
         return cell
     }
 }
 
+// MARK: - Delegate
+
 extension TagSettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Metric.editTagTableViewRowHeight
+        return Metric.tagSettingsTableViewRowHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let tag = tags[indexPath.row]
-        if tag.name == TagName.all { return }
-        listener?.editTagTableViewRowDidSelect(tag: tag)
+        guard let tagEntity = fetchedResultsController?.fetchedObjects?[indexPath.row] else { return }
+        listener?.tagDidSelect(tag: Tag(name: tagEntity.name))
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension TagSettingsViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tagSettingsTableView.reloadData()
     }
 }

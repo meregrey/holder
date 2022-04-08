@@ -23,36 +23,35 @@ final class BookmarkListCollectionViewManager: NSObject {
     private let bookmarkRepository = BookmarkRepository.shared
     private let fetchedResultsControllerDelegate: FetchedResultsControllerDelegate
     private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
-    private let tag: Tag
+    private let tag: Tag?
     
     private weak var collectionView: UICollectionView?
     private weak var listener: BookmarkListCollectionViewListener?
     
-    private var isForAll = false
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
     
-    init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag) {
+    init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag?) {
         self.fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: collectionView)
         self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
         self.tag = tag
         self.collectionView = collectionView
         self.listener = listener
-        
         super.init()
-        
-        if tag.name == TagName.all {
-            isForAll = true
-            configureFetchedResultsControllerForAll()
-        } else {
-            configureFetchedResultsControllerForTag(with: tag)
-        }
-        
+        configureFetchedResultsController()
         registerToReceiveNotification()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func configureFetchedResultsController() {
+        if let tag = tag {
+            configureFetchedResultsControllerForTag(with: tag)
+        } else {
+            configureFetchedResultsControllerForAll()
+        }
     }
     
     private func configureFetchedResultsControllerForAll() {
@@ -75,16 +74,12 @@ final class BookmarkListCollectionViewManager: NSObject {
     
     @objc
     private func sortDidChange() {
-        if isForAll {
-            configureFetchedResultsControllerForAll()
-        } else {
-            configureFetchedResultsControllerForTag(with: tag)
-        }
+        configureFetchedResultsController()
         collectionView?.reloadData()
     }
     
     private func bookmarkEntity(at indexPath: IndexPath) -> BookmarkEntity? {
-        return isForAll ? fetchedResultsControllerForAll?.object(at: indexPath) : fetchedResultsControllerForTag?.object(at: indexPath).bookmark
+        return tag == nil ? fetchedResultsControllerForAll?.object(at: indexPath) : fetchedResultsControllerForTag?.object(at: indexPath).bookmark
     }
 }
 
@@ -93,7 +88,7 @@ final class BookmarkListCollectionViewManager: NSObject {
 extension BookmarkListCollectionViewManager: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isForAll {
+        if tag == nil {
             guard let fetchedObjects = fetchedResultsControllerForAll?.fetchedObjects else { return 0 }
             return fetchedObjects.count
         } else {
