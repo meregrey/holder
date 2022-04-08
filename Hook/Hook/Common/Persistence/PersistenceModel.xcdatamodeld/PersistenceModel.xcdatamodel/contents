@@ -14,12 +14,13 @@
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <relationship name="bookmark" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookmarkEntity" inverseName="tags" inverseEntity="BookmarkEntity"/>
     </entity>
-    <entity name="TagStorage" representedClassName="TagStorage" syncable="YES">
-        <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="TagStorageTransformer" customClassName="[TagEntity]"/>
+    <entity name="TagEntity" representedClassName="TagEntity" syncable="YES">
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
     </entity>
     <elements>
         <element name="BookmarkEntity" positionX="-63" positionY="-9" width="128" height="134"/>
         <element name="BookmarkTagEntity" positionX="-54" positionY="45" width="128" height="74"/>
-        <element name="TagStorage" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="TagEntity" positionX="-54" positionY="54" width="128" height="59"/>
     </elements>
 </model>
