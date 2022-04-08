@@ -26,12 +26,12 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         super.init(presenter: presenter)
         presenter.listener = self
     }
-
+    
     override func didBecomeActive() {
         super.didBecomeActive()
         router?.attachTabs()
     }
-
+    
     override func willResignActive() {
         super.willResignActive()
     }

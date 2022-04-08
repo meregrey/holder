@@ -17,14 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        registerTransformer()
         adoptInterfaceStyle()
         launchRoot()
         return true
-    }
-    
-    private func registerTransformer() {
-        TagStorageTransformer.register()
     }
     
     private func adoptInterfaceStyle() {
