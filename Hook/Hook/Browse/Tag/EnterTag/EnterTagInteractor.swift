@@ -52,8 +52,8 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     }
     
     func saveButtonDidTap(tag: Tag) {
-        if tagRepository.isExisting(tag) {
-            NotificationCenter.post(named: NotificationName.Tag.existingTag)
+        guard canContinueSaving(tag) else {
+            listener?.enterTagSaveButtonDidTap()
             return
         }
         switch mode {
@@ -65,6 +65,18 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     
     func didRemove() {
         listener?.enterTagDidRemove()
+    }
+    
+    private func canContinueSaving(_ tag: Tag) -> Bool {
+        let result = tagRepository.isExisting(tag.name)
+        switch result {
+        case .success(let isExisting):
+            if isExisting { NotificationCenter.post(named: NotificationName.Tag.existingTag) }
+            return !isExisting
+        case .failure(_):
+            NotificationCenter.post(named: NotificationName.Store.didFailToCheck)
+            return false
+        }
     }
     
     private func addTag(_ tag: Tag) {

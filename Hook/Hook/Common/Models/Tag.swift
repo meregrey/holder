@@ -14,9 +14,3 @@ struct Tag: Hashable {
         return lhs.name == rhs.name
     }
 }
-
-extension Tag {
-    func converted() -> TagEntity {
-        return TagEntity(name: name)
-    }
-}

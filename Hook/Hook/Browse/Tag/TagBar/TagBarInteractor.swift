@@ -5,13 +5,14 @@
 //  Created by Yeojin Yoon on 2022/01/07.
 //
 
+import CoreData
 import RIBs
 
 protocol TagBarRouting: ViewableRouting {}
 
 protocol TagBarPresentable: Presentable {
     var listener: TagBarPresentableListener? { get set }
-    func update(with tags: [Tag])
+    func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>)
     func update(with currentTag: Tag)
 }
 
@@ -25,7 +26,6 @@ protocol TagBarInteractorDependency {
 
 final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarInteractable, TagBarPresentableListener {
     
-    private let tagsStream = TagRepository.shared.tagsStream
     private let dependency: TagBarInteractorDependency
     
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
@@ -41,17 +41,12 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
     
     override func didBecomeActive() {
         super.didBecomeActive()
-        subscribeTagsStream()
+        performFetch()
         subscribeCurrentTagStream()
     }
     
     override func willResignActive() {
         super.willResignActive()
-    }
-    
-    func viewDidAppearFirst() {
-        guard let tag = tagsStream.value.first else { return }
-        currentTagStream.update(with: tag)
     }
     
     func tagDidSelect(tag: Tag) {
@@ -62,14 +57,15 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
         listener?.tagBarTagSettingsButtonDidTap()
     }
     
-    private func subscribeTagsStream() {
-        tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            self?.presenter.update(with: $0)
-        }
+    private func performFetch() {
+        let fetchedResultsController = TagRepository.shared.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        presenter.update(with: fetchedResultsController)
     }
     
     private func subscribeCurrentTagStream() {
         currentTagStream.subscribe(disposedOnDeactivate: self) { [weak self] in
+            guard $0.name.count > 0 else { return }
             self?.presenter.update(with: $0)
         }
     }

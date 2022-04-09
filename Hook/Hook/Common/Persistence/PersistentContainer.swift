@@ -15,17 +15,19 @@ final class PersistentContainer: PersistentContainerType {
     
     static let shared = PersistentContainer()
     
-    private let container: NSPersistentCloudKitContainer = {
+    private lazy var container: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "PersistenceModel")
         container.loadPersistentStores { _, error in
-            if let _ = error {
-                NotificationCenter.default.post(name: NotificationName.Store.didFailToLoad, object: nil)
+            guard error == nil else {
+                NotificationCenter.post(named: NotificationName.Store.didFailToLoad)
+                return
             }
         }
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
-    private(set) lazy var context = container.newBackgroundContext()
+    var context: NSManagedObjectContext { container.viewContext }
     
     private init() {}
 }

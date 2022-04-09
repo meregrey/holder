@@ -31,7 +31,6 @@ protocol BookmarkBrowserInteractorDependency {
 
 final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     
-    private let tagsStream = TagRepository.shared.tagsStream
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkBrowserInteractorDependency
     
@@ -49,7 +48,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     override func didBecomeActive() {
         super.didBecomeActive()
-        subscribeTagsStream()
+        performFetch()
         subscribeCurrentTagStream()
     }
     
@@ -57,8 +56,8 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         super.willResignActive()
     }
     
-    func indexPathDidChange(indexPath: IndexPath) {
-        let currentTag = tagsStream.value[indexPath.item]
+    func indexPathDidChange(pendingTag: Tag?) {
+        let currentTag = pendingTag ?? Tag(name: TagName.all)
         currentTagStream.update(with: currentTag)
     }
     
@@ -106,10 +105,12 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
                                action: Action(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
     }
     
-    private func subscribeTagsStream() {
-        tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            self?.presenter.update(with: $0)
-        }
+    private func performFetch() {
+        let fetchedResultsController = TagRepository.shared.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        guard let tagEntities = fetchedResultsController.fetchedObjects else { return }
+        let tags = tagEntities.map { Tag(name: $0.name) }
+        presenter.update(with: tags)
     }
     
     private func subscribeCurrentTagStream() {

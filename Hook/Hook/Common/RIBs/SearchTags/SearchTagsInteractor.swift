@@ -5,12 +5,14 @@
 //  Created by Yeojin Yoon on 2022/02/12.
 //
 
+import CoreData
 import RIBs
 
 protocol SearchTagsRouting: ViewableRouting {}
 
 protocol SearchTagsPresentable: Presentable {
     var listener: SearchTagsPresentableListener? { get set }
+    func update(with tags: [Tag])
 }
 
 protocol SearchTagsListener: AnyObject {
@@ -24,6 +26,7 @@ protocol SearchTagsInteractorDependency {
 
 final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, SearchTagsInteractable, SearchTagsPresentableListener {
     
+    private let tagRepository = TagRepository.shared
     private let dependency: SearchTagsInteractorDependency
     
     private var tagBySearchStream: MutableStream<Tag> { dependency.tagBySearchStream }
@@ -39,6 +42,7 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
     
     override func didBecomeActive() {
         super.didBecomeActive()
+        performFetch()
     }
     
     override func willResignActive() {
@@ -51,7 +55,7 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
     
     func rowDidSelect(tag: Tag, shouldAddTag: Bool) {
         if shouldAddTag {
-            let result = TagRepository.shared.add(tag)
+            let result = tagRepository.add(tag)
             switch result {
             case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
             case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToAddTag)
@@ -59,5 +63,13 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
         }
         tagBySearchStream.update(with: tag)
         listener?.searchTagsRowDidSelect()
+    }
+    
+    private func performFetch() {
+        let fetchedResultsController = tagRepository.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        guard let tagEntities = fetchedResultsController.fetchedObjects else { return }
+        let tags = tagEntities.map { Tag(name: $0.name) }
+        presenter.update(with: tags)
     }
 }

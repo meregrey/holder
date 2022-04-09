@@ -10,7 +10,7 @@ import UIKit
 
 protocol EditTagsPresentableListener: AnyObject {
     func backButtonDidTap()
-    func saveButtonDidTap(remainingTags: [Tag], deletedTags: [Tag])
+    func saveButtonDidTap(deletedTags: [Tag], remainingTags: [Tag])
     func didRemove()
 }
 
@@ -101,7 +101,7 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
     
     @objc
     private func saveButtonDidTap() {
-        listener?.saveButtonDidTap(remainingTags: tags, deletedTags: deletedTags)
+        listener?.saveButtonDidTap(deletedTags: deletedTags, remainingTags: tags)
     }
 }
 

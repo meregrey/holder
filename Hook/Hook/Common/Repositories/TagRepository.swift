@@ -8,10 +8,12 @@
 import CoreData
 
 protocol TagRepositoryType {
-    func isExisting(_ tag: Tag) -> Bool
+    func fetchedResultsController() -> NSFetchedResultsController<TagEntity>
+    func isExisting(_ name: String) -> Result<Bool, Error>
     func add(_ tag: Tag) -> Result<Void, Error>
     func update(_ tag: Tag, to newTag: Tag) -> Result<Void, Error>
-    func update(tags: [Tag]) -> Result<Void, Error>
+    func update(_ tags: [Tag]) -> Result<Void, Error>
+    func delete(_ tags: [Tag]) -> Result<Void, Error>
     func clear()
 }
 
@@ -19,26 +21,39 @@ final class TagRepository: TagRepositoryType {
     
     static let shared = TagRepository()
     
-    private let mutableTagsStream = MutableStream<[Tag]>(initialValue: [])
-    
     private var context: NSManagedObjectContext { PersistentContainer.shared.context }
     
-    var tagsStream: ReadOnlyStream<[Tag]> { mutableTagsStream }
+    private init() {}
     
-    private init() { fetch() }
+    func fetchedResultsController() -> NSFetchedResultsController<TagEntity> {
+        let request = TagEntity.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(TagEntity.index), ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+        return NSFetchedResultsController(fetchRequest: request,
+                                          managedObjectContext: context,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }
     
-    func isExisting(_ tag: Tag) -> Bool {
-        return mutableTagsStream.value.contains { $0.name.caseInsensitiveCompare(tag.name) == .orderedSame }
+    func isExisting(_ name: String) -> Result<Bool, Error> {
+        let request = TagEntity.fetchRequest()
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(TagEntity.name), name)
+        request.predicate = predicate
+        do {
+            let count = try context.count(for: request)
+            return .success(count > 0)
+        } catch {
+            return .failure(error)
+        }
     }
     
     func add(_ tag: Tag) -> Result<Void, Error> {
-        let request = TagStorage.fetchRequest()
+        let request = TagEntity.fetchRequest()
         do {
-            guard let tagStorage = try context.fetch(request).first else { return .success(()) }
-            tagStorage.tags = tagStorage.tags.appended(with: TagEntity(name: tag.name))
+            let index = try context.count(for: request)
+            let tagEntity = TagEntity(context: context)
+            tagEntity.configure(name: tag.name, index: index)
             try context.save()
-            let newValue = mutableTagsStream.value.appended(with: tag)
-            mutableTagsStream.update(with: newValue)
             return .success(())
         } catch {
             return .failure(error)
@@ -47,26 +62,45 @@ final class TagRepository: TagRepositoryType {
     
     func update(_ tag: Tag, to newTag: Tag) -> Result<Void, Error> {
         if tag.name == newTag.name { return .success(()) }
-        guard let tags = makeReplacedTags(tag, with: newTag) else { return .success(()) }
-        let request = TagStorage.fetchRequest()
+        let request = TagEntity.fetchRequest()
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(TagEntity.name), tag.name)
+        request.predicate = predicate
         do {
-            guard let tagStorage = try context.fetch(request).first else { return .success(()) }
-            tagStorage.tags = tags.map { $0.converted() }
+            guard let tagEntity = try context.fetch(request).first else { return .success(()) }
+            tagEntity.name = newTag.name
             try context.save()
-            mutableTagsStream.update(with: tags)
             return .success(())
         } catch {
             return .failure(error)
         }
     }
     
-    func update(tags: [Tag]) -> Result<Void, Error> {
-        let request = TagStorage.fetchRequest()
+    func update(_ tags: [Tag]) -> Result<Void, Error> {
+        let request = TagEntity.fetchRequest()
         do {
-            guard let tagStorage = try context.fetch(request).first else { return .success(()) }
-            tagStorage.tags = tags.map { $0.converted() }
+            let tagEntities = try context.fetch(request)
+            tagEntities.forEach {
+                guard let index = tags.firstIndex(of: Tag(name: $0.name)) else { return }
+                $0.index = Int16(index)
+            }
             try context.save()
-            mutableTagsStream.update(with: tags)
+            return .success(())
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func delete(_ tags: [Tag]) -> Result<Void, Error> {
+        let request = TagEntity.fetchRequest()
+        request.includesPropertyValues = false
+        do {
+            try tags.forEach {
+                let predicate = NSPredicate(format: "%K == %@", #keyPath(TagEntity.name), $0.name)
+                request.predicate = predicate
+                guard let tagEntity = try context.fetch(request).first else { return }
+                context.delete(tagEntity)
+                try context.save()
+            }
             return .success(())
         } catch {
             return .failure(error)
@@ -74,37 +108,10 @@ final class TagRepository: TagRepositoryType {
     }
     
     func clear() {
-        let request = TagStorage.fetchRequest()
-        do {
-            guard let tagStorage = try context.fetch(request).first else { return }
-            tagStorage.tags = [TagEntity(name: TagName.all)]
-            try context.save()
-            mutableTagsStream.update(with: [Tag(name: TagName.all)])
-        } catch {
-            return
-        }
-    }
-    
-    private func fetch() {
-        let request = TagStorage.fetchRequest()
-        guard let tags = try? context.fetch(request).first?.extractTags() else {
-            setUp()
-            return
-        }
-        mutableTagsStream.update(with: tags)
-    }
-    
-    private func setUp() {
-        let tagStorage = TagStorage(context: context)
-        tagStorage.tags = [TagEntity(name: TagName.all)]
-        try? context.save()
-        mutableTagsStream.update(with: [Tag(name: TagName.all)])
-    }
-    
-    private func makeReplacedTags(_ tag: Tag, with newTag: Tag) -> [Tag]? {
-        var tags = mutableTagsStream.value
-        guard let index = tags.firstIndex(of: tag) else { return nil }
-        tags[index] = newTag
-        return tags
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: TagEntity.fetchRequest())
+        deleteRequest.resultType = .resultTypeObjectIDs
+        let deleteResult = try? context.execute(deleteRequest) as? NSBatchDeleteResult
+        guard let objectIDs = deleteResult?.result as? [NSManagedObjectID] else { return }
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [context])
     }
 }

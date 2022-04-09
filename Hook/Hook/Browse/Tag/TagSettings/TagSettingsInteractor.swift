@@ -5,13 +5,14 @@
 //  Created by Yeojin Yoon on 2022/01/10.
 //
 
+import CoreData
 import RIBs
 
 protocol TagSettingsRouting: ViewableRouting {}
 
 protocol TagSettingsPresentable: Presentable {
     var listener: TagSettingsPresentableListener? { get set }
-    func update(with tags: [Tag])
+    func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>)
     func scrollToBottom()
 }
 
@@ -19,13 +20,11 @@ protocol TagSettingsListener: AnyObject {
     func tagSettingsBackButtonDidTap()
     func tagSettingsAddTagButtonDidTap()
     func tagSettingsEditTagsButtonDidTap()
-    func tagSettingsEditTagTableViewRowDidSelect(tag: Tag)
+    func tagSettingsTagDidSelect(tag: Tag)
     func tagSettingsDidRemove()
 }
 
 final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>, TagSettingsInteractable, TagSettingsPresentableListener {
-    
-    private let tagsStream = TagRepository.shared.tagsStream
     
     weak var router: TagSettingsRouting?
     weak var listener: TagSettingsListener?
@@ -37,7 +36,7 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     
     override func didBecomeActive() {
         super.didBecomeActive()
-        subscribeTagsStream()
+        performFetch()
         registerToReceiveNotification()
     }
     
@@ -57,18 +56,18 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
         listener?.tagSettingsEditTagsButtonDidTap()
     }
     
-    func editTagTableViewRowDidSelect(tag: Tag) {
-        listener?.tagSettingsEditTagTableViewRowDidSelect(tag: tag)
+    func tagDidSelect(tag: Tag) {
+        listener?.tagSettingsTagDidSelect(tag: tag)
     }
     
     func didRemove() {
         listener?.tagSettingsDidRemove()
     }
     
-    private func subscribeTagsStream() {
-        tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            self?.presenter.update(with: $0)
-        }
+    private func performFetch() {
+        let fetchedResultsController = TagRepository.shared.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        presenter.update(with: fetchedResultsController)
     }
     
     private func registerToReceiveNotification() {

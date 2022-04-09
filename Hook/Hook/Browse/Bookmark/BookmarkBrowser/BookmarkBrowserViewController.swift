@@ -10,7 +10,7 @@ import RIBs
 import UIKit
 
 protocol BookmarkBrowserPresentableListener: AnyObject {
-    func indexPathDidChange(indexPath: IndexPath)
+    func indexPathDidChange(pendingTag: Tag?)
     func addBookmarkButtonDidTap()
 }
 
@@ -86,7 +86,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     }
     
     func update(with currentTag: Tag) {
-        guard let index = tags.firstIndex(of: currentTag) else { return }
+        let indexForTag = (tags.firstIndex(of: currentTag) ?? 0) + 1
+        let index = currentTag.name == TagName.all ? 0 : indexForTag
         let indexPath = IndexPath(item: index, section: 0)
         bookmarkBrowserCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
@@ -148,13 +149,13 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
 extension BookmarkBrowserViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tags.count
+        return tags.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BookmarkBrowserCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        let tag = tags[indexPath.item]
-        cell.configure(with: tag, listener: bookmarkListCollectionViewListener)
+        let tag = indexPath.item > 0 ? tags[indexPath.item - 1] : nil
+        cell.configure(listener: bookmarkListCollectionViewListener, tag: tag)
         return cell
     }
 }
@@ -179,8 +180,9 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let collectionView = scrollView as? UICollectionView else { return }
         guard let indexPath = collectionView.indexPathsForVisibleItems.first else { return }
+        let pendingTag = indexPath.item > 0 ? tags[indexPath.item - 1] : nil
+        listener?.indexPathDidChange(pendingTag: pendingTag)
         currentIndexPath = indexPath
-        listener?.indexPathDidChange(indexPath: indexPath)
         if let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] { displayBlurView(for: contentOffset) }
     }
 }

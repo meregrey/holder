@@ -22,7 +22,7 @@ protocol EditTagsListener: AnyObject {
 
 final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, EditTagsInteractable, EditTagsPresentableListener {
     
-    private let tagsStream = TagRepository.shared.tagsStream
+    private let tagRepository = TagRepository.shared
     
     weak var router: EditTagsRouting?
     weak var listener: EditTagsListener?
@@ -34,7 +34,7 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
     
     override func didBecomeActive() {
         super.didBecomeActive()
-        subscribeTagsStream()
+        performFetch()
     }
     
     override func willResignActive() {
@@ -45,12 +45,9 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         listener?.editTagsBackButtonDidTap()
     }
     
-    func saveButtonDidTap(remainingTags: [Tag], deletedTags: [Tag]) {
-        let result = TagRepository.shared.update(tags: remainingTags)
-        switch result {
-        case .success(_): if deletedTags.count > 0 { deleteBookmarkTags(for: deletedTags) }
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTags)
-        }
+    func saveButtonDidTap(deletedTags: [Tag], remainingTags: [Tag]) {
+        deleteTags(deletedTags)
+        updateTags(remainingTags)
         listener?.editTagsSaveButtonDidTap()
     }
     
@@ -58,13 +55,32 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         listener?.editTagsDidRemove()
     }
     
-    private func subscribeTagsStream() {
-        tagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
-            self?.presenter.update(with: $0)
+    private func performFetch() {
+        let fetchedResultsController = tagRepository.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        guard let tagEntities = fetchedResultsController.fetchedObjects else { return }
+        let tags = tagEntities.map { Tag(name: $0.name) }
+        presenter.update(with: tags)
+    }
+    
+    private func deleteTags(_ tags: [Tag]) {
+        guard tags.count > 0 else { return }
+        let result = tagRepository.delete(tags)
+        switch result {
+        case .success(_): deleteBookmarkTags(for: tags)
+        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToDeleteTags)
         }
     }
     
     private func deleteBookmarkTags(for tags: [Tag]) {
         tags.forEach { BookmarkRepository.shared.deleteTags(for: $0) }
+    }
+    
+    private func updateTags(_ tags: [Tag]) {
+        let result = tagRepository.update(tags)
+        switch result {
+        case .success(_): break
+        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTags)
+        }
     }
 }

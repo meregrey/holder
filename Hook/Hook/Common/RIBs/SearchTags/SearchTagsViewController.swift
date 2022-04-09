@@ -15,8 +15,7 @@ protocol SearchTagsPresentableListener: AnyObject {
 
 final class SearchTagsViewController: UIViewController, SearchTagsPresentable, SearchTagsViewControllable {
     
-    private let tags = TagRepository.shared.tagsStream.value
-    
+    private var tags: [Tag] = []
     private var texts: [String] = []
     private var shouldAddTag = false
     
@@ -66,6 +65,10 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchBar.becomeFirstResponder()
+    }
+    
+    func update(with tags: [Tag]) {
+        self.tags = tags
     }
     
     private func registerToReceiveNotification() {
