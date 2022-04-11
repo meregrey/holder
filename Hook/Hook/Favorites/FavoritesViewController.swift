@@ -35,7 +35,7 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
                                                                                     constant: 0)
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "favorites")
+        static let tabBarItem = UIImage(named: "Favorites")
     }
 
     weak var listener: FavoritesPresentableListener?
