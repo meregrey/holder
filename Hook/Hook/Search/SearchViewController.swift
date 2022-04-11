@@ -35,7 +35,7 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
                                                                                constant: 0)
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "search")
+        static let tabBarItem = UIImage(named: "Search")
     }
 
     weak var listener: SearchPresentableListener?

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "browse-1.png",
+      "filename" : "Browse-1.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "browse-2.png",
+      "filename" : "Browse-2.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "browse-3.png",
+      "filename" : "Browse-3.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

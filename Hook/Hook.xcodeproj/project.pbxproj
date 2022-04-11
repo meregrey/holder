@@ -22,6 +22,7 @@
 		6705B5F127815C2F00793CB8 /* FavoritesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B5ED27815C2F00793CB8 /* FavoritesBuilder.swift */; };
 		6705B5F227815C3000793CB8 /* FavoritesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B5EE27815C2F00793CB8 /* FavoritesInteractor.swift */; };
 		6705B61E2782111D00793CB8 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6705B61D2782111D00793CB8 /* NavigationController.swift */; };
+		6715C1082803D09A00EDE245 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6715C1072803D09A00EDE245 /* UIViewController.swift */; };
 		672B2FF027749AA90075F348 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEC27749AA90075F348 /* RootRouter.swift */; };
 		672B2FF127749AA90075F348 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FED27749AA90075F348 /* RootViewController.swift */; };
 		672B2FF227749AAA0075F348 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672B2FEE27749AA90075F348 /* RootBuilder.swift */; };
@@ -213,6 +214,7 @@
 		6705B5EE27815C2F00793CB8 /* FavoritesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesInteractor.swift; sourceTree = "<group>"; };
 		6705B61D2782111D00793CB8 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		670FF4CD27799B4E00F4E64D /* HookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6715C1072803D09A00EDE245 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		672B2FEC27749AA90075F348 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		672B2FED27749AA90075F348 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		672B2FEE27749AA90075F348 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
@@ -665,6 +667,7 @@
 				673A88A7277BF49E00A89DC7 /* String.swift */,
 				6783192D27CF4AC900439271 /* UIImage.swift */,
 				67CE08E62789F1C4006C25C1 /* UIView.swift */,
+				6715C1072803D09A00EDE245 /* UIViewController.swift */,
 				67EBE2DE27E1E9FB00FA9FE8 /* UserDefaults.swift */,
 				67BDEA342774CD210031FEC1 /* ViewControllable.swift */,
 			);
@@ -1229,6 +1232,7 @@
 				6737F08D27ECB40300F4AFB5 /* ExplanationView.swift in Sources */,
 				67A59C3327FD1F33008BCE1C /* ClearDataViewController.swift in Sources */,
 				67A4A95E27FAC26700CF459B /* SortBookmarksInteractor.swift in Sources */,
+				6715C1082803D09A00EDE245 /* UIViewController.swift in Sources */,
 				6737F08427EAB24100F4AFB5 /* BookmarkListRouter.swift in Sources */,
 				67CB5B1427B0AFAA00DE2582 /* LabeledTagCollectionViewCell.swift in Sources */,
 				676D1398279038BE003AA102 /* RoundedCornerButton.swift in Sources */,
