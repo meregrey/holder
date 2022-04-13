@@ -1,0 +1,6 @@
+module Pods_Magboard {
+  umbrella header "Pods-Magboard-umbrella.h"
+
+  export *
+  module * { export * }
+}
