@@ -12,6 +12,6 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleDefault</string>
+	<string>UIStatusBarStyleLightContent</string>
 </dict>
 </plist>

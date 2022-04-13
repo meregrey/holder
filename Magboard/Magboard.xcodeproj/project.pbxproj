@@ -176,6 +176,7 @@
 		67BC756128052F32005DA009 /* CountLimitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BC74B528052F31005DA009 /* CountLimitTextField.swift */; };
 		67BC756228052F32005DA009 /* TagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BC74B628052F31005DA009 /* TagBuilder.swift */; };
 		67BC756328052F32005DA009 /* TagInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BC74B728052F31005DA009 /* TagInteractor.swift */; };
+		67DDE4382805CEDB00BC9B74 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67DDE4372805CEDB00BC9B74 /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -352,6 +353,7 @@
 		67BC74B628052F31005DA009 /* TagBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagBuilder.swift; sourceTree = "<group>"; };
 		67BC74B728052F31005DA009 /* TagInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagInteractor.swift; sourceTree = "<group>"; };
 		67BC74B828052F31005DA009 /* Magboard.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Magboard.entitlements; sourceTree = "<group>"; };
+		67DDE4372805CEDB00BC9B74 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		67EDC91427717476003F646F /* Magboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C95653514DC318383C46E2D0 /* Pods-Magboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magboard.debug.xcconfig"; path = "Target Support Files/Pods-Magboard/Pods-Magboard.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -694,6 +696,7 @@
 				67BC744E28052F31005DA009 /* String.swift */,
 				67BC745028052F31005DA009 /* UIImage.swift */,
 				67BC744A28052F31005DA009 /* UIView.swift */,
+				67DDE4372805CEDB00BC9B74 /* UIViewController.swift */,
 				67BC744F28052F31005DA009 /* UserDefaults.swift */,
 				67BC745328052F31005DA009 /* ViewControllable.swift */,
 			);
@@ -1085,6 +1088,7 @@
 				67BC751028052F31005DA009 /* String.swift in Sources */,
 				67BC751128052F31005DA009 /* UserDefaults.swift in Sources */,
 				67BC752228052F32005DA009 /* LeftAlignmentCollectionViewFlowLayout.swift in Sources */,
+				67DDE4382805CEDB00BC9B74 /* UIViewController.swift in Sources */,
 				67BC750F28052F31005DA009 /* Convertible.swift in Sources */,
 				67BC755028052F32005DA009 /* EditTagsTableView.swift in Sources */,
 				67BC74E228052F31005DA009 /* SelectTagsRouter.swift in Sources */,
