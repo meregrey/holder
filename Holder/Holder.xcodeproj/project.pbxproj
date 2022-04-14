@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		67B572A12806EF3500458FB4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 67B572A32806EF3500458FB4 /* InfoPlist.strings */; };
+		67B66B2428080649009EF549 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B66B2328080649009EF549 /* UIViewController.swift */; };
 		67E32C1D2806D45300F2133B /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B3D2806D45300F2133B /* SettingsRouter.swift */; };
 		67E32C1E2806D45300F2133B /* SettingsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B3E2806D45300F2133B /* SettingsInteractor.swift */; };
 		67E32C1F2806D45300F2133B /* AppearanceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B402806D45300F2133B /* AppearanceRouter.swift */; };
@@ -183,6 +184,7 @@
 		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		67B572A22806EF3500458FB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		67B572A42806EF3700458FB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		67B66B2328080649009EF549 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		67E32B3D2806D45300F2133B /* SettingsRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		67E32B3E2806D45300F2133B /* SettingsInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsInteractor.swift; sourceTree = "<group>"; };
 		67E32B402806D45300F2133B /* AppearanceRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceRouter.swift; sourceTree = "<group>"; };
@@ -698,6 +700,7 @@
 				67E32BB32806D45300F2133B /* String.swift */,
 				67E32BB52806D45300F2133B /* UIImage.swift */,
 				67E32BAF2806D45300F2133B /* UIView.swift */,
+				67B66B2328080649009EF549 /* UIViewController.swift */,
 				67E32BB42806D45300F2133B /* UserDefaults.swift */,
 				67E32BB82806D45300F2133B /* ViewControllable.swift */,
 			);
@@ -1090,6 +1093,7 @@
 				67E32C732806D45400F2133B /* String.swift in Sources */,
 				67E32C742806D45400F2133B /* UserDefaults.swift in Sources */,
 				67E32C852806D45400F2133B /* LeftAlignmentCollectionViewFlowLayout.swift in Sources */,
+				67B66B2428080649009EF549 /* UIViewController.swift in Sources */,
 				67E32C722806D45400F2133B /* Convertible.swift in Sources */,
 				67E32CB32806D45400F2133B /* EditTagsTableView.swift in Sources */,
 				67E32C452806D45300F2133B /* SelectTagsRouter.swift in Sources */,
@@ -1404,6 +1408,7 @@
 				DEVELOPMENT_TEAM = LW42B33394;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Holder/Common/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1433,6 +1438,7 @@
 				DEVELOPMENT_TEAM = LW42B33394;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Holder/Common/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
