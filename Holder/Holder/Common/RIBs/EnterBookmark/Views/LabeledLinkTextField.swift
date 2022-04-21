@@ -37,8 +37,8 @@ final class LabeledLinkTextField: LabeledView {
         return textField.becomeFirstResponder()
     }
     
-    func disable() {
-        alpha = 0.2
+    func disable(includingTransparency isTransparent: Bool = true) {
+        if isTransparent { alpha = 0.2 }
         isUserInteractionEnabled = false
     }
     
