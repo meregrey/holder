@@ -146,7 +146,9 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     
     func attachSelectTags(existingSelectedTags: [Tag]) {
         guard selectTagsRouter == nil else { return }
-        let router = selectTags.build(withListener: interactor, existingSelectedTags: existingSelectedTags)
+        let router = selectTags.build(withListener: interactor,
+                                      existingSelectedTags: existingSelectedTags,
+                                      topBarStyle: .sheetHeader)
         selectTagsRouter = router
         attachChild(router)
         viewController.presentOver(router.viewControllable)
