@@ -10,7 +10,7 @@ import RIBs
 import UIKit
 
 protocol SelectTagsPresentableListener: AnyObject {
-    func closeButtonDidTap()
+    func cancelButtonDidTap()
     func searchBarDidTap()
     func doneButtonDidTap(selectedTags: [Tag])
 }
@@ -20,7 +20,7 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     private var selectedTags: [Tag] = []
     private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
-    @AutoLayout private var headerView = SheetHeaderView(title: LocalizedString.ViewTitle.selectTags)
+    @AutoLayout private var topView: UIView
     
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchAndAdd,
                                                   isInputEnabled: false,
@@ -55,12 +55,15 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     
     weak var listener: SelectTagsPresentableListener?
     
-    init() {
+    init(topBarStyle: TopBarStyle) {
+        let title = LocalizedString.ViewTitle.selectTags
+        topView = topBarStyle == .sheetHeader ? SheetHeaderView(title: title) : SingleButtonNavigationBar(title: title)
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        topView = UIView()
         super.init(coder: coder)
         configureViews()
     }
@@ -92,7 +95,13 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     }
     
     private func configureViews() {
-        headerView.addTargetToCloseButton(self, action: #selector(closeButtonDidTap))
+        if let sheetHeaderView = topView as? SheetHeaderView {
+            sheetHeaderView.listener = self
+        }
+        
+        if let navigationBar = topView as? SingleButtonNavigationBar {
+            navigationBar.listener = self
+        }
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(searchBarDidTap))
         searchBar.addGestureRecognizer(tapGestureRecognizer)
@@ -101,17 +110,17 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         selectTagsTableView.delegate = self
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
-        view.addSubview(headerView)
+        view.addSubview(topView)
         view.addSubview(searchBar)
         view.addSubview(selectTagsTableView)
         view.addSubview(doneButton)
         
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topView.topAnchor.constraint(equalTo: view.topAnchor),
+            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            searchBar.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -127,11 +136,6 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     }
     
     @objc
-    private func closeButtonDidTap() {
-        listener?.closeButtonDidTap()
-    }
-    
-    @objc
     private func searchBarDidTap() {
         listener?.searchBarDidTap()
     }
@@ -139,6 +143,15 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     @objc
     private func doneButtonDidTap() {
         listener?.doneButtonDidTap(selectedTags: selectedTags)
+    }
+}
+
+// MARK: - Top View Listener
+
+extension SelectTagsViewController: SheetHeaderViewListener, SingleButtonNavigationBarListener {
+    
+    func cancelButtonDidTap() {
+        listener?.cancelButtonDidTap()
     }
 }
 
