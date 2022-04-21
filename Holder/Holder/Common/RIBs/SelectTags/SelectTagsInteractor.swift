@@ -17,7 +17,7 @@ protocol SelectTagsPresentable: Presentable {
 }
 
 protocol SelectTagsListener: AnyObject {
-    func selectTagsCloseButtonDidTap()
+    func selectTagsCancelButtonDidTap()
     func selectTagsSearchBarDidTap()
     func selectTagsDoneButtonDidTap()
 }
@@ -56,8 +56,8 @@ final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, 
         resetSelectedTagStream()
     }
     
-    func closeButtonDidTap() {
-        listener?.selectTagsCloseButtonDidTap()
+    func cancelButtonDidTap() {
+        listener?.selectTagsCancelButtonDidTap()
     }
     
     func searchBarDidTap() {

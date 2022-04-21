@@ -116,7 +116,7 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     
     // MARK: - EnterBookmark
     
-    func enterBookmarkCloseButtonDidTap() {
+    func enterBookmarkCancelButtonDidTap() {
         router?.detachEnterBookmark(includingView: true)
     }
     
@@ -130,7 +130,7 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     
     // MARK: - SelectTags
     
-    func selectTagsCloseButtonDidTap() {
+    func selectTagsCancelButtonDidTap() {
         router?.detachSelectTags()
     }
     

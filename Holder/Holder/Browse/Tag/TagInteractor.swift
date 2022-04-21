@@ -102,7 +102,7 @@ final class TagInteractor: Interactor, TagInteractable {
     
     // MARK: - SelectTags
     
-    func selectTagsCloseButtonDidTap() {
+    func selectTagsCancelButtonDidTap() {
         router?.detachSelectTags()
     }
     

@@ -62,7 +62,7 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     
     // MARK: - EnterBookmark
     
-    func enterBookmarkCloseButtonDidTap() {
+    func enterBookmarkCancelButtonDidTap() {
         router?.detachEnterBookmark(includingView: true)
     }
     

@@ -17,7 +17,7 @@ protocol EnterBookmarkPresentable: Presentable {
 }
 
 protocol EnterBookmarkListener: AnyObject {
-    func enterBookmarkCloseButtonDidTap()
+    func enterBookmarkCancelButtonDidTap()
     func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag])
     func enterBookmarkSaveButtonDidTap()
 }
@@ -55,8 +55,8 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         clearSelectedTagsStream()
     }
     
-    func closeButtonDidTap() {
-        listener?.enterBookmarkCloseButtonDidTap()
+    func cancelButtonDidTap() {
+        listener?.enterBookmarkCancelButtonDidTap()
     }
     
     func tagCollectionViewDidTap(existingSelectedTags: [Tag]) {

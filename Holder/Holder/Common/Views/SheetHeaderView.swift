@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SheetHeaderViewListener: AnyObject {
+    func cancelButtonDidTap()
+}
+
 final class SheetHeaderView: UIView {
     
     @AutoLayout private var titleLabel: UILabel = {
@@ -16,13 +20,14 @@ final class SheetHeaderView: UIView {
         return label
     }()
     
-    @AutoLayout private var closeButton: UIButton = {
+    @AutoLayout private var cancelButton: UIButton = {
         let button = UIButton()
-        button.setImage(Image.closeButton, for: .normal)
-        button.tintColor = Asset.Color.primaryColor
+        button.setImage(Image.cancelButton, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
-        button.imageView?.contentMode = .scaleAspectFit
+        button.tintColor = Asset.Color.primaryColor
+        button.addTarget(nil, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -31,7 +36,7 @@ final class SheetHeaderView: UIView {
     }
     
     private enum Image {
-        static let closeButton = UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let cancelButton = UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
     }
     
     private enum Metric {
@@ -40,9 +45,11 @@ final class SheetHeaderView: UIView {
         static let titleLabelLeading = CGFloat(20)
         static let titleLabelTrailing = CGFloat(-20)
         
-        static let closeButtonWidthHeight = CGFloat(22)
-        static let closeButtonTrailing = CGFloat(-20)
+        static let cancelButtonWidthHeight = CGFloat(22)
+        static let cancelButtonTrailing = CGFloat(-20)
     }
+    
+    weak var listener: SheetHeaderViewListener?
     
     init(title: String? = nil) {
         super.init(frame: .zero)
@@ -59,25 +66,26 @@ final class SheetHeaderView: UIView {
         titleLabel.text = title
     }
     
-    func addTargetToCloseButton(_ target: AnyObject, action: Selector) {
-        closeButton.addTarget(target, action: action, for: .touchUpInside)
-    }
-    
     private func configure() {
         addSubview(titleLabel)
-        addSubview(closeButton)
+        addSubview(cancelButton)
         
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Metric.height),
             
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.titleLabelLeading),
-            titleLabel.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: Metric.titleLabelTrailing),
+            titleLabel.trailingAnchor.constraint(equalTo: cancelButton.leadingAnchor, constant: Metric.titleLabelTrailing),
             
-            closeButton.widthAnchor.constraint(equalToConstant: Metric.closeButtonWidthHeight),
-            closeButton.heightAnchor.constraint(equalToConstant: Metric.closeButtonWidthHeight),
-            closeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Metric.closeButtonTrailing)
+            cancelButton.widthAnchor.constraint(equalToConstant: Metric.cancelButtonWidthHeight),
+            cancelButton.heightAnchor.constraint(equalToConstant: Metric.cancelButtonWidthHeight),
+            cancelButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Metric.cancelButtonTrailing)
         ])
+    }
+    
+    @objc
+    private func cancelButtonDidTap() {
+        listener?.cancelButtonDidTap()
     }
 }

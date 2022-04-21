@@ -9,7 +9,7 @@ import RIBs
 import UIKit
 
 protocol EnterBookmarkPresentableListener: AnyObject {
-    func closeButtonDidTap()
+    func cancelButtonDidTap()
     func tagCollectionViewDidTap(existingSelectedTags: [Tag])
     func saveButtonDidTapToAdd(bookmark: Bookmark)
     func saveButtonDidTapToEdit(bookmark: Bookmark)
@@ -154,13 +154,12 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             noteTextView.setText(bookmark.note)
         }
         
-        headerView.addTargetToCloseButton(self, action: #selector(closeButtonDidTap))
-        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tagCollectionViewDidTap(_:)))
         tagCollectionView.addGestureRecognizer(tapGestureRecognizer)
         tagCollectionView.dataSource = self
         tagCollectionView.delegate = self
         
+        headerView.listener = self
         scrollView.delegate = self
         linkTextField.listener = self
         noteTextView.listener = self
@@ -224,11 +223,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     }
     
     @objc
-    private func closeButtonDidTap() {
-        listener?.closeButtonDidTap()
-    }
-    
-    @objc
     private func tagCollectionViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended { listener?.tagCollectionViewDidTap(existingSelectedTags: selectedTags) }
     }
@@ -251,6 +245,15 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             let bookmark = bookmark.updated(tags: tags, note: note)
             listener?.saveButtonDidTapToEdit(bookmark: bookmark)
         }
+    }
+}
+
+// MARK: - Header View
+
+extension EnterBookmarkViewController: SheetHeaderViewListener {
+    
+    func cancelButtonDidTap() {
+        listener?.cancelButtonDidTap()
     }
 }
 
