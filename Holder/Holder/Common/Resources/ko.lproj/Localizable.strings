@@ -33,6 +33,9 @@
 "Check out the tag in the list." = "목록에서 해당 태그를 확인해 보세요.";
 "This bookmark will be deleted from all tags." = "이 북마크가 모든 태그에서 삭제됩니다.";
 
+/* App display name */
+"Holder" = "홀더";
+
 /* Label text */
 "Tag name" = "태그 이름";
 "Link" = "링크";

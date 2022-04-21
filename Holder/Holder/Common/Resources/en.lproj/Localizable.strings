@@ -33,6 +33,9 @@
 "Check out the tag in the list." = "Check out the tag in the list.";
 "This bookmark will be deleted from all tags." = "This bookmark will be deleted from all tags.";
 
+/* App display name */
+"Holder" = "Holder";
+
 /* Label text */
 "Tag name" = "Tag name";
 "Link" = "Link";

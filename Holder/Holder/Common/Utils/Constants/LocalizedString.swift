@@ -86,4 +86,6 @@ enum LocalizedString {
         static let sortBookmarks = "Sort Bookmarks".localized
         static let clearData = "Clear Data".localized
     }
+    
+    static let appDisplayName = "Holder".localized
 }
