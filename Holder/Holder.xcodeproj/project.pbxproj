@@ -17,6 +17,7 @@
 		677E15122808FCD000753626 /* ShareExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677E15112808FCD000753626 /* ShareExtensionViewController.swift */; };
 		677E15152808FCD000753626 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 677E15132808FCD000753626 /* MainInterface.storyboard */; };
 		677E15192808FCD000753626 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 677E150F2808FCD000753626 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6784A80528124A4F005DE9DA /* ShareExtensionExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6784A80428124A4F005DE9DA /* ShareExtensionExplanationView.swift */; };
 		67B572A12806EF3500458FB4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 67B572A32806EF3500458FB4 /* InfoPlist.strings */; };
 		67B66B2428080649009EF549 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B66B2328080649009EF549 /* UIViewController.swift */; };
 		67D0E4F2280E68AE00327CFC /* LeftAlignmentCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BC82806D45300F2133B /* LeftAlignmentCollectionViewFlowLayout.swift */; };
@@ -293,6 +294,7 @@
 		677E15142808FCD000753626 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		677E15162808FCD000753626 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6784A80328112D73005DE9DA /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
+		6784A80428124A4F005DE9DA /* ShareExtensionExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionExplanationView.swift; sourceTree = "<group>"; };
 		67B572A22806EF3500458FB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		67B572A42806EF3700458FB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		67B66B2328080649009EF549 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -501,15 +503,24 @@
 		677E15102808FCD000753626 /* ShareExtension */ = {
 			isa = PBXGroup;
 			children = (
-				6784A80328112D73005DE9DA /* ShareExtension.entitlements */,
+				6784A806281258E3005DE9DA /* Resources */,
 				67E20999280E9CE500AB9D90 /* Share */,
-				677E15162808FCD000753626 /* Info.plist */,
-				677E15132808FCD000753626 /* MainInterface.storyboard */,
 				673FE55128100740005BAB32 /* ShareExtensionComponent.swift */,
+				6784A80428124A4F005DE9DA /* ShareExtensionExplanationView.swift */,
 				677E15112808FCD000753626 /* ShareExtensionViewController.swift */,
 				673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */,
 			);
 			path = ShareExtension;
+			sourceTree = "<group>";
+		};
+		6784A806281258E3005DE9DA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				677E15162808FCD000753626 /* Info.plist */,
+				677E15132808FCD000753626 /* MainInterface.storyboard */,
+				6784A80328112D73005DE9DA /* ShareExtension.entitlements */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		67E20999280E9CE500AB9D90 /* Share */ = {
@@ -1317,6 +1328,7 @@
 				67D0E51D280E690A00327CFC /* UIView.swift in Sources */,
 				67D0E51E280E690A00327CFC /* UIViewController.swift in Sources */,
 				67D0E51F280E690A00327CFC /* UserDefaults.swift in Sources */,
+				6784A80528124A4F005DE9DA /* ShareExtensionExplanationView.swift in Sources */,
 				67D0E520280E690A00327CFC /* ViewControllable.swift in Sources */,
 				67D0E521280E690A00327CFC /* AdaptivePresentationControllerDelegateProxy.swift in Sources */,
 				673FE55228100740005BAB32 /* ShareExtensionComponent.swift in Sources */,
@@ -1589,12 +1601,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC4A90DAA78042CA309C8F97 /* Pods-ShareExtension.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/Resources/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW42B33394;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ShareExtension/Info.plist;
+				INFOPLIST_FILE = ShareExtension/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1617,12 +1629,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83E3E9498C4F03AA0BBF0C6E /* Pods-ShareExtension.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/Resources/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW42B33394;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ShareExtension/Info.plist;
+				INFOPLIST_FILE = ShareExtension/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
