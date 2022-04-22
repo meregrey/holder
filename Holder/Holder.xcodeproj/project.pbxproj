@@ -505,10 +505,9 @@
 			children = (
 				6784A806281258E3005DE9DA /* Resources */,
 				67E20999280E9CE500AB9D90 /* Share */,
-				673FE55128100740005BAB32 /* ShareExtensionComponent.swift */,
-				6784A80428124A4F005DE9DA /* ShareExtensionExplanationView.swift */,
 				677E15112808FCD000753626 /* ShareExtensionViewController.swift */,
-				673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */,
+				6784A80428124A4F005DE9DA /* ShareExtensionExplanationView.swift */,
+				673FE55128100740005BAB32 /* ShareExtensionComponent.swift */,
 			);
 			path = ShareExtension;
 			sourceTree = "<group>";
@@ -937,6 +936,7 @@
 				67E32BD82806D45300F2133B /* SelectionView.swift */,
 				67E32BD52806D45300F2133B /* SheetController.swift */,
 				67E32BE52806D45300F2133B /* SheetHeaderView.swift */,
+				673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */,
 				67E32BE12806D45300F2133B /* TextField.swift */,
 			);
 			path = Views;
@@ -1300,13 +1300,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67E2099D280E9CF500AB9D90 /* ShareRouter.swift in Sources */,
+				67E2099F280E9CF500AB9D90 /* ShareInteractor.swift in Sources */,
+				67E2099E280E9CF500AB9D90 /* ShareBuilder.swift in Sources */,
+				673FE55228100740005BAB32 /* ShareExtensionComponent.swift in Sources */,
+				6784A80528124A4F005DE9DA /* ShareExtensionExplanationView.swift in Sources */,
 				677E15122808FCD000753626 /* ShareExtensionViewController.swift in Sources */,
 				673FE5552810E738005BAB32 /* TopBarStyle.swift in Sources */,
 				67D0E527280E69A100327CFC /* Action.swift in Sources */,
 				67D0E528280E69A100327CFC /* AlertController.swift in Sources */,
 				67D0E529280E69A100327CFC /* ExplanationView.swift in Sources */,
 				67D0E52A280E69A100327CFC /* LabeledView.swift in Sources */,
-				67E2099E280E9CF500AB9D90 /* ShareBuilder.swift in Sources */,
 				67D0E52B280E69A100327CFC /* LeftAlignmentCollectionView.swift in Sources */,
 				67D0E52C280E69A100327CFC /* RoundedCornerButton.swift in Sources */,
 				67D0E52D280E69A100327CFC /* RoundedCornerView.swift in Sources */,
@@ -1328,10 +1332,8 @@
 				67D0E51D280E690A00327CFC /* UIView.swift in Sources */,
 				67D0E51E280E690A00327CFC /* UIViewController.swift in Sources */,
 				67D0E51F280E690A00327CFC /* UserDefaults.swift in Sources */,
-				6784A80528124A4F005DE9DA /* ShareExtensionExplanationView.swift in Sources */,
 				67D0E520280E690A00327CFC /* ViewControllable.swift in Sources */,
 				67D0E521280E690A00327CFC /* AdaptivePresentationControllerDelegateProxy.swift in Sources */,
-				673FE55228100740005BAB32 /* ShareExtensionComponent.swift in Sources */,
 				67D0E522280E690A00327CFC /* AutoLayout.swift in Sources */,
 				67D0E523280E690A00327CFC /* Cache.swift in Sources */,
 				67D0E524280E690A00327CFC /* NavigationController.swift in Sources */,
@@ -1346,7 +1348,6 @@
 				67D0E50C280E68ED00327CFC /* SelectTagsBuilder.swift in Sources */,
 				67D0E50D280E68ED00327CFC /* SelectTagsViewController.swift in Sources */,
 				67D0E50E280E68ED00327CFC /* SearchTagsTableViewCell.swift in Sources */,
-				67E2099F280E9CF500AB9D90 /* ShareInteractor.swift in Sources */,
 				67D0E50F280E68ED00327CFC /* SearchTagsRouter.swift in Sources */,
 				67D0E510280E68ED00327CFC /* SearchTagsInteractor.swift in Sources */,
 				67D0E511280E68ED00327CFC /* SearchTagsBuilder.swift in Sources */,
@@ -1354,7 +1355,6 @@
 				67D0E4F2280E68AE00327CFC /* LeftAlignmentCollectionViewFlowLayout.swift in Sources */,
 				67D0E4F3280E68AE00327CFC /* Bookmark.swift in Sources */,
 				67D0E4F4280E68AE00327CFC /* BookmarkTag.swift in Sources */,
-				67E2099D280E9CF500AB9D90 /* ShareRouter.swift in Sources */,
 				67D0E4F5280E68AE00327CFC /* EnterBookmarkMode.swift in Sources */,
 				67D0E4F6280E68AE00327CFC /* EnterTagMode.swift in Sources */,
 				67D0E4F7280E68AE00327CFC /* InterfaceStyle.swift in Sources */,
