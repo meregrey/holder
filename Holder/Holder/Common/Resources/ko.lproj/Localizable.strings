@@ -51,6 +51,7 @@
 "Version" = "앱 버전";
 "Clear Data?" = "데이터를 지울까요?";
 "Clearing will remove all tag and bookmark data." = "지우기를 실행하면 태그 및 북마크 데이터가\n모두 제거됩니다.";
+"Already saved link." = "이미 저장된 링크입니다.";
 
 /* Placeholder */
 "Search & Add" = "검색 및 추가";

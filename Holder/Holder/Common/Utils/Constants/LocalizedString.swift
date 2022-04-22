@@ -59,6 +59,7 @@ enum LocalizedString {
         static let version = "Version".localized
         static let clearData = "Clear Data?".localized
         static let clearDataExplanation = "Clearing will remove all tag and bookmark data.".localized
+        static let alreadySavedLink = "Already saved link.".localized
     }
     
     enum Placeholder {

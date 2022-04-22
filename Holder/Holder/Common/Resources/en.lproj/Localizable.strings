@@ -51,6 +51,7 @@
 "Version" = "Version";
 "Clear Data?" = "Clear Data?";
 "Clearing will remove all tag and bookmark data." = "Clearing will remove all tag and bookmark data.";
+"Already saved link." = "Already saved link.";
 
 /* Placeholder */
 "Search & Add" = "Search & Add";
