@@ -53,6 +53,12 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         return button
     }()
     
+    @AutoLayout private var explanationView: ShareExtensionExplanationView = {
+        let view = ShareExtensionExplanationView()
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var originalViewFrame = view.frame
     
     private lazy var saveButtonBottomConstraint = NSLayoutConstraint(item: saveButton,
@@ -91,9 +97,7 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
     override func viewDidLoad() {
         super.viewDidLoad()
         activateRIB()
-        loadLink()
-        registerToReceiveNotification()
-        configureViews()
+        loadURL()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -123,16 +127,36 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         router?.interactable.deactivate()
     }
     
-    private func loadLink() {
+    private func loadURL() {
         guard let item = extensionContext?.inputItems.first as? NSExtensionItem else { return }
         guard let itemProvider = item.attachments?.first, itemProvider.hasItemConformingToTypeIdentifier(typeIdentifier) else { return }
         itemProvider.loadItem(forTypeIdentifier: typeIdentifier) { [weak self] item, _ in
             guard let url = item as? URL else { return }
-            DispatchQueue.main.async {
-                self?.linkTextField.setText(url.absoluteString)
-                self?.linkTextField.disable(includingTransparency: false)
-            }
+            self?.validateURL(url)
         }
+    }
+    
+    private func validateURL(_ url: URL) {
+        let result = BookmarkRepository.shared.isExisting(url)
+        switch result {
+        case .success(let isExisting):
+            DispatchQueue.main.async {
+                isExisting ? self.displayForExplanation() : self.displayForInput(with: url)
+            }
+        case .failure(_): break
+        }
+    }
+    
+    private func displayForInput(with url: URL) {
+        linkTextField.setText(url.absoluteString)
+        linkTextField.disable(includingTransparency: false)
+        registerToReceiveNotification()
+        configureViews()
+    }
+    
+    private func displayForExplanation() {
+        explanationView.isHidden = false
+        configureViews()
     }
     
     private func registerToReceiveNotification() {
@@ -171,11 +195,13 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         scrollView.delegate = self
         linkTextField.listener = self
         noteTextView.listener = self
+        explanationView.listener = self
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         view.addSubview(navigationBar)
         view.addSubview(scrollView)
         view.addSubview(saveButton)
+        view.addSubview(explanationView)
         
         scrollView.addSubview(linkTextField)
         scrollView.addSubview(tagCollectionView)
@@ -217,7 +243,12 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
             transparentFooterView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.saveButtonLeading),
-            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.saveButtonTrailing)
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.saveButtonTrailing),
+            
+            explanationView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            explanationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            explanationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            explanationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -311,5 +342,14 @@ extension ShareExtensionViewController: LabeledNoteTextViewListener {
     
     func textViewHeightDidIncrease() {
         scrollToBottom()
+    }
+}
+
+// MARK: - Explanation View
+
+extension ShareExtensionViewController: ShareExtensionExplanationViewListener {
+    
+    func okButtonDidTap() {
+        extensionContext?.completeRequest(returningItems: nil)
     }
 }
