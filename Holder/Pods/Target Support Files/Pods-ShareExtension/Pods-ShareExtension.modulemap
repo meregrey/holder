@@ -1,0 +1,6 @@
+module Pods_ShareExtension {
+  umbrella header "Pods-ShareExtension-umbrella.h"
+
+  export *
+  module * { export * }
+}
