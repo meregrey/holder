@@ -161,7 +161,7 @@ extension BookmarkDetailViewController: UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
-            self.navigationController?.setToolbarHidden(velocity.y > 0, animated: true)
+            self.navigationController?.setToolbarHidden(velocity.y >= 0, animated: true)
         }
     }
 }
