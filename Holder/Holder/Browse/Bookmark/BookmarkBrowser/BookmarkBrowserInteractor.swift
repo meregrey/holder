@@ -46,8 +46,13 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         presenter.listener = self
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func didBecomeActive() {
         super.didBecomeActive()
+        registerToReceiveNotification()
         performFetch()
         subscribeCurrentTagStream()
     }
@@ -103,6 +108,17 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
                                message: LocalizedString.AlertMessage.deleteBookmark,
                                action: Action(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(tagDidChange),
+                                       name: NotificationName.Tag.didChange)
+    }
+    
+    @objc
+    private func tagDidChange() {
+        performFetch()
     }
     
     private func performFetch() {

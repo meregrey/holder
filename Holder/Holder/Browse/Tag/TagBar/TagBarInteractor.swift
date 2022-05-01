@@ -57,6 +57,10 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
         listener?.tagBarTagSettingsButtonDidTap()
     }
     
+    func tagDidChange() {
+        NotificationCenter.post(named: NotificationName.Tag.didChange)
+    }
+    
     private func performFetch() {
         let fetchedResultsController = TagRepository.shared.fetchedResultsController()
         try? fetchedResultsController.performFetch()

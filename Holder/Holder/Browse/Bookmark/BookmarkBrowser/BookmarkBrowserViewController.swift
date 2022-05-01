@@ -83,6 +83,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     func update(with tags: [Tag]) {
         self.tags = tags
+        bookmarkBrowserCollectionView.reloadData()
+        bookmarkBrowserCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
     }
     
     func update(with currentTag: Tag) {
