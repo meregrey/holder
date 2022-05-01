@@ -15,6 +15,7 @@ protocol BookmarkRepositoryType {
     func add(with bookmark: Bookmark) -> Result<Void, Error>
     func update(with bookmark: Bookmark) -> Result<Void, Error>
     func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error>
+    func updateTags(_ tag: Tag, to newTag: Tag) -> Result<Void, Error>
     func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
     func deleteTags(for tag: Tag)
     func clear()
@@ -125,6 +126,21 @@ final class BookmarkRepository: BookmarkRepositoryType {
             bookmarkEntity.isFavorite.toggle()
             try context.save()
             return .success(bookmarkEntity.isFavorite)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func updateTags(_ tag: Tag, to newTag: Tag) -> Result<Void, Error> {
+        let request = BookmarkTagEntity.fetchRequest()
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
+        request.predicate = predicate
+        do {
+            let bookmarkTagEntities = try context.fetch(request)
+            if bookmarkTagEntities.count == 0 { return .success(()) }
+            bookmarkTagEntities.forEach { $0.name = newTag.name }
+            try context.save()
+            return .success(())
         } catch {
             return .failure(error)
         }
