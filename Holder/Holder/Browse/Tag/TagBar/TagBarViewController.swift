@@ -194,6 +194,7 @@ extension TagBarViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tagBarCollectionView.reloadData()
-        tagBarCollectionView.selectItem(at: currentIndexPath, animated: false, scrollPosition: .centeredHorizontally)
+        tagBarCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
+        listener?.tagDidSelect(tag: Tag(name: TagName.all))
     }
 }
