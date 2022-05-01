@@ -90,7 +90,7 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     private func updateTag(_ tag: Tag, to newTag: Tag) {
         let result = tagRepository.update(tag, to: newTag)
         switch result {
-        case .success(_): break
+        case .success(_): _ = BookmarkRepository.shared.updateTags(tag, to: newTag)
         case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTag)
         }
     }
