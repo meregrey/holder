@@ -10,7 +10,7 @@ import Foundation
 extension NotificationCenter {
     
     enum UserInfoKey {
-        static let noSearchResultsForBookmarks = "noSearchResultsForBookmarks"
+        static let searchTerm = "searchTerm"
     }
     
     static func post(named name: NSNotification.Name, userInfo: [AnyHashable: Any]? = nil) {
