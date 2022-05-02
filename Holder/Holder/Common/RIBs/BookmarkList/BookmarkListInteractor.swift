@@ -79,7 +79,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
         let result = bookmarkRepository.update(bookmarkEntity)
         switch result {
         case .success(_): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
@@ -126,8 +126,8 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
         fetchedResultsController = searchTerm.count > 0 ? fetchedResultsController(for: searchTerm) : fetchedResultsControllerForFavorites()
         try? fetchedResultsController?.performFetch()
         if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count == 0 {
-            NotificationCenter.post(named: NotificationName.Bookmark.noSearchResultsForBookmarks,
-                                    userInfo: [NotificationCenter.UserInfoKey.noSearchResultsForBookmarks: searchTerm])
+            NotificationCenter.post(named: NotificationName.Bookmark.noSearchResults,
+                                    userInfo: [NotificationCenter.UserInfoKey.searchTerm: searchTerm])
         }
         presenter.update(fetchedResultsController: fetchedResultsController, searchTerm: searchTerm)
     }
@@ -145,7 +145,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
         let result = bookmarkRepository.delete(bookmarkEntity)
         switch result {
         case .success(()): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToDeleteBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
 }

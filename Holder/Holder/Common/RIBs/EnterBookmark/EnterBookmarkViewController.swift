@@ -114,6 +114,11 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         if selectedTags.isEmpty { tagCollectionView.resetHeight() }
     }
     
+    func displayAlert(title: String) {
+        view.endEditing(true)
+        presentAlert(title: title)
+    }
+    
     func dismiss() {
         dismiss(animated: true)
     }

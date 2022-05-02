@@ -94,7 +94,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         let result = bookmarkRepository.update(bookmarkEntity)
         switch result {
         case .success(_): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
@@ -141,7 +141,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
         let result = bookmarkRepository.delete(bookmarkEntity)
         switch result {
         case .success(()): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToDeleteBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
 }

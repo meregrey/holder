@@ -87,13 +87,13 @@ final class RecentSearchesInteractor: PresentableInteractor<RecentSearchesPresen
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(noSearchResultsDidFind(_:)),
-                                       name: NotificationName.Bookmark.noSearchResultsForBookmarks)
+                                       name: NotificationName.Bookmark.noSearchResults)
     }
     
     @objc
     private func noSearchResultsDidFind(_ notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
-        guard let searchTerm = userInfo[NotificationCenter.UserInfoKey.noSearchResultsForBookmarks] as? String else { return }
+        guard let searchTerm = userInfo[NotificationCenter.UserInfoKey.searchTerm] as? String else { return }
         guard let index = searchTerms.firstIndex(of: searchTerm) else { return }
         searchTerms.remove(at: index)
         userDefaults.set(searchTerms, forKey: userDefaultsKey)

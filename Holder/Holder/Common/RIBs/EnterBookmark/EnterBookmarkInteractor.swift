@@ -13,6 +13,7 @@ protocol EnterBookmarkRouting: ViewableRouting {}
 protocol EnterBookmarkPresentable: Presentable {
     var listener: EnterBookmarkPresentableListener? { get set }
     func update(with selectedTags: [Tag])
+    func displayAlert(title: String)
     func dismiss()
 }
 
@@ -64,11 +65,8 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     }
     
     func saveButtonDidTapToAdd(bookmark: Bookmark) {
+        guard canContinueSaving(bookmark.url) else { return }
         presenter.dismiss()
-        guard canContinueSaving(bookmark.url) else {
-            listener?.enterBookmarkSaveButtonDidTap()
-            return
-        }
         addBookmark(bookmark)
     }
     
@@ -101,7 +99,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         let result = bookmarkRepository.isExisting(url)
         switch result {
         case .success(let isExisting):
-            if isExisting { NotificationCenter.post(named: NotificationName.Bookmark.existingBookmark) }
+            if isExisting { presenter.displayAlert(title: LocalizedString.AlertTitle.alreadySavedBookmark) }
             return !isExisting
         case .failure(_):
             NotificationCenter.post(named: NotificationName.Store.didFailToCheck)
@@ -127,7 +125,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         let result = bookmarkRepository.update(with: bookmark)
         switch result {
         case .success(_): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
         listener?.enterBookmarkSaveButtonDidTap()
     }

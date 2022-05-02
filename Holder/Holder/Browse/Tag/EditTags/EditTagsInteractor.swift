@@ -68,7 +68,7 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         let result = tagRepository.delete(tags)
         switch result {
         case .success(_): deleteBookmarkTags(for: tags)
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToDeleteTags)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
@@ -80,7 +80,7 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         let result = tagRepository.update(tags)
         switch result {
         case .success(_): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTags)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
 }

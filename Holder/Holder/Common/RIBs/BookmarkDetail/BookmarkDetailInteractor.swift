@@ -79,7 +79,7 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
         let result = bookmarkRepository.update(bookmarkEntity)
         switch result {
         case .success(let isFavorite): presenter.updateToolbar(for: isFavorite)
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToUpdateBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
@@ -122,7 +122,7 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
         let result = bookmarkRepository.delete(bookmarkEntity)
         switch result {
         case .success(()): listener?.bookmarkDetailDidRequestToDetach()
-        case .failure(_): NotificationCenter.post(named: NotificationName.Bookmark.didFailToDeleteBookmark)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
 }

@@ -82,6 +82,11 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         if parent == nil { listener?.didRemove() }
     }
     
+    func displayAlert(title: String) {
+        view.endEditing(true)
+        presentAlert(title: title)
+    }
+    
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(keyboardWillShow(_:)),

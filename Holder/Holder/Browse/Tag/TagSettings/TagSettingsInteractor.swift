@@ -73,7 +73,7 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(didSucceedToAddTag),
-                                       name: NotificationName.Tag.didSucceedToAddTag)
+                                       name: NotificationName.Tag.didSucceedToAdd)
     }
     
     @objc
