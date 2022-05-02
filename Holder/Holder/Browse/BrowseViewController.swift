@@ -109,16 +109,20 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
-                                       selector: #selector(didFailToAddExistingBookmark),
-                                       name: NotificationName.Bookmark.existingBookmark)
-        
-        NotificationCenter.addObserver(self,
                                        selector: #selector(didFailToCheckStore),
                                        name: NotificationName.Store.didFailToCheck)
         
         NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToLoadStore),
+                                       name: NotificationName.Store.didFailToLoad)
+        
+        NotificationCenter.addObserver(self,
                                        selector: #selector(didFailToSaveStore),
                                        name: NotificationName.Store.didFailToSave)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToProcessData),
+                                       name: NotificationName.didFailToProcessData)
     }
     
     private func addChildView(of childViewController: UIViewController) {
@@ -127,17 +131,22 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     }
     
     @objc
-    private func didFailToAddExistingBookmark() {
-        presentAlert(title: LocalizedString.AlertTitle.bookmarkCorrespondingToTheLinkExists)
-    }
-    
-    @objc
     private func didFailToCheckStore() {
         presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileCheckingTheStore)
     }
     
     @objc
+    private func didFailToLoadStore() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileLoadingTheStore)
+    }
+    
+    @objc
     private func didFailToSaveStore() {
         presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileSavingToTheStore)
+    }
+    
+    @objc
+    private func didFailToProcessData() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileProcessingData)
     }
 }
