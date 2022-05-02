@@ -20,10 +20,13 @@
 "System Setting" = "시스템 설정";
 
 /* Alert title */
-"Enter the link." = "링크를 입력해 주세요.";
-"A bookmark corresponding to the link exists." = "링크에 해당하는 북마크가\n존재합니다.";
 "An error occurred while checking the store." = "스토어를 확인하던 중\n오류가 발생했습니다.";
+"An error occurred while loading the store." = "스토어를 로드하던 중\n오류가 발생했습니다.";
 "An error occurred while saving to the store." = "스토어에 저장하던 중\n오류가 발생했습니다.";
+"An error occurred while processing data." = "데이터를 처리하던 중\n오류가 발생했습니다.";
+"Enter the link." = "링크를 입력해 주세요.";
+"Already saved bookmark." = "이미 저장된 북마크입니다.";
+"Already saved tag." = "이미 저장된 태그입니다.";
 
 /* Alert title with message */
 "Tag Already Selected" = "이미 선택한 태그입니다";

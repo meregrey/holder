@@ -20,10 +20,13 @@
 "System Setting" = "System Setting";
 
 /* Alert title */
-"Enter the link." = "Enter the link.";
-"A bookmark corresponding to the link exists." = "A bookmark corresponding to the link exists.";
 "An error occurred while checking the store." = "An error occurred while checking the store.";
+"An error occurred while loading the store." = "An error occurred while loading the store.";
 "An error occurred while saving to the store." = "An error occurred while saving to the store.";
+"An error occurred while processing data." = "An error occurred while processing data.";
+"Enter the link." = "Enter the link.";
+"Already saved bookmark." = "Already saved bookmark.";
+"Already saved tag." = "Already saved tag.";
 
 /* Alert title with message */
 "Tag Already Selected" = "Tag Already Selected";
