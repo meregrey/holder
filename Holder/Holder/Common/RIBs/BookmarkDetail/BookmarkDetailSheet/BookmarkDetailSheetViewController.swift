@@ -9,13 +9,15 @@ import RIBs
 import UIKit
 
 protocol BookmarkDetailSheetPresentableListener: AnyObject {
-    func didRequestToDetach()
     func reloadActionDidTap()
     func editActionDidTap()
     func deleteActionDidTap()
+    func didRequestToDetach()
 }
 
 final class BookmarkDetailSheetViewController: SheetController, BookmarkDetailSheetPresentable, BookmarkDetailSheetViewControllable {
+    
+    weak var listener: BookmarkDetailSheetPresentableListener?
     
     @AutoLayout private var appearanceSettingsView = BookmarkDetailSheetAppearanceSettingsView()
     
@@ -45,8 +47,6 @@ final class BookmarkDetailSheetViewController: SheetController, BookmarkDetailSh
         self?.deleteActionDidTap()
     }
     
-    weak var listener: BookmarkDetailSheetPresentableListener?
-    
     override init() {
         super.init()
         actions = [appearanceSettingsAction, reloadAction, editAction, deleteAction]
@@ -72,7 +72,9 @@ final class BookmarkDetailSheetViewController: SheetController, BookmarkDetailSh
     
     private func configureAppearanceSettingsView() {
         view.addSubview(appearanceSettingsView)
+        
         appearanceSettingsViewBottomConstraint.isActive = true
+        
         NSLayoutConstraint.activate([
             appearanceSettingsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             appearanceSettingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor)

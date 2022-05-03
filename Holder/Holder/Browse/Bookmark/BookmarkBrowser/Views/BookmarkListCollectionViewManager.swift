@@ -38,12 +38,24 @@ final class BookmarkListCollectionViewManager: NSObject {
         self.collectionView = collectionView
         self.listener = listener
         super.init()
-        configureFetchedResultsController()
         registerToReceiveNotification()
+        configureFetchedResultsController()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(sortDidChange),
+                                       name: NotificationName.Bookmark.sortDidChange)
+    }
+    
+    @objc
+    private func sortDidChange() {
+        configureFetchedResultsController()
+        collectionView?.reloadData()
     }
     
     private func configureFetchedResultsController() {
@@ -64,18 +76,6 @@ final class BookmarkListCollectionViewManager: NSObject {
         fetchedResultsControllerForTag = bookmarkRepository.fetchedResultsController(for: tag)
         fetchedResultsControllerForTag?.delegate = fetchedResultsControllerDelegate
         try? fetchedResultsControllerForTag?.performFetch()
-    }
-    
-    private func registerToReceiveNotification() {
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(sortDidChange),
-                                       name: NotificationName.Bookmark.sortDidChange)
-    }
-    
-    @objc
-    private func sortDidChange() {
-        configureFetchedResultsController()
-        collectionView?.reloadData()
     }
     
     private func bookmarkEntity(at indexPath: IndexPath) -> BookmarkEntity? {

@@ -9,7 +9,7 @@ import RIBs
 
 protocol BrowseDependency: Dependency {}
 
-final class BrowseComponent: Component<BrowseDependency>, TagDependency, BookmarkDependency {
+final class BrowseComponent: Component<BrowseDependency>, BookmarkDependency, TagDependency {
     
     let currentTagStream = MutableStream<Tag>(initialValue: Tag(name: ""))
     let selectedTagsStream = MutableStream<[Tag]>(initialValue: [])
@@ -28,21 +28,21 @@ protocol BrowseBuildable: Buildable {
 }
 
 final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
-
+    
     override init(dependency: BrowseDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(withListener listener: BrowseListener) -> BrowseRouting {
         let viewController = BrowseViewController()
         let component = BrowseComponent(dependency: dependency, baseViewController: viewController)
         let interactor = BrowseInteractor(presenter: viewController)
         interactor.listener = listener
-        let tag = TagBuilder(dependency: component)
         let bookmark = BookmarkBuilder(dependency: component)
+        let tag = TagBuilder(dependency: component)
         return BrowseRouter(interactor: interactor,
                             viewController: viewController,
-                            tag: tag,
-                            bookmark: bookmark)
+                            bookmark: bookmark,
+                            tag: tag)
     }
 }

@@ -23,7 +23,7 @@ final class TagSettingsTableViewCell: UITableViewCell {
     }()
     
     @AutoLayout private var forwardImageView: UIImageView = {
-        let imageView = UIImageView(image: Image.forward)
+        let imageView = UIImageView(image: Image.forwardImageView)
         imageView.tintColor = Asset.Color.secondaryColor
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -34,7 +34,7 @@ final class TagSettingsTableViewCell: UITableViewCell {
     }
     
     private enum Image {
-        static let forward = UIImage(systemName: "chevron.right", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        static let forwardImageView = UIImage(systemName: "chevron.right", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
     }
     
     private enum Metric {

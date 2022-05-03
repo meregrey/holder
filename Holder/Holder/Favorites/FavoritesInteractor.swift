@@ -38,13 +38,13 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
         self.presentationProxy.delegate = self
         presenter.listener = self
     }
-
+    
     override func didBecomeActive() {
         super.didBecomeActive()
         router?.attachSearchBar()
         router?.attachBookmarkList()
     }
-
+    
     override func willResignActive() {
         super.willResignActive()
     }

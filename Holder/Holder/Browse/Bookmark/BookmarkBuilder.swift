@@ -17,7 +17,8 @@ final class BookmarkComponent: Component<BookmarkDependency>, BookmarkBrowserDep
     
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
-    var baseViewController: BrowseViewControllable { dependency.baseViewController }
+    
+    fileprivate var baseViewController: BrowseViewControllable { dependency.baseViewController }
 }
 
 // MARK: - Builder

@@ -11,14 +11,16 @@ import UIKit
 import WebKit
 
 protocol BookmarkDetailPresentableListener: AnyObject {
-    func didRemove()
     func backwardButtonDidTap()
     func shareButtonDidTap()
     func favoriteButtonDidTap()
     func showMoreButtonDidTap()
+    func didRemove()
 }
 
 final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresentable, BookmarkDetailViewControllable {
+    
+    weak var listener: BookmarkDetailPresentableListener?
     
     private var webpageLoadCount = 0 {
         didSet {
@@ -37,8 +39,6 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     private lazy var showMoreButton = UIBarButtonItem(image: Image.showMoreButton, style: .plain, target: self, action: #selector(showMoreButtonDidTap))
     private lazy var fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
     private lazy var flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    
-    weak var listener: BookmarkDetailPresentableListener?
     
     private enum Image {
         static let backwardButton = UIImage(systemName: "chevron.left")
@@ -107,6 +107,26 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         dismiss(animated: true, completion: completion)
     }
     
+    private func configureViews() {
+        webView.scrollView.delegate = self
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
+        
+        fixedSpaceItem.width = 7
+        forwardButton.tintColor = Asset.Color.secondaryColor
+        toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
+        
+        hidesBottomBarWhenPushed = true
+        view.backgroundColor = Asset.Color.webViewBackgroundColor
+        view.addSubview(webView)
+        
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
     @objc
     private func backwardButtonDidTap() {
         if webView.canGoBack {
@@ -134,26 +154,6 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     @objc
     private func showMoreButtonDidTap() {
         listener?.showMoreButtonDidTap()
-    }
-    
-    private func configureViews() {
-        webView.scrollView.delegate = self
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
-        
-        fixedSpaceItem.width = 7
-        forwardButton.tintColor = Asset.Color.secondaryColor
-        toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
-        
-        hidesBottomBarWhenPushed = true
-        view.backgroundColor = Asset.Color.webViewBackgroundColor
-        view.addSubview(webView)
-        
-        NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
 }
 

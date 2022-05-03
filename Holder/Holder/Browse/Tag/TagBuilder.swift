@@ -8,19 +8,19 @@
 import RIBs
 
 protocol TagDependency: Dependency {
-    var baseViewController: BrowseViewControllable { get }
     var currentTagStream: MutableStream<Tag> { get }
     var selectedTagsStream: MutableStream<[Tag]> { get }
+    var baseViewController: BrowseViewControllable { get }
 }
 
 final class TagComponent: Component<TagDependency>, TagBarDependency, TagSettingsDependency, EnterTagDependency, EditTagsDependency, SelectTagsDependency, SearchTagsDependency {
-    
-    fileprivate var baseViewController: BrowseViewControllable { dependency.baseViewController }
     
     let tagBySearchStream: MutableStream<Tag> = MutableStream<Tag>(initialValue: Tag(name: ""))
     
     var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
+    
+    fileprivate var baseViewController: BrowseViewControllable { dependency.baseViewController }
 }
 
 // MARK: - Builder

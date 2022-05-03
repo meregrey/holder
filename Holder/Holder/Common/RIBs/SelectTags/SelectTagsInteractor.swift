@@ -30,14 +30,14 @@ protocol SelectTagsInteractorDependency {
 
 final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, SelectTagsInteractable, SelectTagsPresentableListener {
     
+    weak var router: SelectTagsRouting?
+    weak var listener: SelectTagsListener?
+    
     private let dependency: SelectTagsInteractorDependency
     
     private var existingSelectedTags: [Tag] { dependency.existingSelectedTags }
     private var tagBySearchStream: MutableStream<Tag> { dependency.tagBySearchStream }
     private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
-    
-    weak var router: SelectTagsRouting?
-    weak var listener: SelectTagsListener?
     
     init(presenter: SelectTagsPresentable, dependency: SelectTagsInteractorDependency) {
         self.dependency = dependency

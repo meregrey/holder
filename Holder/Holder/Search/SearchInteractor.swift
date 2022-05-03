@@ -36,14 +36,14 @@ protocol SearchInteractorDependency {
 
 final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchInteractable, SearchPresentableListener, AdaptivePresentationControllerDelegate {
     
-    private let dependency: SearchInteractorDependency
-    
-    private var searchTermStream: MutableStream<String> { dependency.searchTermStream }
-    
     let presentationProxy = AdaptivePresentationControllerDelegateProxy()
     
     weak var router: SearchRouting?
     weak var listener: SearchListener?
+    
+    private let dependency: SearchInteractorDependency
+    
+    private var searchTermStream: MutableStream<String> { dependency.searchTermStream }
     
     init(presenter: SearchPresentable, dependency: SearchInteractorDependency) {
         self.dependency = dependency

@@ -36,13 +36,13 @@ protocol BookmarkDetailInteractorDependency {
 
 final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresentable>, BookmarkDetailInteractable, BookmarkDetailPresentableListener {
     
+    weak var router: BookmarkDetailRouting?
+    weak var listener: BookmarkDetailListener?
+    
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkDetailInteractorDependency
     
     private var bookmarkEntity: BookmarkEntity { dependency.bookmarkEntity }
-    
-    weak var router: BookmarkDetailRouting?
-    weak var listener: BookmarkDetailListener?
     
     init(presenter: BookmarkDetailPresentable, dependency: BookmarkDetailInteractorDependency) {
         self.dependency = dependency
@@ -57,10 +57,6 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     
     override func willResignActive() {
         super.willResignActive()
-    }
-    
-    func didRemove() {
-        listener?.bookmarkDetailDidRemove()
     }
     
     func backwardButtonDidTap() {
@@ -87,8 +83,8 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
         router?.attachBookmarkDetailSheet()
     }
     
-    func bookmarkDetailSheetDidRequestToDetach() {
-        router?.detachBookmarkDetailSheet()
+    func didRemove() {
+        listener?.bookmarkDetailDidRemove()
     }
     
     func bookmarkDetailSheetReloadActionDidTap() {
@@ -110,6 +106,10 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
         presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
                                message: LocalizedString.AlertMessage.deleteBookmark,
                                action: action)
+    }
+    
+    func bookmarkDetailSheetDidRequestToDetach() {
+        router?.detachBookmarkDetailSheet()
     }
     
     private func loadView() {

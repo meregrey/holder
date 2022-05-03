@@ -30,6 +30,9 @@ protocol BookmarkListInteractorDependency {
 
 final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentable>, BookmarkListInteractable, BookmarkListPresentableListener, BookmarkListCollectionViewListener {
     
+    weak var router: BookmarkListRouting?
+    weak var listener: BookmarkListListener?
+    
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkListInteractorDependency
     
@@ -38,13 +41,14 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     private var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?
     private var bookmarkEntityToDelete: BookmarkEntity?
     
-    weak var router: BookmarkListRouting?
-    weak var listener: BookmarkListListener?
-    
     init(presenter: BookmarkListPresentable, dependency: BookmarkListInteractorDependency) {
         self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didBecomeActive() {

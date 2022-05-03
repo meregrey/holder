@@ -56,7 +56,8 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
         router?.attachBookmarkDetail(bookmarkEntity: bookmarkEntity)
     }
     
-    func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark) {
+    func bookmarkBrowserContextMenuEditDidTap(bookmarkEntity: BookmarkEntity) {
+        guard let bookmark = bookmarkEntity.converted() else { return }
         router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
     }
     
@@ -76,10 +77,6 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     
     // MARK: - BookmarkDetail
     
-    func bookmarkDetailDidRemove() {
-        router?.detachBookmarkDetail(includingView: false)
-    }
-    
     func bookmarkDetailBackwardButtonDidTap() {
         router?.detachBookmarkDetail(includingView: true)
     }
@@ -90,5 +87,9 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     
     func bookmarkDetailDidRequestToDetach() {
         router?.detachBookmarkDetail(includingView: true)
+    }
+    
+    func bookmarkDetailDidRemove() {
+        router?.detachBookmarkDetail(includingView: false)
     }
 }

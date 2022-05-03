@@ -16,11 +16,12 @@ protocol BookmarkBrowserPresentableListener: AnyObject {
 
 final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPresentable, BookmarkBrowserViewControllable {
     
+    weak var listener: BookmarkBrowserPresentableListener?
+    
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
-    private var bookmarkListCollectionViewContentOffsets: [IndexPath: CGPoint] = [:]
+    private var contentOffsetsForBookmarkListCollectionView: [IndexPath: CGPoint] = [:]
     private var metadata: LPLinkMetadata?
-    
     private var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
     
     @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
@@ -68,8 +69,6 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         static let addBookmarkButtonHeight = CGFloat(50)
         static let addBookmarkButtonBottom = CGFloat(-20)
     }
-    
-    weak var listener: BookmarkBrowserPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -168,15 +167,15 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? BookmarkBrowserCollectionViewCell else { return }
-        guard let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] else { return }
-        cell.setBookmarkListCollectionViewContentOffset(contentOffset)
+        guard let contentOffset = contentOffsetsForBookmarkListCollectionView[indexPath] else { return }
+        cell.setContentOffsetForBookmarkListCollectionView(contentOffset)
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         guard let collectionView = scrollView as? UICollectionView else { return }
         guard let cell = collectionView.cellForItem(at: currentIndexPath) as? BookmarkBrowserCollectionViewCell else { return }
-        let contentOffset = cell.bookmarkListCollectionViewContentOffset()
-        bookmarkListCollectionViewContentOffsets.updateValue(contentOffset, forKey: currentIndexPath)
+        let contentOffset = cell.contentOffsetForBookmarkListCollectionView()
+        contentOffsetsForBookmarkListCollectionView.updateValue(contentOffset, forKey: currentIndexPath)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -185,7 +184,7 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
         let pendingTag = indexPath.item > 0 ? tags[indexPath.item - 1] : nil
         listener?.indexPathDidChange(pendingTag: pendingTag)
         currentIndexPath = indexPath
-        if let contentOffset = bookmarkListCollectionViewContentOffsets[indexPath] { displayBlurView(for: contentOffset) }
+        if let contentOffset = contentOffsetsForBookmarkListCollectionView[indexPath] { displayBlurView(for: contentOffset) }
     }
 }
 

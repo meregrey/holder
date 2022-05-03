@@ -34,10 +34,14 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
         presenter.listener = self
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func didBecomeActive() {
         super.didBecomeActive()
-        performFetch()
         registerToReceiveNotification()
+        performFetch()
     }
     
     override func willResignActive() {
@@ -64,12 +68,6 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
         listener?.tagSettingsDidRemove()
     }
     
-    private func performFetch() {
-        let fetchedResultsController = TagRepository.shared.fetchedResultsController()
-        try? fetchedResultsController.performFetch()
-        presenter.update(with: fetchedResultsController)
-    }
-    
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(didSucceedToAddTag),
@@ -79,5 +77,11 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
     @objc
     private func didSucceedToAddTag() {
         presenter.scrollToBottom()
+    }
+    
+    private func performFetch() {
+        let fetchedResultsController = TagRepository.shared.fetchedResultsController()
+        try? fetchedResultsController.performFetch()
+        presenter.update(with: fetchedResultsController)
     }
 }

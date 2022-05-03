@@ -7,48 +7,48 @@
 
 import RIBs
 
-protocol BrowseInteractable: Interactable, TagListener, BookmarkListener {
+protocol BrowseInteractable: Interactable, BookmarkListener, TagListener {
     var router: BrowseRouting? { get set }
     var listener: BrowseListener? { get set }
 }
 
 protocol BrowseViewControllable: ViewControllable {
-    func addChild(_ viewControllable: ViewControllable)
-    func push(_ viewControllable: ViewControllable)
+    func addChild(_ viewController: ViewControllable)
+    func push(_ viewController: ViewControllable)
     func pop()
-    func presentOver(_ viewControllable: ViewControllable)
+    func presentOver(_ viewController: ViewControllable)
     func dismissOver()
 }
 
 final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControllable>, BrowseRouting {
     
-    private let tag: TagBuildable
     private let bookmark: BookmarkBuildable
+    private let tag: TagBuildable
     
-    private var tagRouter: TagRouting?
     private var bookmarkRouter: BookmarkRouting?
+    private var tagRouter: TagRouting?
     
     init(interactor: BrowseInteractable,
          viewController: BrowseViewControllable,
-         tag: TagBuildable,
-         bookmark: BookmarkBuildable) {
-        self.tag = tag
+         bookmark: BookmarkBuildable,
+         tag: TagBuildable) {
         self.bookmark = bookmark
+        self.tag = tag
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
-    }
-    
-    func attachTag() {
-        guard tagRouter == nil else { return }
-        let router = tag.build(withListener: interactor)
-        tagRouter = router
-        attachChild(router)
     }
     
     func attachBookmark() {
         guard bookmarkRouter == nil else { return }
         let router = bookmark.build(withListener: interactor)
         bookmarkRouter = router
+        attachChild(router)
+    }
+    
+    func attachTag() {
+        guard tagRouter == nil else { return }
+        let router = tag.build(withListener: interactor)
+        tagRouter = router
         attachChild(router)
     }
     

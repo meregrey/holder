@@ -13,6 +13,8 @@ protocol ShareExtensionExplanationViewListener: AnyObject {
 
 final class ShareExtensionExplanationView: UIView {
     
+    weak var listener: ShareExtensionExplanationViewListener?
+    
     @AutoLayout private var explanationLabel: UILabel = {
         let label = UILabel()
         label.text = LocalizedString.LabelText.alreadySavedLink
@@ -44,8 +46,6 @@ final class ShareExtensionExplanationView: UIView {
         static let okButtonTrailing = CGFloat(-20)
         static let okButtonBottom = CGFloat(-40)
     }
-    
-    weak var listener: ShareExtensionExplanationViewListener?
     
     init() {
         super.init(frame: .zero)

@@ -10,11 +10,13 @@ import UIKit
 
 protocol ClearDataPresentableListener: AnyObject {
     func backButtonDidTap()
-    func didRemove()
     func clearButtonDidTap()
+    func didRemove()
 }
 
 final class ClearDataViewController: UIViewController, ClearDataPresentable, ClearDataViewControllable {
+    
+    weak var listener: ClearDataPresentableListener?
     
     @AutoLayout private var titleLabel: UILabel = {
         let label = UILabel()
@@ -46,7 +48,7 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
     }
     
     private enum Image {
-        static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
     }
     
     private enum Metric {
@@ -62,8 +64,6 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
         static let clearButtonTrailing = CGFloat(-20)
         static let clearButtonBottom = CGFloat(-40)
     }
-    
-    weak var listener: ClearDataPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -90,7 +90,7 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
         explanationLabel.attributedText = explanationLabelAttributedText(explanation: LocalizedString.LabelText.clearDataExplanation)
         
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         

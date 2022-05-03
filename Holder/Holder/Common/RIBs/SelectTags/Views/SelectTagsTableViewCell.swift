@@ -9,6 +9,10 @@ import UIKit
 
 final class SelectTagsTableViewCell: UITableViewCell {
     
+    var isChecked = false {
+        didSet { checkmarkImageView.isHidden = !isChecked }
+    }
+    
     @AutoLayout private var roundedCornerView: RoundedCornerView = {
         let view = RoundedCornerView()
         view.backgroundColor = Asset.Color.sheetUpperBackgroundColor
@@ -49,10 +53,6 @@ final class SelectTagsTableViewCell: UITableViewCell {
         
         static let checkmarkImageViewWidthHeight = CGFloat(24)
         static let checkmarkImageViewTrailing = CGFloat(-20)
-    }
-    
-    var isChecked = false {
-        didSet { checkmarkImageView.isHidden = !isChecked }
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

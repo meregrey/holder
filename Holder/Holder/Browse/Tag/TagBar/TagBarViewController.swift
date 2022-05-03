@@ -17,6 +17,8 @@ protocol TagBarPresentableListener: AnyObject {
 
 final class TagBarViewController: UIViewController, TagBarPresentable, TagBarViewControllable {
     
+    weak var listener: TagBarPresentableListener?
+    
     private var currentIndexPath = IndexPath(item: 0, section: 0)
     private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
@@ -61,8 +63,6 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         static let tagSettingsButtonWidthHeight = CGFloat(26)
         static let tagSettingsButtonTrailing = CGFloat(-20)
     }
-    
-    weak var listener: TagBarPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)

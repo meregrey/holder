@@ -39,17 +39,18 @@ final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
         bookmarkListCollectionView.reloadData()
     }
     
-    func bookmarkListCollectionViewContentOffset() -> CGPoint {
+    func contentOffsetForBookmarkListCollectionView() -> CGPoint {
         return bookmarkListCollectionView.contentOffset
     }
     
-    func setBookmarkListCollectionViewContentOffset(_ contentOffset: CGPoint) {
+    func setContentOffsetForBookmarkListCollectionView(_ contentOffset: CGPoint) {
         bookmarkListCollectionView.layoutIfNeeded()
         bookmarkListCollectionView.contentOffset = contentOffset
     }
     
     private func configureViews() {
         contentView.addSubview(bookmarkListCollectionView)
+        
         NSLayoutConstraint.activate([
             bookmarkListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookmarkListCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

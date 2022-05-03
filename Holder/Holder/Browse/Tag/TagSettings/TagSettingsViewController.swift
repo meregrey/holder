@@ -19,6 +19,8 @@ protocol TagSettingsPresentableListener: AnyObject {
 
 final class TagSettingsViewController: UIViewController, TagSettingsPresentable, TagSettingsViewControllable {
     
+    weak var listener: TagSettingsPresentableListener?
+    
     private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
     @AutoLayout private var tagSettingsTableView: UITableView = {
@@ -31,16 +33,14 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     }()
     
     private enum Image {
-        static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
-        static let plus = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
-        static let ellipsis = UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let addTagButton = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let editTagsButton = UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
     }
     
     private enum Metric {
         static let tagSettingsTableViewRowHeight = CGFloat(80)
     }
-    
-    weak var listener: TagSettingsPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -83,9 +83,9 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
         tagSettingsTableView.delegate = self
         
         title = LocalizedString.ViewTitle.tagSettings
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: Image.ellipsis, style: .plain, target: self, action: #selector(editTagsButtonDidTap)),
-                                              UIBarButtonItem(image: Image.plus, style: .plain, target: self, action: #selector(addTagButtonDidTap))]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: Image.editTagsButton, style: .plain, target: self, action: #selector(editTagsButtonDidTap)),
+                                              UIBarButtonItem(image: Image.addTagButton, style: .plain, target: self, action: #selector(addTagButtonDidTap))]
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         

@@ -9,11 +9,11 @@ import RIBs
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
-    
-    private var rootRouter: LaunchRouting?
+final class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
     
     var window: UIWindow?
+    
+    private var rootRouter: LaunchRouting?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)

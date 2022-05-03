@@ -13,7 +13,7 @@ protocol SettingsInteractable: Interactable, AppearanceListener, SortBookmarksLi
 }
 
 protocol SettingsViewControllable: ViewControllable {
-    func push(_ viewControllable: ViewControllable)
+    func push(_ viewController: ViewControllable)
     func pop()
 }
 

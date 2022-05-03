@@ -15,6 +15,8 @@ protocol SortBookmarksPresentableListener: AnyObject {
 
 final class SortBookmarksViewController: UIViewController, SortBookmarksPresentable, SortBookmarksViewControllable {
     
+    weak var listener: SortBookmarksPresentableListener?
+    
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -24,10 +26,11 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
     }()
     
     @AutoLayout private var newestToOldestSelectionView = SelectionView(title: LocalizedString.ActionTitle.newestToOldest)
+    
     @AutoLayout private var oldestToNewestSelectionView = SelectionView(title: LocalizedString.ActionTitle.oldestToNewest)
     
     private enum Image {
-        static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
     }
     
     private enum Metric {
@@ -35,8 +38,6 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         static let stackViewLeading = CGFloat(20)
         static let stackViewTrailing = CGFloat(-20)
     }
-    
-    weak var listener: SortBookmarksPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -51,7 +52,7 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-        select()
+        selectSort()
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -62,7 +63,7 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
     private func configureViews() {
         title = LocalizedString.ViewTitle.sortBookmarks
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.baseBackgroundColor
         
@@ -78,12 +79,6 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.stackViewLeading),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.stackViewTrailing)
         ])
-    }
-    
-    private func select() {
-        let sort = UserDefaults.value(forType: Sort.self) ?? .newestToOldest
-        newestToOldestSelectionView.select(sort == .newestToOldest)
-        oldestToNewestSelectionView.select(sort == .oldestToNewest)
     }
     
     @objc
@@ -104,6 +99,12 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
     private func handleSort(_ sort: Sort) {
         UserDefaults.set(sort)
         NotificationCenter.post(named: NotificationName.Bookmark.sortDidChange)
-        select()
+        selectSort()
+    }
+    
+    private func selectSort() {
+        let sort = UserDefaults.value(forType: Sort.self) ?? .newestToOldest
+        newestToOldestSelectionView.select(sort == .newestToOldest)
+        oldestToNewestSelectionView.select(sort == .oldestToNewest)
     }
 }

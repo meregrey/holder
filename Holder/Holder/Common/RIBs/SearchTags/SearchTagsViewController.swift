@@ -15,13 +15,15 @@ protocol SearchTagsPresentableListener: AnyObject {
 
 final class SearchTagsViewController: UIViewController, SearchTagsPresentable, SearchTagsViewControllable {
     
+    weak var listener: SearchTagsPresentableListener?
+    
     private var tags: [Tag] = []
     private var texts: [String] = []
     private var shouldAddTag = false
     
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchAndAdd,
                                                   showsCancelButton: true,
-                                                  theme: .sheet)
+                                                  style: .sheet)
     
     @AutoLayout private var searchTagsTableView: UITableView = {
         let tableView = UITableView()
@@ -43,8 +45,6 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
         static let searchTagsTableViewLastRowHeight = CGFloat(15)
         static let searchTagsTableViewTop = CGFloat(20)
     }
-    
-    weak var listener: SearchTagsPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)

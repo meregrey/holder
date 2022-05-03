@@ -17,6 +17,8 @@ protocol EnterBookmarkPresentableListener: AnyObject {
 
 final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresentable, EnterBookmarkViewControllable {
     
+    weak var listener: EnterBookmarkPresentableListener?
+    
     private let mode: EnterBookmarkMode
     
     private var selectedTags: [Tag] = []
@@ -79,8 +81,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         static let saveButtonBottom = CGFloat(-40)
         static let saveButtonBottomForKeyboard = CGFloat(-20)
     }
-    
-    weak var listener: EnterBookmarkPresentableListener?
     
     init(mode: EnterBookmarkMode) {
         self.mode = mode
@@ -217,16 +217,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         ])
     }
     
-    private func scrollToTop() {
-        let offset = CGPoint(x: 0, y: 0)
-        scrollView.setContentOffset(offset, animated: true)
-    }
-    
-    private func scrollToBottom() {
-        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
-        scrollView.setContentOffset(offset, animated: true)
-    }
-    
     @objc
     private func tagCollectionViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended { listener?.tagCollectionViewDidTap(existingSelectedTags: selectedTags) }
@@ -235,7 +225,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     @objc
     private func saveButtonDidTap() {
         guard let urlString = linkTextField.text, let url = URL(string: urlString) else {
-            let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheLink)
+            let alertController = AlertController(title: LocalizedString.AlertTitle.invalidLink)
             view.endEditing(true)
             present(alertController, animated: true)
             return
@@ -250,6 +240,16 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             let bookmark = bookmark.updated(tags: tags, note: note)
             listener?.saveButtonDidTapToEdit(bookmark: bookmark)
         }
+    }
+    
+    private func scrollToTop() {
+        let offset = CGPoint(x: 0, y: 0)
+        scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    private func scrollToBottom() {
+        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
+        scrollView.setContentOffset(offset, animated: true)
     }
 }
 

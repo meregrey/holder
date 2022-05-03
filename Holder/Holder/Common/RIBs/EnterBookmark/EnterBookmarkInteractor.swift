@@ -30,14 +30,14 @@ protocol EnterBookmarkInteractorDependency {
 
 final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresentable>, EnterBookmarkInteractable, EnterBookmarkPresentableListener {
     
+    weak var router: EnterBookmarkRouting?
+    weak var listener: EnterBookmarkListener?
+    
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: EnterBookmarkInteractorDependency
     
     private var mode: EnterBookmarkMode { dependency.mode }
     private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
-    
-    weak var router: EnterBookmarkRouting?
-    weak var listener: EnterBookmarkListener?
     
     init(presenter: EnterBookmarkPresentable, dependency: EnterBookmarkInteractorDependency) {
         self.dependency = dependency
@@ -91,10 +91,6 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         }
     }
     
-    private func clearSelectedTagsStream() {
-        selectedTagsStream.update(with: [])
-    }
-    
     private func canContinueSaving(_ url: URL) -> Bool {
         let result = bookmarkRepository.isExisting(url)
         switch result {
@@ -128,5 +124,9 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
         listener?.enterBookmarkSaveButtonDidTap()
+    }
+    
+    private func clearSelectedTagsStream() {
+        selectedTagsStream.update(with: [])
     }
 }

@@ -78,11 +78,11 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
         router?.detachClearData(includingView: true)
     }
     
-    func clearDataDidRemove() {
-        router?.detachClearData(includingView: false)
-    }
-    
     func clearDataClearButtonDidTap() {
         router?.detachClearData(includingView: true)
+    }
+    
+    func clearDataDidRemove() {
+        router?.detachClearData(includingView: false)
     }
 }

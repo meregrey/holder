@@ -22,10 +22,10 @@ protocol EditTagsListener: AnyObject {
 
 final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, EditTagsInteractable, EditTagsPresentableListener {
     
-    private let tagRepository = TagRepository.shared
-    
     weak var router: EditTagsRouting?
     weak var listener: EditTagsListener?
+    
+    private let tagRepository = TagRepository.shared
     
     override init(presenter: EditTagsPresentable) {
         super.init(presenter: presenter)

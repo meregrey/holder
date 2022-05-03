@@ -23,11 +23,11 @@ protocol TagBarBuildable: Buildable {
 }
 
 final class TagBarBuilder: Builder<TagBarDependency>, TagBarBuildable {
-
+    
     override init(dependency: TagBarDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(withListener listener: TagBarListener) -> TagBarRouting {
         let component = TagBarComponent(dependency: dependency)
         let viewController = TagBarViewController()

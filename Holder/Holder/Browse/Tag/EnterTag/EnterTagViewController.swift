@@ -16,6 +16,8 @@ protocol EnterTagPresentableListener: AnyObject {
 
 final class EnterTagViewController: UIViewController, EnterTagPresentable, EnterTagViewControllable {
     
+    weak var listener: EnterTagPresentableListener?
+    
     private let mode: EnterTagMode
     
     @AutoLayout private var containerView = UIView()
@@ -39,7 +41,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     }
     
     private enum Image {
-        static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
     }
     
     private enum Metric {
@@ -51,8 +53,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         static let saveButtonTrailing = CGFloat(-20)
         static let saveButtonBottom = CGFloat(-40)
     }
-
-    weak var listener: EnterTagPresentableListener?
     
     init(mode: EnterTagMode) {
         self.mode = mode
@@ -130,7 +130,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         }
         
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         view.backgroundColor = Asset.Color.baseBackgroundColor
         containerViewHeightConstraint = NSLayoutConstraint(item: containerView,
                                                            attribute: .height,

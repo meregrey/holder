@@ -13,6 +13,8 @@ protocol SheetHeaderViewListener: AnyObject {
 
 final class SheetHeaderView: UIView {
     
+    weak var listener: SheetHeaderViewListener?
+    
     @AutoLayout private var titleLabel: UILabel = {
         let label = UILabel()
         label.font = Font.titleLabel
@@ -48,8 +50,6 @@ final class SheetHeaderView: UIView {
         static let cancelButtonWidthHeight = CGFloat(22)
         static let cancelButtonTrailing = CGFloat(-20)
     }
-    
-    weak var listener: SheetHeaderViewListener?
     
     init(title: String? = nil) {
         super.init(frame: .zero)

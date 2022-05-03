@@ -15,8 +15,8 @@ protocol ClearDataPresentable: Presentable {
 
 protocol ClearDataListener: AnyObject {
     func clearDataBackButtonDidTap()
-    func clearDataDidRemove()
     func clearDataClearButtonDidTap()
+    func clearDataDidRemove()
 }
 
 final class ClearDataInteractor: PresentableInteractor<ClearDataPresentable>, ClearDataInteractable, ClearDataPresentableListener {
@@ -41,13 +41,13 @@ final class ClearDataInteractor: PresentableInteractor<ClearDataPresentable>, Cl
         listener?.clearDataBackButtonDidTap()
     }
     
-    func didRemove() {
-        listener?.clearDataDidRemove()
-    }
-    
     func clearButtonDidTap() {
         TagRepository.shared.clear()
         BookmarkRepository.shared.clear()
         listener?.clearDataClearButtonDidTap()
+    }
+    
+    func didRemove() {
+        listener?.clearDataDidRemove()
     }
 }

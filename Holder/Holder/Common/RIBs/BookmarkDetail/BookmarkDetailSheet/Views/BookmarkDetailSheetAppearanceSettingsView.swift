@@ -41,7 +41,7 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     }
     
     private func configure() {
-        select()
+        selectInterfaceStyle()
         
         systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap), for: .touchUpInside)
         lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap), for: .touchUpInside)
@@ -62,7 +62,7 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
         ])
     }
     
-    private func select() {
+    private func selectInterfaceStyle() {
         let interfaceStyle = UserDefaults.value(forType: InterfaceStyle.self) ?? .systemSetting
         systemSettingSelectionView.select(interfaceStyle == .systemSetting)
         lightSelectionView.select(interfaceStyle == .light)
@@ -87,6 +87,6 @@ final class BookmarkDetailSheetAppearanceSettingsView: RoundedCornerView {
     private func handleInterfaceStyle(_ interfaceStyle: InterfaceStyle) {
         window?.adoptInterfaceStyle(interfaceStyle)
         UserDefaults.set(interfaceStyle)
-        select()
+        selectInterfaceStyle()
     }
 }

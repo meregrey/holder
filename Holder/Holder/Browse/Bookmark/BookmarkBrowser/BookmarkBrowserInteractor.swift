@@ -22,7 +22,7 @@ protocol BookmarkBrowserPresentable: Presentable {
 protocol BookmarkBrowserListener: AnyObject {
     func bookmarkBrowserAddBookmarkButtonDidTap()
     func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity)
-    func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark)
+    func bookmarkBrowserContextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
 }
 
 protocol BookmarkBrowserInteractorDependency {
@@ -31,14 +31,14 @@ protocol BookmarkBrowserInteractorDependency {
 
 final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     
+    weak var router: BookmarkBrowserRouting?
+    weak var listener: BookmarkBrowserListener?
+    
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkBrowserInteractorDependency
     
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
     private var bookmarkEntityToDelete: BookmarkEntity?
-    
-    weak var router: BookmarkBrowserRouting?
-    weak var listener: BookmarkBrowserListener?
     
     init(presenter: BookmarkBrowserPresentable, dependency: BookmarkBrowserInteractorDependency) {
         self.dependency = dependency
@@ -99,8 +99,7 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     }
     
     func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity) {
-        guard let bookmark = bookmarkEntity.converted() else { return }
-        listener?.bookmarkBrowserContextMenuEditDidTap(bookmark: bookmark)
+        listener?.bookmarkBrowserContextMenuEditDidTap(bookmarkEntity: bookmarkEntity)
     }
     
     func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity) {

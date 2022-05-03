@@ -9,6 +9,8 @@ import UIKit
 
 final class CountLimitTextField: UIView {
     
+    var text: String? { textField.text }
+    
     @AutoLayout private var headerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -42,8 +44,6 @@ final class CountLimitTextField: UIView {
     private enum Metric {
         static let textFieldTop = CGFloat(10)
     }
-    
-    var text: String? { textField.text }
     
     init(header: String, countLimit: Int) {
         self.textField = TextField(placeholder: header)

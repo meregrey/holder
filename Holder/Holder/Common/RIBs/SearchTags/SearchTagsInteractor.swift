@@ -26,13 +26,13 @@ protocol SearchTagsInteractorDependency {
 
 final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, SearchTagsInteractable, SearchTagsPresentableListener {
     
+    weak var router: SearchTagsRouting?
+    weak var listener: SearchTagsListener?
+    
     private let tagRepository = TagRepository.shared
     private let dependency: SearchTagsInteractorDependency
     
     private var tagBySearchStream: MutableStream<Tag> { dependency.tagBySearchStream }
-    
-    weak var router: SearchTagsRouting?
-    weak var listener: SearchTagsListener?
     
     init(presenter: SearchTagsPresentable, dependency: SearchTagsInteractorDependency) {
         self.dependency = dependency

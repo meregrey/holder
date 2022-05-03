@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol TagRouting: Routing {
     func cleanupViews()

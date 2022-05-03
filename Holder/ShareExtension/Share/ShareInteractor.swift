@@ -24,13 +24,13 @@ protocol ShareInteractorDependency {
 
 final class ShareInteractor: Interactor, ShareInteractable, ShareViewControllerListener {
     
-    private let dependency: ShareInteractorDependency
-    
-    private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
-    
     weak var router: ShareRouting?
     weak var listener: ShareListener?
     weak var viewController: ShareViewControllable?
+    
+    private let dependency: ShareInteractorDependency
+    
+    private var selectedTagsStream: MutableStream<[Tag]> { dependency.selectedTagsStream }
     
     init(dependency: ShareInteractorDependency) {
         self.dependency = dependency

@@ -14,10 +14,10 @@ protocol BookmarkDetailSheetPresentable: Presentable {
 }
 
 protocol BookmarkDetailSheetListener: AnyObject {
-    func bookmarkDetailSheetDidRequestToDetach()
     func bookmarkDetailSheetReloadActionDidTap()
     func bookmarkDetailSheetEditActionDidTap()
     func bookmarkDetailSheetDeleteActionDidTap()
+    func bookmarkDetailSheetDidRequestToDetach()
 }
 
 final class BookmarkDetailSheetInteractor: PresentableInteractor<BookmarkDetailSheetPresentable>, BookmarkDetailSheetInteractable, BookmarkDetailSheetPresentableListener {
@@ -38,10 +38,6 @@ final class BookmarkDetailSheetInteractor: PresentableInteractor<BookmarkDetailS
         super.willResignActive()
     }
     
-    func didRequestToDetach() {
-        listener?.bookmarkDetailSheetDidRequestToDetach()
-    }
-    
     func reloadActionDidTap() {
         listener?.bookmarkDetailSheetReloadActionDidTap()
     }
@@ -52,5 +48,9 @@ final class BookmarkDetailSheetInteractor: PresentableInteractor<BookmarkDetailS
     
     func deleteActionDidTap() {
         listener?.bookmarkDetailSheetDeleteActionDidTap()
+    }
+    
+    func didRequestToDetach() {
+        listener?.bookmarkDetailSheetDidRequestToDetach()
     }
 }

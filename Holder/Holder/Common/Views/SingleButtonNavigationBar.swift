@@ -13,6 +13,8 @@ protocol SingleButtonNavigationBarListener: AnyObject {
 
 final class SingleButtonNavigationBar: UINavigationBar {
     
+    weak var listener: SingleButtonNavigationBarListener?
+    
     private let item = UINavigationItem()
     
     private let cancelButton = UIBarButtonItem(title: LocalizedString.ActionTitle.cancel, style: .plain, target: nil, action: #selector(cancelButtonDidTap))
@@ -23,8 +25,6 @@ final class SingleButtonNavigationBar: UINavigationBar {
         appearance.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         return appearance
     }()
-    
-    weak var listener: SingleButtonNavigationBarListener?
     
     init(title: String) {
         super.init(frame: .zero)

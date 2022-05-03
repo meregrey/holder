@@ -14,9 +14,18 @@ protocol BookmarkListPresentableListener: AnyObject {}
 
 final class BookmarkListViewController: UIViewController, BookmarkListPresentable, BookmarkListViewControllable {
     
+    weak var listener: BookmarkListPresentableListener?
+    
     private let isForFavorites: Bool
     
+    private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>? {
+        didSet { fetchedResultsController?.delegate = fetchedResultsControllerDelegate }
+    }
+    
+    private weak var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
     private var metadata: LPLinkMetadata?
+    private lazy var fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: bookmarkListCollectionView)
+    private lazy var bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: bookmarkListCollectionViewListener)
     
     @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
     
@@ -29,19 +38,9 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
     
     @AutoLayout private var explanationView = ExplanationView()
     
-    private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>? {
-        didSet { fetchedResultsController?.delegate = fetchedResultsControllerDelegate }
-    }
-    
-    private weak var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
-    private lazy var fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: bookmarkListCollectionView)
-    private lazy var bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: bookmarkListCollectionViewListener)
-    
     private enum Metric {
         static let blurViewHeight = Size.searchBarViewHeight
     }
-    
-    weak var listener: BookmarkListPresentableListener?
     
     init(forFavorites isForFavorites: Bool) {
         self.isForFavorites = isForFavorites

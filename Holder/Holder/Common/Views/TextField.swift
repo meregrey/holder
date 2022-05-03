@@ -23,11 +23,11 @@ final class TextField: UITextField {
     
     init(placeholder: String? = nil,
          keyboardType: UIKeyboardType = .default,
-         theme: ViewTheme = .normal) {
+         style: ViewStyle = .normal) {
         super.init(frame: .zero)
         self.placeholder = placeholder
         self.keyboardType = keyboardType
-        configure(with: theme)
+        configure(with: style)
     }
     
     required init?(coder: NSCoder) {
@@ -52,7 +52,7 @@ final class TextField: UITextField {
         return originalRect.offsetBy(dx: Metric.offset, dy: 0)
     }
     
-    private func configure(with theme: ViewTheme) {
+    private func configure(with style: ViewStyle) {
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: Metric.height).isActive = true
         font = Font.text
@@ -60,7 +60,7 @@ final class TextField: UITextField {
         layer.cornerRadius = Metric.cornerRadius
         layer.cornerCurve = .continuous
         
-        if theme == .sheet {
+        if style == .sheet {
             textColor = Asset.Color.sheetTextColor
             backgroundColor = Asset.Color.sheetUpperBackgroundColor
             return

@@ -26,13 +26,13 @@ protocol EnterTagInteractorDependency {
 
 final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, EnterTagInteractable, EnterTagPresentableListener {
     
+    weak var router: EnterTagRouting?
+    weak var listener: EnterTagListener?
+    
     private let tagRepository = TagRepository.shared
     private let dependency: EnterTagInteractorDependency
     
     private var mode: EnterTagMode { dependency.mode }
-    
-    weak var router: EnterTagRouting?
-    weak var listener: EnterTagListener?
     
     init(presenter: EnterTagPresentable, dependency: EnterTagInteractorDependency) {
         self.dependency = dependency

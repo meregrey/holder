@@ -14,11 +14,11 @@ protocol SearchInteractable: Interactable, SearchBarListener, RecentSearchesList
 }
 
 protocol SearchViewControllable: ViewControllable {
-    func addChild(_ viewControllable: ViewControllable)
-    func removeChild(_ viewControllable: ViewControllable)
-    func push(_ viewControllable: ViewControllable)
+    func addChild(_ viewController: ViewControllable)
+    func removeChild(_ viewController: ViewControllable)
+    func push(_ viewController: ViewControllable)
     func pop()
-    func presentOver(_ viewControllable: ViewControllable)
+    func presentOver(_ viewController: ViewControllable)
     func dismissOver()
 }
 

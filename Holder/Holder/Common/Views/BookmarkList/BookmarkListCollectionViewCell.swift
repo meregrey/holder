@@ -84,6 +84,15 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
         configureViews()
     }
     
+    static func fittingSize(with bookmarkEntity: BookmarkEntity, width: CGFloat) -> CGSize {
+        let cell = BookmarkListCollectionViewCell()
+        cell.configure(with: bookmarkEntity)
+        let targetSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
+        return cell.contentView.systemLayoutSizeFitting(targetSize,
+                                                        withHorizontalFittingPriority: .required,
+                                                        verticalFittingPriority: .fittingSizeLevel)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         stackView.removeArrangedSubview(noteLabel)
@@ -93,15 +102,6 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
         noteLabel.text = nil
         thumbnailImageView.image = nil
         thumbnailImageView.alpha = 0
-    }
-    
-    static func fittingSize(with bookmarkEntity: BookmarkEntity, width: CGFloat) -> CGSize {
-        let cell = BookmarkListCollectionViewCell()
-        cell.configure(with: bookmarkEntity)
-        let targetSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
-        return cell.contentView.systemLayoutSizeFitting(targetSize,
-                                                        withHorizontalFittingPriority: .required,
-                                                        verticalFittingPriority: .fittingSizeLevel)
     }
     
     func configure(with bookmarkViewModel: BookmarkViewModel) {

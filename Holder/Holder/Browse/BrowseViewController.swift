@@ -12,19 +12,17 @@ protocol BrowsePresentableListener: AnyObject {}
 
 final class BrowseViewController: UIViewController, BrowsePresentable, BrowseViewControllable {
     
+    weak var listener: BrowsePresentableListener?
+    
     @AutoLayout private var bookmarkBrowserContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .fill
         return stackView
     }()
     
     @AutoLayout private var tagBarContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .fill
         return stackView
     }()
     
@@ -34,18 +32,16 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         static let tabBarItem = UIImage(named: "Browse")
     }
     
-    weak var listener: BrowsePresentableListener?
-    
     init() {
         super.init(nibName: nil, bundle: nil)
-        configureViews()
         registerToReceiveNotification()
+        configureViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        configureViews()
         registerToReceiveNotification()
+        configureViews()
     }
     
     deinit {
@@ -57,29 +53,67 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         navigationController?.isNavigationBarHidden = true
     }
     
-    func addChild(_ viewControllable: ViewControllable) {
-        let childViewController = viewControllable.uiviewController
-        addChild(childViewController)
-        addChildView(of: childViewController)
-        childViewController.didMove(toParent: self)
+    func addChild(_ viewController: ViewControllable) {
+        let viewController = viewController.uiviewController
+        addChild(viewController)
+        addChildView(of: viewController)
+        viewController.didMove(toParent: self)
     }
     
-    func push(_ viewControllable: ViewControllable) {
-        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
+    func push(_ viewController: ViewControllable) {
+        navigationController?.pushViewController(viewController.uiviewController, animated: true)
     }
     
     func pop() {
         navigationController?.popViewController(animated: true)
     }
     
-    func presentOver(_ viewControllable: ViewControllable) {
-        let viewController = viewControllable.uiviewController
+    func presentOver(_ viewController: ViewControllable) {
+        let viewController = viewController.uiviewController
         viewController.modalPresentationStyle = .currentContext
         presentedViewController?.present(viewController, animated: true)
     }
     
     func dismissOver() {
         presentedViewController?.dismiss(animated: true)
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToCheckStore),
+                                       name: NotificationName.Store.didFailToCheck)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToLoadStore),
+                                       name: NotificationName.Store.didFailToLoad)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToSaveStore),
+                                       name: NotificationName.Store.didFailToSave)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(didFailToProcessData),
+                                       name: NotificationName.didFailToProcessData)
+    }
+    
+    @objc
+    private func didFailToCheckStore() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileCheckingTheStore)
+    }
+    
+    @objc
+    private func didFailToLoadStore() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileLoadingTheStore)
+    }
+    
+    @objc
+    private func didFailToSaveStore() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileSavingToTheStore)
+    }
+    
+    @objc
+    private func didFailToProcessData() {
+        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileProcessingData)
     }
     
     private func configureViews() {
@@ -107,46 +141,8 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
         ])
     }
     
-    private func registerToReceiveNotification() {
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(didFailToCheckStore),
-                                       name: NotificationName.Store.didFailToCheck)
-        
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(didFailToLoadStore),
-                                       name: NotificationName.Store.didFailToLoad)
-        
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(didFailToSaveStore),
-                                       name: NotificationName.Store.didFailToSave)
-        
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(didFailToProcessData),
-                                       name: NotificationName.didFailToProcessData)
-    }
-    
-    private func addChildView(of childViewController: UIViewController) {
-        let containerView = childViewController is BookmarkBrowserViewController ? bookmarkBrowserContainerView : tagBarContainerView
-        containerView.addArrangedSubview(childViewController.view)
-    }
-    
-    @objc
-    private func didFailToCheckStore() {
-        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileCheckingTheStore)
-    }
-    
-    @objc
-    private func didFailToLoadStore() {
-        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileLoadingTheStore)
-    }
-    
-    @objc
-    private func didFailToSaveStore() {
-        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileSavingToTheStore)
-    }
-    
-    @objc
-    private func didFailToProcessData() {
-        presentAlert(title: LocalizedString.AlertTitle.errorOccurredWhileProcessingData)
+    private func addChildView(of viewController: UIViewController) {
+        let containerView = viewController is BookmarkBrowserViewController ? bookmarkBrowserContainerView : tagBarContainerView
+        containerView.addArrangedSubview(viewController.view)
     }
 }

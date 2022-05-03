@@ -17,6 +17,8 @@ protocol SelectTagsPresentableListener: AnyObject {
 
 final class SelectTagsViewController: UIViewController, SelectTagsPresentable, SelectTagsViewControllable {
     
+    weak var listener: SelectTagsPresentableListener?
+    
     private var selectedTags: [Tag] = []
     private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
     
@@ -24,7 +26,7 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchAndAdd,
                                                   isInputEnabled: false,
-                                                  theme: .sheet)
+                                                  style: .sheet)
     
     @AutoLayout private var selectTagsTableView: UITableView = {
         let tableView = UITableView()
@@ -52,8 +54,6 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         static let doneButtonTrailing = CGFloat(-20)
         static let doneButtonBottom = CGFloat(-40)
     }
-    
-    weak var listener: SelectTagsPresentableListener?
     
     init(topBarStyle: TopBarStyle) {
         let title = LocalizedString.ViewTitle.selectTags

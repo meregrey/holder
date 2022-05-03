@@ -14,10 +14,10 @@ protocol FavoritesInteractable: Interactable, SearchBarListener, BookmarkListLis
 }
 
 protocol FavoritesViewControllable: ViewControllable {
-    func addChild(_ viewControllable: ViewControllable)
-    func push(_ viewControllable: ViewControllable)
+    func addChild(_ viewController: ViewControllable)
+    func push(_ viewController: ViewControllable)
     func pop()
-    func presentOver(_ viewControllable: ViewControllable)
+    func presentOver(_ viewController: ViewControllable)
     func dismissOver()
 }
 

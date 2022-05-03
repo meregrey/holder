@@ -16,6 +16,8 @@ protocol SettingsPresentableListener: AnyObject {
 
 final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
     
+    weak var listener: SettingsPresentableListener?
+    
     private static let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     
     @AutoLayout private var titleLabel: UILabel = {
@@ -35,8 +37,11 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     }()
     
     @AutoLayout private var versionOptionView = SettingsOptionView(title: LocalizedString.LabelText.version, info: version)
+    
     @AutoLayout private var appearanceOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.appearance)
+    
     @AutoLayout private var sortBookmarksOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.sortBookmarks)
+    
     @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.clearData)
     
     private enum Font {
@@ -57,8 +62,6 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         static let stackViewTrailing = CGFloat(-20)
     }
     
-    weak var listener: SettingsPresentableListener?
-    
     init() {
         super.init(nibName: nil, bundle: nil)
         configureViews()
@@ -74,8 +77,8 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         navigationController?.isNavigationBarHidden = true
     }
     
-    func push(_ viewControllable: ViewControllable) {
-        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
+    func push(_ viewController: ViewControllable) {
+        navigationController?.pushViewController(viewController.uiviewController, animated: true)
     }
     
     func pop() {
