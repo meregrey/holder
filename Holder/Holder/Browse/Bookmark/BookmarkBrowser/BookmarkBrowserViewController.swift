@@ -24,21 +24,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     private var metadata: LPLinkMetadata?
     private var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
     
-    @AutoLayout private var bookmarkBrowserCollectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.minimumLineSpacing = .zero
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(BookmarkBrowserCollectionViewCell.self)
-        collectionView.isPagingEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        
-        return collectionView
-    }()
+    @AutoLayout private var bookmarkBrowserCollectionView = BookmarkBrowserCollectionView()
     
     @AutoLayout private var blurView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .prominent)
