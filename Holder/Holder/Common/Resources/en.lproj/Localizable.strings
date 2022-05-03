@@ -24,7 +24,7 @@
 "An error occurred while loading the store." = "An error occurred while loading the store.";
 "An error occurred while saving to the store." = "An error occurred while saving to the store.";
 "An error occurred while processing data." = "An error occurred while processing data.";
-"Enter the link." = "Enter the link.";
+"Invalid link." = "Invalid link.";
 "Already saved bookmark." = "Already saved bookmark.";
 "Already saved tag." = "Already saved tag.";
 

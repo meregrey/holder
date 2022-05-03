@@ -35,7 +35,7 @@ enum LocalizedString {
         static let errorOccurredWhileLoadingTheStore = "An error occurred while loading the store.".localized
         static let errorOccurredWhileSavingToTheStore = "An error occurred while saving to the store.".localized
         static let errorOccurredWhileProcessingData = "An error occurred while processing data.".localized
-        static let enterTheLink = "Enter the link.".localized
+        static let invalidLink = "Invalid link.".localized
         static let alreadySavedBookmark = "Already saved bookmark.".localized
         static let alreadySavedTag = "Already saved tag.".localized
         static let tagAlreadySelected = "Tag Already Selected".localized
