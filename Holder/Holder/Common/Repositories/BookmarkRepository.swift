@@ -25,9 +25,9 @@ final class BookmarkRepository: BookmarkRepositoryType {
     
     static let shared = BookmarkRepository()
     
-    var context: NSManagedObjectContext { PersistentContainer.shared.context }
+    private var context: NSManagedObjectContext { PersistentContainer.shared.context }
     
-    var ascending: Bool {
+    private var ascending: Bool {
         let sort = UserDefaults.value(forType: Sort.self) ?? .newestToOldest
         return sort == .newestToOldest ? false : true
     }
@@ -36,14 +36,14 @@ final class BookmarkRepository: BookmarkRepositoryType {
     
     func fetchedResultsController(isFavorite: Bool = false) -> NSFetchedResultsController<BookmarkEntity> {
         let request = BookmarkEntity.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: ascending)
+        request.sortDescriptors = [sortDescriptor]
         
         if isFavorite {
             let predicate = NSPredicate(format: "%K == YES", #keyPath(BookmarkEntity.isFavorite))
             request.predicate = predicate
         }
         
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: ascending)
-        request.sortDescriptors = [sortDescriptor]
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: context,
                                           sectionNameKeyPath: nil,
@@ -52,10 +52,10 @@ final class BookmarkRepository: BookmarkRepositoryType {
     
     func fetchedResultsController(for tag: Tag) -> NSFetchedResultsController<BookmarkTagEntity> {
         let request = BookmarkTagEntity.fetchRequest()
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
         let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkTagEntity.bookmark.creationDate), ascending: ascending)
-        request.predicate = predicate
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
         request.sortDescriptors = [sortDescriptor]
+        request.predicate = predicate
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: context,
                                           sectionNameKeyPath: nil,
@@ -64,6 +64,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
     
     func fetchedResultsController(for searchTerm: String, isFavorite: Bool = false) -> NSFetchedResultsController<BookmarkEntity> {
         let request = BookmarkEntity.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: ascending)
         let titlePredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(BookmarkEntity.title), searchTerm)
         let urlPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(BookmarkEntity.urlString), searchTerm)
         let notePredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(BookmarkEntity.note), searchTerm)
@@ -74,9 +75,9 @@ final class BookmarkRepository: BookmarkRepositoryType {
             predicates = NSCompoundPredicate(type: .and, subpredicates: [predicates, isFavoritePredicate])
         }
         
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(BookmarkEntity.creationDate), ascending: ascending)
-        request.predicate = predicates
         request.sortDescriptors = [sortDescriptor]
+        request.predicate = predicates
+        
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: context,
                                           sectionNameKeyPath: nil,
