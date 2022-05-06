@@ -66,7 +66,7 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     }
     
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     // MARK: - BookmarkDetail
@@ -80,7 +80,7 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     }
     
     func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     func bookmarkDetailDidRequestToDetach() {

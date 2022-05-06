@@ -93,7 +93,7 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     }
     
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     // MARK: - BookmarkDetail
@@ -107,7 +107,7 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     }
     
     func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     func bookmarkDetailDidRequestToDetach() {

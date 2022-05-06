@@ -57,7 +57,7 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     }
     
     func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     // MARK: - EnterBookmark
@@ -81,7 +81,7 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     }
     
     func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     func bookmarkDetailDidRequestToDetach() {
