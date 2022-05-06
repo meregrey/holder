@@ -18,11 +18,13 @@ final class PersistentContainer: PersistentContainerType {
     var context: NSManagedObjectContext { container.viewContext }
     
     private let dataModelName = "PersistenceModel"
+    private let containerIdentifier = "iCloud.com.meregrey.holder"
     private let appGroupIdentifier = "group.com.meregrey.holder"
     
     private lazy var container: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: dataModelName)
         let storeDescription = NSPersistentStoreDescription(url: containerURL())
+        storeDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: containerIdentifier)
         container.persistentStoreDescriptions = [storeDescription]
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores { _, error in
