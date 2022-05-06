@@ -15,7 +15,11 @@ final class PersistentContainer: PersistentContainerType {
     
     static let shared = PersistentContainer()
     
-    var context: NSManagedObjectContext { container.viewContext }
+    private(set) lazy var context: NSManagedObjectContext = {
+        let context = container.newBackgroundContext()
+        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        return context
+    }()
     
     private let dataModelName = "PersistenceModel"
     private let containerIdentifier = "iCloud.com.meregrey.holder"
