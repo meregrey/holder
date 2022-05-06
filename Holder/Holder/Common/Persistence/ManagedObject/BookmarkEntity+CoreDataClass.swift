@@ -33,7 +33,7 @@ public class BookmarkEntity: NSManagedObject {
         guard let url = URL(string: self.urlString) else { return nil }
         let bookmarkTagEntities = self.tags?.allObjects as? [BookmarkTagEntity]
         let bookmarkTags = bookmarkTagEntities?.map { BookmarkTag(name: $0.name, index: Int($0.index)) }
-        return Bookmark(url: url, tags: bookmarkTags, note: self.note, title: self.title)
+        return Bookmark(url: url, isFavorite: self.isFavorite, tags: bookmarkTags, note: self.note, title: self.title)
     }
     
     func update(with bookmark: Bookmark) {
