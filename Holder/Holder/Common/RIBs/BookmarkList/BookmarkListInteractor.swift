@@ -80,7 +80,8 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     }
     
     func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity) {
-        let result = bookmarkRepository.update(bookmarkEntity)
+        guard let url = URL(string: bookmarkEntity.urlString) else { return }
+        let result = bookmarkRepository.updateFavorites(for: url)
         switch result {
         case .success(_): break
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
@@ -146,7 +147,8 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     
     private func deleteBookmark() {
         guard let bookmarkEntity = bookmarkEntityToDelete else { return }
-        let result = bookmarkRepository.delete(bookmarkEntity)
+        guard let url = URL(string: bookmarkEntity.urlString) else { return }
+        let result = bookmarkRepository.delete(for: url)
         switch result {
         case .success(()): break
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)

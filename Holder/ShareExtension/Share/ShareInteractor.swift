@@ -54,7 +54,7 @@ final class ShareInteractor: Interactor, ShareInteractable, ShareViewControllerL
     func saveButtonDidTap(bookmark: Bookmark) {
         LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, _ in
             let bookmark = bookmark.updated(title: metadata?.title)
-            _ = BookmarkRepository.shared.add(with: bookmark)
+            _ = BookmarkRepository.shared.add(bookmark: bookmark)
             self.viewController?.completeRequest()
         }
     }

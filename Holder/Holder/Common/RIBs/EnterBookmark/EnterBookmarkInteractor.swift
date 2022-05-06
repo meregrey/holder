@@ -106,7 +106,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     private func addBookmark(_ bookmark: Bookmark) {
         LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, _ in
             let bookmark = bookmark.updated(title: metadata?.title)
-            let result = self.bookmarkRepository.add(with: bookmark)
+            let result = self.bookmarkRepository.add(bookmark: bookmark)
             
             switch result {
             case .success(_): break
@@ -118,7 +118,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     }
     
     private func updateBookmark(_ bookmark: Bookmark) {
-        let result = bookmarkRepository.update(with: bookmark)
+        let result = bookmarkRepository.update(bookmark: bookmark)
         switch result {
         case .success(_): break
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)

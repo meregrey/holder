@@ -72,7 +72,8 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     }
     
     func favoriteButtonDidTap() {
-        let result = bookmarkRepository.update(bookmarkEntity)
+        guard let url = URL(string: bookmarkEntity.urlString) else { return }
+        let result = bookmarkRepository.updateFavorites(for: url)
         switch result {
         case .success(let isFavorite): presenter.updateToolbar(for: isFavorite)
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
@@ -119,7 +120,8 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     }
     
     private func deleteBookmark() {
-        let result = bookmarkRepository.delete(bookmarkEntity)
+        guard let url = URL(string: bookmarkEntity.urlString) else { return }
+        let result = bookmarkRepository.delete(for: url)
         switch result {
         case .success(()): listener?.bookmarkDetailDidRequestToDetach()
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
