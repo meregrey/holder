@@ -9,5 +9,5 @@ import Foundation
 
 enum EnterBookmarkMode {
     case add
-    case edit(bookmark: Bookmark)
+    case edit(_ bookmark: Bookmark)
 }
