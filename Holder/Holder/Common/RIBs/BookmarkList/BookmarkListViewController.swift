@@ -16,15 +16,11 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
     
     weak var listener: BookmarkListPresentableListener?
     
-    private let isForFavorites: Bool
-    
-    private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>? {
-        didSet { fetchedResultsController?.delegate = fetchedResultsControllerDelegate }
-    }
-    
+    private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?
     private weak var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
+    
     private var metadata: LPLinkMetadata?
-    private lazy var fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: bookmarkListCollectionView)
+    
     private lazy var bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: bookmarkListCollectionViewListener)
     
     @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
@@ -42,20 +38,19 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
         static let blurViewHeight = Size.searchBarViewHeight
     }
     
-    init(forFavorites isForFavorites: Bool) {
-        self.isForFavorites = isForFavorites
+    init() {
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
-        self.isForFavorites = false
         super.init(coder: coder)
         configureViews()
     }
     
     func update(fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?, searchTerm: String) {
         self.fetchedResultsController = fetchedResultsController
+        self.fetchedResultsController?.delegate = self
         DispatchQueue.main.async {
             if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count > 0 {
                 self.bookmarkListCollectionView.reloadData()
@@ -130,6 +125,17 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
         if contentOffset.y > -(Size.safeAreaTopInset) { alpha = 1 }
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
             self.blurView.alpha = CGFloat(alpha)
+        }
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension BookmarkListViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.bookmarkListCollectionView.reloadData()
         }
     }
 }

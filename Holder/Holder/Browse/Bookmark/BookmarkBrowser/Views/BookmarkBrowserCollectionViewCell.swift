@@ -9,9 +9,9 @@ import UIKit
 
 final class BookmarkBrowserCollectionViewCell: UICollectionViewCell {
     
-    @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
-    
     private var bookmarkListCollectionViewManager: BookmarkListCollectionViewManager?
+    
+    @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

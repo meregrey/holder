@@ -21,7 +21,6 @@ protocol BookmarkListCollectionViewListener: AnyObject {
 final class BookmarkListCollectionViewManager: NSObject {
     
     private let bookmarkRepository = BookmarkRepository.shared
-    private let fetchedResultsControllerDelegate: FetchedResultsControllerDelegate
     private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
     private let tag: Tag?
     
@@ -32,7 +31,6 @@ final class BookmarkListCollectionViewManager: NSObject {
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
     
     init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag?) {
-        self.fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: collectionView)
         self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
         self.tag = tag
         self.collectionView = collectionView
@@ -68,18 +66,29 @@ final class BookmarkListCollectionViewManager: NSObject {
     
     private func configureFetchedResultsControllerForAll() {
         fetchedResultsControllerForAll = bookmarkRepository.fetchedResultsController()
-        fetchedResultsControllerForAll?.delegate = fetchedResultsControllerDelegate
+        fetchedResultsControllerForAll?.delegate = self
         try? fetchedResultsControllerForAll?.performFetch()
     }
     
     private func configureFetchedResultsControllerForTag(with tag: Tag) {
         fetchedResultsControllerForTag = bookmarkRepository.fetchedResultsController(for: tag)
-        fetchedResultsControllerForTag?.delegate = fetchedResultsControllerDelegate
+        fetchedResultsControllerForTag?.delegate = self
         try? fetchedResultsControllerForTag?.performFetch()
     }
     
     private func bookmarkEntity(at indexPath: IndexPath) -> BookmarkEntity? {
         return tag == nil ? fetchedResultsControllerForAll?.object(at: indexPath) : fetchedResultsControllerForTag?.object(at: indexPath).bookmark
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension BookmarkListCollectionViewManager: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
 }
 

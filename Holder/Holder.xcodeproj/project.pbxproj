@@ -209,7 +209,6 @@
 		67E32C942806D45400F2133B /* BookmarkListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BDC2806D45300F2133B /* BookmarkListCollectionView.swift */; };
 		67E32C952806D45400F2133B /* BookmarkListContextMenuProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BDD2806D45300F2133B /* BookmarkListContextMenuProvider.swift */; };
 		67E32C962806D45400F2133B /* BookmarkListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BDE2806D45300F2133B /* BookmarkListCollectionViewCell.swift */; };
-		67E32C972806D45400F2133B /* FetchedResultsControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BDF2806D45300F2133B /* FetchedResultsControllerDelegate.swift */; };
 		67E32C982806D45400F2133B /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE02806D45300F2133B /* SearchBar.swift */; };
 		67E32C992806D45400F2133B /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE12806D45300F2133B /* TextField.swift */; };
 		67E32C9A2806D45400F2133B /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE22806D45300F2133B /* Action.swift */; };
@@ -425,7 +424,6 @@
 		67E32BDC2806D45300F2133B /* BookmarkListCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListCollectionView.swift; sourceTree = "<group>"; };
 		67E32BDD2806D45300F2133B /* BookmarkListContextMenuProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListContextMenuProvider.swift; sourceTree = "<group>"; };
 		67E32BDE2806D45300F2133B /* BookmarkListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListCollectionViewCell.swift; sourceTree = "<group>"; };
-		67E32BDF2806D45300F2133B /* FetchedResultsControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsControllerDelegate.swift; sourceTree = "<group>"; };
 		67E32BE02806D45300F2133B /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		67E32BE12806D45300F2133B /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		67E32BE22806D45300F2133B /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -950,7 +948,6 @@
 				67E32BDC2806D45300F2133B /* BookmarkListCollectionView.swift */,
 				67E32BDE2806D45300F2133B /* BookmarkListCollectionViewCell.swift */,
 				67E32BDD2806D45300F2133B /* BookmarkListContextMenuProvider.swift */,
-				67E32BDF2806D45300F2133B /* FetchedResultsControllerDelegate.swift */,
 			);
 			path = BookmarkList;
 			sourceTree = "<group>";
@@ -1505,7 +1502,6 @@
 				67E32CA12806D45400F2133B /* RootBuilder.swift in Sources */,
 				67E32C472806D45300F2133B /* EnterBookmarkInteractor.swift in Sources */,
 				67E32C5F2806D45300F2133B /* SearchTagsBuilder.swift in Sources */,
-				67E32C972806D45400F2133B /* FetchedResultsControllerDelegate.swift in Sources */,
 				67E32C2D2806D45300F2133B /* SettingsViewController.swift in Sources */,
 				67E32C332806D45300F2133B /* FavoritesRouter.swift in Sources */,
 				67E32C342806D45300F2133B /* SearchViewController.swift in Sources */,
