@@ -12,11 +12,11 @@ protocol BookmarkRepositoryType {
     func fetchedResultsController(for tag: Tag) -> NSFetchedResultsController<BookmarkTagEntity>
     func fetchedResultsController(for searchTerm: String, isFavorite: Bool) -> NSFetchedResultsController<BookmarkEntity>
     func isExisting(_ url: URL) -> Result<Bool, Error>
-    func add(with bookmark: Bookmark) -> Result<Void, Error>
-    func update(with bookmark: Bookmark) -> Result<Void, Error>
-    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error>
+    func add(bookmark: Bookmark) -> Result<Void, Error>
+    func update(bookmark: Bookmark) -> Result<Void, Error>
+    func updateFavorites(for url: URL) -> Result<Bool, Error>
     func updateTags(_ tag: Tag, to newTag: Tag) -> Result<Void, Error>
-    func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error>
+    func delete(for url: URL) -> Result<Void, Error>
     func deleteTags(for tag: Tag)
     func clear()
 }
@@ -96,7 +96,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func add(with bookmark: Bookmark) -> Result<Void, Error> {
+    func add(bookmark: Bookmark) -> Result<Void, Error> {
         let bookmarkEntity = BookmarkEntity(context: context)
         bookmarkEntity.configure(with: bookmark)
         do {
@@ -107,7 +107,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func update(with bookmark: Bookmark) -> Result<Void, Error> {
+    func update(bookmark: Bookmark) -> Result<Void, Error> {
         let request = BookmarkEntity.fetchRequest()
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), bookmark.url.absoluteString)
         request.predicate = predicate
@@ -122,8 +122,12 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func update(_ bookmarkEntity: BookmarkEntity) -> Result<Bool, Error> {
+    func updateFavorites(for url: URL) -> Result<Bool, Error> {
+        let request = BookmarkEntity.fetchRequest()
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), url.absoluteString)
+        request.predicate = predicate
         do {
+            guard let bookmarkEntity = try context.fetch(request).first else { return .success(false) }
             bookmarkEntity.isFavorite.toggle()
             try context.save()
             return .success(bookmarkEntity.isFavorite)
@@ -147,8 +151,13 @@ final class BookmarkRepository: BookmarkRepositoryType {
         }
     }
     
-    func delete(_ bookmarkEntity: BookmarkEntity) -> Result<Void, Error> {
+    func delete(for url: URL) -> Result<Void, Error> {
+        let request = BookmarkEntity.fetchRequest()
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), url.absoluteString)
+        request.predicate = predicate
+        request.includesPropertyValues = false
         do {
+            guard let bookmarkEntity = try context.fetch(request).first else { return .success(()) }
             context.delete(bookmarkEntity)
             try context.save()
             return .success(())
