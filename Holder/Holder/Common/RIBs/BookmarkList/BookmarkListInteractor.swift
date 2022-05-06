@@ -19,7 +19,7 @@ protocol BookmarkListPresentable: Presentable {
 }
 
 protocol BookmarkListListener: AnyObject {
-    func bookmarkListBookmarkDidTap(bookmarkEntity: BookmarkEntity)
+    func bookmarkListBookmarkDidTap(bookmark: Bookmark)
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark)
 }
 
@@ -39,7 +39,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     private var searchTermStream: ReadOnlyStream<String> { dependency.searchTermStream }
     private var isForFavorites: Bool { dependency.isForFavorites }
     private var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?
-    private var bookmarkEntityToDelete: BookmarkEntity?
+    private var urlToDelete: URL?
     
     init(presenter: BookmarkListPresentable, dependency: BookmarkListInteractorDependency) {
         self.dependency = dependency
@@ -63,38 +63,35 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     
     func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint) {}
     
-    func bookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        listener?.bookmarkListBookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    func bookmarkDidTap(bookmark: Bookmark) {
+        listener?.bookmarkListBookmarkDidTap(bookmark: bookmark)
     }
     
-    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity) {
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
-        LPMetadataProvider().startFetchingMetadata(for: url) { metadata, _ in
+    func contextMenuShareDidTap(bookmark: Bookmark) {
+        LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, _ in
             guard let metadata = metadata else { return }
             self.presenter.displayShareSheet(with: metadata)
         }
     }
     
-    func contextMenuCopyLinkDidTap(bookmarkEntity: BookmarkEntity) {
-        UIPasteboard.general.string = bookmarkEntity.urlString
+    func contextMenuCopyLinkDidTap(bookmark: Bookmark) {
+        UIPasteboard.general.string = bookmark.url.absoluteString
     }
     
-    func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity) {
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
-        let result = bookmarkRepository.updateFavorites(for: url)
+    func contextMenuFavoriteDidTap(bookmark: Bookmark) {
+        let result = bookmarkRepository.updateFavorites(for: bookmark.url)
         switch result {
         case .success(_): break
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
-    func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity) {
-        guard let bookmark = bookmarkEntity.converted() else { return }
+    func contextMenuEditDidTap(bookmark: Bookmark) {
         listener?.bookmarkListContextMenuEditDidTap(bookmark: bookmark)
     }
     
-    func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity) {
-        bookmarkEntityToDelete = bookmarkEntity
+    func contextMenuDeleteDidTap(bookmark: Bookmark) {
+        urlToDelete = bookmark.url
         presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
                                message: LocalizedString.AlertMessage.deleteBookmark,
                                action: Action(title: LocalizedString.ActionTitle.delete, handler: deleteBookmark))
@@ -146,8 +143,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     }
     
     private func deleteBookmark() {
-        guard let bookmarkEntity = bookmarkEntityToDelete else { return }
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
+        guard let url = urlToDelete else { return }
         let result = bookmarkRepository.delete(for: url)
         switch result {
         case .success(()): break

@@ -31,7 +31,7 @@ protocol BookmarkDetailListener: AnyObject {
 }
 
 protocol BookmarkDetailInteractorDependency {
-    var bookmarkEntity: BookmarkEntity { get }
+    var bookmark: Bookmark { get }
 }
 
 final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresentable>, BookmarkDetailInteractable, BookmarkDetailPresentableListener {
@@ -42,7 +42,7 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkDetailInteractorDependency
     
-    private var bookmarkEntity: BookmarkEntity { dependency.bookmarkEntity }
+    private var bookmark: Bookmark { dependency.bookmark }
     
     init(presenter: BookmarkDetailPresentable, dependency: BookmarkDetailInteractorDependency) {
         self.dependency = dependency
@@ -64,16 +64,14 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     }
     
     func shareButtonDidTap() {
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
-        LPMetadataProvider().startFetchingMetadata(for: url) { metadata, _ in
+        LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, _ in
             guard let metadata = metadata else { return }
             self.presenter.displayShareSheet(with: metadata)
         }
     }
     
     func favoriteButtonDidTap() {
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
-        let result = bookmarkRepository.updateFavorites(for: url)
+        let result = bookmarkRepository.updateFavorites(for: bookmark.url)
         switch result {
         case .success(let isFavorite): presenter.updateToolbar(for: isFavorite)
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
@@ -95,7 +93,6 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     
     func bookmarkDetailSheetEditActionDidTap() {
         router?.detachBookmarkDetailSheet()
-        guard let bookmark = bookmarkEntity.converted() else { return }
         listener?.bookmarkDetailEditActionDidTap(bookmark: bookmark)
     }
     
@@ -114,14 +111,12 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     }
     
     private func loadView() {
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
-        presenter.load(from: url)
-        presenter.updateToolbar(for: bookmarkEntity.isFavorite)
+        presenter.load(from: bookmark.url)
+        presenter.updateToolbar(for: bookmark.isFavorite)
     }
     
     private func deleteBookmark() {
-        guard let url = URL(string: bookmarkEntity.urlString) else { return }
-        let result = bookmarkRepository.delete(for: url)
+        let result = bookmarkRepository.delete(for: bookmark.url)
         switch result {
         case .success(()): listener?.bookmarkDetailDidRequestToDetach()
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)

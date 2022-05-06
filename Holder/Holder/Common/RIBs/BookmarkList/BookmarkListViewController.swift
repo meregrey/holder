@@ -177,13 +177,15 @@ extension BookmarkListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return }
-        bookmarkListCollectionViewListener?.bookmarkDidTap(bookmarkEntity: bookmarkEntity)
+        guard let bookmark = bookmarkEntity.converted() else { return }
+        bookmarkListCollectionViewListener?.bookmarkDidTap(bookmark: bookmark)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let bookmarkEntity = self.bookmarkEntity(at: indexPath)
-            return self.bookmarkListContextMenuProvider.menu(for: bookmarkEntity)
+            let bookmark = bookmarkEntity?.converted()
+            return self.bookmarkListContextMenuProvider.menu(for: bookmark)
         }
     }
     

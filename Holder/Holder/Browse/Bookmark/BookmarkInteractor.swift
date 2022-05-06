@@ -12,7 +12,7 @@ protocol BookmarkRouting: Routing {
     func attachBookmarkBrowser()
     func attachEnterBookmark(mode: EnterBookmarkMode)
     func detachEnterBookmark(includingView isViewIncluded: Bool)
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity)
+    func attachBookmarkDetail(bookmark: Bookmark)
     func detachBookmarkDetail(includingView isViewIncluded: Bool)
 }
 
@@ -52,12 +52,11 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
         router?.attachEnterBookmark(mode: .add)
     }
     
-    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        router?.attachBookmarkDetail(bookmarkEntity: bookmarkEntity)
+    func bookmarkBrowserBookmarkDidTap(bookmark: Bookmark) {
+        router?.attachBookmarkDetail(bookmark: bookmark)
     }
     
-    func bookmarkBrowserContextMenuEditDidTap(bookmarkEntity: BookmarkEntity) {
-        guard let bookmark = bookmarkEntity.converted() else { return }
+    func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark) {
         router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
     }
     

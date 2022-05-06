@@ -11,10 +11,10 @@ protocol BookmarkDetailDependency: Dependency {}
 
 final class BookmarkDetailComponent: Component<BookmarkDetailDependency>, BookmarkDetailInteractorDependency, BookmarkDetailSheetDependency {
     
-    let bookmarkEntity: BookmarkEntity
+    let bookmark: Bookmark
     
-    init(dependency: BookmarkDetailDependency, bookmarkEntity: BookmarkEntity) {
-        self.bookmarkEntity = bookmarkEntity
+    init(dependency: BookmarkDetailDependency, bookmark: Bookmark) {
+        self.bookmark = bookmark
         super.init(dependency: dependency)
     }
 }
@@ -22,7 +22,7 @@ final class BookmarkDetailComponent: Component<BookmarkDetailDependency>, Bookma
 // MARK: - Builder
 
 protocol BookmarkDetailBuildable: Buildable {
-    func build(withListener listener: BookmarkDetailListener, bookmarkEntity: BookmarkEntity) -> BookmarkDetailRouting
+    func build(withListener listener: BookmarkDetailListener, bookmark: Bookmark) -> BookmarkDetailRouting
 }
 
 final class BookmarkDetailBuilder: Builder<BookmarkDetailDependency>, BookmarkDetailBuildable {
@@ -31,8 +31,8 @@ final class BookmarkDetailBuilder: Builder<BookmarkDetailDependency>, BookmarkDe
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: BookmarkDetailListener, bookmarkEntity: BookmarkEntity) -> BookmarkDetailRouting {
-        let component = BookmarkDetailComponent(dependency: dependency, bookmarkEntity: bookmarkEntity)
+    func build(withListener listener: BookmarkDetailListener, bookmark: Bookmark) -> BookmarkDetailRouting {
+        let component = BookmarkDetailComponent(dependency: dependency, bookmark: bookmark)
         let viewController = BookmarkDetailViewController()
         let interactor = BookmarkDetailInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener

@@ -10,12 +10,12 @@ import UIKit
 
 protocol BookmarkListCollectionViewListener: AnyObject {
     func bookmarkListCollectionViewDidScroll(contentOffset: CGPoint)
-    func bookmarkDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuShareDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuCopyLinkDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuFavoriteDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuEditDidTap(bookmarkEntity: BookmarkEntity)
-    func contextMenuDeleteDidTap(bookmarkEntity: BookmarkEntity)
+    func bookmarkDidTap(bookmark: Bookmark)
+    func contextMenuShareDidTap(bookmark: Bookmark)
+    func contextMenuCopyLinkDidTap(bookmark: Bookmark)
+    func contextMenuFavoriteDidTap(bookmark: Bookmark)
+    func contextMenuEditDidTap(bookmark: Bookmark)
+    func contextMenuDeleteDidTap(bookmark: Bookmark)
 }
 
 final class BookmarkListCollectionViewManager: NSObject {
@@ -131,13 +131,15 @@ extension BookmarkListCollectionViewManager: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return }
-        listener?.bookmarkDidTap(bookmarkEntity: bookmarkEntity)
+        guard let bookmark = bookmarkEntity.converted() else { return }
+        listener?.bookmarkDidTap(bookmark: bookmark)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let bookmarkEntity = self.bookmarkEntity(at: indexPath)
-            return self.bookmarkListContextMenuProvider.menu(for: bookmarkEntity)
+            let bookmark = bookmarkEntity?.converted()
+            return self.bookmarkListContextMenuProvider.menu(for: bookmark)
         }
     }
     

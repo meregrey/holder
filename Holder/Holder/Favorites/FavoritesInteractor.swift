@@ -10,7 +10,7 @@ import RIBs
 protocol FavoritesRouting: ViewableRouting {
     func attachSearchBar()
     func attachBookmarkList()
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity)
+    func attachBookmarkDetail(bookmark: Bookmark)
     func detachBookmarkDetail(includingView isViewIncluded: Bool)
     func attachEnterBookmark(mode: EnterBookmarkMode)
     func detachEnterBookmark(includingView isViewIncluded: Bool)
@@ -61,8 +61,8 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     
     // MARK: - BookmarkList
     
-    func bookmarkListBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        router?.attachBookmarkDetail(bookmarkEntity: bookmarkEntity)
+    func bookmarkListBookmarkDidTap(bookmark: Bookmark) {
+        router?.attachBookmarkDetail(bookmark: bookmark)
     }
     
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark) {

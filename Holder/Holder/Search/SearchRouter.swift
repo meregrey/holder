@@ -109,9 +109,9 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     
     // MARK: - BookmarkDetail
     
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity) {
+    func attachBookmarkDetail(bookmark: Bookmark) {
         guard bookmarkDetailRouter == nil else { return }
-        let router = bookmarkDetail.build(withListener: interactor, bookmarkEntity: bookmarkEntity)
+        let router = bookmarkDetail.build(withListener: interactor, bookmark: bookmark)
         bookmarkDetailRouter = router
         attachChild(router)
         viewController.push(router.viewControllable)
