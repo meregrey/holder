@@ -151,6 +151,7 @@ extension BookmarkListViewController: NSFetchedResultsControllerDelegate {
             }
         case .delete:
             DispatchQueue.main.async {
+                guard self.bookmarkListCollectionView.numberOfItems(inSection: 0) > 0 else { return }
                 guard let indexPath = indexPath else { return }
                 self.bookmarkListCollectionView.deleteItems(at: [indexPath])
             }
