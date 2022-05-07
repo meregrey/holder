@@ -46,12 +46,24 @@ final class BookmarkListCollectionViewManager: NSObject {
     
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
+                                       selector: #selector(contextObjectsDidChange),
+                                       name: .NSManagedObjectContextObjectsDidChange,
+                                       object: PersistentContainer.shared.context)
+        
+        NotificationCenter.addObserver(self,
                                        selector: #selector(sortDidChange),
                                        name: NotificationName.Bookmark.sortDidChange)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(storeDidClear),
                                        name: NotificationName.Store.didSucceedToClear)
+    }
+    
+    @objc
+    private func contextObjectsDidChange() {
+        guard let _ = fetchedResultsControllerForTag else { return }
+        configureFetchedResultsController()
+        collectionView?.reloadData()
     }
     
     @objc
