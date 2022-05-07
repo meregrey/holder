@@ -106,6 +106,10 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
         NotificationCenter.addObserver(self,
                                        selector: #selector(sortDidChange),
                                        name: NotificationName.Bookmark.sortDidChange)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(storeDidClear),
+                                       name: NotificationName.Store.didSucceedToClear)
     }
     
     @objc
@@ -115,6 +119,11 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
     
     @objc
     private func sortDidChange() {
+        fetch(for: searchTermStream.value)
+    }
+    
+    @objc
+    private func storeDidClear() {
         fetch(for: searchTermStream.value)
     }
     

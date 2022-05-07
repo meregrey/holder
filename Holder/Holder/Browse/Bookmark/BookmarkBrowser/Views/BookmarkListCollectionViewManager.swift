@@ -48,10 +48,20 @@ final class BookmarkListCollectionViewManager: NSObject {
         NotificationCenter.addObserver(self,
                                        selector: #selector(sortDidChange),
                                        name: NotificationName.Bookmark.sortDidChange)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(storeDidClear),
+                                       name: NotificationName.Store.didSucceedToClear)
     }
     
     @objc
     private func sortDidChange() {
+        configureFetchedResultsController()
+        collectionView?.reloadData()
+    }
+    
+    @objc
+    private func storeDidClear() {
         configureFetchedResultsController()
         collectionView?.reloadData()
     }
@@ -85,9 +95,28 @@ final class BookmarkListCollectionViewManager: NSObject {
 
 extension BookmarkListCollectionViewManager: NSFetchedResultsControllerDelegate {
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            DispatchQueue.main.async {
+                guard let newIndexPath = newIndexPath else { return }
+                self.collectionView?.insertItems(at: [newIndexPath])
+            }
+        case .update:
+            DispatchQueue.main.async {
+                guard let indexPath = indexPath else { return }
+                self.collectionView?.reloadItems(at: [indexPath])
+            }
+        case .delete:
+            DispatchQueue.main.async {
+                guard let indexPath = indexPath else { return }
+                self.collectionView?.deleteItems(at: [indexPath])
+            }
+        default: break
         }
     }
 }

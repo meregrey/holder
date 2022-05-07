@@ -181,8 +181,13 @@ final class BookmarkRepository: BookmarkRepositoryType {
     }
     
     func clear() {
-        clearEntities(with: BookmarkEntity.fetchRequest())
-        clearEntities(with: BookmarkTagEntity.fetchRequest())
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = BookmarkEntity.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        guard let _ = try? context.execute(deleteRequest) else {
+            NotificationCenter.post(named: NotificationName.didFailToProcessData)
+            return
+        }
+        NotificationCenter.post(named: NotificationName.Store.didSucceedToClear)
     }
     
     private func deleteTags(of bookmarkEntity: BookmarkEntity) throws {
@@ -193,13 +198,5 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let bookmarkTagEntities = try context.fetch(request)
         bookmarkTagEntities.forEach { context.delete($0) }
         try context.save()
-    }
-    
-    private func clearEntities(with fetchRequest: NSFetchRequest<NSFetchRequestResult>) {
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        deleteRequest.resultType = .resultTypeObjectIDs
-        let deleteResult = try? context.execute(deleteRequest) as? NSBatchDeleteResult
-        guard let objectIDs = deleteResult?.result as? [NSManagedObjectID] else { return }
-        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [context])
     }
 }

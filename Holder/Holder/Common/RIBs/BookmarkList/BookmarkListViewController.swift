@@ -133,9 +133,28 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
 
 extension BookmarkListViewController: NSFetchedResultsControllerDelegate {
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        DispatchQueue.main.async {
-            self.bookmarkListCollectionView.reloadData()
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            DispatchQueue.main.async {
+                guard let newIndexPath = newIndexPath else { return }
+                self.bookmarkListCollectionView.insertItems(at: [newIndexPath])
+            }
+        case .update:
+            DispatchQueue.main.async {
+                guard let indexPath = indexPath else { return }
+                self.bookmarkListCollectionView.reloadItems(at: [indexPath])
+            }
+        case .delete:
+            DispatchQueue.main.async {
+                guard let indexPath = indexPath else { return }
+                self.bookmarkListCollectionView.deleteItems(at: [indexPath])
+            }
+        default: break
         }
     }
 }
