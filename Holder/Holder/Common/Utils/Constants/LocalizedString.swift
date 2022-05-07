@@ -58,10 +58,10 @@ enum LocalizedString {
         static let noSearchResults = "No Search Results".localized
         static let noSearchResultsExplanation = "No results matching the search term could be found. Try another search term.".localized
         static let noFavorites = "No Favorites".localized
-        static let noFavoritesExplanation = "There are no bookmarks added to Favorites. Add frequently used bookmarks.".localized
+        static let noFavoritesExplanation = "Add favorite bookmarks.".localized
         static let version = "Version".localized
         static let clearData = "Clear Data?".localized
-        static let clearDataExplanation = "Clearing will remove all tag and bookmark data.".localized
+        static let clearDataExplanation = "Clearing will remove all bookmark and tag data.".localized
         static let alreadySavedLink = "Already saved link.".localized
     }
     
