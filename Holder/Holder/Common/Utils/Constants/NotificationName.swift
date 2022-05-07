@@ -12,6 +12,7 @@ enum NotificationName {
         static let didFailToCheck = NSNotification.Name("didFailToCheck")
         static let didFailToLoad = NSNotification.Name("didFailToLoad")
         static let didFailToSave = NSNotification.Name("didFailToSave")
+        static let didSucceedToClear = NSNotification.Name("didSucceedToClear")
     }
     
     enum Bookmark {
