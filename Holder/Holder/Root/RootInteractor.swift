@@ -22,17 +22,32 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     weak var router: RootRouting?
     weak var listener: RootListener?
     
+    private let userDefaults = UserDefaults(suiteName: UserDefaults.suiteName)
+    
+    private var observation: NSKeyValueObservation?
+    
     override init(presenter: RootPresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }
     
+    deinit {
+        observation?.invalidate()
+    }
+    
     override func didBecomeActive() {
         super.didBecomeActive()
+        observeLastShareDate()
         router?.attachTabs()
     }
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    private func observeLastShareDate() {
+        observation = userDefaults?.observe(\.lastShareDate, options: [.new]) { _, _ in
+            NotificationCenter.post(named: NotificationName.lastShareDateDidChange)
+        }
     }
 }
