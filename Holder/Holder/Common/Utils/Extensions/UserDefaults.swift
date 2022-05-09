@@ -9,6 +9,11 @@ import UIKit
 
 extension UserDefaults {
     
+    static let suiteName = "group.com.meregrey.holder"
+    static let suiteKey = "lastShareDate"
+    
+    @objc dynamic var lastShareDate: Date? { object(forKey: UserDefaults.suiteKey) as? Date }
+    
     static func value<T: Codable>(forType: T.Type) -> T? {
         guard let data = UserDefaults.standard.object(forKey: String(describing: T.self)) as? Data else { return nil }
         return try? JSONDecoder().decode(T.self, from: data)
