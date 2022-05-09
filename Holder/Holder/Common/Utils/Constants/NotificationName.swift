@@ -26,4 +26,5 @@ enum NotificationName {
     }
     
     static let didFailToProcessData = NSNotification.Name("didFailToProcessData")
+    static let lastShareDateDidChange = NSNotification.Name("lastShareDateDidChange")
 }
