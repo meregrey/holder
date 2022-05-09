@@ -28,6 +28,7 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         }
     }
     
+    private var observation: NSKeyValueObservation?
     private var metadata: LPLinkMetadata?
     
     @AutoLayout private var webView = WKWebView(frame: .zero)
@@ -50,12 +51,18 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        observeWebView()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        observeWebView()
         configureViews()
+    }
+    
+    deinit {
+        observation?.invalidate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,11 +73,6 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isToolbarHidden = true
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard keyPath == #keyPath(WKWebView.url) else { return }
-        webpageLoadCount += 1
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -107,16 +109,21 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         dismiss(animated: true, completion: completion)
     }
     
+    private func observeWebView() {
+        observation = webView.observe(\.url, options: [.new]) { [weak self] _, _ in
+            self?.webpageLoadCount += 1
+        }
+    }
+    
     private func configureViews() {
         webView.scrollView.delegate = self
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
-        
-        fixedSpaceItem.width = 7
         forwardButton.tintColor = Asset.Color.secondaryColor
-        toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
+        fixedSpaceItem.width = 7
         
+        toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
         hidesBottomBarWhenPushed = true
         view.backgroundColor = Asset.Color.webViewBackgroundColor
+        
         view.addSubview(webView)
         
         NSLayoutConstraint.activate([
