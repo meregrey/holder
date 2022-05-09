@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		541B0AC485AD485AB2D27809 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 038D343F64F07C55914F8523 /* libPods-ShareExtension.a */; };
 		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
+		673D66ED2828DC3A002E63B9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673FE54E280FF8F4005BAB32 /* SingleButtonNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */; };
 		673FE55228100740005BAB32 /* ShareExtensionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE55128100740005BAB32 /* ShareExtensionComponent.swift */; };
 		673FE5542810E4F8005BAB32 /* TopBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE5532810E4F8005BAB32 /* TopBarStyle.swift */; };
@@ -485,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				541B0AC485AD485AB2D27809 /* libPods-ShareExtension.a in Frameworks */,
+				673D66ED2828DC3A002E63B9 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
