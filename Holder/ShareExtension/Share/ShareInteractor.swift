@@ -54,7 +54,11 @@ final class ShareInteractor: Interactor, ShareInteractable, ShareViewControllerL
     func saveButtonDidTap(bookmark: Bookmark) {
         LPMetadataProvider().startFetchingMetadata(for: bookmark.url) { metadata, _ in
             let bookmark = bookmark.updated(title: metadata?.title)
-            _ = BookmarkRepository.shared.add(bookmark: bookmark)
+            let result = BookmarkRepository.shared.add(bookmark: bookmark)
+            switch result {
+            case .success(_): self.updateLastShareDate()
+            case .failure(_): break
+            }
             self.viewController?.completeRequest()
         }
     }
@@ -63,6 +67,11 @@ final class ShareInteractor: Interactor, ShareInteractable, ShareViewControllerL
         selectedTagsStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             self?.viewController?.update(with: $0)
         }
+    }
+    
+    private func updateLastShareDate() {
+        guard let userDefaults = UserDefaults(suiteName: UserDefaults.suiteName) else { return }
+        userDefaults.set(Date(), forKey: UserDefaults.suiteKey)
     }
     
     // MARK: - SelectTags
