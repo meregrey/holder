@@ -8,26 +8,19 @@
 import LinkPresentation
 import RIBs
 
-protocol BookmarkDetailRouting: ViewableRouting {
-    func attachBookmarkDetailSheet()
-    func detachBookmarkDetailSheet()
-}
+protocol BookmarkDetailRouting: ViewableRouting {}
 
 protocol BookmarkDetailPresentable: Presentable {
     var listener: BookmarkDetailPresentableListener? { get set }
     func load(from url: URL)
     func updateToolbar(for isFavorite: Bool)
     func displayShareSheet(with metadata: LPLinkMetadata)
-    func reload()
-    func displayAlert(title: String, message: String?, action: Action?)
-    func dismiss(_ completion: @escaping () -> Void)
 }
 
 protocol BookmarkDetailListener: AnyObject {
-    func bookmarkDetailDidRemove()
     func bookmarkDetailBackwardButtonDidTap()
-    func bookmarkDetailEditActionDidTap(bookmark: Bookmark)
     func bookmarkDetailDidRequestToDetach()
+    func bookmarkDetailDidRemove()
 }
 
 protocol BookmarkDetailInteractorDependency {
@@ -42,12 +35,16 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     private let bookmarkRepository = BookmarkRepository.shared
     private let dependency: BookmarkDetailInteractorDependency
     
-    private var bookmark: Bookmark { dependency.bookmark }
+    private lazy var bookmark = dependency.bookmark
     
     init(presenter: BookmarkDetailPresentable, dependency: BookmarkDetailInteractorDependency) {
         self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didBecomeActive() {
@@ -78,48 +75,24 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
         }
     }
     
-    func showMoreButtonDidTap() {
-        router?.attachBookmarkDetailSheet()
+    func openInSafariActionDidTap() {
+        UIApplication.shared.open(bookmark.url)
+    }
+    
+    func deleteActionDidTap() {
+        let result = bookmarkRepository.delete(for: bookmark.url)
+        switch result {
+        case .success(_): listener?.bookmarkDetailDidRequestToDetach()
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
+        }
     }
     
     func didRemove() {
         listener?.bookmarkDetailDidRemove()
     }
     
-    func bookmarkDetailSheetReloadActionDidTap() {
-        router?.detachBookmarkDetailSheet()
-        presenter.reload()
-    }
-    
-    func bookmarkDetailSheetEditActionDidTap() {
-        router?.detachBookmarkDetailSheet()
-        listener?.bookmarkDetailEditActionDidTap(bookmark: bookmark)
-    }
-    
-    func bookmarkDetailSheetDeleteActionDidTap() {
-        let action = Action(title: LocalizedString.ActionTitle.delete) { [weak self] in
-            self?.presenter.dismiss { self?.deleteBookmark() }
-        }
-        router?.detachBookmarkDetailSheet()
-        presenter.displayAlert(title: LocalizedString.AlertTitle.deleteBookmark,
-                               message: LocalizedString.AlertMessage.deleteBookmark,
-                               action: action)
-    }
-    
-    func bookmarkDetailSheetDidRequestToDetach() {
-        router?.detachBookmarkDetailSheet()
-    }
-    
     private func loadView() {
         presenter.load(from: bookmark.url)
         presenter.updateToolbar(for: bookmark.isFavorite)
-    }
-    
-    private func deleteBookmark() {
-        let result = bookmarkRepository.delete(for: bookmark.url)
-        switch result {
-        case .success(()): listener?.bookmarkDetailDidRequestToDetach()
-        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
-        }
     }
 }

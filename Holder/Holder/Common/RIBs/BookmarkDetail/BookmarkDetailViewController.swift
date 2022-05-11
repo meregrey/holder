@@ -14,7 +14,8 @@ protocol BookmarkDetailPresentableListener: AnyObject {
     func backwardButtonDidTap()
     func shareButtonDidTap()
     func favoriteButtonDidTap()
-    func showMoreButtonDidTap()
+    func openInSafariActionDidTap()
+    func deleteActionDidTap()
     func didRemove()
 }
 
@@ -37,7 +38,7 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     private lazy var forwardButton = UIBarButtonItem(image: Image.forwardButton, style: .plain, target: self, action: #selector(forwardButtonDidTap))
     private lazy var shareButton = UIBarButtonItem(image: Image.shareButton, style: .plain, target: self, action: #selector(shareButtonDidTap))
     private lazy var favoriteButton = UIBarButtonItem(image: Image.favoriteButton, style: .plain, target: self, action: #selector(favoriteButtonDidTap))
-    private lazy var showMoreButton = UIBarButtonItem(image: Image.showMoreButton, style: .plain, target: self, action: #selector(showMoreButtonDidTap))
+    private lazy var showMoreButton = UIBarButtonItem(title: nil, image: Image.showMoreButton, primaryAction: nil, menu: showMoreButtonMenu())
     private lazy var fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
     private lazy var flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
@@ -47,6 +48,9 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         static let shareButton = UIImage(systemName: "square.and.arrow.up")
         static let favoriteButton = UIImage(systemName: "bookmark")
         static let showMoreButton = UIImage(systemName: "ellipsis")
+        static let openInSafariAction = UIImage(systemName: "safari")
+        static let reloadAction = UIImage(systemName: "arrow.clockwise")
+        static let deleteAction = UIImage(systemName: "minus.circle")
     }
     
     init() {
@@ -95,18 +99,6 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true)
         }
-    }
-    
-    func reload() {
-        webView.reload()
-    }
-    
-    func displayAlert(title: String, message: String?, action: Action?) {
-        presentAlert(title: title, message: message, action: action)
-    }
-    
-    func dismiss(_ completion: @escaping () -> Void) {
-        dismiss(animated: true, completion: completion)
     }
     
     private func observeWebView() {
@@ -158,9 +150,30 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         listener?.favoriteButtonDidTap()
     }
     
-    @objc
-    private func showMoreButtonDidTap() {
-        listener?.showMoreButtonDidTap()
+    private func showMoreButtonMenu() -> UIMenu {
+        let reloadAction = UIAction(title: LocalizedString.ActionTitle.reload, image: Image.reloadAction) { [weak self] _ in
+            self?.webView.reload()
+        }
+        
+        let openInSafariAction = UIAction(title: LocalizedString.ActionTitle.openInSafari, image: Image.openInSafariAction) { [weak self] _ in
+            self?.listener?.openInSafariActionDidTap()
+        }
+        
+        let deleteAction = UIAction(title: LocalizedString.ActionTitle.delete, image: Image.deleteAction, attributes: .destructive) { [weak self] _ in
+            let actionSheet = UIAlertController(title: LocalizedString.AlertMessage.deleteBookmark, message: nil, preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(title: LocalizedString.ActionTitle.delete, style: .destructive) { [weak self] _ in
+                self?.listener?.deleteActionDidTap()
+            }
+            let cancelAction = UIAlertAction(title: LocalizedString.ActionTitle.cancel, style: .cancel)
+            
+            actionSheet.addAction(deleteAction)
+            actionSheet.addAction(cancelAction)
+            actionSheet.view.tintColor = Asset.Color.primaryColor
+            
+            self?.present(actionSheet, animated: true)
+        }
+        
+        return UIMenu(children: [deleteAction, openInSafariAction, reloadAction])
     }
 }
 
