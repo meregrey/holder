@@ -1,7 +1,6 @@
 /* Action title */
 "Add" = "추가";
 "Add to Favorites" = "즐겨찾기에 추가";
-"Appearance Settings" = "테마 설정";
 "Cancel" = "취소";
 "Clear" = "지우기";
 "Copy Link" = "링크 복사";
@@ -13,7 +12,8 @@
 "Newest to Oldest" = "최신 것 먼저";
 "OK" = "확인";
 "Oldest to Newest" = "오래된 것 먼저";
-"Reload" = "새로 고침";
+"Open in Safari" = "Safari에서 열기";
+"Reload" = "다시 로드";
 "Remove from Favorites" = "즐겨찾기에서 제거";
 "Save" = "저장";
 "Share" = "공유";

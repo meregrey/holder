@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		541B0AC485AD485AB2D27809 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 038D343F64F07C55914F8523 /* libPods-ShareExtension.a */; };
+		6715D13B282B50D700655020 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6715D13A282B50D700655020 /* Notification.swift */; };
 		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673D66ED2828DC3A002E63B9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673FE54E280FF8F4005BAB32 /* SingleButtonNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */; };
@@ -83,7 +84,6 @@
 		67D0E52D280E69A100327CFC /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE42806D45300F2133B /* RoundedCornerView.swift */; };
 		67D0E52E280E69A200327CFC /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE02806D45300F2133B /* SearchBar.swift */; };
 		67D0E52F280E69A200327CFC /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD82806D45300F2133B /* SelectionView.swift */; };
-		67D0E530280E69A200327CFC /* SheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD52806D45300F2133B /* SheetController.swift */; };
 		67D0E531280E69A200327CFC /* SheetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE52806D45300F2133B /* SheetHeaderView.swift */; };
 		67D0E532280E69A200327CFC /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BE12806D45300F2133B /* TextField.swift */; };
 		67E2099D280E9CF500AB9D90 /* ShareRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E2099A280E9CF500AB9D90 /* ShareRouter.swift */; };
@@ -142,11 +142,6 @@
 		67E32C4D2806D45300F2133B /* LabeledNoteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B7E2806D45300F2133B /* LabeledNoteTextView.swift */; };
 		67E32C4E2806D45300F2133B /* LabeledLinkTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B7F2806D45300F2133B /* LabeledLinkTextField.swift */; };
 		67E32C4F2806D45300F2133B /* BookmarkDetailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B812806D45300F2133B /* BookmarkDetailBuilder.swift */; };
-		67E32C502806D45300F2133B /* BookmarkDetailSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B832806D45300F2133B /* BookmarkDetailSheetViewController.swift */; };
-		67E32C512806D45300F2133B /* BookmarkDetailSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B842806D45300F2133B /* BookmarkDetailSheetBuilder.swift */; };
-		67E32C522806D45300F2133B /* BookmarkDetailSheetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B852806D45300F2133B /* BookmarkDetailSheetRouter.swift */; };
-		67E32C532806D45300F2133B /* BookmarkDetailSheetInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B862806D45300F2133B /* BookmarkDetailSheetInteractor.swift */; };
-		67E32C542806D45300F2133B /* BookmarkDetailSheetAppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B882806D45300F2133B /* BookmarkDetailSheetAppearanceSettingsView.swift */; };
 		67E32C552806D45300F2133B /* BookmarkDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B892806D45300F2133B /* BookmarkDetailInteractor.swift */; };
 		67E32C562806D45300F2133B /* BookmarkDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B8A2806D45300F2133B /* BookmarkDetailRouter.swift */; };
 		67E32C572806D45300F2133B /* BookmarkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32B8B2806D45300F2133B /* BookmarkDetailViewController.swift */; };
@@ -201,7 +196,6 @@
 		67E32C8B2806D45400F2133B /* BookmarkEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD02806D45300F2133B /* BookmarkEntity+CoreDataProperties.swift */; };
 		67E32C8C2806D45400F2133B /* TagEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD12806D45300F2133B /* TagEntity+CoreDataClass.swift */; };
 		67E32C8D2806D45400F2133B /* PersistenceModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD22806D45300F2133B /* PersistenceModel.xcdatamodeld */; };
-		67E32C8E2806D45400F2133B /* SheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD52806D45300F2133B /* SheetController.swift */; };
 		67E32C8F2806D45400F2133B /* RoundedCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD62806D45300F2133B /* RoundedCornerButton.swift */; };
 		67E32C902806D45400F2133B /* LeftAlignmentCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD72806D45300F2133B /* LeftAlignmentCollectionView.swift */; };
 		67E32C912806D45400F2133B /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BD82806D45300F2133B /* SelectionView.swift */; };
@@ -286,6 +280,7 @@
 
 /* Begin PBXFileReference section */
 		038D343F64F07C55914F8523 /* libPods-ShareExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShareExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6715D13A282B50D700655020 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleButtonNavigationBar.swift; sourceTree = "<group>"; };
 		673FE55128100740005BAB32 /* ShareExtensionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionComponent.swift; sourceTree = "<group>"; };
@@ -354,11 +349,6 @@
 		67E32B7E2806D45300F2133B /* LabeledNoteTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabeledNoteTextView.swift; sourceTree = "<group>"; };
 		67E32B7F2806D45300F2133B /* LabeledLinkTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabeledLinkTextField.swift; sourceTree = "<group>"; };
 		67E32B812806D45300F2133B /* BookmarkDetailBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailBuilder.swift; sourceTree = "<group>"; };
-		67E32B832806D45300F2133B /* BookmarkDetailSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetViewController.swift; sourceTree = "<group>"; };
-		67E32B842806D45300F2133B /* BookmarkDetailSheetBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetBuilder.swift; sourceTree = "<group>"; };
-		67E32B852806D45300F2133B /* BookmarkDetailSheetRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetRouter.swift; sourceTree = "<group>"; };
-		67E32B862806D45300F2133B /* BookmarkDetailSheetInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetInteractor.swift; sourceTree = "<group>"; };
-		67E32B882806D45300F2133B /* BookmarkDetailSheetAppearanceSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailSheetAppearanceSettingsView.swift; sourceTree = "<group>"; };
 		67E32B892806D45300F2133B /* BookmarkDetailInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailInteractor.swift; sourceTree = "<group>"; };
 		67E32B8A2806D45300F2133B /* BookmarkDetailRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailRouter.swift; sourceTree = "<group>"; };
 		67E32B8B2806D45300F2133B /* BookmarkDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkDetailViewController.swift; sourceTree = "<group>"; };
@@ -416,7 +406,6 @@
 		67E32BD02806D45300F2133B /* BookmarkEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		67E32BD12806D45300F2133B /* TagEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TagEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		67E32BD32806D45300F2133B /* PersistenceModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PersistenceModel.xcdatamodel; sourceTree = "<group>"; };
-		67E32BD52806D45300F2133B /* SheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetController.swift; sourceTree = "<group>"; };
 		67E32BD62806D45300F2133B /* RoundedCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCornerButton.swift; sourceTree = "<group>"; };
 		67E32BD72806D45300F2133B /* LeftAlignmentCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftAlignmentCollectionView.swift; sourceTree = "<group>"; };
 		67E32BD82806D45300F2133B /* SelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
@@ -751,33 +740,12 @@
 		67E32B802806D45300F2133B /* BookmarkDetail */ = {
 			isa = PBXGroup;
 			children = (
-				67E32B822806D45300F2133B /* BookmarkDetailSheet */,
 				67E32B8A2806D45300F2133B /* BookmarkDetailRouter.swift */,
 				67E32B892806D45300F2133B /* BookmarkDetailInteractor.swift */,
 				67E32B812806D45300F2133B /* BookmarkDetailBuilder.swift */,
 				67E32B8B2806D45300F2133B /* BookmarkDetailViewController.swift */,
 			);
 			path = BookmarkDetail;
-			sourceTree = "<group>";
-		};
-		67E32B822806D45300F2133B /* BookmarkDetailSheet */ = {
-			isa = PBXGroup;
-			children = (
-				67E32B872806D45300F2133B /* Views */,
-				67E32B852806D45300F2133B /* BookmarkDetailSheetRouter.swift */,
-				67E32B862806D45300F2133B /* BookmarkDetailSheetInteractor.swift */,
-				67E32B842806D45300F2133B /* BookmarkDetailSheetBuilder.swift */,
-				67E32B832806D45300F2133B /* BookmarkDetailSheetViewController.swift */,
-			);
-			path = BookmarkDetailSheet;
-			sourceTree = "<group>";
-		};
-		67E32B872806D45300F2133B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				67E32B882806D45300F2133B /* BookmarkDetailSheetAppearanceSettingsView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		67E32B8C2806D45300F2133B /* BookmarkList */ = {
@@ -856,6 +824,7 @@
 			children = (
 				67E32BB02806D45300F2133B /* Array.swift */,
 				67E32BB22806D45300F2133B /* Convertible.swift */,
+				6715D13A282B50D700655020 /* Notification.swift */,
 				67E32BB12806D45300F2133B /* NotificationCenter.swift */,
 				67E32BB72806D45300F2133B /* ReusableView.swift */,
 				67E32BB32806D45300F2133B /* String.swift */,
@@ -936,7 +905,6 @@
 				67E32BE42806D45300F2133B /* RoundedCornerView.swift */,
 				67E32BE02806D45300F2133B /* SearchBar.swift */,
 				67E32BD82806D45300F2133B /* SelectionView.swift */,
-				67E32BD52806D45300F2133B /* SheetController.swift */,
 				67E32BE52806D45300F2133B /* SheetHeaderView.swift */,
 				673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */,
 				67E32BE12806D45300F2133B /* TextField.swift */,
@@ -1318,7 +1286,6 @@
 				67D0E52D280E69A100327CFC /* RoundedCornerView.swift in Sources */,
 				67D0E52E280E69A200327CFC /* SearchBar.swift in Sources */,
 				67D0E52F280E69A200327CFC /* SelectionView.swift in Sources */,
-				67D0E530280E69A200327CFC /* SheetController.swift in Sources */,
 				67D0E531280E69A200327CFC /* SheetHeaderView.swift in Sources */,
 				67D0E532280E69A200327CFC /* TextField.swift in Sources */,
 				67D0E513280E690900327CFC /* Asset.swift in Sources */,
@@ -1401,7 +1368,6 @@
 				67E32C722806D45400F2133B /* Convertible.swift in Sources */,
 				67E32CB32806D45400F2133B /* EditTagsTableView.swift in Sources */,
 				67E32C452806D45300F2133B /* SelectTagsRouter.swift in Sources */,
-				67E32C502806D45300F2133B /* BookmarkDetailSheetViewController.swift in Sources */,
 				67E32C4A2806D45300F2133B /* EnterBookmarkRouter.swift in Sources */,
 				67E32C5A2806D45300F2133B /* BookmarkListBuilder.swift in Sources */,
 				67E32C282806D45300F2133B /* ClearDataBuilder.swift in Sources */,
@@ -1425,6 +1391,7 @@
 				67E32C442806D45300F2133B /* SelectTagsBuilder.swift in Sources */,
 				67E32C562806D45300F2133B /* BookmarkDetailRouter.swift in Sources */,
 				67E32C232806D45300F2133B /* SettingsBuilder.swift in Sources */,
+				6715D13B282B50D700655020 /* Notification.swift in Sources */,
 				67E32C962806D45400F2133B /* BookmarkListCollectionViewCell.swift in Sources */,
 				67E32CC12806D45400F2133B /* EnterTagInteractor.swift in Sources */,
 				67E32C572806D45300F2133B /* BookmarkDetailViewController.swift in Sources */,
@@ -1458,13 +1425,11 @@
 				67E32C9D2806D45400F2133B /* SheetHeaderView.swift in Sources */,
 				67E32C242806D45300F2133B /* SortBookmarksViewController.swift in Sources */,
 				67E32C982806D45400F2133B /* SearchBar.swift in Sources */,
-				67E32C522806D45300F2133B /* BookmarkDetailSheetRouter.swift in Sources */,
 				67E32C912806D45400F2133B /* SelectionView.swift in Sources */,
 				67E32CC32806D45400F2133B /* EnterTagViewController.swift in Sources */,
 				67E32C6B2806D45300F2133B /* NotificationName.swift in Sources */,
 				67E32C8F2806D45400F2133B /* RoundedCornerButton.swift in Sources */,
 				67E32C702806D45400F2133B /* Array.swift in Sources */,
-				67E32C512806D45300F2133B /* BookmarkDetailSheetBuilder.swift in Sources */,
 				67E32C682806D45300F2133B /* AdaptivePresentationControllerDelegateProxy.swift in Sources */,
 				67E32CC62806D45400F2133B /* TagInteractor.swift in Sources */,
 				67E32C6E2806D45300F2133B /* Asset.swift in Sources */,
@@ -1512,7 +1477,6 @@
 				673FE5542810E4F8005BAB32 /* TopBarStyle.swift in Sources */,
 				67E32C9B2806D45400F2133B /* LabeledView.swift in Sources */,
 				67E32CA82806D45400F2133B /* BookmarkBrowserRouter.swift in Sources */,
-				67E32C8E2806D45400F2133B /* SheetController.swift in Sources */,
 				67E32C802806D45400F2133B /* Sort.swift in Sources */,
 				67E32C262806D45300F2133B /* SortBookmarksInteractor.swift in Sources */,
 				67E32CAB2806D45400F2133B /* BrowseViewController.swift in Sources */,
@@ -1527,7 +1491,6 @@
 				67E32C942806D45400F2133B /* BookmarkListCollectionView.swift in Sources */,
 				67E32C9A2806D45400F2133B /* Action.swift in Sources */,
 				67E32C872806D45400F2133B /* BookmarkTagEntity+CoreDataClass.swift in Sources */,
-				67E32C542806D45300F2133B /* BookmarkDetailSheetAppearanceSettingsView.swift in Sources */,
 				67E32C552806D45300F2133B /* BookmarkDetailInteractor.swift in Sources */,
 				67E32CBD2806D45400F2133B /* TagBarInteractor.swift in Sources */,
 				67E32C2A2806D45300F2133B /* ClearDataRouter.swift in Sources */,
@@ -1540,7 +1503,6 @@
 				67E32C922806D45400F2133B /* ExplanationView.swift in Sources */,
 				67E32C5D2806D45300F2133B /* SearchTagsViewController.swift in Sources */,
 				67E32C602806D45300F2133B /* SearchTagsTableViewCell.swift in Sources */,
-				67E32C532806D45300F2133B /* BookmarkDetailSheetInteractor.swift in Sources */,
 				67E32C402806D45300F2133B /* SearchBarInteractor.swift in Sources */,
 				67E32C832806D45400F2133B /* Tag.swift in Sources */,
 				67E32C382806D45300F2133B /* RecentSearchesViewController.swift in Sources */,
@@ -1611,7 +1573,7 @@
 				INFOPLIST_FILE = ShareExtension/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1639,7 +1601,7 @@
 				INFOPLIST_FILE = ShareExtension/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1707,7 +1669,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1763,7 +1725,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1790,7 +1752,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1821,7 +1783,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

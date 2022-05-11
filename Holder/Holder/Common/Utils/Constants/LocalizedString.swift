@@ -11,7 +11,6 @@ enum LocalizedString {
     enum ActionTitle {
         static let add = "Add".localized
         static let addToFavorites = "Add to Favorites".localized
-        static let appearanceSettings = "Appearance Settings".localized
         static let cancel = "Cancel".localized
         static let clear = "Clear".localized
         static let copyLink = "Copy Link".localized
@@ -23,6 +22,7 @@ enum LocalizedString {
         static let newestToOldest = "Newest to Oldest".localized
         static let ok = "OK".localized
         static let oldestToNewest = "Oldest to Newest".localized
+        static let openInSafari = "Open in Safari".localized
         static let reload = "Reload".localized
         static let removeFromFavorites = "Remove from Favorites".localized
         static let save = "Save".localized

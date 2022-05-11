@@ -1,7 +1,6 @@
 /* Action title */
 "Add" = "Add";
 "Add to Favorites" = "Add to Favorites";
-"Appearance Settings" = "Appearance Settings";
 "Cancel" = "Cancel";
 "Clear" = "Clear";
 "Copy Link" = "Copy Link";
@@ -13,6 +12,7 @@
 "Newest to Oldest" = "Newest to Oldest";
 "OK" = "OK";
 "Oldest to Newest" = "Oldest to Newest";
+"Open in Safari" = "Open in Safari";
 "Reload" = "Reload";
 "Remove from Favorites" = "Remove from Favorites";
 "Save" = "Save";
