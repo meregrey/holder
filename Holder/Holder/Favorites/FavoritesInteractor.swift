@@ -79,10 +79,6 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
         router?.detachBookmarkDetail(includingView: true)
     }
     
-    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark))
-    }
-    
     func bookmarkDetailDidRequestToDetach() {
         router?.detachBookmarkDetail(includingView: true)
     }
