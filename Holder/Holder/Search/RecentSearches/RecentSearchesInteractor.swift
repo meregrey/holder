@@ -24,6 +24,9 @@ protocol RecentSearchesInteractorDependency {
 
 final class RecentSearchesInteractor: PresentableInteractor<RecentSearchesPresentable>, RecentSearchesInteractable, RecentSearchesPresentableListener {
     
+    weak var router: RecentSearchesRouting?
+    weak var listener: RecentSearchesListener?
+    
     private let userDefaults = UserDefaults.standard
     private let userDefaultsKey = "RecentSearches"
     private let dependency: RecentSearchesInteractorDependency
@@ -34,9 +37,6 @@ final class RecentSearchesInteractor: PresentableInteractor<RecentSearchesPresen
     
     private var searchTermStream: ReadOnlyStream<String> { dependency.searchTermStream }
     
-    weak var router: RecentSearchesRouting?
-    weak var listener: RecentSearchesListener?
-    
     init(presenter: RecentSearchesPresentable, dependency: RecentSearchesInteractorDependency) {
         self.dependency = dependency
         super.init(presenter: presenter)
@@ -46,8 +46,8 @@ final class RecentSearchesInteractor: PresentableInteractor<RecentSearchesPresen
     override func didBecomeActive() {
         super.didBecomeActive()
         searchTerms = fetchSearchTerms()
-        subscribeSearchTermStream()
         registerToReceiveNotification()
+        subscribeSearchTermStream()
     }
     
     override func willResignActive() {
@@ -64,6 +64,24 @@ final class RecentSearchesInteractor: PresentableInteractor<RecentSearchesPresen
         searchTerms = []
     }
     
+    private func fetchSearchTerms() -> [String] {
+        return userDefaults.stringArray(forKey: userDefaultsKey) ?? []
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(noSearchResultsDidFind(_:)),
+                                       name: NotificationName.Bookmark.noSearchResults)
+    }
+    
+    @objc
+    private func noSearchResultsDidFind(_ notification: Notification) {
+        guard let searchTerm = notification.userInfo?[Notification.UserInfoKey.searchTerm] as? String else { return }
+        guard let index = searchTerms.firstIndex(of: searchTerm) else { return }
+        searchTerms.remove(at: index)
+        userDefaults.set(searchTerms, forKey: userDefaultsKey)
+    }
+    
     private func subscribeSearchTermStream() {
         searchTermStream.subscribe(disposedOnDeactivate: self) { [weak self] in
             guard $0.count > 0 else { return }
@@ -78,24 +96,5 @@ final class RecentSearchesInteractor: PresentableInteractor<RecentSearchesPresen
         searchTerms.insert(searchTerm, at: 0)
         userDefaults.set(searchTerms, forKey: userDefaultsKey)
         self.searchTerms = searchTerms
-    }
-    
-    private func fetchSearchTerms() -> [String] {
-        return userDefaults.stringArray(forKey: userDefaultsKey) ?? []
-    }
-    
-    private func registerToReceiveNotification() {
-        NotificationCenter.addObserver(self,
-                                       selector: #selector(noSearchResultsDidFind(_:)),
-                                       name: NotificationName.Bookmark.noSearchResultsForBookmarks)
-    }
-    
-    @objc
-    private func noSearchResultsDidFind(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let searchTerm = userInfo[NotificationCenter.UserInfoKey.noSearchResultsForBookmarks] as? String else { return }
-        guard let index = searchTerms.firstIndex(of: searchTerm) else { return }
-        searchTerms.remove(at: index)
-        userDefaults.set(searchTerms, forKey: userDefaultsKey)
     }
 }

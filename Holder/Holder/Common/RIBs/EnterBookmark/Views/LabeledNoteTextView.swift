@@ -14,6 +14,18 @@ protocol LabeledNoteTextViewListener: AnyObject {
 
 final class LabeledNoteTextView: LabeledView {
     
+    override var bounds: CGRect {
+        didSet {
+            if bounds.height > existingHeight { listener?.textViewHeightDidIncrease() }
+            existingHeight = bounds.height
+        }
+    }
+    
+    weak var listener: LabeledNoteTextViewListener?
+    var text: String { textView.text }
+    
+    private lazy var existingHeight = bounds.height
+    
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
         view.backgroundColor = Asset.Color.sheetUpperBackgroundColor
@@ -44,7 +56,6 @@ final class LabeledNoteTextView: LabeledView {
         return button
     }()
     
-    private lazy var existingHeight = bounds.height
     private lazy var textViewTrailingConstraint = NSLayoutConstraint(item: textView,
                                                                      attribute: .trailing,
                                                                      relatedBy: .equal,
@@ -70,19 +81,8 @@ final class LabeledNoteTextView: LabeledView {
         static let clearButtonTrailing = CGFloat(-12)
     }
     
-    override var bounds: CGRect {
-        didSet {
-            if bounds.height > existingHeight { listener?.textViewHeightDidIncrease() }
-            existingHeight = bounds.height
-        }
-    }
-    
-    var text: String { textView.text }
-    
-    weak var listener: LabeledNoteTextViewListener?
-    
     init(header: String) {
-        super.init(header: header, theme: .sheet)
+        super.init(header: header, style: .sheet)
         configure()
     }
     

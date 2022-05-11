@@ -10,7 +10,7 @@ import RIBs
 protocol FavoritesRouting: ViewableRouting {
     func attachSearchBar()
     func attachBookmarkList()
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity)
+    func attachBookmarkDetail(bookmark: Bookmark)
     func detachBookmarkDetail(includingView isViewIncluded: Bool)
     func attachEnterBookmark(mode: EnterBookmarkMode)
     func detachEnterBookmark(includingView isViewIncluded: Bool)
@@ -38,13 +38,13 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
         self.presentationProxy.delegate = self
         presenter.listener = self
     }
-
+    
     override func didBecomeActive() {
         super.didBecomeActive()
         router?.attachSearchBar()
         router?.attachBookmarkList()
     }
-
+    
     override func willResignActive() {
         super.willResignActive()
     }
@@ -61,12 +61,12 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     
     // MARK: - BookmarkList
     
-    func bookmarkListBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        router?.attachBookmarkDetail(bookmarkEntity: bookmarkEntity)
+    func bookmarkListBookmarkDidTap(bookmark: Bookmark) {
+        router?.attachBookmarkDetail(bookmark: bookmark)
     }
     
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     // MARK: - BookmarkDetail
@@ -77,10 +77,6 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     
     func bookmarkDetailBackwardButtonDidTap() {
         router?.detachBookmarkDetail(includingView: true)
-    }
-    
-    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
     }
     
     func bookmarkDetailDidRequestToDetach() {

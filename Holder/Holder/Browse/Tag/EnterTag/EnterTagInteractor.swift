@@ -11,6 +11,7 @@ protocol EnterTagRouting: ViewableRouting {}
 
 protocol EnterTagPresentable: Presentable {
     var listener: EnterTagPresentableListener? { get set }
+    func displayAlert(title: String)
 }
 
 protocol EnterTagListener: AnyObject {
@@ -25,13 +26,13 @@ protocol EnterTagInteractorDependency {
 
 final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, EnterTagInteractable, EnterTagPresentableListener {
     
+    weak var router: EnterTagRouting?
+    weak var listener: EnterTagListener?
+    
     private let tagRepository = TagRepository.shared
     private let dependency: EnterTagInteractorDependency
     
     private var mode: EnterTagMode { dependency.mode }
-    
-    weak var router: EnterTagRouting?
-    weak var listener: EnterTagListener?
     
     init(presenter: EnterTagPresentable, dependency: EnterTagInteractorDependency) {
         self.dependency = dependency
@@ -52,10 +53,7 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     }
     
     func saveButtonDidTap(tag: Tag) {
-        guard canContinueSaving(tag) else {
-            listener?.enterTagSaveButtonDidTap()
-            return
-        }
+        guard canContinueSaving(tag) else { return }
         switch mode {
         case .add: addTag(tag)
         case .edit(let existingTag): updateTag(existingTag, to: tag)
@@ -71,7 +69,7 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
         let result = tagRepository.isExisting(tag.name)
         switch result {
         case .success(let isExisting):
-            if isExisting { NotificationCenter.post(named: NotificationName.Tag.existingTag) }
+            if isExisting { presenter.displayAlert(title: LocalizedString.AlertTitle.alreadySavedTag) }
             return !isExisting
         case .failure(_):
             NotificationCenter.post(named: NotificationName.Store.didFailToCheck)
@@ -82,16 +80,16 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     private func addTag(_ tag: Tag) {
         let result = tagRepository.add(tag)
         switch result {
-        case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToAddTag)
+        case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAdd)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
     private func updateTag(_ tag: Tag, to newTag: Tag) {
         let result = tagRepository.update(tag, to: newTag)
         switch result {
-        case .success(_): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTag)
+        case .success(_): _ = BookmarkRepository.shared.updateTags(tag, to: newTag)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
 }

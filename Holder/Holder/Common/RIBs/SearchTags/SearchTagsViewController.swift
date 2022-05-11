@@ -15,13 +15,15 @@ protocol SearchTagsPresentableListener: AnyObject {
 
 final class SearchTagsViewController: UIViewController, SearchTagsPresentable, SearchTagsViewControllable {
     
+    weak var listener: SearchTagsPresentableListener?
+    
     private var tags: [Tag] = []
     private var texts: [String] = []
     private var shouldAddTag = false
     
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchAndAdd,
                                                   showsCancelButton: true,
-                                                  theme: .sheet)
+                                                  style: .sheet)
     
     @AutoLayout private var searchTagsTableView: UITableView = {
         let tableView = UITableView()
@@ -43,8 +45,6 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
         static let searchTagsTableViewLastRowHeight = CGFloat(15)
         static let searchTagsTableViewTop = CGFloat(20)
     }
-    
-    weak var listener: SearchTagsPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -108,8 +108,7 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let heightForTop = Metric.searchBarTop + searchBar.frame.height + Metric.searchTagsTableViewTop
         let searchTagsTableViewHeight = view.frame.height - keyboardFrame.height - heightForTop
         searchTagsTableViewHeightConstraint?.constant = searchTagsTableViewHeight

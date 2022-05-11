@@ -14,7 +14,7 @@ protocol SearchRouting: ViewableRouting {
     func detachRecentSearchesView()
     func attachBookmarkList()
     func detachBookmarkList()
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity)
+    func attachBookmarkDetail(bookmark: Bookmark)
     func detachBookmarkDetail(includingView isViewIncluded: Bool)
     func attachEnterBookmark(mode: EnterBookmarkMode)
     func detachEnterBookmark(includingView isViewIncluded: Bool)
@@ -36,14 +36,14 @@ protocol SearchInteractorDependency {
 
 final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchInteractable, SearchPresentableListener, AdaptivePresentationControllerDelegate {
     
-    private let dependency: SearchInteractorDependency
-    
-    private var searchTermStream: MutableStream<String> { dependency.searchTermStream }
-    
     let presentationProxy = AdaptivePresentationControllerDelegateProxy()
     
     weak var router: SearchRouting?
     weak var listener: SearchListener?
+    
+    private let dependency: SearchInteractorDependency
+    
+    private var searchTermStream: MutableStream<String> { dependency.searchTermStream }
     
     init(presenter: SearchPresentable, dependency: SearchInteractorDependency) {
         self.dependency = dependency
@@ -88,12 +88,12 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     
     // MARK: - BookmarkList
     
-    func bookmarkListBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        router?.attachBookmarkDetail(bookmarkEntity: bookmarkEntity)
+    func bookmarkListBookmarkDidTap(bookmark: Bookmark) {
+        router?.attachBookmarkDetail(bookmark: bookmark)
     }
     
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark))
     }
     
     // MARK: - BookmarkDetail
@@ -104,10 +104,6 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     
     func bookmarkDetailBackwardButtonDidTap() {
         router?.detachBookmarkDetail(includingView: true)
-    }
-    
-    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark: bookmark))
     }
     
     func bookmarkDetailDidRequestToDetach() {

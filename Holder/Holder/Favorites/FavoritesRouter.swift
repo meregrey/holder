@@ -14,10 +14,10 @@ protocol FavoritesInteractable: Interactable, SearchBarListener, BookmarkListLis
 }
 
 protocol FavoritesViewControllable: ViewControllable {
-    func addChild(_ viewControllable: ViewControllable)
-    func push(_ viewControllable: ViewControllable)
+    func addChild(_ viewController: ViewControllable)
+    func push(_ viewController: ViewControllable)
     func pop()
-    func presentOver(_ viewControllable: ViewControllable)
+    func presentOver(_ viewController: ViewControllable)
     func dismissOver()
 }
 
@@ -77,9 +77,9 @@ final class FavoritesRouter: ViewableRouter<FavoritesInteractable, FavoritesView
     
     // MARK: - BookmarkDetail
     
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity) {
+    func attachBookmarkDetail(bookmark: Bookmark) {
         guard bookmarkDetailRouter == nil else { return }
-        let router = bookmarkDetail.build(withListener: interactor, bookmarkEntity: bookmarkEntity)
+        let router = bookmarkDetail.build(withListener: interactor, bookmark: bookmark)
         bookmarkDetailRouter = router
         attachChild(router)
         viewController.push(router.viewControllable)

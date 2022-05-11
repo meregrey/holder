@@ -16,6 +16,8 @@ protocol EnterTagPresentableListener: AnyObject {
 
 final class EnterTagViewController: UIViewController, EnterTagPresentable, EnterTagViewControllable {
     
+    weak var listener: EnterTagPresentableListener?
+    
     private let mode: EnterTagMode
     
     @AutoLayout private var containerView = UIView()
@@ -39,7 +41,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     }
     
     private enum Image {
-        static let back = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
     }
     
     private enum Metric {
@@ -51,8 +53,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         static let saveButtonTrailing = CGFloat(-20)
         static let saveButtonBottom = CGFloat(-40)
     }
-
-    weak var listener: EnterTagPresentableListener?
     
     init(mode: EnterTagMode) {
         self.mode = mode
@@ -82,6 +82,11 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         if parent == nil { listener?.didRemove() }
     }
     
+    func displayAlert(title: String) {
+        view.endEditing(true)
+        presentAlert(title: title)
+    }
+    
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(keyboardWillShow(_:)),
@@ -94,11 +99,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let containerViewHeight = view.frame.height - keyboardFrame.height + 20
-        
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn, animations: {
             self.containerViewHeightConstraint?.constant = containerViewHeight
             self.view.layoutIfNeeded()
@@ -108,7 +110,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     @objc
     private func keyboardWillHide() {
         let containerViewHeight = view.frame.height
-        
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn, animations: {
             self.containerViewHeightConstraint?.constant = containerViewHeight
             self.view.layoutIfNeeded()
@@ -125,7 +126,7 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         }
         
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.back, style: .done, target: self, action: #selector(backButtonDidTap))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         view.backgroundColor = Asset.Color.baseBackgroundColor
         containerViewHeightConstraint = NSLayoutConstraint(item: containerView,
                                                            attribute: .height,

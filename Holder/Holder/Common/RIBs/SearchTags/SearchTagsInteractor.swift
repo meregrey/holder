@@ -26,13 +26,13 @@ protocol SearchTagsInteractorDependency {
 
 final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, SearchTagsInteractable, SearchTagsPresentableListener {
     
+    weak var router: SearchTagsRouting?
+    weak var listener: SearchTagsListener?
+    
     private let tagRepository = TagRepository.shared
     private let dependency: SearchTagsInteractorDependency
     
     private var tagBySearchStream: MutableStream<Tag> { dependency.tagBySearchStream }
-    
-    weak var router: SearchTagsRouting?
-    weak var listener: SearchTagsListener?
     
     init(presenter: SearchTagsPresentable, dependency: SearchTagsInteractorDependency) {
         self.dependency = dependency
@@ -57,8 +57,8 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
         if shouldAddTag {
             let result = tagRepository.add(tag)
             switch result {
-            case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
-            case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToAddTag)
+            case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAdd)
+            case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
             }
         }
         tagBySearchStream.update(with: tag)

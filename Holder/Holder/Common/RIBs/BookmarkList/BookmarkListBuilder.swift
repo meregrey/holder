@@ -32,7 +32,7 @@ final class BookmarkListBuilder: Builder<BookmarkListDependency>, BookmarkListBu
     
     func build(withListener listener: BookmarkListListener, forFavorites isForFavorites: Bool) -> BookmarkListRouting {
         let component = BookmarkListComponent(dependency: dependency)
-        let viewController = BookmarkListViewController(forFavorites: isForFavorites)
+        let viewController = BookmarkListViewController()
         let interactor = BookmarkListInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return BookmarkListRouter(interactor: interactor, viewController: viewController)

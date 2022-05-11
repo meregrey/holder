@@ -1,7 +1,6 @@
 /* Action title */
 "Add" = "추가";
 "Add to Favorites" = "즐겨찾기에 추가";
-"Appearance Settings" = "테마 설정";
 "Cancel" = "취소";
 "Clear" = "지우기";
 "Copy Link" = "링크 복사";
@@ -13,17 +12,21 @@
 "Newest to Oldest" = "최신 것 먼저";
 "OK" = "확인";
 "Oldest to Newest" = "오래된 것 먼저";
-"Reload" = "새로 고침";
+"Open in Safari" = "Safari에서 열기";
+"Reload" = "다시 로드";
 "Remove from Favorites" = "즐겨찾기에서 제거";
 "Save" = "저장";
 "Share" = "공유";
 "System Setting" = "시스템 설정";
 
 /* Alert title */
-"Enter the link." = "링크를 입력해 주세요.";
-"A bookmark corresponding to the link exists." = "링크에 해당하는 북마크가\n존재합니다.";
 "An error occurred while checking the store." = "스토어를 확인하던 중\n오류가 발생했습니다.";
+"An error occurred while loading the store." = "스토어를 로드하던 중\n오류가 발생했습니다.";
 "An error occurred while saving to the store." = "스토어에 저장하던 중\n오류가 발생했습니다.";
+"An error occurred while processing data." = "데이터를 처리하던 중\n오류가 발생했습니다.";
+"Invalid link." = "유효하지 않은 링크입니다.";
+"Already saved bookmark." = "이미 저장된 북마크입니다.";
+"Already saved tag." = "이미 저장된 태그입니다.";
 
 /* Alert title with message */
 "Tag Already Selected" = "이미 선택한 태그입니다";
@@ -47,10 +50,10 @@
 "No Search Results" = "검색 결과 없음";
 "No results matching the search term could be found. Try another search term." = "검색어와 일치하는 결과를 찾을 수 없습니다.\n다른 검색어를 사용해 보세요.";
 "No Favorites" = "즐겨찾기 없음";
-"There are no bookmarks added to Favorites. Add frequently used bookmarks." = "즐겨찾기에 추가된 북마크가 없습니다. 자주\n사용하는 북마크를 추가해 보세요.";
+"Add favorite bookmarks." = "즐겨 찾는 북마크를 추가해 보세요.";
 "Version" = "앱 버전";
 "Clear Data?" = "데이터를 지울까요?";
-"Clearing will remove all tag and bookmark data." = "지우기를 실행하면 태그 및 북마크 데이터가\n모두 제거됩니다.";
+"Clearing will remove all bookmark and tag data." = "지우기를 실행하면 북마크 및 태그 데이터가\n모두 제거됩니다.";
 "Already saved link." = "이미 저장된 링크입니다.";
 
 /* Placeholder */

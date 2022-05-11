@@ -16,6 +16,8 @@ protocol ShareViewControllerListener: AnyObject {
 
 final class ShareExtensionViewController: UIViewController, ShareViewControllable, ShareListener {
     
+    weak var listener: ShareViewControllerListener?
+    
     private let typeIdentifier = "public.url"
     
     private var selectedTags: [Tag] = []
@@ -92,8 +94,6 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         static let saveButtonBottomForKeyboard = CGFloat(-20)
     }
     
-    weak var listener: ShareViewControllerListener?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         activateRIB()
@@ -121,10 +121,6 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         let router = builder.build(withListener: self)
         self.router = router
         self.router?.interactable.activate()
-    }
-    
-    private func deactivateRIB() {
-        router?.interactable.deactivate()
     }
     
     private func loadURL() {
@@ -171,8 +167,7 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         saveButtonBottomConstraint.constant = Metric.saveButtonBottomForKeyboard
         view.frame = CGRect(x: originalViewFrame.origin.x, y: originalViewFrame.origin.y, width: originalViewFrame.width, height: originalViewFrame.height - keyboardFrame.height)
         view.layoutIfNeeded()
@@ -252,16 +247,6 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         ])
     }
     
-    private func scrollToTop() {
-        let offset = CGPoint(x: 0, y: 0)
-        scrollView.setContentOffset(offset, animated: true)
-    }
-    
-    private func scrollToBottom() {
-        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
-        scrollView.setContentOffset(offset, animated: true)
-    }
-    
     @objc
     private func tagCollectionViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended {
@@ -276,6 +261,20 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         let note = noteTextView.text
         let bookmark = Bookmark(url: url, tags: tags, note: note, title: nil)
         listener?.saveButtonDidTap(bookmark: bookmark)
+    }
+    
+    private func scrollToTop() {
+        let offset = CGPoint(x: 0, y: 0)
+        scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    private func scrollToBottom() {
+        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
+        scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    private func deactivateRIB() {
+        router?.interactable.deactivate()
     }
 }
 

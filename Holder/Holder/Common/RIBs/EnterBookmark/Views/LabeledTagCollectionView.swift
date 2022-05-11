@@ -9,6 +9,14 @@ import UIKit
 
 final class LabeledTagCollectionView: LabeledView {
     
+    weak var dataSource: UICollectionViewDataSource? {
+        didSet { tagCollectionView.dataSource = dataSource }
+    }
+    
+    weak var delegate: UICollectionViewDelegate? {
+        didSet { tagCollectionView.delegate = delegate }
+    }
+    
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView(cornerRadius: Metric.containerViewCornerRadius)
         view.backgroundColor = Asset.Color.sheetUpperBackgroundColor
@@ -22,7 +30,7 @@ final class LabeledTagCollectionView: LabeledView {
     }()
     
     @AutoLayout private var downImageView: UIImageView = {
-        let imageView = UIImageView(image: Image.down)
+        let imageView = UIImageView(image: Image.downImageView)
         imageView.tintColor = Asset.Color.secondaryColor
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -37,7 +45,7 @@ final class LabeledTagCollectionView: LabeledView {
                                                                         constant: 60)
     
     private enum Image {
-        static let down = UIImage(systemName: "chevron.down", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        static let downImageView = UIImage(systemName: "chevron.down", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
     }
     
     private enum Metric {
@@ -54,16 +62,8 @@ final class LabeledTagCollectionView: LabeledView {
         static let downImageViewTrailing = CGFloat(-16)
     }
     
-    weak var dataSource: UICollectionViewDataSource? {
-        didSet { tagCollectionView.dataSource = dataSource }
-    }
-    
-    weak var delegate: UICollectionViewDelegate? {
-        didSet { tagCollectionView.delegate = delegate }
-    }
-    
     init(header: String) {
-        super.init(header: header, theme: .sheet)
+        super.init(header: header, style: .sheet)
         configureViews()
     }
     

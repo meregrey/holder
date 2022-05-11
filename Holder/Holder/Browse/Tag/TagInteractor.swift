@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol TagRouting: Routing {
     func cleanupViews()
@@ -65,7 +64,7 @@ final class TagInteractor: Interactor, TagInteractable {
     }
     
     func tagSettingsTagDidSelect(tag: Tag) {
-        router?.attachEnterTag(mode: .edit(tag: tag))
+        router?.attachEnterTag(mode: .edit(tag))
     }
     
     func tagSettingsDidRemove() {

@@ -25,12 +25,12 @@ protocol SearchBarInteractorDependency {
 
 final class SearchBarInteractor: PresentableInteractor<SearchBarPresentable>, SearchBarInteractable, SearchBarPresentableListener {
     
+    weak var router: SearchBarRouting?
+    weak var listener: SearchBarListener?
+    
     private let dependency: SearchBarInteractorDependency
     
     private var searchTermStream: MutableStream<String> { dependency.searchTermStream }
-    
-    weak var router: SearchBarRouting?
-    weak var listener: SearchBarListener?
     
     init(presenter: SearchBarPresentable, dependency: SearchBarInteractorDependency) {
         self.dependency = dependency

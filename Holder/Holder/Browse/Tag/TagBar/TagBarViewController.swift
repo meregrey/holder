@@ -12,9 +12,12 @@ import UIKit
 protocol TagBarPresentableListener: AnyObject {
     func tagDidSelect(tag: Tag)
     func tagSettingsButtonDidTap()
+    func tagDidChange()
 }
 
 final class TagBarViewController: UIViewController, TagBarPresentable, TagBarViewControllable {
+    
+    weak var listener: TagBarPresentableListener?
     
     private var currentIndexPath = IndexPath(item: 0, section: 0)
     private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
@@ -60,8 +63,6 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         static let tagSettingsButtonWidthHeight = CGFloat(26)
         static let tagSettingsButtonTrailing = CGFloat(-20)
     }
-    
-    weak var listener: TagBarPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -194,6 +195,7 @@ extension TagBarViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tagBarCollectionView.reloadData()
-        tagBarCollectionView.selectItem(at: currentIndexPath, animated: false, scrollPosition: .centeredHorizontally)
+        tagBarCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
+        listener?.tagDidChange()
     }
 }

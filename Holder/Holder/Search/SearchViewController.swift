@@ -12,6 +12,8 @@ protocol SearchPresentableListener: AnyObject {}
 
 final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable {
     
+    weak var listener: SearchPresentableListener?
+    
     @AutoLayout private var contentContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -37,8 +39,6 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
     private enum Image {
         static let tabBarItem = UIImage(named: "Search")
     }
-
-    weak var listener: SearchPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -66,31 +66,31 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
         contentContainerViewHeightConstraint.constant = view.frame.height - view.safeAreaInsets.bottom
     }
     
-    func addChild(_ viewControllable: ViewControllable) {
-        let childViewController = viewControllable.uiviewController
+    func addChild(_ viewController: ViewControllable) {
+        let childViewController = viewController.uiviewController
         addChild(childViewController)
         addChildView(of: childViewController)
         childViewController.didMove(toParent: self)
     }
     
-    func removeChild(_ viewControllable: ViewControllable) {
-        let childViewController = viewControllable.uiviewController
+    func removeChild(_ viewController: ViewControllable) {
+        let childViewController = viewController.uiviewController
         if childViewController is SearchBarViewController { return }
         childViewController.willMove(toParent: nil)
         childViewController.view.removeFromSuperview()
         childViewController.removeFromParent()
     }
     
-    func push(_ viewControllable: ViewControllable) {
-        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
+    func push(_ viewController: ViewControllable) {
+        navigationController?.pushViewController(viewController.uiviewController, animated: true)
     }
     
     func pop() {
         navigationController?.popViewController(animated: true)
     }
     
-    func presentOver(_ viewControllable: ViewControllable) {
-        let viewController = viewControllable.uiviewController
+    func presentOver(_ viewController: ViewControllable) {
+        let viewController = viewController.uiviewController
         viewController.modalPresentationStyle = .currentContext
         presentedViewController?.present(viewController, animated: true)
     }
@@ -111,8 +111,7 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let constant = view.frame.height - keyboardFrame.height
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
             self.contentContainerViewHeightConstraint.constant = constant

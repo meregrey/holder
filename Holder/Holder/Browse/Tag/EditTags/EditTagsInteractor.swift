@@ -22,10 +22,10 @@ protocol EditTagsListener: AnyObject {
 
 final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, EditTagsInteractable, EditTagsPresentableListener {
     
-    private let tagRepository = TagRepository.shared
-    
     weak var router: EditTagsRouting?
     weak var listener: EditTagsListener?
+    
+    private let tagRepository = TagRepository.shared
     
     override init(presenter: EditTagsPresentable) {
         super.init(presenter: presenter)
@@ -68,7 +68,7 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         let result = tagRepository.delete(tags)
         switch result {
         case .success(_): deleteBookmarkTags(for: tags)
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToDeleteTags)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
     
@@ -80,7 +80,7 @@ final class EditTagsInteractor: PresentableInteractor<EditTagsPresentable>, Edit
         let result = tagRepository.update(tags)
         switch result {
         case .success(_): break
-        case .failure(_): NotificationCenter.post(named: NotificationName.Tag.didFailToUpdateTags)
+        case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }
 }

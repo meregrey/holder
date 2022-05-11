@@ -49,8 +49,8 @@ final class LabeledTagCollectionViewCell: UICollectionViewCell {
         cell.configure(with: tag)
         let targetSize = CGSize(width: UIView.layoutFittingCompressedSize.width, height: height)
         let fittingSize = cell.contentView.systemLayoutSizeFitting(targetSize,
-                                                        withHorizontalFittingPriority: .fittingSizeLevel,
-                                                        verticalFittingPriority: .required)
+                                                                   withHorizontalFittingPriority: .fittingSizeLevel,
+                                                                   verticalFittingPriority: .required)
         return fittingSize.width < maximumWidth ? fittingSize : CGSize(width: maximumWidth, height: height)
     }
     

@@ -17,6 +17,8 @@ protocol EnterBookmarkPresentableListener: AnyObject {
 
 final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresentable, EnterBookmarkViewControllable {
     
+    weak var listener: EnterBookmarkPresentableListener?
+    
     private let mode: EnterBookmarkMode
     
     private var selectedTags: [Tag] = []
@@ -80,8 +82,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         static let saveButtonBottomForKeyboard = CGFloat(-20)
     }
     
-    weak var listener: EnterBookmarkPresentableListener?
-    
     init(mode: EnterBookmarkMode) {
         self.mode = mode
         super.init(nibName: nil, bundle: nil)
@@ -114,6 +114,11 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         if selectedTags.isEmpty { tagCollectionView.resetHeight() }
     }
     
+    func displayAlert(title: String) {
+        view.endEditing(true)
+        presentAlert(title: title)
+    }
+    
     func dismiss() {
         dismiss(animated: true)
     }
@@ -130,8 +135,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         saveButtonBottomConstraint.constant = Metric.saveButtonBottomForKeyboard
         view.frame = CGRect(x: originalViewFrame.origin.x, y: originalViewFrame.origin.y, width: originalViewFrame.width, height: originalViewFrame.height - keyboardFrame.height)
         view.layoutIfNeeded()
@@ -212,16 +216,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         ])
     }
     
-    private func scrollToTop() {
-        let offset = CGPoint(x: 0, y: 0)
-        scrollView.setContentOffset(offset, animated: true)
-    }
-    
-    private func scrollToBottom() {
-        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
-        scrollView.setContentOffset(offset, animated: true)
-    }
-    
     @objc
     private func tagCollectionViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended { listener?.tagCollectionViewDidTap(existingSelectedTags: selectedTags) }
@@ -230,7 +224,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     @objc
     private func saveButtonDidTap() {
         guard let urlString = linkTextField.text, let url = URL(string: urlString) else {
-            let alertController = AlertController(title: LocalizedString.AlertTitle.enterTheLink)
+            let alertController = AlertController(title: LocalizedString.AlertTitle.invalidLink)
             view.endEditing(true)
             present(alertController, animated: true)
             return
@@ -245,6 +239,16 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             let bookmark = bookmark.updated(tags: tags, note: note)
             listener?.saveButtonDidTapToEdit(bookmark: bookmark)
         }
+    }
+    
+    private func scrollToTop() {
+        let offset = CGPoint(x: 0, y: 0)
+        scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    private func scrollToBottom() {
+        let offset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.frame.height)
+        scrollView.setContentOffset(offset, animated: true)
     }
 }
 

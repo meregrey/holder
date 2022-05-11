@@ -15,6 +15,8 @@ protocol RecentSearchesPresentableListener: AnyObject {
 
 final class RecentSearchesViewController: UIViewController, RecentSearchesPresentable, RecentSearchesViewControllable {
     
+    weak var listener: RecentSearchesPresentableListener?
+    
     private let searchTermsMaximumCount = 10
     
     private var searchTerms: [String] = []
@@ -67,8 +69,6 @@ final class RecentSearchesViewController: UIViewController, RecentSearchesPresen
         
         static let recentSearchesTableViewTop = CGFloat(8)
     }
-    
-    weak var listener: RecentSearchesPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)

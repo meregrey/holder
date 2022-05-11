@@ -24,11 +24,11 @@ protocol SearchBuildable: Buildable {
 }
 
 final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
-
+    
     override init(dependency: SearchDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(withListener listener: SearchListener) -> SearchRouting {
         let component = SearchComponent(dependency: dependency)
         let viewController = SearchViewController()

@@ -13,11 +13,11 @@ protocol LeftAlignmentCollectionViewListener: AnyObject {
 
 final class LeftAlignmentCollectionView: UICollectionView {
     
+    weak var listener: LeftAlignmentCollectionViewListener?
+    
     var maxY = CGFloat(0) {
         didSet { listener?.maxYDidSet(maxY) }
     }
-    
-    weak var listener: LeftAlignmentCollectionViewListener?
     
     init() {
         super.init(frame: .zero, collectionViewLayout: LeftAlignmentCollectionViewFlowLayout())

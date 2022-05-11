@@ -26,12 +26,12 @@ protocol TagBarInteractorDependency {
 
 final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarInteractable, TagBarPresentableListener {
     
+    weak var router: TagBarRouting?
+    weak var listener: TagBarListener?
+    
     private let dependency: TagBarInteractorDependency
     
     private var currentTagStream: MutableStream<Tag> { dependency.currentTagStream }
-    
-    weak var router: TagBarRouting?
-    weak var listener: TagBarListener?
     
     init(presenter: TagBarPresentable, dependency: TagBarInteractorDependency) {
         self.dependency = dependency
@@ -55,6 +55,10 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
     
     func tagSettingsButtonDidTap() {
         listener?.tagBarTagSettingsButtonDidTap()
+    }
+    
+    func tagDidChange() {
+        NotificationCenter.post(named: NotificationName.Tag.didChange)
     }
     
     private func performFetch() {

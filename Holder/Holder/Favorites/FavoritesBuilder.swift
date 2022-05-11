@@ -24,11 +24,11 @@ protocol FavoritesBuildable: Buildable {
 }
 
 final class FavoritesBuilder: Builder<FavoritesDependency>, FavoritesBuildable {
-
+    
     override init(dependency: FavoritesDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(withListener listener: FavoritesListener) -> FavoritesRouting {
         let component = FavoritesComponent(dependency: dependency)
         let viewController = FavoritesViewController()

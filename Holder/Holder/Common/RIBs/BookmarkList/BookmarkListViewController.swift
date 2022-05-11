@@ -14,9 +14,14 @@ protocol BookmarkListPresentableListener: AnyObject {}
 
 final class BookmarkListViewController: UIViewController, BookmarkListPresentable, BookmarkListViewControllable {
     
-    private let isForFavorites: Bool
+    weak var listener: BookmarkListPresentableListener?
+    
+    private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?
+    private weak var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
     
     private var metadata: LPLinkMetadata?
+    
+    private lazy var bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: bookmarkListCollectionViewListener)
     
     @AutoLayout private var bookmarkListCollectionView = BookmarkListCollectionView()
     
@@ -29,34 +34,23 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
     
     @AutoLayout private var explanationView = ExplanationView()
     
-    private weak var fetchedResultsController: NSFetchedResultsController<BookmarkEntity>? {
-        didSet { fetchedResultsController?.delegate = fetchedResultsControllerDelegate }
-    }
-    
-    private weak var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
-    private lazy var fetchedResultsControllerDelegate = FetchedResultsControllerDelegate(collectionView: bookmarkListCollectionView)
-    private lazy var bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: bookmarkListCollectionViewListener)
-    
     private enum Metric {
         static let blurViewHeight = Size.searchBarViewHeight
     }
     
-    weak var listener: BookmarkListPresentableListener?
-    
-    init(forFavorites isForFavorites: Bool) {
-        self.isForFavorites = isForFavorites
+    init() {
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
-        self.isForFavorites = false
         super.init(coder: coder)
         configureViews()
     }
     
     func update(fetchedResultsController: NSFetchedResultsController<BookmarkEntity>?, searchTerm: String) {
         self.fetchedResultsController = fetchedResultsController
+        self.fetchedResultsController?.delegate = self
         DispatchQueue.main.async {
             if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count > 0 {
                 self.bookmarkListCollectionView.reloadData()
@@ -135,6 +129,37 @@ final class BookmarkListViewController: UIViewController, BookmarkListPresentabl
     }
 }
 
+// MARK: - Fetched Results Controller Delegate
+
+extension BookmarkListViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            DispatchQueue.main.async {
+                guard let newIndexPath = newIndexPath else { return }
+                self.bookmarkListCollectionView.insertItems(at: [newIndexPath])
+            }
+        case .update:
+            DispatchQueue.main.async {
+                guard let indexPath = indexPath else { return }
+                self.bookmarkListCollectionView.reloadItems(at: [indexPath])
+            }
+        case .delete:
+            DispatchQueue.main.async {
+                guard self.bookmarkListCollectionView.numberOfItems(inSection: 0) > 0 else { return }
+                guard let indexPath = indexPath else { return }
+                self.bookmarkListCollectionView.deleteItems(at: [indexPath])
+            }
+        default: break
+        }
+    }
+}
+
 // MARK: - Data Source
 
 extension BookmarkListViewController: UICollectionViewDataSource {
@@ -178,13 +203,15 @@ extension BookmarkListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return }
-        bookmarkListCollectionViewListener?.bookmarkDidTap(bookmarkEntity: bookmarkEntity)
+        guard let bookmark = bookmarkEntity.converted() else { return }
+        bookmarkListCollectionViewListener?.bookmarkDidTap(bookmark: bookmark)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let bookmarkEntity = self.bookmarkEntity(at: indexPath)
-            return self.bookmarkListContextMenuProvider.menu(for: bookmarkEntity)
+            let bookmark = bookmarkEntity?.converted()
+            return self.bookmarkListContextMenuProvider.menu(for: bookmark)
         }
     }
     

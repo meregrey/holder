@@ -18,6 +18,8 @@ final class SearchBarViewController: UIViewController, SearchBarPresentable, Sea
     static var searchBarTop: CGFloat { Metric.searchBarTop }
     static var searchBarBottom: CGFloat { -(Metric.searchBarBottom) }
     
+    weak var listener: SearchBarPresentableListener?
+    
     @AutoLayout private var searchBar = SearchBar(placeholder: LocalizedString.Placeholder.searchTitlesLinksNotes)
     
     private enum Metric {
@@ -26,8 +28,6 @@ final class SearchBarViewController: UIViewController, SearchBarPresentable, Sea
         static let searchBarTrailing = CGFloat(-20)
         static let searchBarBottom = CGFloat(-12)
     }
-    
-    weak var listener: SearchBarPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)

@@ -14,11 +14,11 @@ protocol SearchInteractable: Interactable, SearchBarListener, RecentSearchesList
 }
 
 protocol SearchViewControllable: ViewControllable {
-    func addChild(_ viewControllable: ViewControllable)
-    func removeChild(_ viewControllable: ViewControllable)
-    func push(_ viewControllable: ViewControllable)
+    func addChild(_ viewController: ViewControllable)
+    func removeChild(_ viewController: ViewControllable)
+    func push(_ viewController: ViewControllable)
     func pop()
-    func presentOver(_ viewControllable: ViewControllable)
+    func presentOver(_ viewController: ViewControllable)
     func dismissOver()
 }
 
@@ -109,9 +109,9 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     
     // MARK: - BookmarkDetail
     
-    func attachBookmarkDetail(bookmarkEntity: BookmarkEntity) {
+    func attachBookmarkDetail(bookmark: Bookmark) {
         guard bookmarkDetailRouter == nil else { return }
-        let router = bookmarkDetail.build(withListener: interactor, bookmarkEntity: bookmarkEntity)
+        let router = bookmarkDetail.build(withListener: interactor, bookmark: bookmark)
         bookmarkDetailRouter = router
         attachChild(router)
         viewController.push(router.viewControllable)

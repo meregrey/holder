@@ -13,15 +13,14 @@ protocol LabeledLinkTextFieldListener: AnyObject {
 
 final class LabeledLinkTextField: LabeledView {
     
-    @AutoLayout private var textField: TextField
-    
+    weak var listener: LabeledLinkTextFieldListener?
     var text: String? { textField.text }
     
-    weak var listener: LabeledLinkTextFieldListener?
+    @AutoLayout private var textField: TextField
     
     init(header: String) {
-        self.textField = TextField(placeholder: nil, keyboardType: .URL, theme: .sheet)
-        super.init(header: header, theme: .sheet)
+        self.textField = TextField(placeholder: nil, keyboardType: .URL, style: .sheet)
+        super.init(header: header, style: .sheet)
         configure()
     }
     

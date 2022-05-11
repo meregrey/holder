@@ -9,5 +9,5 @@ import Foundation
 
 enum EnterTagMode {
     case add
-    case edit(tag: Tag)
+    case edit(_ tag: Tag)
 }

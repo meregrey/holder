@@ -11,19 +11,28 @@ final class SearchBar: UIControl {
     
     static var height: CGFloat { Metric.height }
     
+    weak var listener: UITextFieldDelegate? {
+        didSet { searchTextField.delegate = listener }
+    }
+    
+    var text: String? { searchTextField.text }
+    
+    private var isInputEnabled: Bool
+    private var showsCancelButton: Bool
+    
     @AutoLayout private var containerView: RoundedCornerView = {
         let view = RoundedCornerView()
         view.backgroundColor = Asset.Color.searchBackgroundColor
         return view
     }()
-
+    
     @AutoLayout private var magnifyingglassImageView: UIImageView = {
         let imageView = UIImageView(image: Image.magnifyingglassImageView)
         imageView.tintColor = Asset.Color.sheetSearchTintColor
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-
+    
     @AutoLayout private var searchTextField: UITextField = {
         let textField = UITextField()
         textField.font = Font.searchTextField
@@ -34,7 +43,7 @@ final class SearchBar: UIControl {
         textField.enablesReturnKeyAutomatically = true
         return textField
     }()
-
+    
     @AutoLayout private var cancelButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = Font.cancelButton
@@ -43,9 +52,6 @@ final class SearchBar: UIControl {
         button.isHidden = true
         return button
     }()
-    
-    private var isInputEnabled: Bool
-    private var showsCancelButton: Bool
     
     private lazy var containerViewTrailingConstraint = NSLayoutConstraint(item: containerView,
                                                                           attribute: .trailing,
@@ -82,24 +88,18 @@ final class SearchBar: UIControl {
         static let searchTextFieldTrailing = CGFloat(-10)
     }
     
-    var text: String? { searchTextField.text }
-    
-    weak var listener: UITextFieldDelegate? {
-        didSet { searchTextField.delegate = listener }
-    }
-    
     init(placeholder: String,
          isInputEnabled: Bool = true,
          showsCancelButton: Bool = false,
-         theme: ViewTheme = .normal) {
+         style: ViewStyle = .normal) {
         self.isInputEnabled = isInputEnabled
         self.showsCancelButton = showsCancelButton
         super.init(frame: .zero)
-        if theme == .sheet { containerView.backgroundColor = Asset.Color.sheetSearchBackgroundColor }
+        if style == .sheet { containerView.backgroundColor = Asset.Color.sheetSearchBackgroundColor }
         registerToReceiveNotification()
         configure(placeholder: placeholder)
     }
-
+    
     required init?(coder: NSCoder) {
         self.isInputEnabled = false
         self.showsCancelButton = false
@@ -181,7 +181,7 @@ final class SearchBar: UIControl {
         
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Metric.height),
-
+            
             containerView.topAnchor.constraint(equalTo: topAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -190,7 +190,7 @@ final class SearchBar: UIControl {
             magnifyingglassImageView.heightAnchor.constraint(equalToConstant: Metric.magnifyingglassImageViewWidthHeight),
             magnifyingglassImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             magnifyingglassImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.magnifyingglassImageViewLeading),
-
+            
             searchTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             searchTextField.leadingAnchor.constraint(equalTo: magnifyingglassImageView.trailingAnchor, constant: Metric.searchTextFieldLeading),
             searchTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.searchTextFieldTrailing),

@@ -1,7 +1,6 @@
 /* Action title */
 "Add" = "Add";
 "Add to Favorites" = "Add to Favorites";
-"Appearance Settings" = "Appearance Settings";
 "Cancel" = "Cancel";
 "Clear" = "Clear";
 "Copy Link" = "Copy Link";
@@ -13,6 +12,7 @@
 "Newest to Oldest" = "Newest to Oldest";
 "OK" = "OK";
 "Oldest to Newest" = "Oldest to Newest";
+"Open in Safari" = "Open in Safari";
 "Reload" = "Reload";
 "Remove from Favorites" = "Remove from Favorites";
 "Save" = "Save";
@@ -20,10 +20,13 @@
 "System Setting" = "System Setting";
 
 /* Alert title */
-"Enter the link." = "Enter the link.";
-"A bookmark corresponding to the link exists." = "A bookmark corresponding to the link exists.";
 "An error occurred while checking the store." = "An error occurred while checking the store.";
+"An error occurred while loading the store." = "An error occurred while loading the store.";
 "An error occurred while saving to the store." = "An error occurred while saving to the store.";
+"An error occurred while processing data." = "An error occurred while processing data.";
+"Invalid link." = "Invalid link.";
+"Already saved bookmark." = "Already saved bookmark.";
+"Already saved tag." = "Already saved tag.";
 
 /* Alert title with message */
 "Tag Already Selected" = "Tag Already Selected";
@@ -47,10 +50,10 @@
 "No Search Results" = "No Search Results";
 "No results matching the search term could be found. Try another search term." = "No results matching the search term could\nbe found. Try another search term.";
 "No Favorites" = "No Favorites";
-"There are no bookmarks added to Favorites. Add frequently used bookmarks." = "There are no bookmarks added to Favorites.\nAdd frequently used bookmarks.";
+"Add favorite bookmarks." = "Add favorite bookmarks.";
 "Version" = "Version";
 "Clear Data?" = "Clear Data?";
-"Clearing will remove all tag and bookmark data." = "Clearing will remove all tag and bookmark data.";
+"Clearing will remove all bookmark and tag data." = "Clearing will remove all bookmark and tag data.";
 "Already saved link." = "Already saved link.";
 
 /* Placeholder */

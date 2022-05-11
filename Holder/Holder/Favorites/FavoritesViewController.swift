@@ -12,6 +12,8 @@ protocol FavoritesPresentableListener: AnyObject {}
 
 final class FavoritesViewController: UIViewController, FavoritesPresentable, FavoritesViewControllable {
     
+    weak var listener: FavoritesPresentableListener?
+    
     @AutoLayout private var bookmarkListContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -37,8 +39,6 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
     private enum Image {
         static let tabBarItem = UIImage(named: "Favorites")
     }
-
-    weak var listener: FavoritesPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -66,23 +66,23 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
         bookmarkListContainerViewHeightConstraint.constant = view.frame.height - view.safeAreaInsets.bottom
     }
     
-    func addChild(_ viewControllable: ViewControllable) {
-        let childViewController = viewControllable.uiviewController
+    func addChild(_ viewController: ViewControllable) {
+        let childViewController = viewController.uiviewController
         addChild(childViewController)
         addChildView(of: childViewController)
         childViewController.didMove(toParent: self)
     }
     
-    func push(_ viewControllable: ViewControllable) {
-        navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
+    func push(_ viewController: ViewControllable) {
+        navigationController?.pushViewController(viewController.uiviewController, animated: true)
     }
     
     func pop() {
         navigationController?.popViewController(animated: true)
     }
     
-    func presentOver(_ viewControllable: ViewControllable) {
-        let viewController = viewControllable.uiviewController
+    func presentOver(_ viewController: ViewControllable) {
+        let viewController = viewController.uiviewController
         viewController.modalPresentationStyle = .currentContext
         presentedViewController?.present(viewController, animated: true)
     }
@@ -103,8 +103,7 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let constant = view.frame.height - keyboardFrame.height
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
             self.bookmarkListContainerViewHeightConstraint.constant = constant

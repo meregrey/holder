@@ -11,7 +11,6 @@ enum LocalizedString {
     enum ActionTitle {
         static let add = "Add".localized
         static let addToFavorites = "Add to Favorites".localized
-        static let appearanceSettings = "Appearance Settings".localized
         static let cancel = "Cancel".localized
         static let clear = "Clear".localized
         static let copyLink = "Copy Link".localized
@@ -23,6 +22,7 @@ enum LocalizedString {
         static let newestToOldest = "Newest to Oldest".localized
         static let ok = "OK".localized
         static let oldestToNewest = "Oldest to Newest".localized
+        static let openInSafari = "Open in Safari".localized
         static let reload = "Reload".localized
         static let removeFromFavorites = "Remove from Favorites".localized
         static let save = "Save".localized
@@ -31,10 +31,13 @@ enum LocalizedString {
     }
     
     enum AlertTitle {
-        static let enterTheLink = "Enter the link.".localized
-        static let bookmarkCorrespondingToTheLinkExists = "A bookmark corresponding to the link exists.".localized
         static let errorOccurredWhileCheckingTheStore = "An error occurred while checking the store.".localized
+        static let errorOccurredWhileLoadingTheStore = "An error occurred while loading the store.".localized
         static let errorOccurredWhileSavingToTheStore = "An error occurred while saving to the store.".localized
+        static let errorOccurredWhileProcessingData = "An error occurred while processing data.".localized
+        static let invalidLink = "Invalid link.".localized
+        static let alreadySavedBookmark = "Already saved bookmark.".localized
+        static let alreadySavedTag = "Already saved tag.".localized
         static let tagAlreadySelected = "Tag Already Selected".localized
         static let deleteBookmark = "Delete Bookmark?".localized
     }
@@ -55,10 +58,10 @@ enum LocalizedString {
         static let noSearchResults = "No Search Results".localized
         static let noSearchResultsExplanation = "No results matching the search term could be found. Try another search term.".localized
         static let noFavorites = "No Favorites".localized
-        static let noFavoritesExplanation = "There are no bookmarks added to Favorites. Add frequently used bookmarks.".localized
+        static let noFavoritesExplanation = "Add favorite bookmarks.".localized
         static let version = "Version".localized
         static let clearData = "Clear Data?".localized
-        static let clearDataExplanation = "Clearing will remove all tag and bookmark data.".localized
+        static let clearDataExplanation = "Clearing will remove all bookmark and tag data.".localized
         static let alreadySavedLink = "Already saved link.".localized
     }
     

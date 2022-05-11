@@ -11,14 +11,17 @@ import UIKit
 import WebKit
 
 protocol BookmarkDetailPresentableListener: AnyObject {
-    func didRemove()
     func backwardButtonDidTap()
     func shareButtonDidTap()
     func favoriteButtonDidTap()
-    func showMoreButtonDidTap()
+    func openInSafariActionDidTap()
+    func deleteActionDidTap()
+    func didRemove()
 }
 
 final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresentable, BookmarkDetailViewControllable {
+    
+    weak var listener: BookmarkDetailPresentableListener?
     
     private var webpageLoadCount = 0 {
         didSet {
@@ -26,6 +29,7 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         }
     }
     
+    private var observation: NSKeyValueObservation?
     private var metadata: LPLinkMetadata?
     
     @AutoLayout private var webView = WKWebView(frame: .zero)
@@ -34,11 +38,9 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     private lazy var forwardButton = UIBarButtonItem(image: Image.forwardButton, style: .plain, target: self, action: #selector(forwardButtonDidTap))
     private lazy var shareButton = UIBarButtonItem(image: Image.shareButton, style: .plain, target: self, action: #selector(shareButtonDidTap))
     private lazy var favoriteButton = UIBarButtonItem(image: Image.favoriteButton, style: .plain, target: self, action: #selector(favoriteButtonDidTap))
-    private lazy var showMoreButton = UIBarButtonItem(image: Image.showMoreButton, style: .plain, target: self, action: #selector(showMoreButtonDidTap))
+    private lazy var showMoreButton = UIBarButtonItem(title: nil, image: Image.showMoreButton, primaryAction: nil, menu: showMoreButtonMenu())
     private lazy var fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
     private lazy var flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    
-    weak var listener: BookmarkDetailPresentableListener?
     
     private enum Image {
         static let backwardButton = UIImage(systemName: "chevron.left")
@@ -46,16 +48,25 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         static let shareButton = UIImage(systemName: "square.and.arrow.up")
         static let favoriteButton = UIImage(systemName: "bookmark")
         static let showMoreButton = UIImage(systemName: "ellipsis")
+        static let openInSafariAction = UIImage(systemName: "safari")
+        static let reloadAction = UIImage(systemName: "arrow.clockwise")
+        static let deleteAction = UIImage(systemName: "minus.circle")
     }
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        observeWebView()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        observeWebView()
         configureViews()
+    }
+    
+    deinit {
+        observation?.invalidate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,11 +77,6 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isToolbarHidden = true
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard keyPath == #keyPath(WKWebView.url) else { return }
-        webpageLoadCount += 1
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -95,16 +101,29 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         }
     }
     
-    func reload() {
-        webView.reload()
+    private func observeWebView() {
+        observation = webView.observe(\.url, options: [.new]) { [weak self] _, _ in
+            self?.webpageLoadCount += 1
+        }
     }
     
-    func displayAlert(title: String, message: String?, action: Action?) {
-        presentAlert(title: title, message: message, action: action)
-    }
-    
-    func dismiss(_ completion: @escaping () -> Void) {
-        dismiss(animated: true, completion: completion)
+    private func configureViews() {
+        webView.scrollView.delegate = self
+        forwardButton.tintColor = Asset.Color.secondaryColor
+        fixedSpaceItem.width = 7
+        
+        toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
+        hidesBottomBarWhenPushed = true
+        view.backgroundColor = Asset.Color.webViewBackgroundColor
+        
+        view.addSubview(webView)
+        
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     @objc
@@ -131,29 +150,30 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         listener?.favoriteButtonDidTap()
     }
     
-    @objc
-    private func showMoreButtonDidTap() {
-        listener?.showMoreButtonDidTap()
-    }
-    
-    private func configureViews() {
-        webView.scrollView.delegate = self
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
+    private func showMoreButtonMenu() -> UIMenu {
+        let reloadAction = UIAction(title: LocalizedString.ActionTitle.reload, image: Image.reloadAction) { [weak self] _ in
+            self?.webView.reload()
+        }
         
-        fixedSpaceItem.width = 7
-        forwardButton.tintColor = Asset.Color.secondaryColor
-        toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
+        let openInSafariAction = UIAction(title: LocalizedString.ActionTitle.openInSafari, image: Image.openInSafariAction) { [weak self] _ in
+            self?.listener?.openInSafariActionDidTap()
+        }
         
-        hidesBottomBarWhenPushed = true
-        view.backgroundColor = Asset.Color.webViewBackgroundColor
-        view.addSubview(webView)
+        let deleteAction = UIAction(title: LocalizedString.ActionTitle.delete, image: Image.deleteAction, attributes: .destructive) { [weak self] _ in
+            let actionSheet = UIAlertController(title: LocalizedString.AlertMessage.deleteBookmark, message: nil, preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(title: LocalizedString.ActionTitle.delete, style: .destructive) { [weak self] _ in
+                self?.listener?.deleteActionDidTap()
+            }
+            let cancelAction = UIAlertAction(title: LocalizedString.ActionTitle.cancel, style: .cancel)
+            
+            actionSheet.addAction(deleteAction)
+            actionSheet.addAction(cancelAction)
+            actionSheet.view.tintColor = Asset.Color.primaryColor
+            
+            self?.present(actionSheet, animated: true)
+        }
         
-        NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        return UIMenu(children: [deleteAction, openInSafariAction, reloadAction])
     }
 }
 
@@ -161,7 +181,7 @@ extension BookmarkDetailViewController: UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveLinear) {
-            self.navigationController?.setToolbarHidden(velocity.y > 0, animated: true)
+            self.navigationController?.setToolbarHidden(velocity.y >= 0, animated: true)
         }
     }
 }

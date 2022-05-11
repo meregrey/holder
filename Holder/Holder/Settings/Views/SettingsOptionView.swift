@@ -69,6 +69,7 @@ final class SettingsOptionView: UIControl {
         layer.cornerCurve = .continuous
         
         addSubview(titleLabel)
+        
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Metric.height),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
