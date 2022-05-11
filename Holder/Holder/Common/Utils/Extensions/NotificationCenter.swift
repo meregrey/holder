@@ -9,10 +9,6 @@ import Foundation
 
 extension NotificationCenter {
     
-    enum UserInfoKey {
-        static let searchTerm = "searchTerm"
-    }
-    
     static func post(named name: NSNotification.Name, userInfo: [AnyHashable: Any]? = nil) {
         self.default.post(name: name, object: nil, userInfo: userInfo)
     }

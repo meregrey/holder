@@ -147,7 +147,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
         try? fetchedResultsController?.performFetch()
         if let fetchedObjects = fetchedResultsController?.fetchedObjects, fetchedObjects.count == 0 {
             NotificationCenter.post(named: NotificationName.Bookmark.noSearchResults,
-                                    userInfo: [NotificationCenter.UserInfoKey.searchTerm: searchTerm])
+                                    userInfo: [Notification.UserInfoKey.searchTerm: searchTerm])
         }
         presenter.update(fetchedResultsController: fetchedResultsController, searchTerm: searchTerm)
     }
