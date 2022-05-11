@@ -99,11 +99,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let containerViewHeight = view.frame.height - keyboardFrame.height + 20
-        
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn, animations: {
             self.containerViewHeightConstraint?.constant = containerViewHeight
             self.view.layoutIfNeeded()
@@ -113,7 +110,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
     @objc
     private func keyboardWillHide() {
         let containerViewHeight = view.frame.height
-        
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn, animations: {
             self.containerViewHeightConstraint?.constant = containerViewHeight
             self.view.layoutIfNeeded()

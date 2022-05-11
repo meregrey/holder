@@ -108,8 +108,7 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let heightForTop = Metric.searchBarTop + searchBar.frame.height + Metric.searchTagsTableViewTop
         let searchTagsTableViewHeight = view.frame.height - keyboardFrame.height - heightForTop
         searchTagsTableViewHeightConstraint?.constant = searchTagsTableViewHeight
