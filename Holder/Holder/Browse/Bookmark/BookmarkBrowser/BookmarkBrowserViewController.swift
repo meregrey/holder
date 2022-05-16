@@ -20,6 +20,7 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     
     private var tags: [Tag] = []
     private var currentIndexPath = IndexPath(item: 0, section: 0)
+    private var lastContentOffset = CGPoint(x: 0, y: 0)
     private var contentOffsetsForBookmarkListCollectionView: [IndexPath: CGPoint] = [:]
     private var metadata: LPLinkMetadata?
     private var bookmarkListCollectionViewListener: BookmarkListCollectionViewListener? { listener as? BookmarkListCollectionViewListener }
@@ -125,6 +126,19 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         ])
     }
     
+    private func indexPathForVisibleItem(of collectionView: UICollectionView) -> IndexPath {
+        let indexPathsForVisibleItems = collectionView.indexPathsForVisibleItems
+        let defaultIndexPath = IndexPath(item: 0, section: 0)
+        
+        guard indexPathsForVisibleItems.count > 1 else { return indexPathsForVisibleItems.first ?? defaultIndexPath }
+        
+        if lastContentOffset.x < collectionView.contentOffset.x {
+            return indexPathsForVisibleItems.max(by: { $0.item < $1.item }) ?? defaultIndexPath
+        } else {
+            return indexPathsForVisibleItems.min(by: { $0.item < $1.item }) ?? defaultIndexPath
+        }
+    }
+    
     @objc
     private func addBookmarkButtonDidTap() {
         listener?.addBookmarkButtonDidTap()
@@ -166,10 +180,11 @@ extension BookmarkBrowserViewController: UICollectionViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let collectionView = scrollView as? UICollectionView else { return }
-        guard let indexPath = collectionView.indexPathsForVisibleItems.first else { return }
+        let indexPath = indexPathForVisibleItem(of: collectionView)
         let pendingTag = indexPath.item > 0 ? tags[indexPath.item - 1] : nil
         listener?.indexPathDidChange(pendingTag: pendingTag)
         currentIndexPath = indexPath
+        lastContentOffset = collectionView.contentOffset
         if let contentOffset = contentOffsetsForBookmarkListCollectionView[indexPath] { displayBlurView(for: contentOffset) }
     }
 }
@@ -201,3 +216,4 @@ extension BookmarkBrowserViewController: UIActivityItemSource {
         return metadata
     }
 }
+
