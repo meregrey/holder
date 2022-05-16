@@ -24,13 +24,13 @@ final class BookmarkListCollectionViewManager: NSObject {
     private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
     private let tag: Tag?
     
-    private weak var collectionView: UICollectionView?
+    private weak var collectionView: BookmarkListCollectionView?
     private weak var listener: BookmarkListCollectionViewListener?
     
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
     
-    init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag?) {
+    init(collectionView: BookmarkListCollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag?) {
         self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
         self.tag = tag
         self.collectionView = collectionView
@@ -48,7 +48,7 @@ final class BookmarkListCollectionViewManager: NSObject {
         NotificationCenter.addObserver(self,
                                        selector: #selector(contextObjectsDidChange),
                                        name: .NSManagedObjectContextObjectsDidChange,
-                                       object: PersistentContainer.shared.context)
+                                       object: PersistentContainer.shared.backgroundContext)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(sortDidChange),

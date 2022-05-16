@@ -101,7 +101,7 @@ final class BookmarkListInteractor: PresentableInteractor<BookmarkListPresentabl
         NotificationCenter.addObserver(self,
                                        selector: #selector(contextObjectsDidChange),
                                        name: .NSManagedObjectContextObjectsDidChange,
-                                       object: PersistentContainer.shared.context)
+                                       object: PersistentContainer.shared.backgroundContext)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(sortDidChange),
