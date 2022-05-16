@@ -36,13 +36,15 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         return stackView
     }()
     
-    @AutoLayout private var versionOptionView = SettingsOptionView(title: LocalizedString.LabelText.version, info: version)
+    @AutoLayout private var enableSharingOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.enableSharing)
     
     @AutoLayout private var appearanceOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.appearance)
     
     @AutoLayout private var sortBookmarksOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.sortBookmarks)
     
     @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.clearData)
+    
+    @AutoLayout private var versionOptionView = SettingsOptionView(title: LocalizedString.LabelText.version, info: version)
     
     private enum Font {
         static let titleLabel = UIFont.systemFont(ofSize: 30, weight: .bold)
@@ -74,6 +76,12 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithTransparentBackground()
+        navigationBarAppearance.backgroundColor = Asset.Color.detailBackgroundColor
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        navigationController?.navigationBar.tintColor = Asset.Color.primaryColor
         navigationController?.isNavigationBarHidden = true
     }
     
@@ -86,6 +94,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     }
     
     private func configureViews() {
+        enableSharingOptionView.addTarget(self, action: #selector(enableSharingOptionViewDidTap), for: .touchUpInside)
         appearanceOptionView.addTarget(self, action: #selector(appearanceOptionViewDidTap), for: .touchUpInside)
         sortBookmarksOptionView.addTarget(self, action: #selector(sortBookmarksOptionViewDidTap), for: .touchUpInside)
         clearDataOptionView.addTarget(self, action: #selector(clearDataOptionViewDidTap), for: .touchUpInside)
@@ -98,10 +107,11 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         
         view.addSubview(titleLabel)
         view.addSubview(stackView)
-        stackView.addArrangedSubview(versionOptionView)
+        stackView.addArrangedSubview(enableSharingOptionView)
         stackView.addArrangedSubview(appearanceOptionView)
         stackView.addArrangedSubview(sortBookmarksOptionView)
         stackView.addArrangedSubview(clearDataOptionView)
+        stackView.addArrangedSubview(versionOptionView)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Metric.titleLabelTop),
@@ -112,6 +122,11 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.stackViewLeading),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.stackViewTrailing)
         ])
+    }
+    
+    @objc
+    private func enableSharingOptionViewDidTap() {
+        navigationController?.pushViewController(EnableSharingViewController(), animated: true)
     }
     
     @objc
