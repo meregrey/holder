@@ -8,22 +8,25 @@
 import CoreData
 
 protocol PersistentContainerType {
-    var context: NSManagedObjectContext { get }
+    var viewContext: NSManagedObjectContext { get }
+    var backgroundContext: NSManagedObjectContext { get }
 }
 
 final class PersistentContainer: PersistentContainerType {
     
     static let shared = PersistentContainer()
     
-    private(set) lazy var context: NSManagedObjectContext = {
+    var viewContext: NSManagedObjectContext { container.viewContext }
+    
+    private(set) lazy var backgroundContext: NSManagedObjectContext = {
         let context = container.newBackgroundContext()
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         return context
     }()
     
     private let dataModelName = "PersistenceModel"
-    private let containerIdentifier = "iCloud.com.meregrey.holder"
     private let appGroupIdentifier = "group.com.meregrey.holder"
+    private let containerIdentifier = "iCloud.com.meregrey.holder"
     
     private lazy var container: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: dataModelName)
