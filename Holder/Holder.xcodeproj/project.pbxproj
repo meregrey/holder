@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		541B0AC485AD485AB2D27809 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 038D343F64F07C55914F8523 /* libPods-ShareExtension.a */; };
 		6715D13B282B50D700655020 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6715D13A282B50D700655020 /* Notification.swift */; };
+		673674A3282C9892000891D7 /* EnableSharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673674A2282C9892000891D7 /* EnableSharingViewController.swift */; };
 		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673D66ED2828DC3A002E63B9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673FE54E280FF8F4005BAB32 /* SingleButtonNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */; };
@@ -281,6 +282,7 @@
 /* Begin PBXFileReference section */
 		038D343F64F07C55914F8523 /* libPods-ShareExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShareExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6715D13A282B50D700655020 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		673674A2282C9892000891D7 /* EnableSharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableSharingViewController.swift; sourceTree = "<group>"; };
 		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleButtonNavigationBar.swift; sourceTree = "<group>"; };
 		673FE55128100740005BAB32 /* ShareExtensionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionComponent.swift; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 			isa = PBXGroup;
 			children = (
 				67E32B502806D45300F2133B /* SettingsOptionView.swift */,
+				673674A2282C9892000891D7 /* EnableSharingViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1487,6 +1490,7 @@
 				67E32CB42806D45400F2133B /* EditTagsTableViewCell.swift in Sources */,
 				67E32C5C2806D45300F2133B /* SearchTagsInteractor.swift in Sources */,
 				67E32CA02806D45400F2133B /* RootRouter.swift in Sources */,
+				673674A3282C9892000891D7 /* EnableSharingViewController.swift in Sources */,
 				67E32C752806D45400F2133B /* UIImage.swift in Sources */,
 				67E32C942806D45400F2133B /* BookmarkListCollectionView.swift in Sources */,
 				67E32C9A2806D45400F2133B /* Action.swift in Sources */,

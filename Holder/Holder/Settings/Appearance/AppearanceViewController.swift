@@ -67,7 +67,7 @@ final class AppearanceViewController: UIViewController, AppearancePresentable, A
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         hidesBottomBarWhenPushed = true
-        view.backgroundColor = Asset.Color.baseBackgroundColor
+        view.backgroundColor = Asset.Color.detailBackgroundColor
         
         systemSettingSelectionView.addTarget(self, action: #selector(systemSettingSelectionViewDidTap), for: .touchUpInside)
         lightSelectionView.addTarget(self, action: #selector(lightSelectionViewDidTap), for: .touchUpInside)

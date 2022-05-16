@@ -44,7 +44,7 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
     
     private enum Font {
         static let titleLabel = UIFont.systemFont(ofSize: 26, weight: .bold)
-        static let explanationLabel = UIFont.systemFont(ofSize: 17, weight: .medium)
+        static let explanationLabel = UIFont.systemFont(ofSize: 17)
     }
     
     private enum Image {
@@ -92,7 +92,7 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         hidesBottomBarWhenPushed = true
-        view.backgroundColor = Asset.Color.baseBackgroundColor
+        view.backgroundColor = Asset.Color.detailBackgroundColor
         
         view.addSubview(titleLabel)
         view.addSubview(explanationLabel)

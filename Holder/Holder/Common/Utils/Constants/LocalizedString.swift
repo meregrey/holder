@@ -59,9 +59,15 @@ enum LocalizedString {
         static let noSearchResultsExplanation = "No results matching the search term could be found. Try another search term.".localized
         static let noFavorites = "No Favorites".localized
         static let noFavoritesExplanation = "Add favorite bookmarks.".localized
-        static let version = "Version".localized
+        static let enableSharing = "Enable Sharing".localized
+        static let enableSharingExplanation = "You can save bookmarks in Safari and any app that provides a share sheet.".localized
+        static let enableSharingFirstStep = "1. Tap the Share button".localized
+        static let enableSharingSecondStep = "2. Tap the More icon on the share sheet".localized
+        static let enableSharingThirdStep = "3. Tap Edit > Plus > Done button".localized
+        static let enableSharingFourthStep = "4. Save bookmark via Holder icon".localized
         static let clearData = "Clear Data?".localized
         static let clearDataExplanation = "Clearing will remove all bookmark and tag data.".localized
+        static let version = "Version".localized
         static let alreadySavedLink = "Already saved link.".localized
     }
     
@@ -86,6 +92,7 @@ enum LocalizedString {
         static let selectTags = "Select Tags".localized
         static let addBookmark = "Add Bookmark".localized
         static let editBookmark = "Edit Bookmark".localized
+        static let enableSharing = "Enable Sharing".localized
         static let appearance = "Appearance".localized
         static let sortBookmarks = "Sort Bookmarks".localized
         static let clearData = "Clear Data".localized

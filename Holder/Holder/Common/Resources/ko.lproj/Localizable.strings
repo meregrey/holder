@@ -51,9 +51,15 @@
 "No results matching the search term could be found. Try another search term." = "검색어와 일치하는 결과를 찾을 수 없습니다.\n다른 검색어를 사용해 보세요.";
 "No Favorites" = "즐겨찾기 없음";
 "Add favorite bookmarks." = "즐겨 찾는 북마크를 추가해 보세요.";
-"Version" = "앱 버전";
+"Enable Sharing" = "공유 활성화";
+"You can save bookmarks in Safari and any app that provides a share sheet." = "Safari 및 공유 시트를 제공하는 모든 앱에서\n북마크를 저장할 수 있어요.";
+"1. Tap the Share button" = "1. 공유 버튼 탭하기";
+"2. Tap the More icon on the share sheet" = "2. 공유 시트에서 더 보기 아이콘 탭하기";
+"3. Tap Edit > Plus > Done button" = "3. 편집 > 플러스 > 완료 버튼 탭하기";
+"4. Save bookmark via Holder icon" = "4. 홀더 아이콘을 통해 북마크 저장";
 "Clear Data?" = "데이터를 지울까요?";
 "Clearing will remove all bookmark and tag data." = "지우기를 실행하면 북마크 및 태그 데이터가\n모두 제거됩니다.";
+"Version" = "버전";
 "Already saved link." = "이미 저장된 링크입니다.";
 
 /* Placeholder */
@@ -75,6 +81,7 @@
 "Select Tags" = "태그 선택";
 "Add Bookmark" = "북마크 추가";
 "Edit Bookmark" = "북마크 편집";
+"Enable Sharing" = "공유 활성화";
 "Appearance" = "테마";
 "Sort Bookmarks" = "북마크 정렬";
 "Clear Data" = "데이터 지우기";

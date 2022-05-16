@@ -114,7 +114,7 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         
         toolbarItems = [fixedSpaceItem, backwardButton, flexibleSpaceItem, fixedSpaceItem, forwardButton, fixedSpaceItem, flexibleSpaceItem, shareButton, flexibleSpaceItem, favoriteButton, flexibleSpaceItem, showMoreButton, fixedSpaceItem]
         hidesBottomBarWhenPushed = true
-        view.backgroundColor = Asset.Color.webViewBackgroundColor
+        view.backgroundColor = Asset.Color.detailBackgroundColor
         
         view.addSubview(webView)
         
