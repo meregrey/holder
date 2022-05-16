@@ -65,7 +65,7 @@ final class SortBookmarksViewController: UIViewController, SortBookmarksPresenta
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
         hidesBottomBarWhenPushed = true
-        view.backgroundColor = Asset.Color.baseBackgroundColor
+        view.backgroundColor = Asset.Color.detailBackgroundColor
         
         newestToOldestSelectionView.addTarget(self, action: #selector(newestToOldestSelectionViewDidTap), for: .touchUpInside)
         oldestToNewestSelectionView.addTarget(self, action: #selector(oldestToNewestSelectionViewDidTap), for: .touchUpInside)
