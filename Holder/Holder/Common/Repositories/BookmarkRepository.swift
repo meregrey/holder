@@ -25,7 +25,10 @@ final class BookmarkRepository: BookmarkRepositoryType {
     
     static let shared = BookmarkRepository()
     
-    private var context: NSManagedObjectContext { PersistentContainer.shared.context }
+    private let persistentContainer = PersistentContainer.shared
+    
+    private var viewContext: NSManagedObjectContext { persistentContainer.viewContext }
+    private var backgroundContext: NSManagedObjectContext { persistentContainer.backgroundContext }
     
     private var ascending: Bool {
         let sort = UserDefaults.value(forType: Sort.self) ?? .newestToOldest
@@ -44,6 +47,8 @@ final class BookmarkRepository: BookmarkRepositoryType {
             request.predicate = predicate
         }
         
+        let context = isFavorite ? backgroundContext : viewContext
+        
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: context,
                                           sectionNameKeyPath: nil,
@@ -57,7 +62,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         request.sortDescriptors = [sortDescriptor]
         request.predicate = predicate
         return NSFetchedResultsController(fetchRequest: request,
-                                          managedObjectContext: context,
+                                          managedObjectContext: backgroundContext,
                                           sectionNameKeyPath: nil,
                                           cacheName: nil)
     }
@@ -79,7 +84,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         request.predicate = predicates
         
         return NSFetchedResultsController(fetchRequest: request,
-                                          managedObjectContext: context,
+                                          managedObjectContext: backgroundContext,
                                           sectionNameKeyPath: nil,
                                           cacheName: nil)
     }
@@ -89,7 +94,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), url.absoluteString)
         request.predicate = predicate
         do {
-            let count = try context.count(for: request)
+            let count = try backgroundContext.count(for: request)
             return .success(count > 0)
         } catch {
             return .failure(error)
@@ -97,10 +102,10 @@ final class BookmarkRepository: BookmarkRepositoryType {
     }
     
     func add(bookmark: Bookmark) -> Result<Void, Error> {
-        let bookmarkEntity = BookmarkEntity(context: context)
+        let bookmarkEntity = BookmarkEntity(context: backgroundContext)
         bookmarkEntity.configure(with: bookmark)
         do {
-            try context.save()
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -112,10 +117,10 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), bookmark.url.absoluteString)
         request.predicate = predicate
         do {
-            guard let bookmarkEntity = try context.fetch(request).first else { return .success(()) }
+            guard let bookmarkEntity = try backgroundContext.fetch(request).first else { return .success(()) }
             try deleteTags(of: bookmarkEntity)
             bookmarkEntity.update(with: bookmark)
-            try context.save()
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -127,9 +132,9 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkEntity.urlString), url.absoluteString)
         request.predicate = predicate
         do {
-            guard let bookmarkEntity = try context.fetch(request).first else { return .success(false) }
+            guard let bookmarkEntity = try backgroundContext.fetch(request).first else { return .success(false) }
             bookmarkEntity.isFavorite.toggle()
-            try context.save()
+            try backgroundContext.save()
             return .success(bookmarkEntity.isFavorite)
         } catch {
             return .failure(error)
@@ -141,10 +146,10 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.name), tag.name)
         request.predicate = predicate
         do {
-            let bookmarkTagEntities = try context.fetch(request)
+            let bookmarkTagEntities = try backgroundContext.fetch(request)
             if bookmarkTagEntities.count == 0 { return .success(()) }
             bookmarkTagEntities.forEach { $0.name = newTag.name }
-            try context.save()
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -157,9 +162,9 @@ final class BookmarkRepository: BookmarkRepositoryType {
         request.predicate = predicate
         request.includesPropertyValues = false
         do {
-            guard let bookmarkEntity = try context.fetch(request).first else { return .success(()) }
-            context.delete(bookmarkEntity)
-            try context.save()
+            guard let bookmarkEntity = try backgroundContext.fetch(request).first else { return .success(()) }
+            backgroundContext.delete(bookmarkEntity)
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -172,9 +177,9 @@ final class BookmarkRepository: BookmarkRepositoryType {
         request.predicate = predicate
         request.includesPropertyValues = false
         do {
-            let bookmarkTagEntities = try context.fetch(request)
-            bookmarkTagEntities.forEach { context.delete($0) }
-            try context.save()
+            let bookmarkTagEntities = try backgroundContext.fetch(request)
+            bookmarkTagEntities.forEach { backgroundContext.delete($0) }
+            try backgroundContext.save()
         } catch {
             return
         }
@@ -183,7 +188,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
     func clear() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = BookmarkEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        guard let _ = try? context.execute(deleteRequest) else {
+        guard let _ = try? backgroundContext.execute(deleteRequest) else {
             NotificationCenter.post(named: NotificationName.didFailToProcessData)
             return
         }
@@ -195,8 +200,8 @@ final class BookmarkRepository: BookmarkRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BookmarkTagEntity.bookmark), bookmarkEntity)
         request.predicate = predicate
         request.includesPropertyValues = false
-        let bookmarkTagEntities = try context.fetch(request)
-        bookmarkTagEntities.forEach { context.delete($0) }
-        try context.save()
+        let bookmarkTagEntities = try backgroundContext.fetch(request)
+        bookmarkTagEntities.forEach { backgroundContext.delete($0) }
+        try backgroundContext.save()
     }
 }

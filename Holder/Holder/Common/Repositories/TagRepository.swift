@@ -21,7 +21,10 @@ final class TagRepository: TagRepositoryType {
     
     static let shared = TagRepository()
     
-    private var context: NSManagedObjectContext { PersistentContainer.shared.context }
+    private let persistentContainer = PersistentContainer.shared
+    
+    private var viewContext: NSManagedObjectContext { persistentContainer.viewContext }
+    private var backgroundContext: NSManagedObjectContext { persistentContainer.backgroundContext }
     
     private init() {}
     
@@ -30,7 +33,7 @@ final class TagRepository: TagRepositoryType {
         let sortDescriptor = NSSortDescriptor(key: #keyPath(TagEntity.index), ascending: true)
         request.sortDescriptors = [sortDescriptor]
         return NSFetchedResultsController(fetchRequest: request,
-                                          managedObjectContext: context,
+                                          managedObjectContext: viewContext,
                                           sectionNameKeyPath: nil,
                                           cacheName: nil)
     }
@@ -40,7 +43,7 @@ final class TagRepository: TagRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(TagEntity.name), name)
         request.predicate = predicate
         do {
-            let count = try context.count(for: request)
+            let count = try backgroundContext.count(for: request)
             return .success(count > 0)
         } catch {
             return .failure(error)
@@ -50,10 +53,10 @@ final class TagRepository: TagRepositoryType {
     func add(_ tag: Tag) -> Result<Void, Error> {
         let request = TagEntity.fetchRequest()
         do {
-            let index = try context.count(for: request)
-            let tagEntity = TagEntity(context: context)
+            let index = try backgroundContext.count(for: request)
+            let tagEntity = TagEntity(context: backgroundContext)
             tagEntity.configure(name: tag.name, index: index)
-            try context.save()
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -66,9 +69,9 @@ final class TagRepository: TagRepositoryType {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(TagEntity.name), tag.name)
         request.predicate = predicate
         do {
-            guard let tagEntity = try context.fetch(request).first else { return .success(()) }
+            guard let tagEntity = try backgroundContext.fetch(request).first else { return .success(()) }
             tagEntity.name = newTag.name
-            try context.save()
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -78,12 +81,12 @@ final class TagRepository: TagRepositoryType {
     func update(_ tags: [Tag]) -> Result<Void, Error> {
         let request = TagEntity.fetchRequest()
         do {
-            let tagEntities = try context.fetch(request)
+            let tagEntities = try backgroundContext.fetch(request)
             tagEntities.forEach {
                 guard let index = tags.firstIndex(of: Tag(name: $0.name)) else { return }
                 $0.index = Int16(index)
             }
-            try context.save()
+            try backgroundContext.save()
             return .success(())
         } catch {
             return .failure(error)
@@ -97,9 +100,9 @@ final class TagRepository: TagRepositoryType {
             try tags.forEach {
                 let predicate = NSPredicate(format: "%K == %@", #keyPath(TagEntity.name), $0.name)
                 request.predicate = predicate
-                guard let tagEntity = try context.fetch(request).first else { return }
-                context.delete(tagEntity)
-                try context.save()
+                guard let tagEntity = try backgroundContext.fetch(request).first else { return }
+                backgroundContext.delete(tagEntity)
+                try backgroundContext.save()
             }
             return .success(())
         } catch {
@@ -110,8 +113,8 @@ final class TagRepository: TagRepositoryType {
     func clear() {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: TagEntity.fetchRequest())
         deleteRequest.resultType = .resultTypeObjectIDs
-        let deleteResult = try? context.execute(deleteRequest) as? NSBatchDeleteResult
+        let deleteResult = try? backgroundContext.execute(deleteRequest) as? NSBatchDeleteResult
         guard let objectIDs = deleteResult?.result as? [NSManagedObjectID] else { return }
-        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [context])
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [backgroundContext])
     }
 }
