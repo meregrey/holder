@@ -1,0 +1,44 @@
+{
+  "images" : [
+    {
+      "filename" : "EnableSharing4-1.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "EnableSharing4-2.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "EnableSharing4-3.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "EnableSharing4-4.png",
+      "idiom" : "iphone",
+      "locale" : "ko",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "EnableSharing4-5.png",
+      "idiom" : "iphone",
+      "locale" : "ko",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "EnableSharing4-6.png",
+      "idiom" : "iphone",
+      "locale" : "ko",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
+  }
+}
