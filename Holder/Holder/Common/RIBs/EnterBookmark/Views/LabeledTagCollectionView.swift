@@ -29,8 +29,8 @@ final class LabeledTagCollectionView: LabeledView {
         return collectionView
     }()
     
-    @AutoLayout private var downImageView: UIImageView = {
-        let imageView = UIImageView(image: Image.downImageView)
+    @AutoLayout private var chevronImageView: UIImageView = {
+        let imageView = UIImageView(image: Image.down)
         imageView.tintColor = Asset.Color.secondaryColor
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -45,7 +45,8 @@ final class LabeledTagCollectionView: LabeledView {
                                                                         constant: 60)
     
     private enum Image {
-        static let downImageView = UIImage(systemName: "chevron.down", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        static let down = UIImage(systemName: "chevron.down", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        static let right = UIImage(systemName: "chevron.right", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
     }
     
     private enum Metric {
@@ -89,24 +90,28 @@ final class LabeledTagCollectionView: LabeledView {
         }
     }
     
+    func changeChevronImageForNavigation() {
+        chevronImageView.image = Image.right
+    }
+    
     private func configureViews() {
         tagCollectionView.listener = self
         
         containerView.addConstraint(containerViewHeightConstraint)
         containerView.addSubview(tagCollectionView)
-        containerView.addSubview(downImageView)
+        containerView.addSubview(chevronImageView)
         addSubviewUnderLabel(containerView)
         
         NSLayoutConstraint.activate([
             tagCollectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metric.tagCollectionViewTop),
             tagCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metric.tagCollectionViewLeading),
-            tagCollectionView.trailingAnchor.constraint(equalTo: downImageView.leadingAnchor, constant: Metric.tagCollectionViewTrailing),
+            tagCollectionView.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: Metric.tagCollectionViewTrailing),
             tagCollectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Metric.tagCollectionViewBottom),
             
-            downImageView.widthAnchor.constraint(equalToConstant: Metric.downImageViewWidthHeight),
-            downImageView.heightAnchor.constraint(equalToConstant: Metric.downImageViewWidthHeight),
-            downImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metric.downImageViewTop),
-            downImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.downImageViewTrailing)
+            chevronImageView.widthAnchor.constraint(equalToConstant: Metric.downImageViewWidthHeight),
+            chevronImageView.heightAnchor.constraint(equalToConstant: Metric.downImageViewWidthHeight),
+            chevronImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metric.downImageViewTop),
+            chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Metric.downImageViewTrailing)
         ])
     }
 }
