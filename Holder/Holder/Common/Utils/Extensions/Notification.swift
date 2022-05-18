@@ -9,6 +9,7 @@ import Foundation
 
 extension Notification {
     enum UserInfoKey {
+        static let bookmark = "bookmark"
         static let searchTerm = "searchTerm"
     }
 }
