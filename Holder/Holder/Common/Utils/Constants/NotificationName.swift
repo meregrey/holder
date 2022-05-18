@@ -16,6 +16,7 @@ enum NotificationName {
     }
     
     enum Bookmark {
+        static let didSucceedToUpdate = NSNotification.Name("didSucceedToUpdate")
         static let noSearchResults = NSNotification.Name("noSearchResults")
         static let sortDidChange = NSNotification.Name("sortDidChange")
     }
