@@ -19,7 +19,7 @@ final class SearchTagsComponent: Component<SearchTagsDependency>, SearchTagsInte
 // MARK: - Builder
 
 protocol SearchTagsBuildable: Buildable {
-    func build(withListener listener: SearchTagsListener) -> SearchTagsRouting
+    func build(withListener listener: SearchTagsListener, forNavigation isForNavigation: Bool) -> SearchTagsRouting
 }
 
 final class SearchTagsBuilder: Builder<SearchTagsDependency>, SearchTagsBuildable {
@@ -28,9 +28,9 @@ final class SearchTagsBuilder: Builder<SearchTagsDependency>, SearchTagsBuildabl
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: SearchTagsListener) -> SearchTagsRouting {
+    func build(withListener listener: SearchTagsListener, forNavigation isForNavigation: Bool) -> SearchTagsRouting {
         let component = SearchTagsComponent(dependency: dependency)
-        let viewController = SearchTagsViewController()
+        let viewController = SearchTagsViewController(isForNavigation: isForNavigation)
         let interactor = SearchTagsInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return SearchTagsRouter(interactor: interactor, viewController: viewController)

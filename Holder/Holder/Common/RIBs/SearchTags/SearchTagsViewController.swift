@@ -9,13 +9,17 @@ import RIBs
 import UIKit
 
 protocol SearchTagsPresentableListener: AnyObject {
-    func cancelButtonDidTap()
-    func rowDidSelect(tag: Tag, shouldAddTag: Bool)
+    func backButtonDidTap()
+    func cancelButtonDidTap(forNavigation isForNavigation: Bool)
+    func rowDidSelect(tag: Tag, shouldAddTag: Bool, forNavigation isForNavigation: Bool)
+    func didRemove()
 }
 
 final class SearchTagsViewController: UIViewController, SearchTagsPresentable, SearchTagsViewControllable {
     
     weak var listener: SearchTagsPresentableListener?
+    
+    private let isForNavigation: Bool
     
     private var tags: [Tag] = []
     private var texts: [String] = []
@@ -36,8 +40,13 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     
     private var searchTagsTableViewHeightConstraint: NSLayoutConstraint?
     
+    private enum Image {
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+    }
+    
     private enum Metric {
         static let searchBarTop = CGFloat(20)
+        static let searchBarTopForNavigation = CGFloat(10)
         static let searchBarLeading = CGFloat(20)
         static let searchBarTrailing = CGFloat(-20)
         
@@ -46,13 +55,15 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
         static let searchTagsTableViewTop = CGFloat(20)
     }
     
-    init() {
+    init(isForNavigation: Bool) {
+        self.isForNavigation = isForNavigation
         super.init(nibName: nil, bundle: nil)
         registerToReceiveNotification()
         configureViews()
     }
     
     required init?(coder: NSCoder) {
+        self.isForNavigation = false
         super.init(coder: coder)
         registerToReceiveNotification()
         configureViews()
@@ -62,9 +73,22 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isForNavigation {
+            view.backgroundColor = Asset.Color.detailBackgroundColor
+            searchTagsTableView.backgroundColor = Asset.Color.detailBackgroundColor
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchBar.becomeFirstResponder()
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil { listener?.didRemove() }
     }
     
     func update(with tags: [Tag]) {
@@ -116,6 +140,12 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     }
     
     private func configureViews() {
+        if isForNavigation {
+            title = LocalizedString.ViewTitle.searchTags
+            navigationItem.largeTitleDisplayMode = .never
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
+        }
+        
         searchBar.addTargetToCancelButton(self, action: #selector(cancelButtonDidTap))
         
         searchTagsTableView.dataSource = self
@@ -134,7 +164,7 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
         view.addSubview(searchTagsTableView)
         
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: view.topAnchor, constant: Metric.searchBarTop),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: isForNavigation ? Metric.searchBarTopForNavigation : Metric.searchBarTop),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.searchBarLeading),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.searchBarTrailing),
             
@@ -145,8 +175,13 @@ final class SearchTagsViewController: UIViewController, SearchTagsPresentable, S
     }
     
     @objc
+    private func backButtonDidTap() {
+        listener?.backButtonDidTap()
+    }
+    
+    @objc
     private func cancelButtonDidTap() {
-        listener?.cancelButtonDidTap()
+        listener?.cancelButtonDidTap(forNavigation: isForNavigation)
     }
 }
 
@@ -190,6 +225,6 @@ extension SearchTagsViewController: UITableViewDelegate {
             let range = text.index(after: firstIndex)..<lastIndex
             text = String(text[range])
         }
-        listener?.rowDidSelect(tag: Tag(name: text), shouldAddTag: shouldAddTag)
+        listener?.rowDidSelect(tag: Tag(name: text), shouldAddTag: shouldAddTag, forNavigation: isForNavigation)
     }
 }

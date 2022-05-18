@@ -15,12 +15,15 @@ protocol EnterBookmarkPresentable: Presentable {
     func update(with selectedTags: [Tag])
     func displayAlert(title: String)
     func dismiss()
+    func pop()
 }
 
 protocol EnterBookmarkListener: AnyObject {
     func enterBookmarkCancelButtonDidTap()
-    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag])
+    func enterBookmarkBackButtonDidTap()
+    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool)
     func enterBookmarkSaveButtonDidTap()
+    func enterBookmarkDidRemove()
 }
 
 protocol EnterBookmarkInteractorDependency {
@@ -60,8 +63,12 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         listener?.enterBookmarkCancelButtonDidTap()
     }
     
-    func tagCollectionViewDidTap(existingSelectedTags: [Tag]) {
-        listener?.enterBookmarkTagCollectionViewDidTap(existingSelectedTags: existingSelectedTags)
+    func backButtonDidTap() {
+        listener?.enterBookmarkBackButtonDidTap()
+    }
+    
+    func tagCollectionViewDidTap(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool) {
+        listener?.enterBookmarkTagCollectionViewDidTap(existingSelectedTags: existingSelectedTags, forNavigation: isForNavigation)
     }
     
     func saveButtonDidTapToAdd(bookmark: Bookmark) {
@@ -70,9 +77,13 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
         addBookmark(bookmark)
     }
     
-    func saveButtonDidTapToEdit(bookmark: Bookmark) {
-        presenter.dismiss()
+    func saveButtonDidTapToEdit(bookmark: Bookmark, forNavigation isForNavigation: Bool) {
+        isForNavigation ? presenter.pop() : presenter.dismiss()
         updateBookmark(bookmark)
+    }
+    
+    func didRemove() {
+        listener?.enterBookmarkDidRemove()
     }
     
     private func subscribeSelectedTagsStream() {
@@ -120,7 +131,7 @@ final class EnterBookmarkInteractor: PresentableInteractor<EnterBookmarkPresenta
     private func updateBookmark(_ bookmark: Bookmark) {
         let result = bookmarkRepository.update(bookmark: bookmark)
         switch result {
-        case .success(_): break
+        case .success(_): NotificationCenter.post(named: NotificationName.Bookmark.didSucceedToUpdate, userInfo: [Notification.UserInfoKey.bookmark: bookmark])
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
         listener?.enterBookmarkSaveButtonDidTap()

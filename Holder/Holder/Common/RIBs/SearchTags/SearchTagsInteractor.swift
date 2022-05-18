@@ -16,8 +16,10 @@ protocol SearchTagsPresentable: Presentable {
 }
 
 protocol SearchTagsListener: AnyObject {
-    func searchTagsCancelButtonDidTap()
-    func searchTagsRowDidSelect()
+    func searchTagsBackButtonDidTap()
+    func searchTagsCancelButtonDidTap(forNavigation isForNavigation: Bool)
+    func searchTagsRowDidSelect(forNavigation isForNavigation: Bool)
+    func searchTagsDidRemove()
 }
 
 protocol SearchTagsInteractorDependency {
@@ -49,11 +51,15 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
         super.willResignActive()
     }
     
-    func cancelButtonDidTap() {
-        listener?.searchTagsCancelButtonDidTap()
+    func backButtonDidTap() {
+        listener?.searchTagsBackButtonDidTap()
     }
     
-    func rowDidSelect(tag: Tag, shouldAddTag: Bool) {
+    func cancelButtonDidTap(forNavigation isForNavigation: Bool) {
+        listener?.searchTagsCancelButtonDidTap(forNavigation: isForNavigation)
+    }
+    
+    func rowDidSelect(tag: Tag, shouldAddTag: Bool, forNavigation isForNavigation: Bool) {
         if shouldAddTag {
             let result = tagRepository.add(tag)
             switch result {
@@ -62,7 +68,11 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
             }
         }
         tagBySearchStream.update(with: tag)
-        listener?.searchTagsRowDidSelect()
+        listener?.searchTagsRowDidSelect(forNavigation: isForNavigation)
+    }
+    
+    func didRemove() {
+        listener?.searchTagsDidRemove()
     }
     
     private func performFetch() {

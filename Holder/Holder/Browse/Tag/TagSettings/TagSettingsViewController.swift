@@ -54,6 +54,7 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureNavigationBar(backgroundColor: Asset.Color.baseBackgroundColor)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     

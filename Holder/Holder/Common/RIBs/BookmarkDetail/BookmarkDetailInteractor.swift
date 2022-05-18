@@ -19,6 +19,7 @@ protocol BookmarkDetailPresentable: Presentable {
 
 protocol BookmarkDetailListener: AnyObject {
     func bookmarkDetailBackwardButtonDidTap()
+    func bookmarkDetailEditActionDidTap(bookmark: Bookmark)
     func bookmarkDetailDidRequestToDetach()
     func bookmarkDetailDidRemove()
 }
@@ -49,6 +50,7 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     
     override func didBecomeActive() {
         super.didBecomeActive()
+        registerToReceiveNotification()
         loadView()
     }
     
@@ -79,6 +81,10 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
         UIApplication.shared.open(bookmark.url)
     }
     
+    func editActionDidTap() {
+        listener?.bookmarkDetailEditActionDidTap(bookmark: bookmark)
+    }
+    
     func deleteActionDidTap() {
         let result = bookmarkRepository.delete(for: bookmark.url)
         switch result {
@@ -89,6 +95,18 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     
     func didRemove() {
         listener?.bookmarkDetailDidRemove()
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(bookmarkDidUpdate(_:)),
+                                       name: NotificationName.Bookmark.didSucceedToUpdate)
+    }
+    
+    @objc
+    private func bookmarkDidUpdate(_ notification: Notification) {
+        guard let bookmark = notification.userInfo?[Notification.UserInfoKey.bookmark] as? Bookmark else { return }
+        self.bookmark = bookmark
     }
     
     private func loadView() {

@@ -94,57 +94,76 @@ final class FavoritesRouter: ViewableRouter<FavoritesInteractable, FavoritesView
     
     // MARK: - EnterBookmark
     
-    func attachEnterBookmark(mode: EnterBookmarkMode) {
+    func attachEnterBookmark(mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) {
         guard enterBookmarkRouter == nil else { return }
-        let router = enterBookmark.build(withListener: interactor, mode: mode)
+        let router = enterBookmark.build(withListener: interactor, mode: mode, forNavigation: isForNavigation)
         enterBookmarkRouter = router
         attachChild(router)
-        router.viewControllable.uiviewController.presentationController?.delegate = interactor.presentationProxy
-        viewController.present(router.viewControllable, modalPresentationStyle: .pageSheet, animated: true)
+        if isForNavigation {
+            viewController.push(router.viewControllable)
+        } else {
+            router.viewControllable.uiviewController.presentationController?.delegate = interactor.presentationProxy
+            viewController.present(router.viewControllable, modalPresentationStyle: .pageSheet, animated: true)
+        }
     }
     
-    func detachEnterBookmark(includingView isViewIncluded: Bool) {
+    func detachEnterBookmark(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool) {
         guard let router = enterBookmarkRouter else { return }
-        if isViewIncluded { viewController.dismiss(animated: true) }
+        if isViewIncluded {
+            isForNavigation ? viewController.pop() : viewController.dismiss(animated: true)
+        }
         detachChild(router)
         enterBookmarkRouter = nil
     }
     
     // MARK: - SelectTags
     
-    func attachSelectTags(existingSelectedTags: [Tag]) {
+    func attachSelectTags(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool) {
         guard selectTagsRouter == nil else { return }
         let router = selectTags.build(withListener: interactor,
                                       existingSelectedTags: existingSelectedTags,
-                                      topBarStyle: .sheetHeader)
+                                      topBarStyle: .sheetHeader,
+                                      forNavigation: isForNavigation)
         selectTagsRouter = router
         attachChild(router)
-        viewController.presentOver(router.viewControllable)
+        if isForNavigation {
+            viewController.push(router.viewControllable)
+        } else {
+            viewController.presentOver(router.viewControllable)
+        }
     }
     
-    func detachSelectTags() {
+    func detachSelectTags(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool) {
         guard let router = selectTagsRouter else { return }
-        viewController.dismissOver()
+        if isViewIncluded {
+            isForNavigation ? viewController.pop() : viewController.dismissOver()
+        }
         detachChild(router)
         selectTagsRouter = nil
     }
     
     // MARK: - SearchTags
     
-    func attachSearchTags() {
+    func attachSearchTags(forNavigation isForNavigation: Bool) {
         guard searchTagsRouter == nil else { return }
         guard let selectTagsRouter = selectTagsRouter else { return }
-        let router = searchTags.build(withListener: interactor)
+        let router = searchTags.build(withListener: interactor, forNavigation: isForNavigation)
         searchTagsRouter = router
         attachChild(router)
-        selectTagsRouter.viewControllable.present(router.viewControllable,
-                                                  modalPresentationStyle: .currentContext,
-                                                  animated: true)
+        if isForNavigation {
+            viewController.push(router.viewControllable)
+        } else {
+            selectTagsRouter.viewControllable.present(router.viewControllable,
+                                                      modalPresentationStyle: .currentContext,
+                                                      animated: true)
+        }
     }
     
-    func detachSearchTags() {
+    func detachSearchTags(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool) {
         guard let router = searchTagsRouter else { return }
-        router.viewControllable.dismiss(animated: true)
+        if isViewIncluded {
+            isForNavigation ? viewController.pop() : router.viewControllable.dismiss(animated: true)
+        }
         detachChild(router)
         searchTagsRouter = nil
     }
