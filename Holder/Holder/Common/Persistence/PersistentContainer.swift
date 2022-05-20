@@ -25,8 +25,8 @@ final class PersistentContainer: PersistentContainerType {
     }()
     
     private let dataModelName = "PersistenceModel"
-    private let appGroupIdentifier = "group.com.meregrey.holder"
-    private let containerIdentifier = "iCloud.com.meregrey.holder"
+    private let appGroupIdentifier = "group.com.yeojin-yoon.holder"
+    private let containerIdentifier = "iCloud.com.yeojin-yoon.holder"
     
     private lazy var container: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: dataModelName)
