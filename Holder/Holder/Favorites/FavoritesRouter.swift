@@ -69,7 +69,7 @@ final class FavoritesRouter: ViewableRouter<FavoritesInteractable, FavoritesView
     
     func attachBookmarkList() {
         guard bookmarkListRouter == nil else { return }
-        let router = bookmarkList.build(withListener: interactor, forFavorites: true)
+        let router = bookmarkList.build(withListener: interactor)
         bookmarkListRouter = router
         attachChild(router)
         viewController.addChild(router.viewControllable)

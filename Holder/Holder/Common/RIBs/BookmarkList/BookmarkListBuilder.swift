@@ -21,7 +21,7 @@ final class BookmarkListComponent: Component<BookmarkListDependency>, BookmarkLi
 // MARK: - Builder
 
 protocol BookmarkListBuildable: Buildable {
-    func build(withListener listener: BookmarkListListener, forFavorites isForFavorites: Bool) -> BookmarkListRouting
+    func build(withListener listener: BookmarkListListener) -> BookmarkListRouting
 }
 
 final class BookmarkListBuilder: Builder<BookmarkListDependency>, BookmarkListBuildable {
@@ -30,7 +30,7 @@ final class BookmarkListBuilder: Builder<BookmarkListDependency>, BookmarkListBu
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: BookmarkListListener, forFavorites isForFavorites: Bool) -> BookmarkListRouting {
+    func build(withListener listener: BookmarkListListener) -> BookmarkListRouting {
         let component = BookmarkListComponent(dependency: dependency)
         let viewController = BookmarkListViewController()
         let interactor = BookmarkListInteractor(presenter: viewController, dependency: component)
