@@ -111,10 +111,12 @@ final class TagRepository: TagRepositoryType {
     }
     
     func clear() {
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: TagEntity.fetchRequest())
-        deleteRequest.resultType = .resultTypeObjectIDs
-        let deleteResult = try? backgroundContext.execute(deleteRequest) as? NSBatchDeleteResult
-        guard let objectIDs = deleteResult?.result as? [NSManagedObjectID] else { return }
-        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [backgroundContext])
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = TagEntity.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        guard let _ = try? backgroundContext.execute(deleteRequest) else {
+            NotificationCenter.post(named: NotificationName.didFailToProcessData)
+            return
+        }
+        NotificationCenter.post(named: NotificationName.Tag.didSucceedToClearTags)
     }
 }
