@@ -36,7 +36,7 @@ final class PersistentContainer: PersistentContainerType {
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores { _, error in
             guard error == nil else {
-                NotificationCenter.post(named: NotificationName.Store.didFailToLoad)
+                NotificationCenter.post(named: NotificationName.Store.didFailToLoadStore)
                 return
             }
         }

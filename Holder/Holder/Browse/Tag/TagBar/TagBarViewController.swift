@@ -12,7 +12,7 @@ import UIKit
 protocol TagBarPresentableListener: AnyObject {
     func tagDidSelect(tag: Tag)
     func tagSettingsButtonDidTap()
-    func tagDidChange()
+    func tagsDidChange()
 }
 
 final class TagBarViewController: UIViewController, TagBarPresentable, TagBarViewControllable {
@@ -196,6 +196,6 @@ extension TagBarViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tagBarCollectionView.reloadData()
         tagBarCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
-        listener?.tagDidChange()
+        listener?.tagsDidChange()
     }
 }

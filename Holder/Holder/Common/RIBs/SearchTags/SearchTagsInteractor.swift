@@ -63,7 +63,7 @@ final class SearchTagsInteractor: PresentableInteractor<SearchTagsPresentable>, 
         if shouldAddTag {
             let result = tagRepository.add(tag)
             switch result {
-            case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAdd)
+            case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
             case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
             }
         }

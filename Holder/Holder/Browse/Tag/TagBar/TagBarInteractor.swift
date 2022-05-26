@@ -62,8 +62,8 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
         listener?.tagBarTagSettingsButtonDidTap()
     }
     
-    func tagDidChange() {
-        NotificationCenter.post(named: NotificationName.Tag.didChange)
+    func tagsDidChange() {
+        NotificationCenter.post(named: NotificationName.Tag.tagsDidChange)
     }
     
     private func registerToReceiveNotification() {

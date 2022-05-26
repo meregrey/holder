@@ -100,7 +100,7 @@ final class BookmarkDetailInteractor: PresentableInteractor<BookmarkDetailPresen
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(bookmarkDidUpdate(_:)),
-                                       name: NotificationName.Bookmark.didSucceedToUpdate)
+                                       name: NotificationName.Bookmark.didSucceedToUpdateBookmark)
     }
     
     @objc

@@ -55,8 +55,8 @@ final class BookmarkListCollectionViewManager: NSObject {
                                        name: NotificationName.Bookmark.sortDidChange)
         
         NotificationCenter.addObserver(self,
-                                       selector: #selector(storeDidClear),
-                                       name: NotificationName.Store.didSucceedToClear)
+                                       selector: #selector(bookmarksDidClear),
+                                       name: NotificationName.Bookmark.didSucceedToClearBookmarks)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(lastShareDateDidChange),
@@ -77,7 +77,7 @@ final class BookmarkListCollectionViewManager: NSObject {
     }
     
     @objc
-    private func storeDidClear() {
+    private func bookmarksDidClear() {
         configureFetchedResultsController()
         collectionView?.reloadData()
     }

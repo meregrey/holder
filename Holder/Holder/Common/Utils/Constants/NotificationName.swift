@@ -9,22 +9,22 @@ import Foundation
 
 enum NotificationName {
     enum Store {
-        static let didFailToCheck = NSNotification.Name("didFailToCheck")
-        static let didFailToLoad = NSNotification.Name("didFailToLoad")
-        static let didFailToSave = NSNotification.Name("didFailToSave")
-        static let didSucceedToClear = NSNotification.Name("didSucceedToClear")
+        static let didFailToCheckStore = NSNotification.Name("didFailToCheckStore")
+        static let didFailToLoadStore = NSNotification.Name("didFailToLoadStore")
+        static let didFailToSaveStore = NSNotification.Name("didFailToSaveStore")
     }
     
     enum Bookmark {
-        static let didSucceedToUpdate = NSNotification.Name("didSucceedToUpdate")
+        static let didSucceedToClearBookmarks = NSNotification.Name("didSucceedToClearBookmarks")
+        static let didSucceedToUpdateBookmark = NSNotification.Name("didSucceedToUpdateBookmark")
         static let noSearchResults = NSNotification.Name("noSearchResults")
         static let sortDidChange = NSNotification.Name("sortDidChange")
     }
     
     enum Tag {
-        static let didChange = NSNotification.Name("didChange")
-        static let didSucceedToAdd = NSNotification.Name("didSucceedToAdd")
+        static let didSucceedToAddTag = NSNotification.Name("didSucceedToAddTag")
         static let didSucceedToClearTags = NSNotification.Name("didSucceedToClearTags")
+        static let tagsDidChange = NSNotification.Name("tagsDidChange")
     }
     
     static let didFailToProcessData = NSNotification.Name("didFailToProcessData")

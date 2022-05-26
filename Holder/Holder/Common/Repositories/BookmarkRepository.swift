@@ -192,7 +192,7 @@ final class BookmarkRepository: BookmarkRepositoryType {
             NotificationCenter.post(named: NotificationName.didFailToProcessData)
             return
         }
-        NotificationCenter.post(named: NotificationName.Store.didSucceedToClear)
+        NotificationCenter.post(named: NotificationName.Bookmark.didSucceedToClearBookmarks)
     }
     
     private func deleteTags(of bookmarkEntity: BookmarkEntity) throws {
