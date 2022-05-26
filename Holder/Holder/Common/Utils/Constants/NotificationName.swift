@@ -24,6 +24,7 @@ enum NotificationName {
     enum Tag {
         static let didChange = NSNotification.Name("didChange")
         static let didSucceedToAdd = NSNotification.Name("didSucceedToAdd")
+        static let didSucceedToClearTags = NSNotification.Name("didSucceedToClearTags")
     }
     
     static let didFailToProcessData = NSNotification.Name("didFailToProcessData")
