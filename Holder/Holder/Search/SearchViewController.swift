@@ -37,7 +37,7 @@ final class SearchViewController: UIViewController, SearchPresentable, SearchVie
                                                                                constant: 0)
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "Search")
+        static let tabBarItem = UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?.imageForTabBarItem()
     }
     
     init() {

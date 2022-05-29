@@ -29,7 +29,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @AutoLayout private var dummyView = UIView()
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "Browse")
+        static let tabBarItem = UIImage(systemName: "rectangle.grid.1x2.fill")?.imageForTabBarItem()
     }
     
     init() {

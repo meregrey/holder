@@ -37,7 +37,7 @@ final class FavoritesViewController: UIViewController, FavoritesPresentable, Fav
                                                                                     constant: 0)
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "Favorites")
+        static let tabBarItem = UIImage(systemName: "bookmark.fill")?.imageForTabBarItem()
     }
     
     init() {
