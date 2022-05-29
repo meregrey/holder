@@ -9,6 +9,11 @@ import UIKit
 
 extension UIImage {
     
+    func imageForTabBarItem() -> UIImage? {
+        let aspectRatio = UIScreen.main.bounds.width / UIScreen.main.bounds.height
+        return aspectRatio > 0.5 ? self : self.withBaselineOffset(fromBottom: 16)
+    }
+    
     func scaled(to size: CGSize) -> UIImage {
         let originalRatio = self.size.width / self.size.height
         let referenceRatio = size.width / size.height
