@@ -67,25 +67,33 @@ final class BookmarkListCollectionViewManager: NSObject {
     private func contextObjectsDidChange() {
         guard let _ = fetchedResultsControllerForTag else { return }
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     @objc
     private func sortDidChange() {
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     @objc
     private func bookmarksDidClear() {
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     @objc
     private func lastShareDateDidChange() {
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     private func configureFetchedResultsController() {
