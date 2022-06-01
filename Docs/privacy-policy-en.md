@@ -1,8 +1,8 @@
 ## Privacy Policy
 
-This page is used to inform visitors regarding privacy policy with the collection, use, and disclosure of personal information.
+\<Holder\> establishes and discloses privacy policy regarding the collection, use and disclosure of personal information.
 
-This privacy policy is effective as of 2022-06-01.
+This privacy policy is effective from 1 June 2022.
 
 <br>
 
