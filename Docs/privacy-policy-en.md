@@ -6,30 +6,42 @@ This privacy policy is effective from 1 June 2022.
 
 <br>
 
-**Information Collection and Use**
+**1. Information to be collected and method of collection**
 
 No personal information is collected.
 
 <br>
 
-**Log Data**
+**2. Use of collected information**
 
 No personal information is collected.
 
 <br>
 
-**Service Providers**
+**3. Sharing collected information**
 
 No personal information is collected.
 
 <br>
 
-**Security**
+**4. Cookies, Beacons and Similar Technologies**
 
 No personal information is collected.
 
 <br>
 
-**Contact**
+**5. Users' right to access and option**
 
-If you have any questions or suggestions about privacy policy, please contact me at yeojinyoon.dev@gmail.com.
+No personal information is collected.
+
+<br>
+
+**6. Security**
+
+No personal information is collected.
+
+<br>
+
+**7. Protection of personal information of children**
+
+No personal information is collected.
