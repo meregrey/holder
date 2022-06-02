@@ -15,6 +15,7 @@ protocol BookmarkDetailPresentableListener: AnyObject {
     func shareButtonDidTap()
     func favoriteButtonDidTap()
     func openInSafariActionDidTap()
+    func editActionDidTap()
     func deleteActionDidTap()
     func didRemove()
 }
@@ -48,8 +49,9 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
         static let shareButton = UIImage(systemName: "square.and.arrow.up")
         static let favoriteButton = UIImage(systemName: "bookmark")
         static let showMoreButton = UIImage(systemName: "ellipsis")
-        static let openInSafariAction = UIImage(systemName: "safari")
         static let reloadAction = UIImage(systemName: "arrow.clockwise")
+        static let openInSafariAction = UIImage(systemName: "safari")
+        static let editAction = UIImage(systemName: "pencil")
         static let deleteAction = UIImage(systemName: "minus.circle")
     }
     
@@ -159,6 +161,10 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
             self?.listener?.openInSafariActionDidTap()
         }
         
+        let editAction = UIAction(title: LocalizedString.ActionTitle.edit, image: Image.editAction) { [weak self] _ in
+            self?.listener?.editActionDidTap()
+        }
+        
         let deleteAction = UIAction(title: LocalizedString.ActionTitle.delete, image: Image.deleteAction, attributes: .destructive) { [weak self] _ in
             let actionSheet = UIAlertController(title: LocalizedString.AlertMessage.deleteBookmark, message: nil, preferredStyle: .actionSheet)
             let deleteAction = UIAlertAction(title: LocalizedString.ActionTitle.delete, style: .destructive) { [weak self] _ in
@@ -173,7 +179,7 @@ final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresen
             self?.present(actionSheet, animated: true)
         }
         
-        return UIMenu(children: [deleteAction, openInSafariAction, reloadAction])
+        return UIMenu(children: [deleteAction, editAction, openInSafariAction, reloadAction])
     }
 }
 

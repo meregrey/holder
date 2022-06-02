@@ -26,7 +26,7 @@ final class EnterBookmarkComponent: Component<EnterBookmarkDependency>, EnterBoo
 // MARK: - Builder
 
 protocol EnterBookmarkBuildable: Buildable {
-    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode) -> EnterBookmarkRouting
+    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) -> EnterBookmarkRouting
 }
 
 final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmarkBuildable {
@@ -35,9 +35,9 @@ final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmar
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode) -> EnterBookmarkRouting {
+    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) -> EnterBookmarkRouting {
         let component = EnterBookmarkComponent(dependency: dependency, mode: mode)
-        let viewController = EnterBookmarkViewController(mode: mode)
+        let viewController = EnterBookmarkViewController(mode: mode, isForNavigation: isForNavigation)
         let interactor = EnterBookmarkInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return EnterBookmarkRouter(interactor: interactor, viewController: viewController)

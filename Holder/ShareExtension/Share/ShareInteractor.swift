@@ -80,21 +80,29 @@ final class ShareInteractor: Interactor, ShareInteractable, ShareViewControllerL
         router?.detachSelectTags()
     }
     
-    func selectTagsSearchBarDidTap() {
+    func selectTagsSearchBarDidTap(forNavigation isForNavigation: Bool) {
         router?.attachSearchTags()
     }
     
-    func selectTagsDoneButtonDidTap() {
+    func selectTagsDoneButtonDidTap(forNavigation isForNavigation: Bool) {
         router?.detachSelectTags()
     }
     
+    func selectTagsBackButtonDidTap() {}
+    
+    func selectTagsDidRemove() {}
+    
     // MARK: - SearchTags
     
-    func searchTagsCancelButtonDidTap() {
+    func searchTagsCancelButtonDidTap(forNavigation isForNavigation: Bool) {
         router?.detachSearchTags()
     }
     
-    func searchTagsRowDidSelect() {
+    func searchTagsRowDidSelect(forNavigation isForNavigation: Bool) {
         router?.detachSearchTags()
     }
+    
+    func searchTagsBackButtonDidTap() {}
+    
+    func searchTagsDidRemove() {}
 }

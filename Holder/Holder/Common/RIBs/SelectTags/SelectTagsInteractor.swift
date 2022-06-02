@@ -18,8 +18,10 @@ protocol SelectTagsPresentable: Presentable {
 
 protocol SelectTagsListener: AnyObject {
     func selectTagsCancelButtonDidTap()
-    func selectTagsSearchBarDidTap()
-    func selectTagsDoneButtonDidTap()
+    func selectTagsBackButtonDidTap()
+    func selectTagsSearchBarDidTap(forNavigation isForNavigation: Bool)
+    func selectTagsDoneButtonDidTap(forNavigation isForNavigation: Bool)
+    func selectTagsDidRemove()
 }
 
 protocol SelectTagsInteractorDependency {
@@ -60,13 +62,21 @@ final class SelectTagsInteractor: PresentableInteractor<SelectTagsPresentable>, 
         listener?.selectTagsCancelButtonDidTap()
     }
     
-    func searchBarDidTap() {
-        listener?.selectTagsSearchBarDidTap()
+    func backButtonDidTap() {
+        listener?.selectTagsBackButtonDidTap()
     }
     
-    func doneButtonDidTap(selectedTags: [Tag]) {
+    func searchBarDidTap(forNavigation isForNavigation: Bool) {
+        listener?.selectTagsSearchBarDidTap(forNavigation: isForNavigation)
+    }
+    
+    func doneButtonDidTap(selectedTags: [Tag], forNavigation isForNavigation: Bool) {
         selectedTagsStream.update(with: selectedTags)
-        listener?.selectTagsDoneButtonDidTap()
+        listener?.selectTagsDoneButtonDidTap(forNavigation: isForNavigation)
+    }
+    
+    func didRemove() {
+        listener?.selectTagsDidRemove()
     }
     
     private func performFetch() {

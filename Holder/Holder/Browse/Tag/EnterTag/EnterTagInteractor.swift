@@ -72,7 +72,7 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
             if isExisting { presenter.displayAlert(title: LocalizedString.AlertTitle.alreadySavedTag) }
             return !isExisting
         case .failure(_):
-            NotificationCenter.post(named: NotificationName.Store.didFailToCheck)
+            NotificationCenter.post(named: NotificationName.Store.didFailToCheckStore)
             return false
         }
     }
@@ -80,7 +80,7 @@ final class EnterTagInteractor: PresentableInteractor<EnterTagPresentable>, Ente
     private func addTag(_ tag: Tag) {
         let result = tagRepository.add(tag)
         switch result {
-        case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAdd)
+        case .success(_): NotificationCenter.post(named: NotificationName.Tag.didSucceedToAddTag)
         case .failure(_): NotificationCenter.post(named: NotificationName.didFailToProcessData)
         }
     }

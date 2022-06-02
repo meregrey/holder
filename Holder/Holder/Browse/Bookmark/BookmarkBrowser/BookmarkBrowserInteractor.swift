@@ -110,12 +110,12 @@ final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPres
     
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
-                                       selector: #selector(tagDidChange),
-                                       name: NotificationName.Tag.didChange)
+                                       selector: #selector(tagsDidChange),
+                                       name: NotificationName.Tag.tagsDidChange)
     }
     
     @objc
-    private func tagDidChange() {
+    private func tagsDidChange() {
         performFetch()
     }
     

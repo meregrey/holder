@@ -10,14 +10,14 @@ import RIBs
 protocol BookmarkRouting: Routing {
     func cleanupViews()
     func attachBookmarkBrowser()
-    func attachEnterBookmark(mode: EnterBookmarkMode)
-    func detachEnterBookmark(includingView isViewIncluded: Bool)
+    func attachEnterBookmark(mode: EnterBookmarkMode, forNavigation isForNavigation: Bool)
+    func detachEnterBookmark(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool)
     func attachBookmarkDetail(bookmark: Bookmark)
     func detachBookmarkDetail(includingView isViewIncluded: Bool)
 }
 
 protocol BookmarkListener: AnyObject {
-    func attachSelectTags(existingSelectedTags: [Tag])
+    func attachSelectTags(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool)
 }
 
 final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresentationControllerDelegate {
@@ -43,13 +43,13 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     }
     
     func presentationControllerDidDismiss() {
-        router?.detachEnterBookmark(includingView: false)
+        router?.detachEnterBookmark(includingView: false, forNavigation: false)
     }
     
     // MARK: - BookmarkBrowser
     
     func bookmarkBrowserAddBookmarkButtonDidTap() {
-        router?.attachEnterBookmark(mode: .add)
+        router?.attachEnterBookmark(mode: .add, forNavigation: false)
     }
     
     func bookmarkBrowserBookmarkDidTap(bookmark: Bookmark) {
@@ -57,27 +57,39 @@ final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresen
     }
     
     func bookmarkBrowserContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark), forNavigation: false)
     }
     
     // MARK: - EnterBookmark
     
     func enterBookmarkCancelButtonDidTap() {
-        router?.detachEnterBookmark(includingView: true)
+        router?.detachEnterBookmark(includingView: true, forNavigation: false)
     }
     
-    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag]) {
-        listener?.attachSelectTags(existingSelectedTags: existingSelectedTags)
+    func enterBookmarkBackButtonDidTap() {
+        router?.detachEnterBookmark(includingView: true, forNavigation: true)
+    }
+    
+    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool) {
+        listener?.attachSelectTags(existingSelectedTags: existingSelectedTags, forNavigation: isForNavigation)
     }
     
     func enterBookmarkSaveButtonDidTap() {
-        router?.detachEnterBookmark(includingView: false)
+        router?.detachEnterBookmark(includingView: false, forNavigation: false)
+    }
+    
+    func enterBookmarkDidRemove() {
+        router?.detachEnterBookmark(includingView: false, forNavigation: true)
     }
     
     // MARK: - BookmarkDetail
     
     func bookmarkDetailBackwardButtonDidTap() {
         router?.detachBookmarkDetail(includingView: true)
+    }
+    
+    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
+        router?.attachEnterBookmark(mode: .edit(bookmark), forNavigation: true)
     }
     
     func bookmarkDetailDidRequestToDetach() {

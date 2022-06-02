@@ -29,7 +29,7 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     @AutoLayout private var dummyView = UIView()
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "Browse")
+        static let tabBarItem = UIImage(systemName: "rectangle.grid.1x2.fill")?.imageForTabBarItem()
     }
     
     init() {
@@ -81,15 +81,15 @@ final class BrowseViewController: UIViewController, BrowsePresentable, BrowseVie
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
                                        selector: #selector(didFailToCheckStore),
-                                       name: NotificationName.Store.didFailToCheck)
+                                       name: NotificationName.Store.didFailToCheckStore)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(didFailToLoadStore),
-                                       name: NotificationName.Store.didFailToLoad)
+                                       name: NotificationName.Store.didFailToLoadStore)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(didFailToSaveStore),
-                                       name: NotificationName.Store.didFailToSave)
+                                       name: NotificationName.Store.didFailToSaveStore)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(didFailToProcessData),

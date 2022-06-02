@@ -51,7 +51,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     }
     
     private enum Image {
-        static let tabBarItem = UIImage(named: "Settings")
+        static let tabBarItem = UIImage(systemName: "gearshape.fill")?.imageForTabBarItem()
     }
     
     private enum Metric {

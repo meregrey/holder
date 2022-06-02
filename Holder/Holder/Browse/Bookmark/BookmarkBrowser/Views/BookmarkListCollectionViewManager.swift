@@ -24,13 +24,13 @@ final class BookmarkListCollectionViewManager: NSObject {
     private let bookmarkListContextMenuProvider: BookmarkListContextMenuProvider
     private let tag: Tag?
     
-    private weak var collectionView: UICollectionView?
+    private weak var collectionView: BookmarkListCollectionView?
     private weak var listener: BookmarkListCollectionViewListener?
     
     private var fetchedResultsControllerForAll: NSFetchedResultsController<BookmarkEntity>?
     private var fetchedResultsControllerForTag: NSFetchedResultsController<BookmarkTagEntity>?
     
-    init(collectionView: UICollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag?) {
+    init(collectionView: BookmarkListCollectionView, listener: BookmarkListCollectionViewListener?, tag: Tag?) {
         self.bookmarkListContextMenuProvider = BookmarkListContextMenuProvider(listener: listener)
         self.tag = tag
         self.collectionView = collectionView
@@ -48,15 +48,15 @@ final class BookmarkListCollectionViewManager: NSObject {
         NotificationCenter.addObserver(self,
                                        selector: #selector(contextObjectsDidChange),
                                        name: .NSManagedObjectContextObjectsDidChange,
-                                       object: PersistentContainer.shared.context)
+                                       object: PersistentContainer.shared.backgroundContext)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(sortDidChange),
                                        name: NotificationName.Bookmark.sortDidChange)
         
         NotificationCenter.addObserver(self,
-                                       selector: #selector(storeDidClear),
-                                       name: NotificationName.Store.didSucceedToClear)
+                                       selector: #selector(bookmarksDidClear),
+                                       name: NotificationName.Bookmark.didSucceedToClearBookmarks)
         
         NotificationCenter.addObserver(self,
                                        selector: #selector(lastShareDateDidChange),
@@ -67,25 +67,33 @@ final class BookmarkListCollectionViewManager: NSObject {
     private func contextObjectsDidChange() {
         guard let _ = fetchedResultsControllerForTag else { return }
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     @objc
     private func sortDidChange() {
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     @objc
-    private func storeDidClear() {
+    private func bookmarksDidClear() {
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     @objc
     private func lastShareDateDidChange() {
         configureFetchedResultsController()
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
     
     private func configureFetchedResultsController() {
@@ -135,6 +143,7 @@ extension BookmarkListCollectionViewManager: NSFetchedResultsControllerDelegate 
             }
         case .delete:
             DispatchQueue.main.async {
+                guard let numberOfItems = self.collectionView?.numberOfItems(inSection: 0), numberOfItems > 0 else { return }
                 guard let indexPath = indexPath else { return }
                 self.collectionView?.deleteItems(at: [indexPath])
             }

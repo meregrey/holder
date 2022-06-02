@@ -11,13 +11,17 @@ import UIKit
 
 protocol SelectTagsPresentableListener: AnyObject {
     func cancelButtonDidTap()
-    func searchBarDidTap()
-    func doneButtonDidTap(selectedTags: [Tag])
+    func backButtonDidTap()
+    func searchBarDidTap(forNavigation isForNavigation: Bool)
+    func doneButtonDidTap(selectedTags: [Tag], forNavigation isForNavigation: Bool)
+    func didRemove()
 }
 
 final class SelectTagsViewController: UIViewController, SelectTagsPresentable, SelectTagsViewControllable {
     
     weak var listener: SelectTagsPresentableListener?
+    
+    private let isForNavigation: Bool
     
     private var selectedTags: [Tag] = []
     private var fetchedResultsController: NSFetchedResultsController<TagEntity>?
@@ -46,7 +50,16 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         return button
     }()
     
+    private enum Image {
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+    }
+    
     private enum Metric {
+        static let searchBarTop = CGFloat(65)
+        static let searchBarTopForNavigation = CGFloat(10)
+        static let searchBarLeading = CGFloat(20)
+        static let searchBarTrailing = CGFloat(-20)
+        
         static let selectTagsTableViewCellHeight = CGFloat(80)
         static let selectTagsTableViewTop = CGFloat(20)
         
@@ -55,17 +68,34 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         static let doneButtonBottom = CGFloat(-40)
     }
     
-    init(topBarStyle: TopBarStyle) {
+    init(topBarStyle: TopBarStyle, isForNavigation: Bool) {
         let title = LocalizedString.ViewTitle.selectTags
-        topView = topBarStyle == .sheetHeader ? SheetHeaderView(title: title) : SingleButtonNavigationBar(title: title)
+        self.isForNavigation = isForNavigation
+        self.topView = topBarStyle == .sheetHeader ? SheetHeaderView(title: title) : SingleButtonNavigationBar(title: title)
         super.init(nibName: nil, bundle: nil)
         configureViews()
     }
     
     required init?(coder: NSCoder) {
-        topView = UIView()
+        self.isForNavigation = false
+        self.topView = UIView()
         super.init(coder: coder)
         configureViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isForNavigation {
+            configureNavigationBar(backgroundColor: Asset.Color.detailBackgroundColor)
+            navigationController?.setNavigationBarHidden(false, animated: false)
+            view.backgroundColor = Asset.Color.detailBackgroundColor
+            selectTagsTableView.backgroundColor = Asset.Color.detailBackgroundColor
+        }
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil { listener?.didRemove() }
     }
     
     func update(with fetchedResultsController: NSFetchedResultsController<TagEntity>, existingSelectedTags: [Tag]) {
@@ -95,13 +125,7 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
     }
     
     private func configureViews() {
-        if let sheetHeaderView = topView as? SheetHeaderView {
-            sheetHeaderView.listener = self
-        }
-        
-        if let navigationBar = topView as? SingleButtonNavigationBar {
-            navigationBar.listener = self
-        }
+        configureTopView()
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(searchBarDidTap))
         searchBar.addGestureRecognizer(tapGestureRecognizer)
@@ -120,9 +144,9 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
             topView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: isForNavigation ? Metric.searchBarTopForNavigation : Metric.searchBarTop),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.searchBarLeading),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Metric.searchBarTrailing),
             
             selectTagsTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Metric.selectTagsTableViewTop),
             selectTagsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -135,14 +159,38 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         ])
     }
     
+    private func configureTopView() {
+        if isForNavigation {
+            title = LocalizedString.ViewTitle.selectTags
+            navigationItem.largeTitleDisplayMode = .never
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
+            topView.isHidden = true
+            return
+        }
+        
+        if let sheetHeaderView = topView as? SheetHeaderView {
+            sheetHeaderView.listener = self
+            return
+        }
+        
+        if let navigationBar = topView as? SingleButtonNavigationBar {
+            navigationBar.listener = self
+        }
+    }
+    
+    @objc
+    private func backButtonDidTap() {
+        listener?.backButtonDidTap()
+    }
+    
     @objc
     private func searchBarDidTap() {
-        listener?.searchBarDidTap()
+        listener?.searchBarDidTap(forNavigation: isForNavigation)
     }
     
     @objc
     private func doneButtonDidTap() {
-        listener?.doneButtonDidTap(selectedTags: selectedTags)
+        listener?.doneButtonDidTap(selectedTags: selectedTags, forNavigation: isForNavigation)
     }
 }
 

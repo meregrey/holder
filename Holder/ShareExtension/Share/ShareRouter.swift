@@ -45,7 +45,8 @@ final class ShareRouter: Router<ShareInteractable>, ShareRouting {
         guard selectTagsRouter == nil else { return }
         let router = selectTags.build(withListener: interactor,
                                       existingSelectedTags: existingSelectedTags,
-                                      topBarStyle: .navigation)
+                                      topBarStyle: .navigation,
+                                      forNavigation: false)
         selectTagsRouter = router
         attachChild(router)
         viewController.present(router.viewControllable,
@@ -65,7 +66,7 @@ final class ShareRouter: Router<ShareInteractable>, ShareRouting {
     func attachSearchTags() {
         guard searchTagsRouter == nil else { return }
         guard let selectTagsRouter = selectTagsRouter else { return }
-        let router = searchTags.build(withListener: interactor)
+        let router = searchTags.build(withListener: interactor, forNavigation: false)
         searchTagsRouter = router
         attachChild(router)
         selectTagsRouter.viewControllable.present(router.viewControllable,

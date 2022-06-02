@@ -51,18 +51,25 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     
     // MARK: - EnterBookmark
     
-    func attachEnterBookmark(mode: EnterBookmarkMode) {
+    func attachEnterBookmark(mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) {
         guard enterBookmarkRouter == nil else { return }
-        let router = enterBookmark.build(withListener: interactor, mode: mode)
+        let router = enterBookmark.build(withListener: interactor, mode: mode, forNavigation: isForNavigation)
+        let viewController = router.viewControllable
         enterBookmarkRouter = router
         attachChild(router)
-        router.viewControllable.uiviewController.presentationController?.delegate = interactor.presentationProxy
-        baseViewController.present(router.viewControllable, modalPresentationStyle: .pageSheet, animated: true)
+        if isForNavigation {
+            baseViewController.push(viewController)
+        } else {
+            viewController.uiviewController.presentationController?.delegate = interactor.presentationProxy
+            baseViewController.present(viewController, modalPresentationStyle: .pageSheet, animated: true)
+        }
     }
     
-    func detachEnterBookmark(includingView isViewIncluded: Bool) {
+    func detachEnterBookmark(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool) {
         guard let router = enterBookmarkRouter else { return }
-        if isViewIncluded { baseViewController.dismiss(animated: true) }
+        if isViewIncluded {
+            isForNavigation ? baseViewController.pop() : baseViewController.dismiss(animated: true)
+        }
         detachChild(router)
         enterBookmarkRouter = nil
     }

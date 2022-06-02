@@ -90,6 +90,7 @@ enum LocalizedString {
         static let editTag = "Edit Tag".localized
         static let editTags = "Edit Tags".localized
         static let selectTags = "Select Tags".localized
+        static let searchTags = "Search Tags".localized
         static let addBookmark = "Add Bookmark".localized
         static let editBookmark = "Edit Bookmark".localized
         static let enableSharing = "Enable Sharing".localized

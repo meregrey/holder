@@ -52,7 +52,7 @@ final class BrowseRouter: ViewableRouter<BrowseInteractable, BrowseViewControlla
         attachChild(router)
     }
     
-    func attachSelectTags(existingSelectedTags: [Tag]) {
-        tagRouter?.attachSelectTags(existingSelectedTags: existingSelectedTags)
+    func attachSelectTags(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool) {
+        tagRouter?.attachSelectTags(existingSelectedTags: existingSelectedTags, forNavigation: isForNavigation)
     }
 }

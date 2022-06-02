@@ -9,7 +9,7 @@ import UIKit
 
 extension UserDefaults {
     
-    static let suiteName = "group.com.meregrey.holder"
+    static let suiteName = "group.com.yeojin-yoon.holder"
     static let suiteKey = "lastShareDate"
     
     @objc dynamic var lastShareDate: Date? { object(forKey: UserDefaults.suiteKey) as? Date }

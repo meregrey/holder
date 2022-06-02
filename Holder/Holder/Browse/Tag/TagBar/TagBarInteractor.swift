@@ -39,8 +39,13 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
         presenter.listener = self
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func didBecomeActive() {
         super.didBecomeActive()
+        registerToReceiveNotification()
         performFetch()
         subscribeCurrentTagStream()
     }
@@ -57,8 +62,19 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
         listener?.tagBarTagSettingsButtonDidTap()
     }
     
-    func tagDidChange() {
-        NotificationCenter.post(named: NotificationName.Tag.didChange)
+    func tagsDidChange() {
+        NotificationCenter.post(named: NotificationName.Tag.tagsDidChange)
+    }
+    
+    private func registerToReceiveNotification() {
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(tagsDidClear),
+                                       name: NotificationName.Tag.didSucceedToClearTags)
+    }
+    
+    @objc
+    private func tagsDidClear() {
+        performFetch()
     }
     
     private func performFetch() {

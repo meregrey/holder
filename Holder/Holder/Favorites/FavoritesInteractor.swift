@@ -12,12 +12,12 @@ protocol FavoritesRouting: ViewableRouting {
     func attachBookmarkList()
     func attachBookmarkDetail(bookmark: Bookmark)
     func detachBookmarkDetail(includingView isViewIncluded: Bool)
-    func attachEnterBookmark(mode: EnterBookmarkMode)
-    func detachEnterBookmark(includingView isViewIncluded: Bool)
-    func attachSelectTags(existingSelectedTags: [Tag])
-    func detachSelectTags()
-    func attachSearchTags()
-    func detachSearchTags()
+    func attachEnterBookmark(mode: EnterBookmarkMode, forNavigation isForNavigation: Bool)
+    func detachEnterBookmark(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool)
+    func attachSelectTags(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool)
+    func detachSelectTags(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool)
+    func attachSearchTags(forNavigation isForNavigation: Bool)
+    func detachSearchTags(includingView isViewIncluded: Bool, forNavigation isForNavigation: Bool)
 }
 
 protocol FavoritesPresentable: Presentable {
@@ -50,7 +50,7 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     }
     
     func presentationControllerDidDismiss() {
-        router?.detachEnterBookmark(includingView: false)
+        router?.detachEnterBookmark(includingView: false, forNavigation: false)
     }
     
     // MARK: - SearchBar
@@ -66,13 +66,17 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     }
     
     func bookmarkListContextMenuEditDidTap(bookmark: Bookmark) {
-        router?.attachEnterBookmark(mode: .edit(bookmark))
+        router?.attachEnterBookmark(mode: .edit(bookmark), forNavigation: false)
     }
     
     // MARK: - BookmarkDetail
     
     func bookmarkDetailDidRemove() {
         router?.detachBookmarkDetail(includingView: false)
+    }
+    
+    func bookmarkDetailEditActionDidTap(bookmark: Bookmark) {
+        router?.attachEnterBookmark(mode: .edit(bookmark), forNavigation: true)
     }
     
     func bookmarkDetailBackwardButtonDidTap() {
@@ -86,38 +90,62 @@ final class FavoritesInteractor: PresentableInteractor<FavoritesPresentable>, Fa
     // MARK: - EnterBookmark
     
     func enterBookmarkCancelButtonDidTap() {
-        router?.detachEnterBookmark(includingView: true)
+        router?.detachEnterBookmark(includingView: true, forNavigation: false)
     }
     
-    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag]) {
-        router?.attachSelectTags(existingSelectedTags: existingSelectedTags)
+    func enterBookmarkBackButtonDidTap() {
+        router?.detachEnterBookmark(includingView: true, forNavigation: true)
+    }
+    
+    func enterBookmarkTagCollectionViewDidTap(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool) {
+        router?.attachSelectTags(existingSelectedTags: existingSelectedTags, forNavigation: isForNavigation)
     }
     
     func enterBookmarkSaveButtonDidTap() {
-        router?.detachEnterBookmark(includingView: false)
+        router?.detachEnterBookmark(includingView: false, forNavigation: false)
+    }
+    
+    func enterBookmarkDidRemove() {
+        router?.detachEnterBookmark(includingView: false, forNavigation: true)
     }
     
     // MARK: - SelectTags
     
     func selectTagsCancelButtonDidTap() {
-        router?.detachSelectTags()
+        router?.detachSelectTags(includingView: true, forNavigation: false)
     }
     
-    func selectTagsSearchBarDidTap() {
-        router?.attachSearchTags()
+    func selectTagsBackButtonDidTap() {
+        router?.detachSelectTags(includingView: true, forNavigation: true)
     }
     
-    func selectTagsDoneButtonDidTap() {
-        router?.detachSelectTags()
+    func selectTagsSearchBarDidTap(forNavigation isForNavigation: Bool) {
+        router?.attachSearchTags(forNavigation: isForNavigation)
+    }
+    
+    func selectTagsDoneButtonDidTap(forNavigation isForNavigation: Bool) {
+        router?.detachSelectTags(includingView: true, forNavigation: isForNavigation)
+    }
+    
+    func selectTagsDidRemove() {
+        router?.detachSelectTags(includingView: false, forNavigation: true)
     }
     
     // MARK: - SearchTags
     
-    func searchTagsCancelButtonDidTap() {
-        router?.detachSearchTags()
+    func searchTagsBackButtonDidTap() {
+        router?.detachSearchTags(includingView: true, forNavigation: true)
     }
     
-    func searchTagsRowDidSelect() {
-        router?.detachSearchTags()
+    func searchTagsCancelButtonDidTap(forNavigation isForNavigation: Bool) {
+        router?.detachSearchTags(includingView: true, forNavigation: isForNavigation)
+    }
+    
+    func searchTagsRowDidSelect(forNavigation isForNavigation: Bool) {
+        router?.detachSearchTags(includingView: true, forNavigation: isForNavigation)
+    }
+    
+    func searchTagsDidRemove() {
+        router?.detachSearchTags(includingView: false, forNavigation: true)
     }
 }

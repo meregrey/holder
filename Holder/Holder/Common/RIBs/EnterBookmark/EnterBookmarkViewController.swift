@@ -10,9 +10,11 @@ import UIKit
 
 protocol EnterBookmarkPresentableListener: AnyObject {
     func cancelButtonDidTap()
-    func tagCollectionViewDidTap(existingSelectedTags: [Tag])
+    func backButtonDidTap()
+    func tagCollectionViewDidTap(existingSelectedTags: [Tag], forNavigation isForNavigation: Bool)
     func saveButtonDidTapToAdd(bookmark: Bookmark)
-    func saveButtonDidTapToEdit(bookmark: Bookmark)
+    func saveButtonDidTapToEdit(bookmark: Bookmark, forNavigation isForNavigation: Bool)
+    func didRemove()
 }
 
 final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresentable, EnterBookmarkViewControllable {
@@ -20,6 +22,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     weak var listener: EnterBookmarkPresentableListener?
     
     private let mode: EnterBookmarkMode
+    private let isForNavigation: Bool
     
     private var selectedTags: [Tag] = []
     
@@ -59,7 +62,14 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
                                                                      multiplier: 1,
                                                                      constant: Metric.saveButtonBottom)
     
+    private enum Image {
+        static let backButton = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
+    }
+    
     private enum Metric {
+        static let scrollViewTop = CGFloat(65)
+        static let scrollViewTopForNavigation = CGFloat(10)
+        
         static let linkTextFieldTop = CGFloat(10)
         static let linkTextFieldLeading = CGFloat(20)
         static let linkTextFieldTrailing = CGFloat(-20)
@@ -82,8 +92,9 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         static let saveButtonBottomForKeyboard = CGFloat(-20)
     }
     
-    init(mode: EnterBookmarkMode) {
+    init(mode: EnterBookmarkMode, isForNavigation: Bool) {
         self.mode = mode
+        self.isForNavigation = isForNavigation
         super.init(nibName: nil, bundle: nil)
         registerToReceiveNotification()
         configureViews()
@@ -91,6 +102,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     required init?(coder: NSCoder) {
         self.mode = .add
+        self.isForNavigation = false
         super.init(coder: coder)
         registerToReceiveNotification()
         configureViews()
@@ -108,6 +120,27 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isForNavigation {
+            configureNavigationBar(backgroundColor: Asset.Color.detailBackgroundColor)
+            navigationController?.setNavigationBarHidden(false, animated: true)
+            view.backgroundColor = Asset.Color.detailBackgroundColor
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isForNavigation {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil { listener?.didRemove() }
+    }
+    
     func update(with selectedTags: [Tag]) {
         self.selectedTags = selectedTags
         tagCollectionView.reloadData()
@@ -121,6 +154,10 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
     
     func dismiss() {
         dismiss(animated: true)
+    }
+    
+    func pop() {
+        navigationController?.popViewController(animated: true)
     }
     
     private func registerToReceiveNotification() {
@@ -153,7 +190,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         case .add:
             headerView.setTitle(LocalizedString.ViewTitle.addBookmark)
         case .edit(let bookmark):
-            headerView.setTitle(LocalizedString.ViewTitle.editBookmark)
+            configureTopView()
             linkTextField.setText(bookmark.url.absoluteString)
             noteTextView.setText(bookmark.note)
         }
@@ -162,6 +199,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         tagCollectionView.addGestureRecognizer(tapGestureRecognizer)
         tagCollectionView.dataSource = self
         tagCollectionView.delegate = self
+        if isForNavigation { tagCollectionView.changeChevronImageForNavigation() }
         
         headerView.listener = self
         scrollView.delegate = self
@@ -169,10 +207,10 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         noteTextView.listener = self
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
+        
         view.addSubview(headerView)
         view.addSubview(scrollView)
         view.addSubview(saveButton)
-        
         scrollView.addSubview(linkTextField)
         scrollView.addSubview(tagCollectionView)
         scrollView.addSubview(noteTextView)
@@ -183,7 +221,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: isForNavigation ? Metric.scrollViewTopForNavigation : Metric.scrollViewTop),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -216,9 +254,28 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         ])
     }
     
+    private func configureTopView() {
+        if isForNavigation {
+            title = LocalizedString.ViewTitle.editBookmark
+            navigationItem.largeTitleDisplayMode = .never
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))
+            hidesBottomBarWhenPushed = true
+            headerView.isHidden = true
+        } else {
+            headerView.setTitle(LocalizedString.ViewTitle.editBookmark)
+        }
+    }
+    
+    @objc
+    private func backButtonDidTap() {
+        listener?.backButtonDidTap()
+    }
+    
     @objc
     private func tagCollectionViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
-        if tapGestureRecognizer.state == .ended { listener?.tagCollectionViewDidTap(existingSelectedTags: selectedTags) }
+        if tapGestureRecognizer.state == .ended {
+            listener?.tagCollectionViewDidTap(existingSelectedTags: selectedTags, forNavigation: isForNavigation)
+        }
     }
     
     @objc
@@ -237,7 +294,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
             listener?.saveButtonDidTapToAdd(bookmark: bookmark)
         case .edit(let bookmark):
             let bookmark = bookmark.updated(tags: tags, note: note)
-            listener?.saveButtonDidTapToEdit(bookmark: bookmark)
+            listener?.saveButtonDidTapToEdit(bookmark: bookmark, forNavigation: isForNavigation)
         }
     }
     

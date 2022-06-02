@@ -54,6 +54,7 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureNavigationBar(backgroundColor: Asset.Color.baseBackgroundColor)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -71,8 +72,9 @@ final class TagSettingsViewController: UIViewController, TagSettingsPresentable,
     }
     
     func scrollToBottom() {
-        guard let count = fetchedResultsController?.fetchedObjects?.count else { return }
-        let indexPath = IndexPath(row: count - 1, section: 0)
+        let numberOfRows = tagSettingsTableView.numberOfRows(inSection: 0)
+        guard numberOfRows > 0 else { return }
+        let indexPath = IndexPath(row: numberOfRows - 1, section: 0)
         DispatchQueue.main.async {
             self.tagSettingsTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }

@@ -39,7 +39,7 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     @AutoLayout private var noteLabel: UILabel = {
         let label = UILabel()
         label.font = Font.noteLabel
-        label.textColor = Asset.Color.secondaryColor
+        label.textColor = Asset.Color.primaryColor
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = Metric.labelWidth
         return label
@@ -58,7 +58,7 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     private enum Font {
         static let titleLabel = UIFont.systemFont(ofSize: 16, weight: .semibold)
         static let hostLabel = UIFont.systemFont(ofSize: 14)
-        static let noteLabel = UIFont.systemFont(ofSize: 14)
+        static let noteLabel = UIFont.systemFont(ofSize: 14, weight: .medium)
     }
     
     private enum Metric {

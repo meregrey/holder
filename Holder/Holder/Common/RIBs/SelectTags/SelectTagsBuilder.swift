@@ -28,7 +28,7 @@ final class SelectTagsComponent: Component<SelectTagsDependency>, SelectTagsInte
 // MARK: - Builder
 
 protocol SelectTagsBuildable: Buildable {
-    func build(withListener listener: SelectTagsListener, existingSelectedTags: [Tag], topBarStyle: TopBarStyle) -> SelectTagsRouting
+    func build(withListener listener: SelectTagsListener, existingSelectedTags: [Tag], topBarStyle: TopBarStyle, forNavigation isForNavigation: Bool) -> SelectTagsRouting
 }
 
 final class SelectTagsBuilder: Builder<SelectTagsDependency>, SelectTagsBuildable {
@@ -37,9 +37,9 @@ final class SelectTagsBuilder: Builder<SelectTagsDependency>, SelectTagsBuildabl
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: SelectTagsListener, existingSelectedTags: [Tag], topBarStyle: TopBarStyle) -> SelectTagsRouting {
+    func build(withListener listener: SelectTagsListener, existingSelectedTags: [Tag], topBarStyle: TopBarStyle, forNavigation isForNavigation: Bool) -> SelectTagsRouting {
         let component = SelectTagsComponent(dependency: dependency, existingSelectedTags: existingSelectedTags)
-        let viewController = SelectTagsViewController(topBarStyle: topBarStyle)
+        let viewController = SelectTagsViewController(topBarStyle: topBarStyle, isForNavigation: isForNavigation)
         let interactor = SelectTagsInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return SelectTagsRouter(interactor: interactor, viewController: viewController)
