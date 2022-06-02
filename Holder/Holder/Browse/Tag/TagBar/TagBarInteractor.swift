@@ -68,8 +68,17 @@ final class TagBarInteractor: PresentableInteractor<TagBarPresentable>, TagBarIn
     
     private func registerToReceiveNotification() {
         NotificationCenter.addObserver(self,
+                                       selector: #selector(lastShareDateDidChange),
+                                       name: NotificationName.lastShareDateDidChange)
+        
+        NotificationCenter.addObserver(self,
                                        selector: #selector(tagsDidClear),
                                        name: NotificationName.Tag.didSucceedToClearTags)
+    }
+    
+    @objc
+    private func lastShareDateDidChange() {
+        performFetch()
     }
     
     @objc
