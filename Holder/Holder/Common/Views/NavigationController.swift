@@ -8,7 +8,7 @@
 import RIBs
 import UIKit
 
-final class NavigationController: UINavigationController, ViewControllable {
+final class NavigationController: UINavigationController, UIGestureRecognizerDelegate, ViewControllable {
     
     private enum Font {
         static let navigationBarLargeTitle = UIFont.systemFont(ofSize: 26, weight: .bold)
@@ -43,5 +43,3 @@ final class NavigationController: UINavigationController, ViewControllable {
         interactivePopGestureRecognizer?.delegate = self
     }
 }
-
-extension NavigationController: UIGestureRecognizerDelegate {}

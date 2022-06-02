@@ -803,7 +803,6 @@
 				67E32BA62806D45300F2133B /* AdaptivePresentationControllerDelegateProxy.swift */,
 				67E32BA42806D45300F2133B /* AutoLayout.swift */,
 				67E32BB92806D45300F2133B /* Cache.swift */,
-				67E32BBA2806D45300F2133B /* NavigationController.swift */,
 				67E32BA52806D45300F2133B /* Stream.swift */,
 				67E32BA72806D45300F2133B /* ThumbnailLoader.swift */,
 			);
@@ -904,6 +903,7 @@
 				67E32BD92806D45300F2133B /* ExplanationView.swift */,
 				67E32BE32806D45300F2133B /* LabeledView.swift */,
 				67E32BD72806D45300F2133B /* LeftAlignmentCollectionView.swift */,
+				67E32BBA2806D45300F2133B /* NavigationController.swift */,
 				67E32BD62806D45300F2133B /* RoundedCornerButton.swift */,
 				67E32BE42806D45300F2133B /* RoundedCornerView.swift */,
 				67E32BE02806D45300F2133B /* SearchBar.swift */,
