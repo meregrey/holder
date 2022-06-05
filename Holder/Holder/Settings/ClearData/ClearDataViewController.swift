@@ -38,7 +38,6 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
         button.setTitle(LocalizedString.ActionTitle.clear, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(clearButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -88,6 +87,7 @@ final class ClearDataViewController: UIViewController, ClearDataPresentable, Cle
     private func configureViews() {
         titleLabel.text = LocalizedString.LabelText.clearData
         explanationLabel.attributedText = explanationLabelAttributedText(explanation: LocalizedString.LabelText.clearDataExplanation)
+        clearButton.addTarget(self, action: #selector(clearButtonDidTap), for: .touchUpInside)
         
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))

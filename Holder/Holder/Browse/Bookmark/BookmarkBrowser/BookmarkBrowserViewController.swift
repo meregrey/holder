@@ -41,7 +41,6 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
         button.titleLabel?.font = Font.addBookmarkButton
         button.backgroundColor = Asset.Color.primaryColor
         button.layer.cornerRadius = Metric.addBookmarkButtonHeight / 2
-        button.addTarget(self, action: #selector(addBookmarkButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -103,6 +102,8 @@ final class BookmarkBrowserViewController: UIViewController, BookmarkBrowserPres
     private func configureViews() {
         bookmarkBrowserCollectionView.dataSource = self
         bookmarkBrowserCollectionView.delegate = self
+        
+        addBookmarkButton.addTarget(self, action: #selector(addBookmarkButtonDidTap), for: .touchUpInside)
         
         view.addSubview(bookmarkBrowserCollectionView)
         view.addSubview(blurView)

@@ -35,7 +35,6 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
         button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -73,6 +72,8 @@ final class EditTagsViewController: UIViewController, EditTagsPresentable, EditT
     private func configureViews() {
         editTagsTableView.dataSource = self
         editTagsTableView.delegate = self
+        
+        saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         
         title = LocalizedString.ViewTitle.editTags
         navigationItem.largeTitleDisplayMode = .never

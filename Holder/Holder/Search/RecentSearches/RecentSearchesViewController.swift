@@ -41,7 +41,6 @@ final class RecentSearchesViewController: UIViewController, RecentSearchesPresen
         button.setTitle(LocalizedString.ActionTitle.clear, for: .normal)
         button.setTitleColor(Asset.Color.primaryColor, for: .normal)
         button.titleLabel?.font = Font.clearButton
-        button.addTarget(self, action: #selector(clearButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -117,6 +116,8 @@ final class RecentSearchesViewController: UIViewController, RecentSearchesPresen
     }
     
     private func configureViews() {
+        clearButton.addTarget(self, action: #selector(clearButtonDidTap), for: .touchUpInside)
+        
         recentSearchesTableView.dataSource = self
         recentSearchesTableView.delegate = self
         
