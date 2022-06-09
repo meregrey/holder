@@ -9,7 +9,7 @@ import RIBs
 
 protocol SettingsDependency: Dependency {}
 
-final class SettingsComponent: Component<SettingsDependency>, AppearanceDependency, SortBookmarksDependency, ClearDataDependency {}
+final class SettingsComponent: Component<SettingsDependency>, AppearanceDependency, SortBookmarksDependency, ClearDataDependency, VersionDependency {}
 
 // MARK: - Builder
 
@@ -31,10 +31,12 @@ final class SettingsBuilder: Builder<SettingsDependency>, SettingsBuildable {
         let appearance = AppearanceBuilder(dependency: component)
         let sortBookmarks = SortBookmarksBuilder(dependency: component)
         let clearData = ClearDataBuilder(dependency: component)
+        let version = VersionBuilder(dependency: component)
         return SettingsRouter(interactor: interactor,
                               viewController: viewController,
                               appearance: appearance,
                               sortBookmarks: sortBookmarks,
-                              clearData: clearData)
+                              clearData: clearData,
+                              version: version)
     }
 }
