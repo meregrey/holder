@@ -73,11 +73,12 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
     }
     
     private func checkLatestVersion() {
-        guard let url = URL(string: "http://itunes.apple.com/lookup?bundleId=com.yeojin-yoon.holder") else { return }
-        guard let data = try? Data(contentsOf: url) else { return }
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any] else { return }
-        guard let results = json["results"] as? [[String: Any]], results.count > 0 else { return }
-        guard let releaseVersion = results.first?["version"] as? String else { return }
+        guard let bundleIdentifier = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String,
+              let url = URL(string: "http://itunes.apple.com/kr/lookup?bundleId=\(bundleIdentifier)"),
+              let data = try? Data(contentsOf: url),
+              let json = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any],
+              let results = json["results"] as? [[String: Any]],
+              let releaseVersion = results.first?["version"] as? String else { return }
         isLatestVersion = currentVersion == releaseVersion
     }
     
