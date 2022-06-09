@@ -45,7 +45,6 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         button.tintColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(tagSettingsButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -103,6 +102,8 @@ final class TagBarViewController: UIViewController, TagBarPresentable, TagBarVie
     private func configureViews() {
         tagBarCollectionView.dataSource = self
         tagBarCollectionView.delegate = self
+        
+        tagSettingsButton.addTarget(self, action: #selector(tagSettingsButtonDidTap), for: .touchUpInside)
         
         view.addSubview(containerView)
         containerView.addSubview(tagBarCollectionView)

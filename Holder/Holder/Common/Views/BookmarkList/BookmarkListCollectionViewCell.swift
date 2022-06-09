@@ -14,7 +14,6 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     @AutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
         stackView.spacing = 8
         return stackView
     }()
@@ -74,6 +73,11 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
         static let thumbnailImageViewTrailing = CGFloat(-16)
     }
     
+    private enum Text {
+        static let unknownTitle = "Unknown Title"
+        static let unknownHost = "Unknown Host"
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureViews()
@@ -106,7 +110,7 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     
     func configure(with bookmarkViewModel: BookmarkViewModel) {
         viewModel = bookmarkViewModel
-        titleLabel.text = viewModel?.title ?? viewModel?.host ?? "Unknown Title"
+        titleLabel.text = viewModel?.title ?? viewModel?.host ?? Text.unknownTitle
         hostLabel.attributedText = hostLabelAttributedText(with: viewModel)
         
         if let note = viewModel?.note, note.count > 0 {
@@ -151,8 +155,8 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     }
     
     private func configure(with bookmarkEntity: BookmarkEntity) {
-        titleLabel.text = bookmarkEntity.title
-        hostLabel.text = bookmarkEntity.host
+        titleLabel.text = bookmarkEntity.title ?? Text.unknownTitle
+        hostLabel.text = bookmarkEntity.host ?? Text.unknownHost
         if let note = bookmarkEntity.note, note.count > 0 {
             noteLabel.text = note
             stackView.addArrangedSubview(noteLabel)
@@ -160,7 +164,7 @@ final class BookmarkListCollectionViewCell: UICollectionViewCell {
     }
     
     private func hostLabelAttributedText(with viewModel: BookmarkViewModel?) -> NSMutableAttributedString {
-        let string = viewModel?.host ?? "Unknown Host"
+        let string = viewModel?.host ?? Text.unknownHost
         let attributedString = NSMutableAttributedString(string: string)
         
         guard let isFavorite = viewModel?.isFavorite, isFavorite else { return attributedString }

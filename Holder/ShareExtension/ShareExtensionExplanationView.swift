@@ -29,7 +29,6 @@ final class ShareExtensionExplanationView: UIView {
         button.setTitle(LocalizedString.ActionTitle.ok, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(okButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -58,6 +57,8 @@ final class ShareExtensionExplanationView: UIView {
     }
     
     private func configure() {
+        okButton.addTarget(self, action: #selector(okButtonDidTap), for: .touchUpInside)
+        
         backgroundColor = Asset.Color.sheetBaseBackgroundColor
         
         addSubview(explanationLabel)

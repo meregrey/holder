@@ -48,7 +48,6 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -205,6 +204,7 @@ final class EnterBookmarkViewController: UIViewController, EnterBookmarkPresenta
         scrollView.delegate = self
         linkTextField.listener = self
         noteTextView.listener = self
+        saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         

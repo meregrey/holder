@@ -18,6 +18,7 @@
 "Save" = "저장";
 "Share" = "공유";
 "System Setting" = "시스템 설정";
+"Open the App Store" = "App Store 열기";
 
 /* Alert title */
 "An error occurred while checking the store." = "스토어를 확인하던 중\n오류가 발생했습니다.";
@@ -59,8 +60,12 @@
 "4. Save bookmark via Holder icon" = "4. 홀더 아이콘을 통해 북마크 저장";
 "Clear Data?" = "데이터를 지울까요?";
 "Clearing will remove all bookmark and tag data." = "지우기를 실행하면 북마크 및 태그 데이터가\n모두 제거됩니다.";
-"Version" = "버전";
 "Already saved link." = "이미 저장된 링크입니다.";
+"Latest" = "최신 버전";
+"Update" = "업데이트";
+"This is the latest version." = "최신 버전입니다.";
+"An update is available." = "업데이트가 가능합니다.";
+"Current version" = "현재 버전";
 
 /* Placeholder */
 "Search & Add" = "검색 및 추가";
@@ -86,3 +91,4 @@
 "Appearance" = "테마";
 "Sort Bookmarks" = "북마크 정렬";
 "Clear Data" = "데이터 지우기";
+"Version" = "버전";

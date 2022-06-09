@@ -18,6 +18,7 @@
 "Save" = "Save";
 "Share" = "Share";
 "System Setting" = "System Setting";
+"Open the App Store" = "Open the App Store";
 
 /* Alert title */
 "An error occurred while checking the store." = "An error occurred while checking the store.";
@@ -59,8 +60,12 @@
 "4. Save bookmark via Holder icon" = "4. Save bookmark via Holder icon";
 "Clear Data?" = "Clear Data?";
 "Clearing will remove all bookmark and tag data." = "Clearing will remove all bookmark and tag data.";
-"Version" = "Version";
 "Already saved link." = "Already saved link.";
+"Latest" = "Latest";
+"Update" = "Update";
+"This is the latest version." = "This is the latest version.";
+"An update is available." = "An update is available.";
+"Current version" = "Current version";
 
 /* Placeholder */
 "Search & Add" = "Search & Add";
@@ -86,3 +91,4 @@
 "Appearance" = "Appearance";
 "Sort Bookmarks" = "Sort Bookmarks";
 "Clear Data" = "Clear Data";
+"Version" = "Version";

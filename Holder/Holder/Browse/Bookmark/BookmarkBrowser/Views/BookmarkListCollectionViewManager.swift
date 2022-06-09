@@ -223,11 +223,10 @@ extension BookmarkListCollectionViewManager: UICollectionViewDelegate {
 extension BookmarkListCollectionViewManager: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let defaultHeight = CGFloat(84)
-        let defaultSize = CGSize(width: collectionView.frame.width - 40, height: defaultHeight)
+        let defaultSize = CGSize(width: collectionView.frame.width - 40, height: 0)
         guard let bookmarkEntity = bookmarkEntity(at: indexPath) else { return defaultSize }
         let fittingSize = BookmarkListCollectionViewCell.fittingSize(with: bookmarkEntity, width: defaultSize.width)
-        return fittingSize.height > defaultHeight ? fittingSize : defaultSize
+        return fittingSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

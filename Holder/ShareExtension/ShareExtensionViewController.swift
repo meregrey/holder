@@ -51,7 +51,6 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -191,6 +190,7 @@ final class ShareExtensionViewController: UIViewController, ShareViewControllabl
         linkTextField.listener = self
         noteTextView.listener = self
         explanationView.listener = self
+        saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         view.addSubview(navigationBar)

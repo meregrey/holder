@@ -9,16 +9,16 @@ import RIBs
 import UIKit
 
 protocol SettingsPresentableListener: AnyObject {
+    func enableSharingOptionViewDidTap()
     func appearanceOptionViewDidTap()
     func sortBookmarksOptionViewDidTap()
     func clearDataOptionViewDidTap()
+    func versionOptionViewDidTap()
 }
 
 final class SettingsViewController: UIViewController, SettingsPresentable, SettingsViewControllable {
     
     weak var listener: SettingsPresentableListener?
-    
-    private static let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     
     @AutoLayout private var titleLabel: UILabel = {
         let label = UILabel()
@@ -44,7 +44,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     
     @AutoLayout private var clearDataOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.clearData)
     
-    @AutoLayout private var versionOptionView = SettingsOptionView(title: LocalizedString.LabelText.version, info: version)
+    @AutoLayout private var versionOptionView = SettingsOptionView(title: LocalizedString.ViewTitle.version)
     
     private enum Font {
         static let titleLabel = UIFont.systemFont(ofSize: 30, weight: .bold)
@@ -93,11 +93,17 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
         navigationController?.popViewController(animated: true)
     }
     
+    func update(with isLatestVersion: Bool) {
+        let info = isLatestVersion ? LocalizedString.LabelText.latest : LocalizedString.LabelText.update
+        versionOptionView.setInfo(info)
+    }
+    
     private func configureViews() {
         enableSharingOptionView.addTarget(self, action: #selector(enableSharingOptionViewDidTap), for: .touchUpInside)
         appearanceOptionView.addTarget(self, action: #selector(appearanceOptionViewDidTap), for: .touchUpInside)
         sortBookmarksOptionView.addTarget(self, action: #selector(sortBookmarksOptionViewDidTap), for: .touchUpInside)
         clearDataOptionView.addTarget(self, action: #selector(clearDataOptionViewDidTap), for: .touchUpInside)
+        versionOptionView.addTarget(self, action: #selector(versionOptionViewDidTap), for: .touchUpInside)
         
         tabBarItem = UITabBarItem(title: nil,
                                   image: Image.tabBarItem,
@@ -126,7 +132,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     
     @objc
     private func enableSharingOptionViewDidTap() {
-        navigationController?.pushViewController(EnableSharingViewController(), animated: true)
+        listener?.enableSharingOptionViewDidTap()
     }
     
     @objc
@@ -142,5 +148,10 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     @objc
     private func clearDataOptionViewDidTap() {
         listener?.clearDataOptionViewDidTap()
+    }
+    
+    @objc
+    private func versionOptionViewDidTap() {
+        listener?.versionOptionViewDidTap()
     }
 }

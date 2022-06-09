@@ -2,12 +2,20 @@
 //  EnableSharingViewController.swift
 //  Holder
 //
-//  Created by Yeojin Yoon on 2022/05/12.
+//  Created by Yeojin Yoon on 2022/06/09.
 //
 
+import RIBs
 import UIKit
 
-final class EnableSharingViewController: UIViewController {
+protocol EnableSharingPresentableListener: AnyObject {
+    func backButtonDidTap()
+    func didRemove()
+}
+
+final class EnableSharingViewController: UIViewController, EnableSharingPresentable, EnableSharingViewControllable {
+    
+    weak var listener: EnableSharingPresentableListener?
     
     @AutoLayout private var scrollView = UIScrollView()
     
@@ -117,6 +125,11 @@ final class EnableSharingViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil { listener?.didRemove() }
+    }
+    
     private func configureViews() {
         titleLabel.text = LocalizedString.LabelText.enableSharing
         explanationLabel.attributedText = explanationLabelAttributedText(explanation: LocalizedString.LabelText.enableSharingExplanation)
@@ -207,6 +220,6 @@ final class EnableSharingViewController: UIViewController {
     
     @objc
     private func backButtonDidTap() {
-        navigationController?.popViewController(animated: true)
+        listener?.backButtonDidTap()
     }
 }

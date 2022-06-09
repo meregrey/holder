@@ -72,11 +72,20 @@ final class TagSettingsInteractor: PresentableInteractor<TagSettingsPresentable>
         NotificationCenter.addObserver(self,
                                        selector: #selector(didSucceedToAddTag),
                                        name: NotificationName.Tag.didSucceedToAddTag)
+        
+        NotificationCenter.addObserver(self,
+                                       selector: #selector(lastShareDateDidChange),
+                                       name: NotificationName.lastShareDateDidChange)
     }
     
     @objc
     private func didSucceedToAddTag() {
         presenter.scrollToBottom()
+    }
+    
+    @objc
+    private func lastShareDateDidChange() {
+        performFetch()
     }
     
     private func performFetch() {

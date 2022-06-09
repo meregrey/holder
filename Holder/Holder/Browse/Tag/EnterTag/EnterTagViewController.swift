@@ -30,7 +30,6 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
         button.setTitle(LocalizedString.ActionTitle.save, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -124,6 +123,8 @@ final class EnterTagViewController: UIViewController, EnterTagPresentable, Enter
             title = LocalizedString.ViewTitle.editTag
             countLimitTextField.setText(tag.name)
         }
+        
+        saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.backButton, style: .done, target: self, action: #selector(backButtonDidTap))

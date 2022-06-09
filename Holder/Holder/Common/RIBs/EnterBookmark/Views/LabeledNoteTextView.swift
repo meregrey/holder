@@ -52,7 +52,6 @@ final class LabeledNoteTextView: LabeledView {
         button.contentVerticalAlignment = .fill
         button.tintColor = Asset.Color.secondaryColor
         button.isHidden = true
-        button.addTarget(self, action: #selector(clearButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -97,6 +96,7 @@ final class LabeledNoteTextView: LabeledView {
     
     private func configure() {
         textView.delegate = self
+        clearButton.addTarget(self, action: #selector(clearButtonDidTap), for: .touchUpInside)
         
         addSubviewUnderLabel(containerView)
         containerView.addSubview(textView)

@@ -29,7 +29,6 @@ final class SheetHeaderView: UIView {
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         button.tintColor = Asset.Color.primaryColor
-        button.addTarget(nil, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -67,6 +66,8 @@ final class SheetHeaderView: UIView {
     }
     
     private func configure() {
+        cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
+        
         addSubview(titleLabel)
         addSubview(cancelButton)
         

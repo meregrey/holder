@@ -46,7 +46,6 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         button.setTitle(LocalizedString.ActionTitle.done, for: .normal)
         button.setTitleColor(Asset.Color.tertiaryColor, for: .normal)
         button.backgroundColor = Asset.Color.primaryColor
-        button.addTarget(self, action: #selector(doneButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -132,6 +131,8 @@ final class SelectTagsViewController: UIViewController, SelectTagsPresentable, S
         
         selectTagsTableView.dataSource = self
         selectTagsTableView.delegate = self
+        
+        doneButton.addTarget(self, action: #selector(doneButtonDidTap), for: .touchUpInside)
         
         view.backgroundColor = Asset.Color.sheetBaseBackgroundColor
         view.addSubview(topView)
