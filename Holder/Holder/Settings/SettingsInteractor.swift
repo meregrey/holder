@@ -8,6 +8,8 @@
 import RIBs
 
 protocol SettingsRouting: ViewableRouting {
+    func attachEnableSharing()
+    func detachEnableSharing(includingView isViewIncluded: Bool)
     func attachAppearance()
     func detachAppearance(includingView isViewIncluded: Bool)
     func attachSortBookmarks()
@@ -49,6 +51,10 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
         super.willResignActive()
     }
     
+    func enableSharingOptionViewDidTap() {
+        router?.attachEnableSharing()
+    }
+    
     func appearanceOptionViewDidTap() {
         router?.attachAppearance()
     }
@@ -73,6 +79,16 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
         guard let results = json["results"] as? [[String: Any]], results.count > 0 else { return }
         guard let releaseVersion = results.first?["version"] as? String else { return }
         isLatestVersion = currentVersion == releaseVersion
+    }
+    
+    // MARK: - EnableSharing
+    
+    func enableSharingBackButtonDidTap() {
+        router?.detachEnableSharing(includingView: true)
+    }
+    
+    func enableSharingDidRemove() {
+        router?.detachEnableSharing(includingView: false)
     }
     
     // MARK: - Appearance

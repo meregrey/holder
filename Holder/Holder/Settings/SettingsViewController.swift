@@ -9,6 +9,7 @@ import RIBs
 import UIKit
 
 protocol SettingsPresentableListener: AnyObject {
+    func enableSharingOptionViewDidTap()
     func appearanceOptionViewDidTap()
     func sortBookmarksOptionViewDidTap()
     func clearDataOptionViewDidTap()
@@ -131,7 +132,7 @@ final class SettingsViewController: UIViewController, SettingsPresentable, Setti
     
     @objc
     private func enableSharingOptionViewDidTap() {
-        navigationController?.pushViewController(EnableSharingViewController(), animated: true)
+        listener?.enableSharingOptionViewDidTap()
     }
     
     @objc
