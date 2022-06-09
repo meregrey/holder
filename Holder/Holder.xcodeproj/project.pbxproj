@@ -11,6 +11,10 @@
 		6715D13B282B50D700655020 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6715D13A282B50D700655020 /* Notification.swift */; };
 		673674A3282C9892000891D7 /* EnableSharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673674A2282C9892000891D7 /* EnableSharingViewController.swift */; };
 		6736DE54278423BC003E7321 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
+		673778BB2850983C00CE97A8 /* VersionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673778B72850983C00CE97A8 /* VersionRouter.swift */; };
+		673778BC2850983C00CE97A8 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673778B82850983C00CE97A8 /* VersionViewController.swift */; };
+		673778BD2850983C00CE97A8 /* VersionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673778B92850983C00CE97A8 /* VersionBuilder.swift */; };
+		673778BE2850983C00CE97A8 /* VersionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673778BA2850983C00CE97A8 /* VersionInteractor.swift */; };
 		673D66ED2828DC3A002E63B9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6736DE53278423BC003E7321 /* CloudKit.framework */; };
 		673FE54E280FF8F4005BAB32 /* SingleButtonNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */; };
 		673FE55228100740005BAB32 /* ShareExtensionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673FE55128100740005BAB32 /* ShareExtensionComponent.swift */; };
@@ -284,6 +288,10 @@
 		6715D13A282B50D700655020 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		673674A2282C9892000891D7 /* EnableSharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableSharingViewController.swift; sourceTree = "<group>"; };
 		6736DE53278423BC003E7321 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		673778B72850983C00CE97A8 /* VersionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionRouter.swift; sourceTree = "<group>"; };
+		673778B82850983C00CE97A8 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
+		673778B92850983C00CE97A8 /* VersionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionBuilder.swift; sourceTree = "<group>"; };
+		673778BA2850983C00CE97A8 /* VersionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInteractor.swift; sourceTree = "<group>"; };
 		673FE54D280FF8F4005BAB32 /* SingleButtonNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleButtonNavigationBar.swift; sourceTree = "<group>"; };
 		673FE55128100740005BAB32 /* ShareExtensionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionComponent.swift; sourceTree = "<group>"; };
 		673FE5532810E4F8005BAB32 /* TopBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarStyle.swift; sourceTree = "<group>"; };
@@ -493,6 +501,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		670521142850966E00540ADD /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				673778B72850983C00CE97A8 /* VersionRouter.swift */,
+				673778BA2850983C00CE97A8 /* VersionInteractor.swift */,
+				673778B92850983C00CE97A8 /* VersionBuilder.swift */,
+				673778B82850983C00CE97A8 /* VersionViewController.swift */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
 		677E15102808FCD000753626 /* ShareExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -545,6 +564,7 @@
 				67E32B3F2806D45300F2133B /* Appearance */,
 				67E32B452806D45300F2133B /* SortBookmarks */,
 				67E32B4A2806D45300F2133B /* ClearData */,
+				670521142850966E00540ADD /* Version */,
 				67E32B4F2806D45300F2133B /* Views */,
 				67E32B3D2806D45300F2133B /* SettingsRouter.swift */,
 				67E32B3E2806D45300F2133B /* SettingsInteractor.swift */,
@@ -1356,6 +1376,7 @@
 				67E32CAA2806D45400F2133B /* BookmarkListCollectionViewManager.swift in Sources */,
 				67E32C782806D45400F2133B /* ViewControllable.swift in Sources */,
 				67E32CBF2806D45400F2133B /* TagBarCollectionViewCell.swift in Sources */,
+				673778BB2850983C00CE97A8 /* VersionRouter.swift in Sources */,
 				67E32C212806D45300F2133B /* AppearanceBuilder.swift in Sources */,
 				67E32CA92806D45400F2133B /* BookmarkBrowserCollectionViewCell.swift in Sources */,
 				67C9528D2821078800814A4B /* BookmarkBrowserCollectionView.swift in Sources */,
@@ -1399,6 +1420,7 @@
 				67E32CC12806D45400F2133B /* EnterTagInteractor.swift in Sources */,
 				67E32C572806D45300F2133B /* BookmarkDetailViewController.swift in Sources */,
 				67E32C3E2806D45300F2133B /* SearchBarViewController.swift in Sources */,
+				673778BE2850983C00CE97A8 /* VersionInteractor.swift in Sources */,
 				67E32CAC2806D45400F2133B /* BrowseBuilder.swift in Sources */,
 				67E32CC42806D45400F2133B /* CountLimitTextField.swift in Sources */,
 				67E32C842806D45400F2133B /* BookmarkTag.swift in Sources */,
@@ -1434,6 +1456,7 @@
 				67E32C8F2806D45400F2133B /* RoundedCornerButton.swift in Sources */,
 				67E32C702806D45400F2133B /* Array.swift in Sources */,
 				67E32C682806D45300F2133B /* AdaptivePresentationControllerDelegateProxy.swift in Sources */,
+				673778BD2850983C00CE97A8 /* VersionBuilder.swift in Sources */,
 				67E32CC62806D45400F2133B /* TagInteractor.swift in Sources */,
 				67E32C6E2806D45300F2133B /* Asset.swift in Sources */,
 				67E32C322806D45300F2133B /* FavoritesInteractor.swift in Sources */,
@@ -1512,6 +1535,7 @@
 				67E32C382806D45300F2133B /* RecentSearchesViewController.swift in Sources */,
 				67E32C672806D45300F2133B /* Stream.swift in Sources */,
 				67E32C8A2806D45400F2133B /* TagEntity+CoreDataProperties.swift in Sources */,
+				673778BC2850983C00CE97A8 /* VersionViewController.swift in Sources */,
 				67E32C6A2806D45300F2133B /* TagName.swift in Sources */,
 				67E32C892806D45400F2133B /* BookmarkTagEntity+CoreDataProperties.swift in Sources */,
 			);

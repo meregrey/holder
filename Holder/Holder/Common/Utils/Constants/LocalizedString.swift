@@ -28,6 +28,7 @@ enum LocalizedString {
         static let save = "Save".localized
         static let share = "Share".localized
         static let systemSetting = "System Setting".localized
+        static let openAppStore = "Open the App Store".localized
     }
     
     enum AlertTitle {
@@ -67,8 +68,12 @@ enum LocalizedString {
         static let enableSharingFourthStep = "4. Save bookmark via Holder icon".localized
         static let clearData = "Clear Data?".localized
         static let clearDataExplanation = "Clearing will remove all bookmark and tag data.".localized
-        static let version = "Version".localized
         static let alreadySavedLink = "Already saved link.".localized
+        static let latest = "Latest".localized
+        static let update = "Update".localized
+        static let versionExplanationForLatestVersion = "This is the latest version.".localized
+        static let versionExplanationForUpdateAvailable = "An update is available.".localized
+        static let versionExplanationForCurrentVersion = "Current version".localized
     }
     
     enum Placeholder {
@@ -97,6 +102,7 @@ enum LocalizedString {
         static let appearance = "Appearance".localized
         static let sortBookmarks = "Sort Bookmarks".localized
         static let clearData = "Clear Data".localized
+        static let version = "Version".localized
     }
     
     static let appDisplayName = "Holder".localized
