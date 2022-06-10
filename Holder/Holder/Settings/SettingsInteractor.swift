@@ -78,8 +78,11 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
               let data = try? Data(contentsOf: url),
               let json = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any],
               let results = json["results"] as? [[String: Any]],
-              let releaseVersion = results.first?["version"] as? String else { return }
-        isLatestVersion = currentVersion == releaseVersion
+              let releaseVersion = results.first?["version"] as? String,
+              let currentVersion = currentVersion else { return }
+        
+        let comparisonResult = releaseVersion.compare(currentVersion, options: .numeric)
+        isLatestVersion = comparisonResult == .orderedSame || comparisonResult == .orderedAscending
     }
     
     // MARK: - EnableSharing
