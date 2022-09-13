@@ -92,7 +92,7 @@ RIB 트리에서 `Bookmark` 및 `Tag`와 같이 선으로만 표현된 RIB은 �
 
 인터랙터가 로직에 대한 결정을 내릴 때, completion과 같은 이벤트를 다른 RIB에 알리거나 데이터를 전달해야 할 수 있다. 이러한 경우 통신을 용이하게 하는 RIBs의 몇 가지 패턴을 활용한다.
 
-통신이 부모 RIB에서 자식 RIB으로 향하는 경우, Rx 스트림(stream) 또는 `build()` 메서드를 통해 데이터를 전달한다. Rx 스트림은 정적 의존성(static dependency)으로써 빌더 생성 시 주입 받으며, 해당 RIB이 연결된 후 데이터가 변하는 경우에 사용한다. 반면 `build()` 메서드는 빌더 생성 이후에 동적 의존성(dynamic dependency)을 주입 받으며, 데이터가 불변인 경우에 사용한다.
+통신이 부모 RIB에서 자식 RIB으로 향하는 경우, Rx 스트림(stream) 또는 `build(withListener:)` 메서드를 통해 데이터를 전달한다. Rx 스트림은 정적 의존성(static dependency)으로써 빌더 생성 시 주입 받으며, 해당 RIB이 연결된 후 데이터가 변하는 경우에 사용한다. 반면 `build(withListener:)` 메서드는 빌더 생성 이후에 동적 의존성(dynamic dependency)을 주입 받으며, 데이터가 불변인 경우에 사용한다.
 
 둘 이상의 RIB이 서로 알지 못하지만 부모 RIB이 동일한 경우에도 Rx 스트림이 쓰이는데, 부모 RIB이 Rx 스트림을 생성하고 자식 RIB 모두에게 의존성으로 주입하는 방식이다. 앱의 사례를 보면 부모 RIB인 `Browse`가 현재 선택된 태그를 나타내는 `currentTagStream`을 생성하고, 자식 RIB인 `Bookmark` 및 `Tag`의 빌더 생성 시 해당 스트림을 포함한 의존성을 주입한다.
 
@@ -115,7 +115,7 @@ final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
 }
 ```
 
-`EnterBookmark`는 북마크 입력에 대한 RIB으로, 부모 RIB에 연결될 때 `build()` 메서드를 통해 추가 또는 편집과 같은 입력 모드를 나타내는 `EnterBookmarkMode` 타입의 의존성을 주입 받는다.
+`EnterBookmark`는 북마크 입력에 대한 RIB으로, 부모 RIB에 연결될 때 `build(withListener:)` 메서드를 통해 추가 또는 편집과 같은 입력 모드를 나타내는 `EnterBookmarkMode` 타입의 의존성을 주입 받는다.
 
 ```swift
 final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmarkBuildable {
