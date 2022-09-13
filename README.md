@@ -263,18 +263,7 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
 
 ### 내비게이션 스와이프를 통해 뒤로 이동하는 경우의 RIB 분리
 
-내비게이션 스택에서 상위 뷰 컨트롤러의 pop이 동작하지 않는 문제가 발생했다. 내비게이션 바를 숨긴 채 push한 상황으로, 내비게이션 바가 숨겨지면서 내비게이션 컨트롤러의 `interactivePopGestureRecognizer`가 비활성화되는 것이 원인이라고 한다. 따라서 `NavigationController` 클래스가 `UIGestureRecognizerDelegate` 프로토콜을 채택하고 `interactivePopGestureRecognizer?.delegate`에 `self`를 할당하는 방식으로 해결했다.
-
-```swift
-final class NavigationController: UINavigationController, UIGestureRecognizerDelegate, ViewControllable {
-    private func configureViews() {
-        // ...
-        interactivePopGestureRecognizer?.delegate = self
-    }
-}
-```
-
-다음으로 스와이프를 통해 뒤로 이동하면 뷰는 정상적으로 해제되지만 RIB이 존재하는 문제가 발생했다. 이를 해결하기 위해 뷰 컨트롤러가 내비게이션 컨트롤러에서 제거되는 시점에 호출되는 `didMove(toParent:)` 메서드를 재정의해 리스너에 알리도록 구현했다.
+스와이프를 통해 뒤로 이동하면 뷰는 정상적으로 해제되지만 RIB이 존재하는 문제가 발생했다. 이를 해결하기 위해 뷰 컨트롤러가 내비게이션 컨트롤러에서 제거되는 시점에 호출되는 `didMove(toParent:)` 메서드를 재정의해 리스너에 알리도록 구현했다.
 
 ```swift
 final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresentable, BookmarkDetailViewControllable {
