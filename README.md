@@ -92,7 +92,7 @@ RIB 트리에서 `Bookmark` 및 `Tag`와 같이 선으로만 표현된 RIB은 �
 
 인터랙터가 로직에 대한 결정을 내릴 때, completion과 같은 이벤트를 다른 RIB에 알리거나 데이터를 전달해야 할 수 있다. 이러한 경우 통신을 용이하게 하는 RIBs의 몇 가지 패턴을 활용한다.
 
-통신이 부모 RIB에서 자식 RIB으로 향하는 경우, Rx 스트림(stream) 또는 `build()` 메서드를 통해 데이터를 전달한다. Rx 스트림은 정적 의존성(static dependency)으로써 빌더 생성 시 주입 받으며, 해당 RIB이 연결된 후 데이터가 변하는 경우에 사용한다. 반면 `build()` 메서드는 빌더 생성 이후에 동적 의존성(dynamic dependency)을 주입 받으며, 데이터가 불변인 경우에 사용한다.
+통신이 부모 RIB에서 자식 RIB으로 향하는 경우, Rx 스트림(stream) 또는 `build(withListener:)` 메서드를 통해 데이터를 전달한다. Rx 스트림은 정적 의존성(static dependency)으로써 빌더 생성 시 주입 받으며, 해당 RIB이 연결된 후 데이터가 변하는 경우에 사용한다. 반면 `build(withListener:)` 메서드는 빌더 생성 이후에 동적 의존성(dynamic dependency)을 주입 받으며, 데이터가 불변인 경우에 사용한다.
 
 둘 이상의 RIB이 서로 알지 못하지만 부모 RIB이 동일한 경우에도 Rx 스트림이 쓰이는데, 부모 RIB이 Rx 스트림을 생성하고 자식 RIB 모두에게 의존성으로 주입하는 방식이다. 앱의 사례를 보면 부모 RIB인 `Browse`가 현재 선택된 태그를 나타내는 `currentTagStream`을 생성하고, 자식 RIB인 `Bookmark` 및 `Tag`의 빌더 생성 시 해당 스트림을 포함한 의존성을 주입한다.
 
@@ -104,7 +104,7 @@ final class BrowseComponent: Component<BrowseDependency>, BookmarkDependency, Ta
 final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
     func build(withListener listener: BrowseListener) -> BrowseRouting {
         // ...
-        let component = BrowseComponent(dependency: dependency)
+        let component = BrowseComponent(dependency: dependency, baseViewController: viewController)
         let bookmark = BookmarkBuilder(dependency: component)
         let tag = TagBuilder(dependency: component)
         return BrowseRouter(interactor: interactor,
@@ -115,18 +115,18 @@ final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
 }
 ```
 
-`EnterBookmark`는 북마크 입력에 대한 RIB으로, 부모 RIB에 연결될 때 `build()` 메서드를 통해 추가 또는 편집과 같은 입력 모드를 나타내는 `EnterBookmarkMode` 타입의 의존성을 주입 받는다.
+`EnterBookmark`는 북마크 입력에 대한 RIB으로, 부모 RIB에 연결될 때 `build(withListener:)` 메서드를 통해 추가 또는 편집과 같은 입력 모드를 나타내는 `EnterBookmarkMode` 타입의 의존성을 주입 받는다.
 
 ```swift
 final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmarkBuildable {
-    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode) -> EnterBookmarkRouting {
+    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) -> EnterBookmarkRouting {
         // ...
     }
 }
 
 final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
-    func attachEnterBookmark(mode: EnterBookmarkMode) {
-        let router = enterBookmark.build(withListener: interactor, mode: mode)
+    func attachEnterBookmark(mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) {
+        let router = enterBookmark.build(withListener: interactor, mode: mode, forNavigation: isForNavigation)
         // ...
     }
 }
@@ -138,20 +138,19 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
 // MARK: - BookmarkBrowser
 
 protocol BookmarkBrowserListener: AnyObject {
-    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    func bookmarkBrowserBookmarkDidTap(bookmark: Bookmark)
 }
 
-final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener {
+final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     weak var listener: BookmarkBrowserListener?
     
-    func bookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        listener?.bookmarkBrowserBookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    func bookmarkDidTap(bookmark: Bookmark) {
+        listener?.bookmarkBrowserBookmarkDidTap(bookmark: bookmark)
     }
 }
 
 // MARK: - Bookmark
-
-protocol BookmarkInteractable: Interactable, BookmarkBrowserListener {
+protocol BookmarkInteractable: Interactable, BookmarkBrowserListener, EnterBookmarkListener, BookmarkDetailListener {
     // ...
 }
 
@@ -162,8 +161,8 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     }
 }
 
-final class BookmarkInteractor: Interactor, BookmarkInteractable {
-    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
+final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresentationControllerDelegate {
+    func bookmarkBrowserBookmarkDidTap(bookmark: Bookmark) {
         // ...
     }
 }
@@ -264,18 +263,7 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
 
 ### 내비게이션 스와이프를 통해 뒤로 이동하는 경우의 RIB 분리
 
-내비게이션 스택에서 상위 뷰 컨트롤러의 pop이 동작하지 않는 문제가 발생했다. 내비게이션 바를 숨긴 채 push한 상황으로, 내비게이션 바가 숨겨지면서 내비게이션 컨트롤러의 `interactivePopGestureRecognizer`가 비활성화되는 것이 원인이라고 한다. 따라서 `NavigationController` 클래스가 `UIGestureRecognizerDelegate` 프로토콜을 채택하고 `interactivePopGestureRecognizer?.delegate`에 `self`를 할당하는 방식으로 해결했다.
-
-```swift
-final class NavigationController: UINavigationController, UIGestureRecognizerDelegate, ViewControllable {
-    private func configureViews() {
-        // ...
-        interactivePopGestureRecognizer?.delegate = self
-    }
-}
-```
-
-다음으로 스와이프를 통해 뒤로 이동하면 뷰는 정상적으로 해제되지만 RIB이 존재하는 문제가 발생했다. 이를 해결하기 위해 뷰 컨트롤러가 내비게이션 컨트롤러에서 제거되는 시점에 호출되는 `didMove(toParent:)` 메서드를 재정의해 리스너에 알리도록 구현했다.
+스와이프를 통해 뒤로 이동하면 뷰는 정상적으로 해제되지만 RIB이 존재하는 문제가 발생했다. 이를 해결하기 위해 뷰 컨트롤러가 내비게이션 컨트롤러에서 제거되는 시점에 호출되는 `didMove(toParent:)` 메서드를 재정의해 리스너에 알리도록 구현했다.
 
 ```swift
 final class BookmarkDetailViewController: UIViewController, BookmarkDetailPresentable, BookmarkDetailViewControllable {
