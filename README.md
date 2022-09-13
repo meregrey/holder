@@ -104,7 +104,7 @@ final class BrowseComponent: Component<BrowseDependency>, BookmarkDependency, Ta
 final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
     func build(withListener listener: BrowseListener) -> BrowseRouting {
         // ...
-        let component = BrowseComponent(dependency: dependency)
+        let component = BrowseComponent(dependency: dependency, baseViewController: viewController)
         let bookmark = BookmarkBuilder(dependency: component)
         let tag = TagBuilder(dependency: component)
         return BrowseRouter(interactor: interactor,
@@ -119,14 +119,14 @@ final class BrowseBuilder: Builder<BrowseDependency>, BrowseBuildable {
 
 ```swift
 final class EnterBookmarkBuilder: Builder<EnterBookmarkDependency>, EnterBookmarkBuildable {
-    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode) -> EnterBookmarkRouting {
+    func build(withListener listener: EnterBookmarkListener, mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) -> EnterBookmarkRouting {
         // ...
     }
 }
 
 final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
-    func attachEnterBookmark(mode: EnterBookmarkMode) {
-        let router = enterBookmark.build(withListener: interactor, mode: mode)
+    func attachEnterBookmark(mode: EnterBookmarkMode, forNavigation isForNavigation: Bool) {
+        let router = enterBookmark.build(withListener: interactor, mode: mode, forNavigation: isForNavigation)
         // ...
     }
 }
@@ -138,20 +138,19 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
 // MARK: - BookmarkBrowser
 
 protocol BookmarkBrowserListener: AnyObject {
-    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    func bookmarkBrowserBookmarkDidTap(bookmark: Bookmark)
 }
 
-final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener {
+final class BookmarkBrowserInteractor: PresentableInteractor<BookmarkBrowserPresentable>, BookmarkBrowserInteractable, BookmarkBrowserPresentableListener, BookmarkListCollectionViewListener {
     weak var listener: BookmarkBrowserListener?
     
-    func bookmarkDidTap(bookmarkEntity: BookmarkEntity) {
-        listener?.bookmarkBrowserBookmarkDidTap(bookmarkEntity: bookmarkEntity)
+    func bookmarkDidTap(bookmark: Bookmark) {
+        listener?.bookmarkBrowserBookmarkDidTap(bookmark: bookmark)
     }
 }
 
 // MARK: - Bookmark
-
-protocol BookmarkInteractable: Interactable, BookmarkBrowserListener {
+protocol BookmarkInteractable: Interactable, BookmarkBrowserListener, EnterBookmarkListener, BookmarkDetailListener {
     // ...
 }
 
@@ -162,8 +161,8 @@ final class BookmarkRouter: Router<BookmarkInteractable>, BookmarkRouting {
     }
 }
 
-final class BookmarkInteractor: Interactor, BookmarkInteractable {
-    func bookmarkBrowserBookmarkDidTap(bookmarkEntity: BookmarkEntity) {
+final class BookmarkInteractor: Interactor, BookmarkInteractable, AdaptivePresentationControllerDelegate {
+    func bookmarkBrowserBookmarkDidTap(bookmark: Bookmark) {
         // ...
     }
 }
