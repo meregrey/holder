@@ -30,6 +30,7 @@
 		6784A80528124A4F005DE9DA /* ShareExtensionExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6784A80428124A4F005DE9DA /* ShareExtensionExplanationView.swift */; };
 		67B572A12806EF3500458FB4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 67B572A32806EF3500458FB4 /* InfoPlist.strings */; };
 		67B66B2428080649009EF549 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B66B2328080649009EF549 /* UIViewController.swift */; };
+		67C2D36A28FF94D80029F7C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67C2D36928FF94D80029F7C8 /* GoogleService-Info.plist */; };
 		67C9528D2821078800814A4B /* BookmarkBrowserCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C9528C2821078800814A4B /* BookmarkBrowserCollectionView.swift */; };
 		67D0E4F2280E68AE00327CFC /* LeftAlignmentCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BC82806D45300F2133B /* LeftAlignmentCollectionViewFlowLayout.swift */; };
 		67D0E4F3280E68AE00327CFC /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E32BC12806D45300F2133B /* Bookmark.swift */; };
@@ -310,6 +311,7 @@
 		67B572A22806EF3500458FB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		67B572A42806EF3700458FB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		67B66B2328080649009EF549 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		67C2D36928FF94D80029F7C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		67C9528C2821078800814A4B /* BookmarkBrowserCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkBrowserCollectionView.swift; sourceTree = "<group>"; };
 		67E2099A280E9CF500AB9D90 /* ShareRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareRouter.swift; sourceTree = "<group>"; };
 		67E2099B280E9CF500AB9D90 /* ShareBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareBuilder.swift; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 				67E32B552806D45300F2133B /* Favorites */,
 				67E32B3C2806D45300F2133B /* Settings */,
 				67E32B662806D45300F2133B /* Common */,
+				67C2D36928FF94D80029F7C8 /* GoogleService-Info.plist */,
 			);
 			path = Holder;
 			sourceTree = "<group>";
@@ -1251,6 +1254,7 @@
 			files = (
 				67E32C622806D45300F2133B /* Assets.xcassets in Resources */,
 				67E32C642806D45300F2133B /* LaunchScreen.storyboard in Resources */,
+				67C2D36A28FF94D80029F7C8 /* GoogleService-Info.plist in Resources */,
 				67E32C612806D45300F2133B /* Localizable.strings in Resources */,
 				67B572A12806EF3500458FB4 /* InfoPlist.strings in Resources */,
 			);
