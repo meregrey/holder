@@ -1,4 +1,4 @@
-module RIBs {
+framework module RIBs {
   umbrella header "RIBs-umbrella.h"
 
   export *

@@ -1,4 +1,4 @@
-module Pods_Holder {
+framework module Pods_Holder {
   umbrella header "Pods-Holder-umbrella.h"
 
   export *
