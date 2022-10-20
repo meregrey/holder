@@ -5,6 +5,7 @@
 //  Created by Yeojin Yoon on 2021/12/21.
 //
 
+import FirebaseCore
 import RIBs
 import UIKit
 
@@ -19,6 +20,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, RootListener {
         window = UIWindow(frame: UIScreen.main.bounds)
         adoptInterfaceStyle()
         launchRoot()
+        FirebaseApp.configure()
         return true
     }
     
